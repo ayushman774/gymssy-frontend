@@ -1,10 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import styles from "./App.module.css";
+import Navbar from "./components/layout/Navbar/Navbar";
 
 const App = () => {
   return (
     <div className={styles.app}>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         {/* Add more routes as pages are built */}

@@ -65,12 +65,6 @@ const HeroContent = ({ animRefs }) => {
   return (
     <div className={styles.content}>
 
-      {/* ── BADGE ─────────────────────────────────────── */}
-      <div ref={animRefs.badge} className={styles.badge}>
-        <span className={styles.badgeDot} aria-hidden="true" />
-        <span>Now Accepting New Members</span>
-      </div>
-
       {/* ── HEADLINE ──────────────────────────────────── */}
       <h1
         className={styles.headline}

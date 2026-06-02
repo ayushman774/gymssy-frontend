@@ -1,0 +1,440 @@
+/* ─── ROOT ──────────────────────────────────────────────── */
+
+.membership {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-black);
+  padding: var(--section-padding-y) 0;
+  overflow: hidden;
+}
+
+/* ─── BACKGROUNDS ───────────────────────────────────────── */
+
+.bgBase {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--color-black) 0%,
+    rgba(5, 10, 5, 1) 50%,
+    var(--color-black) 100%
+  );
+  z-index: 0;
+}
+
+.bgGlow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(57, 255, 20, 0.05) 0%,
+    rgba(59, 130, 246, 0.03) 40%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgNoise {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/textures/noise.png");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── PARTICLES ─────────────────────────────────────────── */
+
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+/* ─── CONTAINER ─────────────────────────────────────────── */
+
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+/* ─── HEADER ────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+}
+
+/* Label */
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.labelLine {
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.5));
+}
+
+.labelLine:last-child {
+  background: linear-gradient(90deg, rgba(57, 255, 20, 0.5), transparent);
+}
+
+.labelText {
+  font-family: var(--font-secondary);
+  font-size: 0.7rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.3em;
+  color: var(--color-neon);
+  text-transform: uppercase;
+}
+
+/* Headline */
+.headline {
+  font-family: var(--font-primary);
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--weight-black);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--color-white);
+  text-transform: uppercase;
+  margin: 0 0 1.25rem;
+}
+
+.headlineAccent {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-neon);
+  text-shadow: 0 0 30px rgba(57, 255, 20, 0.25);
+}
+
+/* Sub copy */
+.subCopy {
+  font-family: var(--font-secondary);
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 0 1.75rem;
+}
+
+/* Neon line */
+.neonLineWrapper {
+  width: 160px;
+  height: 2px;
+  margin-bottom: 2rem;
+}
+
+.neonLine {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-neon),
+    transparent
+  );
+  transform-origin: left center;
+  transform: scaleX(0);
+  border-radius: 99px;
+  box-shadow:
+    0 0 10px rgba(57, 255, 20, 0.6),
+    0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+/* ─── PLANS GRID ────────────────────────────────────────── */
+
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  padding: 2rem 0;
+}
+
+/* ─── TRUST ROW ─────────────────────────────────────────── */
+
+.trustRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 1.25rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-xl);
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.trustShield {
+  color: var(--color-neon);
+  font-size: 1rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.5));
+}
+
+.trustBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.trustIcon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.trustText {
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+.trustSep {
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 1.25rem;
+  flex-shrink: 0;
+}
+
+/* ─── FAQ SECTION ───────────────────────────────────────── */
+
+.faqSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.faqHeader {
+  text-align: center;
+}
+
+.faqHeadline {
+  font-family: var(--font-primary);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+.faqSubtext {
+  font-family: var(--font-secondary);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+/* ─── FAQ ITEM ──────────────────────────────────────────── */
+
+.faqItem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.3s ease;
+}
+
+.faqItem:last-child {
+  border-bottom: none;
+}
+
+.faqItemOpen {
+  background: rgba(57, 255, 20, 0.02);
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: 1rem;
+  outline: none;
+}
+
+.faqQuestion:focus-visible {
+  outline: 2px solid var(--color-neon);
+  outline-offset: -2px;
+}
+
+.faqQuestion > span:first-child {
+  font-family: var(--font-secondary);
+  font-size: 0.9rem;
+  font-weight: var(--weight-semibold);
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.faqItemOpen .faqQuestion > span:first-child {
+  color: var(--color-white);
+}
+
+.faqChevron {
+  font-family: var(--font-primary);
+  font-size: 1.4rem;
+  font-weight: var(--weight-light);
+  color: var(--color-neon);
+  flex-shrink: 0;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.faqAnswer {
+  will-change: height, opacity;
+}
+
+.faqAnswerText {
+  font-family: var(--font-secondary);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 0 1.5rem 1.25rem;
+  margin: 0;
+}
+
+/* ─── EDGE FADES ────────────────────────────────────────── */
+
+.edgeFadeTop {
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, var(--color-gray-900), transparent);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.edgeFadeBottom {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 0;
+  height: 120px;
+  background: linear-gradient(to top, var(--color-black), transparent);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .plansGrid {
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .plansGrid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 1rem 0;
+  }
+
+  .cardPopular {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: 3rem;
+  }
+
+  .trustRow {
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .trustSep {
+    margin: 0 0.75rem;
+  }
+
+  .plansGrid {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .trustRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .trustSep {
+    display: none;
+  }
+
+  .trustShield {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: clamp(2.2rem, 9vw, 3rem);
+  }
+
+  .faqQuestion {
+    padding: 1rem 1.25rem;
+  }
+
+  .faqAnswerText {
+    padding: 0 1.25rem 1rem;
+  }
+}

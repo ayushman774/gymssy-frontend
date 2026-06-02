@@ -1,0 +1,132 @@
+.ctaWrapper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ─── CTA BUTTON ────────────────────────────────────────── */
+
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-secondary);
+  font-size: 0.78rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--color-black);
+  background: var(--color-neon);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.3s ease;
+  will-change: transform;
+}
+
+/* Hover lift + glow */
+.cta:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 0 16px rgba(57, 255, 20, 0.6),
+    0 0 32px rgba(57, 255, 20, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Press down */
+.cta:active {
+  transform: translateY(0px) scale(0.98);
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+}
+
+/* ─── CTA TEXT ──────────────────────────────────────────── */
+
+.ctaText {
+  position: relative;
+  z-index: 2;
+  display: block;
+}
+
+/* ─── ANIMATED BORDER ───────────────────────────────────── */
+
+.ctaBorder {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cta:hover .ctaBorder {
+  opacity: 1;
+}
+
+/* ─── GLOW LAYER ────────────────────────────────────────── */
+
+.ctaGlow {
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: var(--color-neon);
+  filter: blur(10px);
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.cta:hover .ctaGlow {
+  opacity: 0.35;
+  animation: glowBreath 1.8s ease-in-out infinite;
+}
+
+@keyframes glowBreath {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ─── SHIMMER SWEEP ─────────────────────────────────────── */
+
+.ctaShimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+  transition: none;
+}
+
+.cta:hover .ctaShimmer {
+  animation: shimmerSweep 0.6s ease forwards;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 160%;
+  }
+}

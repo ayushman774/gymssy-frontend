@@ -1,0 +1,134 @@
+/* ─── LIST ──────────────────────────────────────────────── */
+
+.linksList {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── ITEM ──────────────────────────────────────────────── */
+
+.linkItem {
+  position: relative;
+}
+
+/* ─── LINK ──────────────────────────────────────────────── */
+
+.link {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 0.5rem 0.85rem;
+  font-family: var(--font-secondary);
+  font-size: 0.8rem;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+/* Hover state */
+.link:hover {
+  color: var(--color-white);
+}
+
+/* Active state */
+.linkActive {
+  color: var(--color-white) !important;
+}
+
+/* ─── LINK TEXT ─────────────────────────────────────────── */
+
+.linkText {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+/* ─── NEON UNDERLINE ────────────────────────────────────── */
+
+/*
+  Hidden by default.
+  Slides in from left on hover via scaleX transform.
+  Active link always shows it.
+*/
+.linkUnderline {
+  position: absolute;
+  bottom: 2px;
+  left: 0.85rem;
+  right: 0.85rem;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-neon) 30%,
+    var(--color-neon) 70%,
+    transparent
+  );
+  border-radius: 99px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+
+  /* Neon glow */
+  box-shadow: 0 0 6px rgba(57, 255, 20, 0.7);
+}
+
+.link:hover .linkUnderline {
+  transform: scaleX(1);
+}
+
+.linkActive .linkUnderline {
+  transform: scaleX(1);
+}
+
+/* ─── ACTIVE DOT ────────────────────────────────────────── */
+
+/*
+  Small neon dot below active link.
+  Uses Framer Motion layoutId for smooth cross-link transitions.
+*/
+.activeDot {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-neon);
+  box-shadow:
+    0 0 6px var(--color-neon),
+    0 0 12px rgba(57, 255, 20, 0.5);
+  pointer-events: none;
+}
+
+/* ─── HOVER GLOW BACKGROUND ─────────────────────────────── */
+
+.link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  background: rgba(57, 255, 20, 0);
+  transition: background 0.3s ease;
+  pointer-events: none;
+}
+
+.link:hover::before {
+  background: rgba(57, 255, 20, 0.05);
+}
+
+.linkActive::before {
+  background: rgba(57, 255, 20, 0.06);
+}

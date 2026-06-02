@@ -1,0 +1,184 @@
+/* ─── WRAPPER ───────────────────────────────────────────── */
+
+.statsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.statsLabel {
+  font-family: var(--font-secondary);
+  font-size: 0.7rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0;
+}
+
+/* ─── GRID ──────────────────────────────────────────────── */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* ─── STAT ITEM ─────────────────────────────────────────── */
+
+.statItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  padding: 1.75rem 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.statItemNeon:hover {
+  border-color: rgba(57, 255, 20, 0.2);
+  transform: translateY(-3px);
+}
+
+.statItemBlue:hover {
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateY(-3px);
+}
+
+/* ─── TOP ACCENT LINE ───────────────────────────────────── */
+
+.itemAccent {
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  border-radius: 0 0 99px 99px;
+}
+
+.accentNeon {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-neon),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+}
+
+.accentBlue {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-blue),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+/* ─── COUNTER ───────────────────────────────────────────── */
+
+.counterValue {
+  font-family: var(--font-primary);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: var(--weight-black);
+  color: var(--color-white);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.05em;
+  position: relative;
+  z-index: 1;
+}
+
+.counterSuffix {
+  font-size: 0.55em;
+  font-weight: var(--weight-bold);
+}
+
+.statItemNeon .counterSuffix {
+  color: var(--color-neon);
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+}
+
+.statItemBlue .counterSuffix {
+  color: var(--color-blue);
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+}
+
+/* ─── LABELS ────────────────────────────────────────────── */
+
+.itemLabel {
+  font-family: var(--font-secondary);
+  font-size: 0.78rem;
+  font-weight: var(--weight-semibold);
+  color: rgba(255, 255, 255, 0.75);
+  position: relative;
+  z-index: 1;
+}
+
+.itemSublabel {
+  font-family: var(--font-secondary);
+  font-size: 0.62rem;
+  font-weight: var(--weight-regular);
+  color: rgba(255, 255, 255, 0.28);
+  letter-spacing: 0.04em;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── BACKGROUND GLOW ───────────────────────────────────── */
+
+.itemGlow {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  filter: blur(35px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glowNeon {
+  background: rgba(57, 255, 20, 0.15);
+}
+.glowBlue {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .statItem {
+    padding: 1.5rem 1rem 1.25rem;
+  }
+
+  .counterValue {
+    font-size: 1.6rem;
+  }
+}

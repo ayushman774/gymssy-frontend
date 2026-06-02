@@ -1,0 +1,325 @@
+/* ─── CONTAINER ─────────────────────────────────────────── */
+
+.sliderContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y pinch-zoom;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-gray-900);
+  outline: none;
+}
+
+.sliderContainer:focus-visible {
+  outline: 2px solid var(--color-neon);
+  outline-offset: 3px;
+}
+
+/* ─── BASE IMAGE (BEFORE) ───────────────────────────────── */
+
+.imageBase {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* ─── AFTER IMAGE (clipped) ─────────────────────────────── */
+
+.imageAfter {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  will-change: clip-path;
+}
+
+/* ─── SHARED IMAGE STYLES ───────────────────────────────── */
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  pointer-events: none;
+  filter: brightness(0.75) contrast(1.05) saturate(0.85);
+  transform: scale(1.02); /* prevent edge gaps */
+}
+
+/* ─── IMAGE OVERLAYS ────────────────────────────────────── */
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle neon green tint on the after image */
+.afterTint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(57, 255, 20, 0.06) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── BEFORE / AFTER LABELS ─────────────────────────────── */
+
+.imageLabel {
+  position: absolute;
+  bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-secondary);
+  font-size: 0.68rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.labelBefore {
+  left: 1.25rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.labelAfter {
+  right: 1.25rem;
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  color: var(--color-neon);
+}
+
+.labelDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.labelAfter .labelDot {
+  box-shadow: 0 0 6px var(--color-neon);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.7);
+  }
+}
+
+/* ─── SLIDER LINE ───────────────────────────────────────── */
+
+.sliderLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  will-change: left;
+}
+
+/* Vertical divider line */
+.line {
+  width: 2px;
+  flex: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-neon) 15%,
+    var(--color-neon) 85%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 6px rgba(57, 255, 20, 0.8),
+    0 0 12px rgba(57, 255, 20, 0.4);
+  position: absolute;
+  inset: 0;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ─── DRAG HANDLE ───────────────────────────────────────── */
+
+.handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-neon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow:
+    0 0 0 3px rgba(57, 255, 20, 0.2),
+    0 0 20px rgba(57, 255, 20, 0.5),
+    0 4px 20px rgba(0, 0, 0, 0.5);
+  cursor: ew-resize;
+  pointer-events: none;
+  z-index: 11;
+  flex-shrink: 0;
+}
+
+.handleArrow {
+  width: 14px;
+  height: 14px;
+  color: var(--color-black);
+  flex-shrink: 0;
+}
+
+.handleDivider {
+  width: 1.5px;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+
+/* Pulsing neon ring around handle */
+.handleGlow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(57, 255, 20, 0.4);
+  animation: handlePulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes handlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.2;
+  }
+}
+
+/* ─── DRAG HINT ─────────────────────────────────────────── */
+
+.dragHint {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  pointer-events: none;
+  animation: hintFade 3s ease forwards;
+  animation-delay: 1.5s;
+  opacity: 0;
+}
+
+@keyframes hintFade {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+.dragHintText {
+  font-family: var(--font-secondary);
+  font-size: 0.65rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .sliderContainer {
+    aspect-ratio: 3 / 4;
+  }
+
+  .handle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .handleArrow {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sliderContainer {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg);
+  }
+
+  .imageLabel {
+    font-size: 0.6rem;
+    padding: 0.28rem 0.65rem;
+    bottom: 1rem;
+  }
+
+  .labelBefore {
+    left: 0.85rem;
+  }
+  .labelAfter {
+    right: 0.85rem;
+  }
+}

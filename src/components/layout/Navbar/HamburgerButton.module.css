@@ -1,0 +1,71 @@
+/* ─── BUTTON ────────────────────────────────────────────── */
+
+.button {
+  display: none; /* hidden on desktop */
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.button:hover {
+  background: rgba(57, 255, 20, 0.08);
+  border-color: rgba(57, 255, 20, 0.25);
+}
+
+.buttonOpen {
+  background: rgba(57, 255, 20, 0.1);
+  border-color: rgba(57, 255, 20, 0.3);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-neon);
+  outline-offset: 2px;
+}
+
+/* ─── LINES WRAPPER ─────────────────────────────────────── */
+
+.linesWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+  width: 22px;
+  height: 22px;
+}
+
+/* ─── INDIVIDUAL LINE ───────────────────────────────────── */
+
+.line {
+  display: block;
+  height: 1.5px;
+  width: 100%;
+  background: var(--color-white);
+  border-radius: 99px;
+  transform-origin: center;
+  transition: background 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.buttonOpen .line {
+  background: var(--color-neon);
+}
+
+/* ─── RESPONSIVE: show only on mobile/tablet ────────────── */
+
+@media (max-width: 1024px) {
+  .button {
+    display: flex;
+  }
+}

@@ -1,0 +1,111 @@
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ─── LOGO MARK (SVG icon) ──────────────────────────────── */
+
+.logoMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.5));
+  transition: filter 0.3s ease;
+}
+
+.logo:hover .logoMark {
+  filter: drop-shadow(0 0 14px rgba(57, 255, 20, 0.8));
+}
+
+.logoSvg {
+  display: block;
+}
+
+/* SVG path animations */
+.hexOuter {
+  transition: stroke-opacity 0.3s ease;
+}
+
+.logo:hover .hexOuter {
+  stroke-opacity: 0.8;
+}
+
+.letterA {
+  transition: fill-opacity 0.3s ease;
+}
+
+/* ─── WORDMARK ──────────────────────────────────────────── */
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1;
+}
+
+/* "APEX" — large bold neon */
+.wordmarkPrimary {
+  display: flex;
+  align-items: baseline;
+  font-family: var(--font-primary);
+  font-size: 1.3rem;
+  font-weight: var(--weight-black);
+  letter-spacing: 0.12em;
+  color: var(--color-white);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.wordmarkChar {
+  display: inline-block;
+  will-change: transform;
+  transition: color 0.2s ease;
+}
+
+.logo:hover .wordmarkChar {
+  color: var(--color-neon);
+}
+
+/* "FITNESS" — small grey subtitle */
+.wordmarkSecondary {
+  font-family: var(--font-secondary);
+  font-size: 0.5rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  padding-left: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.logo:hover .wordmarkSecondary {
+  color: rgba(57, 255, 20, 0.6);
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .wordmarkPrimary {
+    font-size: 1.15rem;
+  }
+
+  .wordmarkSecondary {
+    font-size: 0.45rem;
+  }
+
+  .logoMark svg {
+    width: 28px;
+    height: 28px;
+  }
+}

@@ -1,0 +1,252 @@
+/* ─── CONTENT WRAPPER ───────────────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ─── EYEBROW ───────────────────────────────────────────── */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.2em;
+  color: var(--color-neon);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrowDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-neon);
+  box-shadow: 0 0 8px var(--color-neon);
+  flex-shrink: 0;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.7);
+  }
+}
+
+/* ─── HEADLINE ──────────────────────────────────────────── */
+
+.headline {
+  font-family: var(--font-primary);
+  font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+  font-weight: var(--weight-black);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-white);
+  text-transform: uppercase;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/*
+  Each line wrapped in overflow:hidden
+  so GSAP translateY creates a "wipe up" reveal
+*/
+.lineWrapper {
+  overflow: hidden;
+  line-height: 1.08;
+}
+
+.headlineLine {
+  display: block;
+  will-change: transform, opacity;
+}
+
+/* Neon accent line */
+.headlineAccent {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-neon);
+  text-shadow: none;
+  position: relative;
+}
+
+/* Animated neon glow on accent text */
+.headlineAccent::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-neon);
+  -webkit-text-stroke: 0;
+  text-shadow:
+    0 0 20px rgba(57, 255, 20, 0.4),
+    0 0 40px rgba(57, 255, 20, 0.2);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* ─── BODY TEXT ─────────────────────────────────────────── */
+
+.bodyWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.body {
+  font-family: var(--font-secondary);
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  font-weight: var(--weight-regular);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 520px;
+}
+
+/* ─── FEATURE LIST ──────────────────────────────────────── */
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-secondary);
+  font-size: 0.88rem;
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
+}
+
+.featureIcon {
+  color: var(--color-neon);
+  font-size: 1rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(57, 255, 20, 0.6));
+}
+
+/* ─── CTA LINK ──────────────────────────────────────────── */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 0.4rem;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* CTA text */
+.cta > span:first-child {
+  font-family: var(--font-secondary);
+  font-size: 0.88rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  color: var(--color-white);
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.cta:hover > span:first-child {
+  color: var(--color-neon);
+}
+
+/* Icon wrapper */
+.ctaIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.cta:hover .ctaIconWrapper {
+  border-color: var(--color-neon);
+  background: rgba(57, 255, 20, 0.1);
+  transform: translateX(4px);
+}
+
+.ctaIcon {
+  font-size: 0.85rem;
+  color: var(--color-white);
+  transition: color 0.3s ease;
+}
+
+.cta:hover .ctaIcon {
+  color: var(--color-neon);
+}
+
+/* Animated underline */
+.ctaLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-neon), rgba(57, 255, 20, 0.3));
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 99px;
+}
+
+.cta:hover .ctaLine {
+  width: 70%;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .headline {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .headline {
+    font-size: clamp(2.8rem, 8vw, 4rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .body {
+    max-width: 100%;
+  }
+
+  .featureList {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: clamp(2.4rem, 10vw, 3.5rem);
+  }
+
+  .body {
+    font-size: 0.9rem;
+  }
+}

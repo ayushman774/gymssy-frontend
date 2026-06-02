@@ -1,0 +1,235 @@
+/* ─── STATS WRAPPER ─────────────────────────────────────── */
+
+.statsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ─── STATS LABEL ───────────────────────────────────────── */
+
+.statsLabel {
+  font-family: var(--font-secondary);
+  font-size: 0.68rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ─── STATS GRID ────────────────────────────────────────── */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* ─── STAT CARD ─────────────────────────────────────────── */
+
+.statCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.4rem 1.25rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: default;
+  will-change: transform;
+
+  /* Glass base */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Neon variant */
+.statCardNeon {
+  border-color: rgba(57, 255, 20, 0.1);
+}
+
+.statCardNeon:hover {
+  border-color: rgba(57, 255, 20, 0.25);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(57, 255, 20, 0.08);
+}
+
+/* Blue variant */
+.statCardBlue {
+  border-color: rgba(59, 130, 246, 0.1);
+}
+
+.statCardBlue:hover {
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(59, 130, 246, 0.08);
+}
+
+/* ─── CARD GLOW ─────────────────────────────────────────── */
+
+.cardGlow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.glowNeon {
+  background: rgba(57, 255, 20, 0.12);
+}
+
+.glowBlue {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+/* ─── CARD TOP ACCENT LINE ──────────────────────────────── */
+
+.cardAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.accentNeon {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(57, 255, 20, 0.6),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+}
+
+.accentBlue {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.6),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+/* ─── COUNTER ───────────────────────────────────────────── */
+
+.counterWrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.counter {
+  font-family: var(--font-primary);
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: var(--weight-black);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.05em;
+}
+
+.counterNeon {
+  color: var(--color-white);
+}
+
+.counterBlue {
+  color: var(--color-white);
+}
+
+.suffix {
+  font-size: 0.65em;
+  font-weight: var(--weight-bold);
+}
+
+.counterNeon .suffix {
+  color: var(--color-neon);
+  text-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
+}
+
+.counterBlue .suffix {
+  color: var(--color-blue);
+  text-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+/* ─── LABELS ────────────────────────────────────────────── */
+
+.labelWrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.label {
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  font-weight: var(--weight-semibold);
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.03em;
+}
+
+.sublabel {
+  font-family: var(--font-secondary);
+  font-size: 0.65rem;
+  font-weight: var(--weight-regular);
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.05em;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .counter {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+  }
+}
+
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statCard {
+    padding: 1.2rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .counter {
+    font-size: 1.6rem;
+  }
+
+  .statCard {
+    padding: 1rem 0.9rem;
+  }
+}

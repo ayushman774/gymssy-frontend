@@ -1,0 +1,278 @@
+/* ─── ROOT SECTION ──────────────────────────────────────── */
+
+.about {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-black);
+  padding: var(--section-padding-y) 0;
+  overflow: hidden;
+}
+
+/* ─── BACKGROUND LAYERS ─────────────────────────────────── */
+
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 20% 50%,
+      rgba(57, 255, 20, 0.04) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 80% at 80% 30%,
+      rgba(59, 130, 246, 0.04) 0%,
+      transparent 70%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgNoise {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/textures/noise.png");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: overlay;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse at center,
+    black 30%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+/* ─── NEON SWEEP ANIMATION ──────────────────────────────── */
+
+.neonSweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(57, 255, 20, 0.8),
+    rgba(57, 255, 20, 1),
+    rgba(57, 255, 20, 0.8),
+    transparent
+  );
+  box-shadow:
+    0 0 20px rgba(57, 255, 20, 0.6),
+    0 0 60px rgba(57, 255, 20, 0.3),
+    0 4px 80px rgba(57, 255, 20, 0.15);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ─── CONTAINER ─────────────────────────────────────────── */
+
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* ─── SECTION LABEL ─────────────────────────────────────── */
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 4rem;
+  justify-content: center;
+}
+
+.labelLine {
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.5));
+}
+
+.labelLine:last-child {
+  background: linear-gradient(90deg, rgba(57, 255, 20, 0.5), transparent);
+}
+
+.labelText {
+  font-family: var(--font-secondary);
+  font-size: 0.7rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.3em;
+  color: var(--color-neon);
+  text-transform: uppercase;
+}
+
+/* ─── MAIN GRID ─────────────────────────────────────────── */
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+/* ─── RIGHT COLUMN ──────────────────────────────────────── */
+
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* ─── MARQUEE ───────────────────────────────────────────── */
+
+.marqueeWrapper {
+  overflow: hidden;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+
+  /* Fade edges */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+.marquee {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.marqueeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1.5rem;
+}
+
+.marqueeText {
+  font-family: var(--font-primary);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.15);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marqueeOutline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(57, 255, 20, 0.25);
+}
+
+.marqueeDot {
+  color: var(--color-neon);
+  font-size: 1.2rem;
+  opacity: 0.4;
+}
+
+/* ─── NEON DECORATIVE LINES ─────────────────────────────── */
+
+.neonLineTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(57, 255, 20, 0.2) 30%,
+    rgba(57, 255, 20, 0.4) 50%,
+    rgba(57, 255, 20, 0.2) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.neonLineBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(57, 255, 20, 0.2) 30%,
+    rgba(57, 255, 20, 0.4) 50%,
+    rgba(57, 255, 20, 0.2) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .mainGrid {
+    gap: 3.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .rightCol {
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionLabel {
+    margin-bottom: 2.5rem;
+  }
+
+  .mainGrid {
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainGrid {
+    gap: 2rem;
+  }
+
+  .rightCol {
+    gap: 2rem;
+  }
+}

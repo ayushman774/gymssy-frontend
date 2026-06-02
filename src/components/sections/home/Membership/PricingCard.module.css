@@ -1,0 +1,614 @@
+/* ─── OUTER WRAPPER ─────────────────────────────────────── */
+
+.cardOuter {
+  position: relative;
+  will-change: transform;
+  height: 100%;
+}
+
+/* Popular card sits slightly higher */
+.cardPopular {
+  margin-top: -1.5rem;
+  margin-bottom: -1.5rem;
+}
+
+/* ─── POPULAR HALO ──────────────────────────────────────── */
+
+.popularHalo {
+  position: absolute;
+  inset: -20px;
+  border-radius: calc(var(--radius-xl) + 20px);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(57, 255, 20, 0.12) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(20px);
+  animation: haloPulse 3s ease-in-out infinite;
+}
+
+@keyframes haloPulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* ─── CARD ──────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  padding: 2rem;
+
+  /* Glassmorphism base */
+  background: rgba(12, 12, 12, 0.85);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  transition:
+    box-shadow 0.4s ease,
+    border-color 0.4s ease,
+    transform 0.3s ease;
+}
+
+/* Neon (popular) card */
+.cardNeon {
+  background: rgba(8, 15, 8, 0.9);
+  border-color: rgba(57, 255, 20, 0.25);
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 60px rgba(57, 255, 20, 0.03);
+}
+
+/* Blue (premium) card */
+.cardBlue {
+  background: rgba(6, 10, 20, 0.9);
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.08),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover states */
+.cardHovered.cardNeon {
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.3),
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(57, 255, 20, 0.08),
+    inset 0 0 80px rgba(57, 255, 20, 0.04);
+}
+
+.cardHovered.cardBlue {
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.3),
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(59, 130, 246, 0.06);
+}
+
+.card:not(.cardNeon):not(.cardBlue):hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── GLASS NOISE ───────────────────────────────────────── */
+
+.glassNoise {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/textures/noise.png");
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* ─── INNER GLOW ────────────────────────────────────────── */
+
+.innerGlow {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+.innerGlowNeon {
+  background: rgba(57, 255, 20, 0.15);
+}
+.innerGlowBlue {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+/* ─── CARD HEADER ───────────────────────────────────────── */
+
+.cardHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 0;
+}
+
+/* ─── BADGE ─────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-secondary);
+  font-size: 0.62rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-bottom: 1.25rem;
+}
+
+.badgeNeon {
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  color: var(--color-neon);
+  box-shadow:
+    0 0 12px rgba(57, 255, 20, 0.15),
+    inset 0 0 10px rgba(57, 255, 20, 0.05);
+}
+
+.badgeBlue {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: var(--color-blue);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+}
+
+.badgeIcon {
+  font-size: 0.65rem;
+}
+
+/* ─── PLAN META ─────────────────────────────────────────── */
+
+.planMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.planIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+}
+
+.planName {
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
+  letter-spacing: -0.02em;
+  margin: 0 0 0.15rem;
+  line-height: 1;
+}
+
+.planTagline {
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* ─── PRICE BLOCK ───────────────────────────────────────── */
+
+.priceBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.priceCurrency {
+  font-family: var(--font-primary);
+  font-size: 1.4rem;
+  font-weight: var(--weight-bold);
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.5rem;
+}
+
+.priceAmount {
+  font-family: var(--font-primary);
+  font-size: clamp(3rem, 5vw, 3.8rem);
+  font-weight: var(--weight-black);
+  color: var(--color-white);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  will-change: transform, opacity;
+}
+
+.pricePeriod {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.15rem;
+  padding-bottom: 0.4rem;
+  align-self: flex-end;
+}
+
+.pricePeriod > span:first-child {
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: var(--weight-medium);
+}
+
+.billedAnnually {
+  font-family: var(--font-secondary);
+  font-size: 0.62rem;
+  color: var(--color-neon);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ─── SAVINGS CALLOUT ───────────────────────────────────── */
+
+.savingsCallout {
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.savingsText {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
+  font-weight: var(--weight-semibold);
+  color: var(--color-neon);
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+/* ─── PLAN DESCRIPTION ──────────────────────────────────── */
+
+.planDescription {
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  font-weight: var(--weight-regular);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0.25rem 0 0;
+}
+
+/* ─── DIVIDER ───────────────────────────────────────────── */
+
+.divider {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 1.5rem 0;
+  border-radius: 99px;
+  overflow: visible;
+}
+
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 2px;
+  border-radius: 99px;
+}
+
+.dividerNeon::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(57, 255, 20, 0.6),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+}
+
+.dividerBlue::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.6),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+/* ─── FEATURES ──────────────────────────────────────────── */
+
+.featuresSection {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+  margin-bottom: 1.75rem;
+}
+
+.featuresLabel {
+  font-family: var(--font-secondary);
+  font-size: 0.65rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  will-change: transform, opacity;
+}
+
+.featureExcluded {
+  opacity: 0.35;
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+
+.featureIconCheck {
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  color: var(--color-neon);
+}
+
+.featureIconX {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.featureText {
+  font-family: var(--font-secondary);
+  font-size: 0.8rem;
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
+}
+
+.featureExcluded .featureText {
+  color: rgba(255, 255, 255, 0.3);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── CTA ───────────────────────────────────────────────── */
+
+.ctaWrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: auto;
+}
+
+.ctaBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-secondary);
+  font-size: 0.85rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+/* Default (white outline) */
+.ctaBtnDefault {
+  background: transparent;
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ctaBtnDefault:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Neon (popular) */
+.ctaBtnNeon {
+  background: var(--color-neon);
+  color: var(--color-black);
+  border: none;
+}
+
+.ctaBtnNeon:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--glow-neon);
+}
+
+/* Blue (elite) */
+.ctaBtnBlue {
+  background: var(--color-blue);
+  color: var(--color-white);
+  border: none;
+}
+
+.ctaBtnBlue:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--glow-blue);
+}
+
+.ctaBtnIcon {
+  transition: transform 0.3s ease;
+  font-size: 1rem;
+}
+
+.ctaBtn:hover .ctaBtnIcon {
+  transform: translateX(4px);
+}
+
+/* Shimmer */
+.ctaShimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ctaBtn:hover .ctaShimmer {
+  animation: shimmer 0.6s ease forwards;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 160%;
+  }
+}
+
+.ctaNote {
+  text-align: center;
+  font-family: var(--font-secondary);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+
+/* ─── CORNER ACCENTS ────────────────────────────────────── */
+
+.corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cornerTL {
+  top: 12px;
+  left: 12px;
+  border-top: 2px solid rgba(57, 255, 20, 0.5);
+  border-left: 2px solid rgba(57, 255, 20, 0.5);
+  border-radius: 4px 0 0 0;
+}
+
+.cornerBR {
+  bottom: 12px;
+  right: 12px;
+  border-bottom: 2px solid rgba(57, 255, 20, 0.5);
+  border-right: 2px solid rgba(57, 255, 20, 0.5);
+  border-radius: 0 0 4px 0;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .card {
+    padding: 1.75rem;
+  }
+
+  .priceAmount {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardOuter.cardPopular {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.25rem;
+  }
+
+  .priceAmount {
+    font-size: 2.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctaBtn,
+  .popularHalo {
+    animation: none !important;
+    transition: none !important;
+  }
+}
