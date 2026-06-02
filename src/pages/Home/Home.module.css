@@ -1,0 +1,78 @@
+/* ══════════════════════════════════════════════════════════════
+   HOME PAGE — Home.module.css
+   Root page wrapper for the Home page.
+   Handles page-level layout, section sequencing,
+   and scroll behavior.
+══════════════════════════════════════════════════════════════ */
+
+/* ─── ROOT PAGE WRAPPER ───────────────────────────────────── */
+
+.home {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-black);
+  overflow-x: hidden;
+
+  /*
+    Prevent layout shift during page transitions.
+    Framer Motion AnimatePresence needs this.
+  */
+  will-change: opacity, transform;
+}
+
+/* ─── SECTION SEQUENCING ──────────────────────────────────── */
+
+/*
+  Every direct child section of Home gets consistent
+  vertical rhythm. Individual sections can override.
+*/
+.home > section {
+  position: relative;
+  width: 100%;
+}
+
+/*
+  First section (Hero) has no top padding —
+  it is always full viewport height.
+*/
+.home > section:first-child {
+  padding-top: 0;
+}
+
+/* ─── SCROLL BEHAVIOR ─────────────────────────────────────── */
+
+/*
+  Smooth scroll for anchor links within the page.
+  Only applied when user has no motion preference.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .home {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ─── PERFORMANCE ─────────────────────────────────────────── */
+
+/*
+  Contain paint to prevent sections from affecting
+  each other's rendering — improves scroll performance.
+*/
+.home > section {
+  contain: layout style;
+}
+
+/*
+  Hero section is exempt from paint containment
+  because Three.js canvas needs to overflow freely.
+*/
+.home > section:first-child {
+  contain: none;
+}
+
+/* ─── RESPONSIVE ──────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .home {
+    overflow-x: hidden;
+  }
+}
