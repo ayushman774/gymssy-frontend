@@ -9,17 +9,17 @@ gsap.registerPlugin(ScrollTrigger);
 // Images from centralized config
 const PRIMARY_IMAGE = {
   src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=85&fit=crop&auto=format",
-  alt: "Premium Apex Fitness gym interior with state-of-the-art equipment",
+  alt: "Premium Gymsssy Fitness gym interior with state-of-the-art equipment",
 };
 
 const SECONDARY_IMAGE = {
   src: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=500&q=85&fit=crop&auto=format",
-  alt: "Elite athlete training at Apex Fitness",
+  alt: "Elite athlete training at Gymsssy Fitness",
 };
 
 const ACCENT_IMAGE = {
   src: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=85&fit=crop&auto=format",
-  alt: "Intense training session at Apex Fitness facility",
+  alt: "Intense training session at Gymsssy Fitness facility",
 };
 
 const AboutImage = ({ isInView }) => {

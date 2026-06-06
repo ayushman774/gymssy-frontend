@@ -93,7 +93,7 @@ const AboutContent = ({ isInView }) => {
         transition={{ duration: 0.8, delay: 0.65 }}
       >
         <p className={styles.body}>
-          Founded in 2009, Apex Fitness was built on a single belief — that
+          Founded in 2009, Gymsssy Fitness was built on a single belief — that
           everyone deserves access to elite-level training. We combined
           cutting-edge facilities with world-class coaching to create something
           the industry had never seen.

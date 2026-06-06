@@ -151,7 +151,7 @@ const AboutStats = ({ isInView }) => {
       <div
         className={styles.statsGrid}
         role="list"
-        aria-label="Apex Fitness statistics"
+        aria-label="Gymsssy Fitness statistics"
       >
         {STATS.map((stat, index) => (
           <StatCard

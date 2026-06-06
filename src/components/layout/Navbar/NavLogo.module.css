@@ -13,6 +13,10 @@
   user-select: none;
 }
 
+.logoImage {
+  border-radius: 50%;
+}
+
 /* ─── LOGO MARK (SVG icon) ──────────────────────────────── */
 
 .logoMark {
@@ -54,7 +58,7 @@
   line-height: 1;
 }
 
-/* "APEX" — large bold neon */
+/* "Gymsssy" — large bold neon */
 .wordmarkPrimary {
   display: flex;
   align-items: baseline;

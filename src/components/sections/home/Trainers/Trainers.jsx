@@ -113,7 +113,7 @@ const Trainers = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-            Every Apex coach is hand-selected for their expertise, results
+            Every Gymsssy coach is hand-selected for their expertise, results
             record, and ability to elevate others. These are not just trainers —
             they are architects of transformation.
           </motion.p>

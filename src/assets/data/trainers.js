@@ -19,7 +19,7 @@ export const TRAINERS = [
       srcSet:
         "https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=300&q=80&fit=crop&auto=format 300w, https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=500&q=85&fit=crop&auto=format 500w, https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=600&q=85&fit=crop&auto=format 600w",
       sizes: "(max-width: 300px) 300px, (max-width: 500px) 500px, 600px",
-      alt: "Marcus Reid — Head Strength Coach at Apex Fitness",
+      alt: "Marcus Reid — Head Strength Coach at Gymsssy Fitness",
     },
     social: {
       instagram: "https://instagram.com",
@@ -49,7 +49,7 @@ export const TRAINERS = [
       srcSet:
         "https://images.unsplash.com/photo-1609899537878-48f7c9146cbd?w=300&q=80&fit=crop&auto=format 300w, https://images.unsplash.com/photo-1609899537878-48f7c9146cbd?w=500&q=85&fit=crop&auto=format 500w, https://images.unsplash.com/photo-1609899537878-48f7c9146cbd?w=600&q=85&fit=crop&auto=format 600w",
       sizes: "(max-width: 300px) 300px, (max-width: 500px) 500px, 600px",
-      alt: "Sofia Vega — Performance Coach at Apex Fitness",
+      alt: "Sofia Vega — Performance Coach at Gymsssy Fitness",
     },
     social: {
       instagram: "https://instagram.com",
@@ -79,7 +79,7 @@ export const TRAINERS = [
       srcSet:
         "https://images.unsplash.com/photo-1611672585731-fa10603fb9e0?w=300&q=80&fit=crop&auto=format 300w, https://images.unsplash.com/photo-1611672585731-fa10603fb9e0?w=500&q=85&fit=crop&auto=format 500w, https://images.unsplash.com/photo-1611672585731-fa10603fb9e0?w=600&q=85&fit=crop&auto=format 600w",
       sizes: "(max-width: 300px) 300px, (max-width: 500px) 500px, 600px",
-      alt: "James Okafor — Transformation Specialist at Apex Fitness",
+      alt: "James Okafor — Transformation Specialist at Gymsssy Fitness",
     },
     social: {
       instagram: "https://instagram.com",
@@ -109,7 +109,7 @@ export const TRAINERS = [
       srcSet:
         "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300&q=80&fit=crop&auto=format 300w, https://images.unsplash.com/photo-1518611012118-696072aa579a?w=500&q=85&fit=crop&auto=format 500w, https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=85&fit=crop&auto=format 600w",
       sizes: "(max-width: 300px) 300px, (max-width: 500px) 500px, 600px",
-      alt: "Priya Sharma — Mobility and Recovery Coach at Apex Fitness",
+      alt: "Priya Sharma — Mobility and Recovery Coach at Gymsssy Fitness",
     },
     social: {
       instagram: "https://instagram.com",
@@ -143,7 +143,7 @@ export const TRAINERS = [
       srcSet:
         "https://images.unsplash.com/photo-1546961342-ea5f62d5a27b?w=300&q=80&fit=crop&auto=format 300w, https://images.unsplash.com/photo-1546961342-ea5f62d5a27b?w=500&q=85&fit=crop&auto=format 500w, https://images.unsplash.com/photo-1546961342-ea5f62d5a27b?w=600&q=85&fit=crop&auto=format 600w",
       sizes: "(max-width: 300px) 300px, (max-width: 500px) 500px, 600px",
-      alt: "Dex Williams — Athletic Performance Director at Apex Fitness",
+      alt: "Dex Williams — Athletic Performance Director at Gymsssy Fitness",
     },
     social: {
       instagram: "https://instagram.com",
@@ -177,7 +177,7 @@ export const TRAINERS = [
       srcSet:
         "https://images.unsplash.com/photo-1559628129-67cf63b72248?w=300&q=80&fit=crop&auto=format 300w, https://images.unsplash.com/photo-1559628129-67cf63b72248?w=500&q=85&fit=crop&auto=format 500w, https://images.unsplash.com/photo-1559628129-67cf63b72248?w=600&q=85&fit=crop&auto=format 600w",
       sizes: "(max-width: 300px) 300px, (max-width: 500px) 500px, 600px",
-      alt: "Layla Hassan — Nutrition and Lifestyle Coach at Apex Fitness",
+      alt: "Layla Hassan — Nutrition and Lifestyle Coach at Gymsssy Fitness",
     },
     social: {
       instagram: "https://instagram.com",

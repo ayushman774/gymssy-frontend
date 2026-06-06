@@ -27,7 +27,7 @@ const NavCTA = ({ onClick, label = "Join Now", href = "/membership" }) => {
         to={href}
         className={styles.cta}
         onClick={onClick}
-        aria-label="Join Apex Fitness — Sign up now"
+        aria-label="Join Gymsssy Fitness — Sign up now"
       >
         {/* Button text */}
         <span className={styles.ctaText}>{label}</span>

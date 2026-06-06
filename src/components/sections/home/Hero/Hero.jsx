@@ -1,5 +1,5 @@
 /**
- * APEX FITNESS — Hero Section
+ * Gymsssy FITNESS — Hero Section
  *
  * The most important section of the entire website.
  * Combines:
@@ -82,7 +82,7 @@ const StaticFallback = () => (
       backgroundImage: `url(${VIDEO_SOURCES.poster})`,
     }}
     role="img"
-    aria-label="Elite athlete training in premium Apex Fitness facility"
+    aria-label="Elite athlete training in premium Gymsssy Fitness facility"
   />
 );
 
@@ -132,7 +132,7 @@ const Hero = () => {
   return (
     <section
       className={styles.hero}
-      aria-label="Hero section — Apex Fitness premium gym"
+      aria-label="Hero section — Gymsssy Fitness premium gym"
     >
       {/* ── LAYER 0: NOISE TEXTURE OVERLAY ────────────── */}
       <div className={styles.noiseOverlay} aria-hidden="true" />

@@ -172,7 +172,7 @@ const Transformation = () => {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             Every transformation starts with a decision. These members made
-            theirs — and APEX delivered. Drag the slider to see the full story.
+            theirs — and Gymsssy delivered. Drag the slider to see the full story.
           </motion.p>
 
           {/* Neon line */}

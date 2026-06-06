@@ -34,7 +34,7 @@ export const PLANS = [
     monthlyPrice: 99,
     annualPrice: 79,
     description:
-      "The complete APEX experience. Unlimited access, personal coaching, and the tools high-performers rely on.",
+      "The complete Gymsssy experience. Unlimited access, personal coaching, and the tools high-performers rely on.",
     features: [
       { text: "Full gym floor access", included: true },
       { text: "Locker room & showers", included: true },
@@ -60,7 +60,7 @@ export const PLANS = [
     monthlyPrice: 199,
     annualPrice: 159,
     description:
-      "Unlimited everything. Your own dedicated coach, private training zones, and the full APEX lifestyle package.",
+      "Unlimited everything. Your own dedicated coach, private training zones, and the full Gymsssy lifestyle package.",
     features: [
       { text: "Full gym floor access", included: true },
       { text: "Locker room & showers", included: true },

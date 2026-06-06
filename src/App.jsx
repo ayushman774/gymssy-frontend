@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import styles from "./App.module.css";
 import Navbar from "./components/layout/Navbar/Navbar";
+import Footer from "./components/layout/Footer/Footer";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         {/* <Route path="/pricing"  element={<Pricing />}  /> */}
         {/* <Route path="/contact"  element={<Contact />}  /> */}
       </Routes>
+      <Footer />
     </div>
   );
 };

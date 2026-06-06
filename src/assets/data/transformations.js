@@ -11,14 +11,14 @@ export const TRANSFORMATIONS = [
       bodyFat: "-12%",
     },
     quote:
-      "I never believed a 6-month transformation was possible until I lived it. APEX gave me the tools, the coaching, and the environment to become someone I'm proud of.",
+      "I never believed a 6-month transformation was possible until I lived it. Gymsssy gave me the tools, the coaching, and the environment to become someone I'm proud of.",
     before: {
       src: "https://images.unsplash.com/photo-1517963879433-6ad2b056d712?w=700&q=85&fit=crop&auto=format",
-      alt: "Marcus before his 6-month transformation journey at Apex Fitness",
+      alt: "Marcus before his 6-month transformation journey at Gymsssy Fitness",
     },
     after: {
       src: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=700&q=85&fit=crop&auto=format",
-      alt: "Marcus after his incredible 6-month transformation at Apex Fitness",
+      alt: "Marcus after his incredible 6-month transformation at Gymsssy Fitness",
     },
     rating: 5,
   },
@@ -37,11 +37,11 @@ export const TRANSFORMATIONS = [
       "Four months changed everything. The structured program, the accountability, and the world-class coaching made results feel inevitable.",
     before: {
       src: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=700&q=85&fit=crop&auto=format",
-      alt: "Sarah before her 4-month transformation journey at Apex Fitness",
+      alt: "Sarah before her 4-month transformation journey at Gymsssy Fitness",
     },
     after: {
       src: "https://images.unsplash.com/photo-1594381898411-846e7d193883?w=700&q=85&fit=crop&auto=format",
-      alt: "Sarah after her incredible 4-month transformation at Apex Fitness",
+      alt: "Sarah after her incredible 4-month transformation at Gymsssy Fitness",
     },
     rating: 5,
   },
@@ -57,14 +57,14 @@ export const TRANSFORMATIONS = [
       bodyFat: "-14%",
     },
     quote:
-      "At 41 I thought peak shape was behind me. Eight months at APEX proved every assumption wrong. This place rewrites what's possible.",
+      "At 41 I thought peak shape was behind me. Eight months at Gymsssy proved every assumption wrong. This place rewrites what's possible.",
     before: {
       src: "https://images.unsplash.com/photo-1569880153113-76175e1b2c8a?w=700&q=85&fit=crop&auto=format",
-      alt: "David before his 8-month transformation journey at Apex Fitness",
+      alt: "David before his 8-month transformation journey at Gymsssy Fitness",
     },
     after: {
       src: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=700&q=85&fit=crop&auto=format",
-      alt: "David after his incredible 8-month transformation at Apex Fitness",
+      alt: "David after his incredible 8-month transformation at Gymsssy Fitness",
     },
     rating: 5,
   },

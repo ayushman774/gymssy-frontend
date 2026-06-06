@@ -34,45 +34,22 @@ const NavLogo = ({ onClick }) => {
         to="/"
         className={styles.logo}
         onClick={onClick}
-        aria-label="Apex Fitness — Home"
+        aria-label="Gymssy — Home"
       >
-        {/* ── ICON MARK ─────────────────────────────── */}
+        {/* ── LOGO IMAGE ────────────────────────────── */}
         <motion.div
           className={styles.logoMark}
-          whileHover={{ rotate: 180, scale: 1.1 }}
+          whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
           aria-hidden="true"
         >
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className={styles.logoSvg}
-          >
-            {/* Outer hexagon */}
-            <path
-              d="M16 2L28.7 9.5V24.5L16 32L3.3 24.5V9.5L16 2Z"
-              stroke="#39FF14"
-              strokeWidth="1.5"
-              fill="none"
-              className={styles.hexOuter}
-            />
-            {/* Inner A shape */}
-            <path
-              d="M16 8L22 22H18.5L16 16L13.5 22H10L16 8Z"
-              fill="#39FF14"
-              className={styles.letterA}
-            />
-            {/* Crossbar of A */}
-            <path
-              d="M12.5 18.5H19.5"
-              stroke="#000000"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
+          <img
+            src="/images/logo/gymssy-logo.jpeg"
+            alt="Gymssy logo"
+            className={styles.logoImage}
+            width={36}
+            height={36}
+          />
         </motion.div>
 
         {/* ── WORDMARK ──────────────────────────────── */}
@@ -82,7 +59,7 @@ const NavLogo = ({ onClick }) => {
           initial="initial"
         >
           <span className={styles.wordmarkPrimary}>
-            {"APEX".split("").map((char, i) => (
+            {"GYMSSY".split("").map((char, i) => (
               <motion.span
                 key={i}
                 variants={letterVariants}
