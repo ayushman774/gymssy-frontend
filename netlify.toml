@@ -1,7 +1,7 @@
 [build]
   command     = "npm run build"
   publish     = "dist"
-  environment = { NODE_VERSION = "18" }
+  environment = { NODE_VERSION = "22.13.0" }
 
 # ── SPA Routing fix ──────────────────────────────────────
 # Without this, refreshing any page gives 404
