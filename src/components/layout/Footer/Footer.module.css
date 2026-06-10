@@ -82,7 +82,6 @@
 .ctaNoise {
   position: absolute;
   inset: 0;
-  background: url("/images/textures/noise.png") repeat;
   background-size: 180px 180px;
   opacity: 0.025;
   pointer-events: none;
@@ -364,7 +363,6 @@
 .bodyNoise {
   position: absolute;
   inset: 0;
-  background: url("/images/textures/noise.png") repeat;
   background-size: 180px 180px;
   opacity: 0.02;
   pointer-events: none;
