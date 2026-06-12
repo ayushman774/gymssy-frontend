@@ -68,19 +68,19 @@ const contactInfo = [
   {
     icon:  <FiPhone />,
     label: "Phone",
-    value: "+1 (555) 000-0000",
+    value: "+91  8982295593",
     href:  "tel:+15550000000",
   },
   {
     icon:  <FiMail />,
     label: "Email",
-    value: "hello@Gymsssyfitness.com",
-    href:  "mailto:hello@Gymsssyfitness.com",
+    value: "Contact@gymssy.com",
+    href:  "mailto:Contact@gymssy.com",
   },
   {
     icon:  <FiMapPin />,
     label: "Address",
-    value: "123 Elite Ave, New York, NY 10001",
+    value: "Bhopal, Madhya Pradesh, India",
     href:  "https://maps.google.com",
   },
 ];

@@ -24,7 +24,7 @@ const useAthleteMaterials = () => {
       color: new THREE.Color("#1a1a2e"),
       roughness: 0.6,
       metalness: 0.1,
-      emissive: new THREE.Color("#39FF14"),
+      emissive: new THREE.Color("#39ff14b8"),
       emissiveIntensity: 0.05,
     });
 
@@ -33,7 +33,7 @@ const useAthleteMaterials = () => {
       color: new THREE.Color("#0a0a0a"),
       roughness: 0.8,
       metalness: 0.0,
-      emissive: new THREE.Color("#39FF14"),
+      emissive: new THREE.Color("#39ff14b8"),
       emissiveIntensity: 0.02,
     });
 
@@ -42,7 +42,7 @@ const useAthleteMaterials = () => {
       color: new THREE.Color("#000000"),
       roughness: 0.3,
       metalness: 0.5,
-      emissive: new THREE.Color("#39FF14"),
+      emissive: new THREE.Color("#39ff14b8"),
       emissiveIntensity: 0.4,
       side: THREE.BackSide,
     });
@@ -210,7 +210,7 @@ const AthleteModel = ({ mouseX = 0, mouseY = 0 }) => {
           <meshStandardMaterial
             side={THREE.BackSide}
             color="#000000"
-            emissive="#39FF14"
+            emissive="#39ff14b8"
             emissiveIntensity={0.5}
           />
         </mesh>
@@ -219,16 +219,16 @@ const AthleteModel = ({ mouseX = 0, mouseY = 0 }) => {
         <mesh position={[-0.07, 0.03, 0.2]}>
           <sphereGeometry args={[0.025, 8, 8]} />
           <meshStandardMaterial
-            color="#39FF14"
-            emissive="#39FF14"
+            color="#39ff14b8"
+            emissive="#39ff14b8"
             emissiveIntensity={2}
           />
         </mesh>
         <mesh position={[0.07, 0.03, 0.2]}>
           <sphereGeometry args={[0.025, 8, 8]} />
           <meshStandardMaterial
-            color="#39FF14"
-            emissive="#39FF14"
+            color="#39ff14b8"
+            emissive="#39ff14b8"
             emissiveIntensity={2}
           />
         </mesh>
@@ -258,7 +258,7 @@ const AthleteModel = ({ mouseX = 0, mouseY = 0 }) => {
           <meshStandardMaterial
             side={THREE.BackSide}
             color="#000"
-            emissive="#39FF14"
+            emissive="#39ff14b8"
             emissiveIntensity={0.35}
           />
         </mesh>

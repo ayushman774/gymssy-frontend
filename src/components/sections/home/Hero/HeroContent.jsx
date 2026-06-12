@@ -1,12 +1,6 @@
 import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  FiArrowRight,
-  FiPlay,
-  FiUsers,
-  FiAward,
-  FiZap,
-} from "react-icons/fi";
+import { FiArrowRight, FiPlay, FiUsers, FiAward, FiZap } from "react-icons/fi";
 import styles from "./HeroContent.module.css";
 
 /**
@@ -64,18 +58,14 @@ const SplitText = ({ text, className, neonWords = [] }) => {
 const HeroContent = ({ animRefs }) => {
   return (
     <div className={styles.content}>
-
       {/* ── HEADLINE ──────────────────────────────────── */}
       <h1
         className={styles.headline}
         aria-label="Train Hard. Transform Your Life."
       >
         {/* Line 1 */}
-        <span
-          ref={animRefs.headline1}
-          className={styles.headlineLine}
-        >
-          <SplitText text="TRAIN HARD." />
+        <span ref={animRefs.headline1} className={styles.headlineLine}>
+          <SplitText text="India's Fitness Marketplace" />
         </span>
 
         {/* Line 2 */}
@@ -83,14 +73,13 @@ const HeroContent = ({ animRefs }) => {
           ref={animRefs.headline2}
           className={`${styles.headlineLine} ${styles.headlineLineNeon}`}
         >
-          <SplitText text="TRANSFORM YOUR LIFE." />
+          <SplitText text="Find, Compare & Book Fitness Classes" />
         </span>
       </h1>
 
       {/* ── SUBHEADLINE ───────────────────────────────── */}
       <p ref={animRefs.subheadline} className={styles.subheadline}>
-        Build strength, confidence, and discipline with world-class
-        coaching and facilities.
+        Book Gym, Yoga, Dance, Zumba & all Fitness Classes Near You
       </p>
 
       {/* ── CTA BUTTONS ───────────────────────────────── */}

@@ -32,7 +32,7 @@ body {
   /* Colors */
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-neon: #39ff14;
+  --color-neon: #39ff14b8;
   --color-neon-dim: rgba(57, 255, 20, 0.15);
   --color-neon-glow: rgba(57, 255, 20, 0.4);
   --color-blue: #3b82f6;

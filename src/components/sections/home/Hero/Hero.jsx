@@ -166,11 +166,11 @@ const Hero = () => {
       <div className={styles.vignette} aria-hidden="true" />
 
       {/* ── LAYER 3: THREE.JS 3D SCENE ────────────────── */}
-      {show3D && (
+      {/* {show3D && (
         <Suspense fallback={null}>
           <HeroScene mouseX={mouseX} mouseY={mouseY} isMobile={isMobile} />
         </Suspense>
-      )}
+      )} */}
 
       {/* ── LAYER 4: GRID PATTERN ─────────────────────── */}
       <div className={styles.gridOverlay} aria-hidden="true" />

@@ -603,7 +603,7 @@ const ComingSoon = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 2 }}
           >
-            © {new Date().getFullYear()} APEX FITNESS. &nbsp;Forging Champions
+            © {new Date().getFullYear()} Gymsssy FITNESS. &nbsp;Forging Champions
             Since 2009.
           </motion.p>
         </motion.div>

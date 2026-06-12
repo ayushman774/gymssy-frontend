@@ -47,7 +47,7 @@ const GroundReflection = () => (
 const EnergyRing = ({
   radius = 1.2,
   speed = 0.3,
-  color = "#39FF14",
+  color = "#39ff14b8",
   yPos = 0,
 }) => {
   const ringRef = useRef(null);
@@ -85,7 +85,7 @@ const InnerScene = ({ mouseX, mouseY, particleCount }) => (
 
     <spotLight
       position={[-4, 4, -2]}
-      color="#39FF14"
+      color="#39ff14b8"
       intensity={120}
       angle={0.4}
       penumbra={0.7}
@@ -95,7 +95,7 @@ const InnerScene = ({ mouseX, mouseY, particleCount }) => (
 
     <spotLight
       position={[4, 3, -3]}
-      color="#39FF14"
+      color="#39ff14b8"
       intensity={60}
       angle={0.35}
       penumbra={0.8}
@@ -126,7 +126,7 @@ const InnerScene = ({ mouseX, mouseY, particleCount }) => (
 
     <pointLight
       position={[0, -2, 0]}
-      color="#39FF14"
+      color="#39ff14b8"
       intensity={15}
       distance={6}
     />
@@ -134,7 +134,7 @@ const InnerScene = ({ mouseX, mouseY, particleCount }) => (
     {/* ── VOLUMETRIC LIGHTS ────────────────────────────── */}
     <VolumetricLight
       position={[-2, 6, -1]}
-      color="#39FF14"
+      color="#39ff14b8"
       intensity={0.5}
       angle={0.25}
       height={10}
@@ -155,16 +155,16 @@ const InnerScene = ({ mouseX, mouseY, particleCount }) => (
     </Suspense> */}
 
     {/* ── ENERGY RINGS ────────────────────────────────── */}
-    {/* <EnergyRing radius={0.9}  speed={0.4}   color="#39FF14" yPos={0.2}  />
+    {/* <EnergyRing radius={0.9}  speed={0.4}   color="#39ff14b8" yPos={0.2}  />
     <EnergyRing radius={1.3}  speed={-0.25} color="#3B82F6" yPos={-0.3} /> */}
-    {/* <EnergyRing radius={0.6}  speed={0.6}   color="#39FF14" yPos={0.8}  /> */}
+    {/* <EnergyRing radius={0.6}  speed={0.6}   color="#39ff14b8" yPos={0.8}  /> */}
 
     {/* ── PARTICLES ───────────────────────────────────── */}
     <ParticleField
       count={particleCount}
       mouseX={mouseX}
       mouseY={mouseY}
-      color="#39FF14"
+      color="#39ff14b8"
       secondaryColor="#3B82F6"
       spread={22}
       depth={14}

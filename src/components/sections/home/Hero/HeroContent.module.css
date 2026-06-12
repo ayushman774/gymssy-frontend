@@ -40,21 +40,30 @@
   height: 6px;
   border-radius: 50%;
   background: var(--color-neon);
-  box-shadow: 0 0 6px var(--color-neon), 0 0 12px var(--color-neon);
+  box-shadow:
+    0 0 6px var(--color-neon),
+    0 0 12px var(--color-neon);
   animation: pulseDot 2s ease-in-out infinite;
   flex-shrink: 0;
 }
 
 @keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1);   }
-  50%       { opacity: 0.5; transform: scale(0.8); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
 }
 
 /* ─── HEADLINE ──────────────────────────────────────────── */
 
 .headline {
   font-family: var(--font-primary);
-  font-size: clamp(3.2rem, 8vw, 8rem);
+  font-size: clamp(3.2rem, 4.5vw, 4.5rem);
   font-weight: var(--weight-black);
   line-height: 1;
   letter-spacing: -0.03em;
@@ -83,7 +92,7 @@
 .headlineLineNeon {
   color: var(--color-neon);
   text-shadow:
-    0 0 30px rgba(57, 255, 20, 0.5),
+    0 0 30px rgb(57 255 20 / 28%),
     0 0 60px rgba(57, 255, 20, 0.25);
 }
 

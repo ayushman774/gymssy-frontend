@@ -10,7 +10,7 @@ import * as THREE from "three";
 
 const VolumetricLight = ({
   position = [0, 5, 0],
-  color = "#39FF14",
+  color = "#39ff14b8",
   intensity = 0.4,
   angle = 0.3,
   height = 8,
