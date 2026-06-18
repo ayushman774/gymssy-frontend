@@ -14,8 +14,8 @@ import {
   FiCheck,
   FiStar,
 } from "react-icons/fi";
-import SectionLabel from "../../components/sections/home/ui/SectionLabel/SectionLabel";
-import MagneticButton from "../../components/sections/home/ui/MagneticButton/MagneticButton";
+import SectionLabel from "../../components/ui/SectionLabel/SectionLabel";
+import MagneticButton from "../../components/ui/MagneticButton/MagneticButton";
 import { useCursorVariant } from "../../hooks/useCursorVariant";
 import { stats, facilities, coaches, values } from "../../assets/data/about";
 import styles from "./About.module.css";
