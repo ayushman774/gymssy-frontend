@@ -1,6 +1,6 @@
 import { useRef, useCallback } from "react";
 import gsap from "gsap";
-import { isTouchDevice } from "../../../../../utils/device";
+import { isTouchDevice } from "../../../utils/device";
 import styles from "./MagneticButton.module.css";
 
 const MagneticButton = ({

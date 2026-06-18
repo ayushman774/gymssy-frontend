@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TestimonialCard from "./TestimonialCard";
-import SectionLabel from "../ui/SectionLabel/SectionLabel";
+import SectionLabel from "../../../ui/SectionLabel/SectionLabel";
 import { testimonials } from "../../../../assets/data/testimonials";
 import styles from "./Testimonials.module.css";
 

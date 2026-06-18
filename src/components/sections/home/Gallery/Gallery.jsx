@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GalleryItem from "./GalleryItem";
-import SectionLabel from "../ui/SectionLabel/SectionLabel";
+import SectionLabel from "../../../ui/SectionLabel/SectionLabel";
 import {
   galleryImages,
   galleryCategories,
