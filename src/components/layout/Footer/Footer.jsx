@@ -13,7 +13,7 @@ import {
   FiArrowUpRight,
   FiArrowRight,
 } from "react-icons/fi";
-import MagneticButton from "../../sections/home/ui/MagneticButton/MagneticButton";
+import MagneticButton from "../../ui/MagneticButton/MagneticButton";
 import { useCursorVariant } from "../../../hooks/useCursorVariant";
 import styles from "./Footer.module.css";
 
