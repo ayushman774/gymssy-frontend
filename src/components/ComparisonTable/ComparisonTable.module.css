@@ -1,0 +1,263 @@
+.tableWrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.tableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(57, 255, 20, 0.3) rgba(255, 255, 255, 0.05);
+}
+
+.tableScroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tableScroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 2px;
+}
+
+.tableScroll::-webkit-scrollbar-thumb {
+  background: rgba(57, 255, 20, 0.35);
+  border-radius: 2px;
+}
+
+.table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* ── Head ─────────────────────────────────────────────────── */
+.featureHeader {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: left;
+  padding: 1.25rem 1.5rem;
+  width: 40%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.planHeader {
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  vertical-align: top;
+}
+
+.planHeaderHighlighted {
+  background: rgba(57, 255, 20, 0.04);
+  border-left: 1px solid rgba(57, 255, 20, 0.2);
+  border-right: 1px solid rgba(57, 255, 20, 0.2);
+  border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+}
+
+.popularBadge {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 100px;
+  padding: 0.2rem 0.6rem;
+  margin: 0 auto 0.6rem;
+  width: fit-content;
+}
+
+.planHeaderName {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.planHeaderPrice {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #39ff14;
+  line-height: 1;
+}
+
+.planHeaderPer {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Category Row ─────────────────────────────────────────── */
+.categoryRow td {
+  padding: 0;
+}
+
+.categoryLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #39ff14;
+  padding: 1.5rem 1.5rem 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ── Feature Rows ─────────────────────────────────────────── */
+.featureRow {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.2s;
+}
+
+.featureRow:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.featureRowEven {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.featureLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+}
+
+.cell {
+  text-align: center;
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.cellHighlighted {
+  background: rgba(57, 255, 20, 0.03);
+  border-left: 1px solid rgba(57, 255, 20, 0.1);
+  border-right: 1px solid rgba(57, 255, 20, 0.1);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+}
+
+.checkGreen {
+  background: rgba(57, 255, 20, 0.12);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+.checkDefault {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.minus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.footerRow {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footerLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 1.75rem 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.footerCell {
+  text-align: center;
+  padding: 1.75rem 1rem;
+}
+
+.footerCellHighlighted {
+  background: rgba(57, 255, 20, 0.04);
+  border-left: 1px solid rgba(57, 255, 20, 0.15);
+  border-right: 1px solid rgba(57, 255, 20, 0.15);
+}
+
+.tableBtn {
+  padding: 0.65rem 1.5rem;
+  border-radius: 3px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+}
+
+.tableBtnPrimary {
+  background: #39ff14;
+  color: #000000;
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.2);
+}
+
+.tableBtnPrimary:hover {
+  box-shadow: 0 6px 30px rgba(57, 255, 20, 0.4);
+}
+
+.tableBtnSecondary {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tableBtnSecondary:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  color: #39ff14;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .featureHeader {
+    width: 45%;
+    padding: 1rem;
+  }
+
+  .planHeader,
+  .cell,
+  .footerCell {
+    padding: 1rem 0.5rem;
+  }
+
+  .featureLabel {
+    padding: 0.9rem 1rem;
+    font-size: 0.8rem;
+  }
+}
