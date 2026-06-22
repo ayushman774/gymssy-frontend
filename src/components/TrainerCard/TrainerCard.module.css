@@ -1,0 +1,192 @@
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease,
+    transform 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  box-shadow: 0 0 40px rgba(57, 255, 20, 0.08),
+    0 16px 48px rgba(0, 0, 0, 0.4);
+  transform: translateY(-6px);
+}
+
+/* Border glow */
+.borderGlow {
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(57, 255, 20, 0),
+    transparent
+  );
+  transition: background 0.4s;
+  pointer-events: none;
+}
+
+.card:hover .borderGlow {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(57, 255, 20, 0.7),
+    transparent
+  );
+}
+
+/* ── Image ────────────────────────────────────────────────── */
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.4s ease;
+  filter: brightness(0.85) saturate(0.9);
+}
+
+.card:hover .image {
+  transform: scale(1.06);
+  filter: brightness(0.6) saturate(0.7);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  z-index: 1;
+}
+
+/* Social overlay */
+.socialOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.card:hover .socialOverlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(57, 255, 20, 0.4);
+  border-radius: 50%;
+  color: #39ff14;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.socialLink:hover {
+  background: #39ff14;
+  color: #000000;
+  border-color: #39ff14;
+}
+
+/* Experience badge */
+.expBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  border-radius: 4px;
+  padding: 0.35rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.expNumber {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #39ff14;
+  line-height: 1;
+}
+
+.expText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Info ─────────────────────────────────────────────────── */
+.info {
+  padding: 1.25rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.name {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.position {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+.specialization {
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #39ff14;
+  margin-top: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 100px;
+  width: fit-content;
+}
