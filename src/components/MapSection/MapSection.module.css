@@ -1,0 +1,189 @@
+/* ============================================================
+   MAP SECTION — CSS Module
+   ============================================================ */
+
+.mapWrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  box-shadow:
+    0 0 60px rgba(57, 255, 20, 0.06),
+    0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.leafletMap {
+  width: 100%;
+  height: 520px;
+  border-radius: 8px;
+  z-index: 0;
+}
+
+/* Map frame overlay — neon corner accents */
+.mapFrame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 8px;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, transparent 15%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.15) 0%, transparent 15%);
+}
+
+.mapFrame::before,
+.mapFrame::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: #39ff14;
+  border-style: solid;
+  border-width: 0;
+}
+
+.mapFrame::before {
+  top: 12px;
+  left: 12px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-radius: 2px 0 0 0;
+}
+
+.mapFrame::after {
+  bottom: 12px;
+  right: 12px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-radius: 0 0 2px 0;
+}
+
+/* Badge */
+.mapBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #39ff14;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  border-radius: 100px;
+  padding: 0.4rem 0.85rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.mapBadgeIcon {
+  font-size: 0.75rem;
+}
+
+/* ── Custom Popup ─────────────────────────────────────────── */
+:global(.leaflet-popup-content-wrapper) {
+  background: rgba(11, 11, 11, 0.96) !important;
+  border: 1px solid rgba(57, 255, 20, 0.25) !important;
+  border-radius: 6px !important;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(57, 255, 20, 0.1) !important;
+  padding: 0 !important;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+}
+
+:global(.leaflet-popup-tip) {
+  background: rgba(57, 255, 20, 0.3) !important;
+}
+
+:global(.leaflet-popup-content) {
+  margin: 0 !important;
+  min-width: 200px;
+}
+
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.popupImage {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.8) saturate(0.8);
+}
+
+.popupInfo {
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.popupName {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.popupAddress {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+.popupDistance {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #39ff14;
+  margin: 0;
+}
+
+.popupBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.65rem;
+  padding: 0.45rem 0.85rem;
+  background: #39ff14;
+  color: #000000;
+  border: none;
+  border-radius: 3px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: box-shadow 0.3s;
+}
+
+.popupBtn:hover {
+  box-shadow: 0 4px 16px rgba(57, 255, 20, 0.4);
+}
+
+/* Leaflet attribution override */
+:global(.leaflet-control-attribution) {
+  background: rgba(0, 0, 0, 0.6) !important;
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 0.6rem !important;
+}
+
+:global(.leaflet-control-attribution a) {
+  color: rgba(57, 255, 20, 0.5) !important;
+}
+
+@media (max-width: 768px) {
+  .leafletMap {
+    height: 380px;
+  }
+}

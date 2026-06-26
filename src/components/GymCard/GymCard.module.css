@@ -1,0 +1,377 @@
+/* ============================================================
+   GYM CARD — CSS Module
+   ============================================================ */
+
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    border-color 0.4s,
+    box-shadow 0.4s,
+    transform 0.35s;
+}
+
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.3);
+  box-shadow:
+    0 0 40px rgba(57, 255, 20, 0.07),
+    0 16px 50px rgba(0, 0, 0, 0.4);
+  transform: translateY(-6px);
+}
+
+.cardHighlighted {
+  border-color: rgba(57, 255, 20, 0.5) !important;
+  box-shadow:
+    0 0 60px rgba(57, 255, 20, 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+.topBorder {
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(57, 255, 20, 0),
+    transparent
+  );
+  transition: background 0.4s;
+  pointer-events: none;
+}
+
+.card:hover .topBorder {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(57, 255, 20, 0.6),
+    transparent
+  );
+}
+
+/* ── Image ────────────────────────────────────────────────── */
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.4s;
+  filter: brightness(0.85) saturate(0.9);
+}
+
+.card:hover .image {
+  transform: scale(1.06);
+  filter: brightness(0.75) saturate(0.8);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+  z-index: 1;
+}
+
+/* Badges */
+.imageBadges {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.featuredBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #000000;
+  background: #39ff14;
+  padding: 0.3rem 0.65rem;
+  border-radius: 100px;
+  box-shadow: 0 4px 12px rgba(57, 255, 20, 0.4);
+}
+
+.featuredIcon {
+  font-size: 0.6rem;
+}
+
+.distanceBadge {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.3rem 0.65rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.distanceIcon {
+  color: #39ff14;
+  font-size: 0.7rem;
+}
+
+.ratingBadge {
+  position: absolute;
+  bottom: 0.85rem;
+  right: 0.85rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.3rem 0.65rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.ratingIcon {
+  color: #f59e0b;
+  font-size: 0.68rem;
+}
+
+.ratingValue {
+  color: #ffffff;
+}
+
+.ratingCount {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.65rem;
+}
+
+/* ── Content ──────────────────────────────────────────────── */
+.content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.name {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.address {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.4;
+}
+
+.addressIcon {
+  color: rgba(57, 255, 20, 0.6);
+  font-size: 0.75rem;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.25rem 0.65rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 100px;
+}
+
+.tagMore {
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: rgba(57, 255, 20, 0.7);
+  padding: 0.25rem 0.65rem;
+  background: rgba(57, 255, 20, 0.05);
+  border: 1px solid rgba(57, 255, 20, 0.15);
+  border-radius: 100px;
+}
+
+/* Hours */
+.hours {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hoursIcon {
+  color: rgba(57, 255, 20, 0.6);
+  font-size: 0.8rem;
+}
+
+/* Facilities */
+.facilities {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.facility {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+  padding-left: 0.75rem;
+  position: relative;
+}
+
+.facility::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #39ff14;
+}
+
+/* Footer */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
+}
+
+.pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.pricingFrom {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.pricingValue {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #39ff14;
+  line-height: 1;
+}
+
+.pricingPer {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btnSecondary {
+  padding: 0.55rem 1rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+  white-space: nowrap;
+}
+
+.btnSecondary:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  color: #39ff14;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.55rem 1rem;
+  background: #39ff14;
+  color: #000000;
+  border-radius: 3px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(57, 255, 20, 0.2);
+  transition: box-shadow 0.3s;
+}
+
+.btnPrimary:hover {
+  box-shadow: 0 4px 24px rgba(57, 255, 20, 0.4);
+}
