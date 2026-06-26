@@ -1,0 +1,217 @@
+.searchWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* ── Search Box ───────────────────────────────────────────── */
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.3s, background 0.3s;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.searchBoxFocused {
+  border-color: rgba(57, 255, 20, 0.45);
+  background: rgba(57, 255, 20, 0.03);
+}
+
+/* Focus glow */
+.focusGlow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 6px;
+  box-shadow: 0 0 0px rgba(57, 255, 20, 0);
+  pointer-events: none;
+  transition: box-shadow 0.4s;
+}
+
+.focusGlowActive {
+  box-shadow: 0 0 30px rgba(57, 255, 20, 0.12),
+    0 0 60px rgba(57, 255, 20, 0.06);
+}
+
+/* Location icon */
+.locationIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.25rem;
+  flex-shrink: 0;
+}
+
+.locationIconSvg {
+  font-size: 1.15rem;
+  color: #39ff14;
+  position: relative;
+  z-index: 1;
+}
+
+.locationPulse {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(57, 255, 20, 0.08);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(0.85); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 0.2; }
+}
+
+/* Input */
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ffffff;
+  padding: 1.25rem 0;
+  caret-color: #39ff14;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Right actions */
+.rightActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.clearBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.clearBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.searchBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: #39ff14;
+  border: none;
+  border-radius: 4px;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.searchBtn:hover {
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+  transform: scale(1.02);
+}
+
+.searchBtnIcon {
+  font-size: 0.9rem;
+}
+
+/* ── Suggestions ──────────────────────────────────────────── */
+.suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(11, 11, 11, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(57, 255, 20, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.suggestionsLabel {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 0.9rem 1.25rem 0.5rem;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: left;
+}
+
+.suggestionItem:hover {
+  background: rgba(57, 255, 20, 0.06);
+}
+
+.suggestionIcon {
+  font-size: 0.875rem;
+  color: rgba(57, 255, 20, 0.6);
+  flex-shrink: 0;
+}
+
+.suggestionText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .searchBtnText {
+    display: none;
+  }
+
+  .searchBtn {
+    padding: 0.7rem 0.9rem;
+  }
+
+  .locationIcon {
+    padding: 0 0.9rem;
+  }
+}
