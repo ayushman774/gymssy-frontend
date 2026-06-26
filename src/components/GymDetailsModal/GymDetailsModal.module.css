@@ -1,0 +1,457 @@
+/* ============================================================
+   GYM DETAILS MODAL — CSS Module (FIXED)
+   ============================================================ */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  cursor: pointer;
+
+  /* Use flex to center the modal as a child */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  /* Remove fixed positioning — backdrop handles centering */
+  position: relative;
+  z-index: 1001;
+  width: min(90vw, 900px);
+  max-height: 88vh;
+  background: #0b0b0b;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(57, 255, 20, 0.2) transparent;
+  box-shadow: 0 0 80px rgba(57, 255, 20, 0.08),
+    0 40px 100px rgba(0, 0, 0, 0.7);
+
+  /* DO NOT use transform: translate(-50%, -50%) here */
+  /* Framer Motion owns the transform property */
+}
+
+.modal::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background: rgba(57, 255, 20, 0.25);
+  border-radius: 2px;
+}
+
+/* Close button */
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  width: 38px;
+  height: 38px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s, color 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.closeBtn:hover {
+  border-color: rgba(57, 255, 20, 0.4);
+  color: #39ff14;
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.heroWrapper {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7) saturate(0.8);
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+}
+
+.heroContent {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 2rem;
+  right: 2rem;
+  z-index: 2;
+}
+
+.modalName {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 0.4rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.modalAddress {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 0.75rem;
+}
+
+.modalAddressIcon {
+  color: #39ff14;
+  font-size: 0.8rem;
+}
+
+.heroBadges {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.heroBadgeRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+
+.starIcon {
+  color: #f59e0b;
+  font-size: 0.7rem;
+}
+
+.heroBadgeDistance {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+}
+
+/* ── Body ─────────────────────────────────────────────────── */
+.modalBody {
+  padding: 2rem;
+}
+
+.bodyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Info blocks */
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.5rem;
+}
+
+.infoBlockTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.infoBlockIcon {
+  color: #39ff14;
+  font-size: 0.8rem;
+}
+
+.hoursRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hoursDay {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hoursVal {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.trainerCount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+
+.trainerNumber {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #39ff14;
+}
+
+.contactLink {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.contactLink:hover {
+  color: #39ff14;
+}
+
+.contactIcon {
+  font-size: 0.85rem;
+  color: rgba(57, 255, 20, 0.6);
+}
+
+/* Facilities */
+.facilityList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.facilityItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.facilityDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #39ff14;
+  flex-shrink: 0;
+}
+
+/* Tags */
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.modalTag {
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0.3rem 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 100px;
+}
+
+/* Membership box */
+.membershipBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  background: rgba(57, 255, 20, 0.04);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 6px;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.membershipLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.membershipFrom {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.membershipPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+}
+
+.membershipCurrency {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: rgba(57, 255, 20, 0.7);
+}
+
+.membershipValue {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #39ff14;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.membershipPer {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.joinBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.5rem;
+  background: #39ff14;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 3px;
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.25);
+  transition: box-shadow 0.3s;
+}
+
+.joinBtn:hover {
+  box-shadow: 0 4px 30px rgba(57, 255, 20, 0.4);
+}
+
+/* ── Footer Actions ───────────────────────────────────────── */
+.modalActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.4rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.actionBtn:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  color: #39ff14;
+}
+
+.actionBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.6rem;
+  background: #39ff14;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 3px;
+  margin-left: auto;
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.2);
+  transition: box-shadow 0.3s;
+}
+
+.actionBtnPrimary:hover {
+  box-shadow: 0 4px 30px rgba(57, 255, 20, 0.4);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .bodyGrid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .heroWrapper {
+    height: 200px;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .actionBtnPrimary {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .actionBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
