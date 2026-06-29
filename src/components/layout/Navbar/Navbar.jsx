@@ -16,7 +16,6 @@ export const NAV_LINKS = [
   { label: "Membership", href: "/membership" },
   { label: "Trainers", href: "/trainers" },
   { label: "Gyms Near you", href: "/gyms-near-you" },
-  { label: "Gallery", href: "/gallery" },
   { label: "Contact", href: "/contact" },
 ];
 

@@ -1,0 +1,249 @@
+/* ============================================================
+   OFFICE LOCATION — CSS Module
+   ============================================================ */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* Map */
+.mapCol {
+}
+
+.mapFrame {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  box-shadow:
+    0 0 50px rgba(57, 255, 20, 0.06),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.mapIframe {
+  width: 100%;
+  height: 460px;
+  display: block;
+  border: none;
+  filter: grayscale(1) invert(1) brightness(0.4) contrast(1.1);
+}
+
+.mapCornerTL {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid #39ff14;
+  border-left: 2px solid #39ff14;
+  border-radius: 1px 0 0 0;
+  pointer-events: none;
+}
+
+.mapCornerBR {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid #39ff14;
+  border-right: 2px solid #39ff14;
+  border-radius: 0 0 1px 0;
+  pointer-events: none;
+}
+
+/* Details */
+.detailsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  color: #39ff14;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.heading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Info List */
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+.infoItem:hover {
+  border-color: rgba(57, 255, 20, 0.18);
+}
+
+.infoIcon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #39ff14;
+}
+
+.infoLabel {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 0.35rem;
+}
+
+.infoValue {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+.infoLink {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.infoLink:hover {
+  color: #39ff14;
+}
+
+/* Hours */
+.hoursBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.hourRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hourDay {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hourTime {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.closed {
+  color: rgba(239, 68, 68, 0.7) !important;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  background: #39ff14;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 2px;
+  box-shadow: 0 4px 24px rgba(57, 255, 20, 0.25);
+  transition: box-shadow 0.3s;
+}
+.btnPrimary:hover {
+  box-shadow: 0 4px 36px rgba(57, 255, 20, 0.45);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.85rem 1.5rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+}
+.btnSecondary:hover {
+  border-color: rgba(57, 255, 20, 0.4);
+  color: #39ff14;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .mapIframe {
+    height: 340px;
+  }
+}
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+  }
+  .btnPrimary,
+  .btnSecondary {
+    justify-content: center;
+  }
+}
