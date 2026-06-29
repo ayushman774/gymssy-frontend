@@ -1,0 +1,144 @@
+/* ============================================================
+   CONTACT FAQ — CSS Module
+   ============================================================ */
+
+.wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: linear-gradient(to bottom, #39ff14, transparent);
+  transition: width 0.3s;
+  border-radius: 0 2px 2px 0;
+}
+
+.itemOpen {
+  border-color: rgba(57, 255, 20, 0.15);
+}
+.itemOpen::before {
+  width: 2px;
+}
+
+.question {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 1.75rem 1.5rem 1.75rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.3s;
+}
+
+.question:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+.itemOpen .question {
+  background: rgba(57, 255, 20, 0.02);
+}
+
+.questionText {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(0.92rem, 1.4vw, 1.02rem);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.iconOpen {
+  background: rgba(57, 255, 20, 0.1);
+  border-color: rgba(57, 255, 20, 0.3);
+  color: #39ff14;
+}
+
+.answer {
+  overflow: hidden;
+}
+
+.answerInner {
+  padding: 0 1.75rem 1.75rem;
+}
+
+.answerText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.footer {
+  text-align: center;
+  padding: 1.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+}
+
+.footerText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footerLink {
+  color: #39ff14;
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.35);
+  padding-bottom: 1px;
+  transition: border-color 0.3s;
+}
+.footerLink:hover {
+  border-color: #39ff14;
+}
+
+@media (max-width: 640px) {
+  .question {
+    padding: 1.4rem 1rem 1.4rem 1.2rem;
+  }
+  .answerInner {
+    padding: 0 1.2rem 1.4rem;
+  }
+}
