@@ -1,0 +1,265 @@
+/* ============================================================
+   PARTNER CTA — CSS Module
+   ============================================================ */
+
+.section {
+  position: relative;
+  padding: 8rem 2rem;
+  overflow: hidden;
+}
+
+.bgWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.bgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.18) saturate(0.6);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+  z-index: 1;
+}
+
+.glowLeft {
+  position: absolute;
+  top: 50%;
+  left: -100px;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(57, 255, 20, 0.1) 0%,
+    transparent 65%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.glowRight {
+  position: absolute;
+  top: 50%;
+  right: -100px;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.07) 0%,
+    transparent 65%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 3;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #39ff14;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  border-radius: 100px;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+  background: rgba(57, 255, 20, 0.06);
+}
+
+.badgeIcon {
+  font-size: 0.9rem;
+}
+
+.heading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 1.25rem;
+}
+
+.accentText {
+  color: #39ff14;
+}
+
+.description {
+  font-family: "Inter", sans-serif;
+  font-size: 0.975rem;
+  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.8;
+  margin: 0 0 2rem;
+  max-width: 480px;
+}
+
+/* Stats row */
+.statsRow {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.statVal {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #39ff14;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.statLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.95rem 2rem;
+  background: #39ff14;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 2px;
+  box-shadow: 0 4px 24px rgba(57, 255, 20, 0.3);
+  transition: box-shadow 0.3s;
+}
+.btnPrimary:hover {
+  box-shadow: 0 4px 36px rgba(57, 255, 20, 0.5);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.95rem 1.75rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+}
+.btnSecondary:hover {
+  border-color: rgba(57, 255, 20, 0.4);
+  color: #39ff14;
+}
+
+.btnIcon {
+  font-size: 1rem;
+  transition: transform 0.3s;
+}
+.btnPrimary:hover .btnIcon {
+  transform: translateX(4px);
+}
+
+/* Feature list */
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.featureDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #39ff14;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+}
+
+.featureText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons {
+    flex-direction: column;
+  }
+  .btnPrimary,
+  .btnSecondary {
+    justify-content: center;
+  }
+  .statsRow {
+    gap: 1.5rem;
+  }
+}
