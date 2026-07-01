@@ -1,0 +1,128 @@
+/* ============================================================
+   CATEGORY CARD — Reusable UI Component
+   ============================================================ */
+
+.card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition:
+    border-color 0.4s,
+    box-shadow 0.4s,
+    transform 0.35s;
+  cursor: pointer;
+  height: 100%;
+}
+
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  box-shadow:
+    0 0 30px rgba(57, 255, 20, 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px);
+}
+
+.cardLink {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  height: 100%;
+}
+
+/* Image */
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.75) saturate(0.85);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 30%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+.glowBorder {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(57, 255, 20, 0.45);
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.countBadge {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 3;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #000000;
+  background: #39ff14;
+  padding: 0.2rem 0.5rem;
+  border-radius: 100px;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 10px rgba(57, 255, 20, 0.3);
+}
+
+/* Content */
+.content {
+  padding: 1.1rem 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.1rem;
+}
+
+.title {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.description {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.explore {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #39ff14;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.5rem;
+}
