@@ -1,0 +1,250 @@
+/* ============================================================
+   TRAINER CARD — Reusable UI Component
+   ============================================================ */
+
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  overflow: hidden;
+  transition:
+    border-color 0.4s,
+    box-shadow 0.4s;
+}
+
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.3);
+  box-shadow:
+    0 0 35px rgba(57, 255, 20, 0.08),
+    0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.cardCenter {
+  border-color: rgba(57, 255, 20, 0.2);
+  box-shadow: 0 0 40px rgba(57, 255, 20, 0.07);
+}
+
+/* Image */
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  filter: brightness(0.85) saturate(0.9);
+  transition:
+    transform 0.6s ease,
+    filter 0.4s;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+  filter: brightness(0.7) saturate(0.8);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  z-index: 1;
+}
+
+.availBadge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+
+.availOpen {
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  color: #39ff14;
+}
+
+.availBusy {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+.availDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.availOpen .availDot {
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Content */
+.content {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.name {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  flex: 1;
+}
+
+.verified {
+  font-size: 1.05rem;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.specialization {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #39ff14;
+  letter-spacing: 0.04em;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.starIcon {
+  color: #f59e0b;
+  font-size: 0.72rem;
+}
+.ratingVal {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+.ratingCnt {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.exp {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0.25rem;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.18rem;
+}
+
+.priceVal {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.pricePer {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.bookBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1.1rem;
+  background: #39ff14;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(57, 255, 20, 0.2);
+  transition: box-shadow 0.3s;
+}
+.bookBtn:hover {
+  box-shadow: 0 4px 24px rgba(57, 255, 20, 0.4);
+}
+.bookArrow {
+  font-size: 0.85rem;
+}
+
+.centerGlow {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 120px;
+  background: radial-gradient(
+    ellipse,
+    rgba(57, 255, 20, 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}

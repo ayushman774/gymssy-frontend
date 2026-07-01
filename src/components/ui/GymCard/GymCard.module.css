@@ -1,0 +1,375 @@
+/* ============================================================
+   GYM CARD — Reusable UI Component
+   ============================================================ */
+
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    border-color 0.4s,
+    box-shadow 0.4s;
+  height: 100%;
+}
+
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.3);
+  box-shadow:
+    0 0 40px rgba(57, 255, 20, 0.07),
+    0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.cardFeatured {
+  border-color: rgba(57, 255, 20, 0.2);
+}
+
+/* Image */
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.4s;
+  filter: brightness(0.85);
+}
+
+.card:hover .image {
+  transform: scale(1.06);
+  filter: brightness(0.7);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 35%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+/* Badges */
+.openBadge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+
+.openBadgeOpen {
+  background: rgba(57, 255, 20, 0.15);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  color: #39ff14;
+}
+
+.openBadgeClosed {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.openDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.openBadgeOpen .openDot {
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.featuredBadge {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #000000;
+  background: #39ff14;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(57, 255, 20, 0.35);
+}
+
+.featuredIcon {
+  font-size: 0.6rem;
+}
+
+.distanceBadge {
+  position: absolute;
+  bottom: 0.85rem;
+  right: 0.85rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.28rem 0.6rem;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+
+.distanceIcon {
+  color: #39ff14;
+  font-size: 0.68rem;
+}
+
+/* Content */
+.content {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.name {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.ratingIcon {
+  color: #f59e0b;
+  font-size: 0.75rem;
+}
+.ratingValue {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+.ratingCount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.locationIcon {
+  font-size: 0.78rem;
+  color: rgba(57, 255, 20, 0.6);
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0.22rem 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 100px;
+}
+
+/* Facilities */
+.facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.facility {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.facilityDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #39ff14;
+  flex-shrink: 0;
+}
+
+.facilityMore {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(57, 255, 20, 0.6);
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.18rem;
+}
+
+.priceFrom {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.33);
+}
+
+.priceValue {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #39ff14;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.35);
+}
+
+.pricePer {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.33);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btnSecondary {
+  padding: 0.52rem 1rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+}
+.btnSecondary:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  color: #39ff14;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.52rem 1rem;
+  background: #39ff14;
+  color: #000000;
+  border-radius: 4px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: box-shadow 0.3s;
+  box-shadow: 0 4px 14px rgba(57, 255, 20, 0.2);
+}
+.btnPrimary:hover {
+  box-shadow: 0 4px 24px rgba(57, 255, 20, 0.4);
+}
+
+.hoverGlow {
+  position: absolute;
+  bottom: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(
+    circle,
+    rgba(57, 255, 20, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.card:hover .hoverGlow {
+  opacity: 1;
+}
