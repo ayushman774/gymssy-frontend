@@ -1,0 +1,119 @@
+.card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+  transition:
+    border-color 0.4s,
+    box-shadow 0.4s,
+    transform 0.35s;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.3);
+  box-shadow:
+    0 0 35px rgba(57, 255, 20, 0.08),
+    0 16px 48px rgba(0, 0, 0, 0.4);
+  transform: translateY(-6px);
+}
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  min-height: 160px;
+}
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.6) saturate(0.8);
+}
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 20%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  z-index: 1;
+}
+.glowLayer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(57, 255, 20, 0.12) 0%,
+    transparent 60%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+.content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 1.25rem 1.25rem 1.1rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.cityInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.pinIcon {
+  color: #39ff14;
+  font-size: 0.9rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.cityName {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.15rem;
+}
+.gymCount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+}
+.exploreBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem;
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  border-radius: 100px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #39ff14;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.3s,
+    box-shadow 0.3s;
+}
+.card:hover .exploreBtn {
+  background: #39ff14;
+  color: #000000;
+  box-shadow: 0 4px 16px rgba(57, 255, 20, 0.35);
+}
+.exploreArrow {
+  font-size: 0.8rem;
+}

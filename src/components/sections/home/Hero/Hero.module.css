@@ -1,18 +1,34 @@
 /* ─── ROOT SECTION ────────────────────────────────────────── */
-
 .hero {
   position: relative;
   width: 100%;
   height: 100dvh;
   min-height: 700px;
-  overflow: hidden;
+  /* overflow visible so dropdown can escape */
+  overflow: visible;
   background-color: var(--color-black);
   display: flex;
   align-items: center;
 }
 
-/* ─── LAYER 0: NOISE TEXTURE ──────────────────────────────── */
+/* clip background layers without clipping content */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
 
+.home {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── LAYER 0: NOISE TEXTURE ──────────────────────────────── */
 .noiseOverlay {
   position: absolute;
   inset: 0;
@@ -25,11 +41,11 @@
 }
 
 /* ─── LAYER 1: VIDEO BACKGROUND ───────────────────────────── */
-
 .videoLayer {
   position: absolute;
   inset: 0;
   z-index: 1;
+  overflow: hidden;
 }
 
 .videoBackground {
@@ -54,7 +70,6 @@
 }
 
 /* ─── LAYER 2: GRADIENT OVERLAYS ──────────────────────────── */
-
 .gradientLeft {
   position: absolute;
   inset: 0;
@@ -113,7 +128,6 @@
 }
 
 /* ─── LAYER 4: GRID PATTERN ───────────────────────────────── */
-
 .gridOverlay {
   position: absolute;
   inset: 0;
@@ -133,7 +147,6 @@
 }
 
 /* ─── LAYER 5: NEON LINE ACCENTS ──────────────────────────── */
-
 .neonLineLeft {
   position: absolute;
   left: 6%;
@@ -182,8 +195,9 @@
   }
 }
 
-/* ─── LAYER 6: CONTENT CONTAINER ─────────────────────────── */
+/* Only the container block needs changing — rest stays same */
 
+/* ─── LAYER 6: CONTENT CONTAINER ─────────────────────────── */
 .container {
   position: relative;
   z-index: 10;
@@ -194,122 +208,52 @@
   padding-right: var(--container-padding);
 
   /*
-    KEY FIX:
-    padding-top pushes content below the fixed navbar.
-    Navbar height is 80px on desktop.
-    We add extra breathing room on top of that.
+    Reduced bottom padding so content
+    doesn't get pushed out of viewport.
+    Top padding accounts for fixed navbar.
   */
-  padding-top: calc(80px + 3rem);
-  padding-bottom: 6rem;
+  padding-top: calc(80px + 2rem);
+  padding-bottom: 4rem;
+  overflow: visible;
+
+  /*
+    Make container fill the hero height
+    so content can vertically center if needed
+  */
+  display: flex;
+  align-items: center;
 }
-
-/* ─── LAYER 8: BOTTOM SECTION FADE ───────────────────────── */
-
-.bottomFade {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 120px;
-  z-index: 20;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    var(--color-black) 100%
-  );
-  pointer-events: none;
-}
-
-/* ─── RESPONSIVE ────────────────────────────────────────── */
 
 @media (max-width: 1280px) {
   .container {
-    padding-top: calc(80px + 2.5rem);
-    padding-bottom: 5rem;
+    padding-top: calc(80px + 1.5rem);
+    padding-bottom: 3rem;
   }
 }
 
 @media (max-width: 1024px) {
   .container {
-    /* Navbar is 72px on tablet */
-    padding-top: calc(72px + 2.5rem);
-  }
-
-  .neonLineLeft {
-    left: 3%;
-  }
-
-  .neonLineRight {
-    right: 3%;
-  }
-
-  .gradientLeft {
-    background: linear-gradient(
-      105deg,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.8) 50%,
-      rgba(0, 0, 0, 0.3) 80%,
-      transparent 100%
-    );
+    padding-top: calc(72px + 1.5rem);
+    padding-bottom: 3rem;
   }
 }
 
 @media (max-width: 768px) {
-  .hero {
-    align-items: flex-end;
-  }
-
   .container {
-    /* Navbar is 64px on mobile */
-    padding-top: calc(64px + 2rem);
-    padding-bottom: 8rem;
-  }
-
-  .neonLineLeft,
-  .neonLineRight {
-    display: none;
-  }
-
-  .gradientLeft {
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.97) 0%,
-      rgba(0, 0, 0, 0.85) 40%,
-      rgba(0, 0, 0, 0.4) 70%,
-      transparent 100%
-    );
-  }
-
-  .gradientBottom {
-    height: 70%;
-  }
-
-  .videoBackground,
-  .staticFallback {
-    object-position: 70% center;
-    filter: brightness(0.25) saturate(0.6) contrast(1.1);
+    padding-top: calc(64px + 1rem);
+    padding-bottom: 6rem;
+    align-items: flex-end;
   }
 }
 
 @media (max-width: 480px) {
-  .hero {
-    min-height: 100dvh;
-  }
-
   .container {
-    /* Navbar is 60px on small mobile */
-    padding-top: calc(60px + 1.5rem);
-    padding-bottom: 9rem;
-  }
-
-  .gridOverlay {
-    background-size: 40px 40px;
-    opacity: 0.6;
+    padding-top: calc(60px + 1rem);
+    padding-bottom: 7rem;
   }
 }
 
 /* ─── REDUCED MOTION ────────────────────────────────────── */
-
 @media (prefers-reduced-motion: reduce) {
   .neonLineLeft,
   .neonLineRight {
