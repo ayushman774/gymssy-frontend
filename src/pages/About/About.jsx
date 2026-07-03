@@ -9,20 +9,30 @@ import {
   FiChevronRight,
   FiArrowRight,
   FiArrowUpRight,
-  FiInstagram,
-  FiLinkedin,
-  FiCheck,
+  FiSearch,
+  FiBarChart2,
+  FiCheckCircle,
+  FiZap,
+  FiShield,
   FiStar,
+  FiMessageCircle,
+  FiGift,
+  FiLock,
+  FiMapPin,
+  FiUsers,
+  FiTrendingUp,
+  FiAward,
 } from "react-icons/fi";
 import SectionLabel from "../../components/ui/SectionLabel/SectionLabel";
 import MagneticButton from "../../components/ui/MagneticButton/MagneticButton";
 import { useCursorVariant } from "../../hooks/useCursorVariant";
-import { stats, facilities, coaches, values } from "../../assets/data/about";
 import styles from "./About.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Animation Variants ───────────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   ANIMATION VARIANTS
+═══════════════════════════════════════════ */
 const fadeUp = {
   hidden: { opacity: 0, y: 50 },
   visible: {
@@ -66,41 +76,183 @@ const staggerItem = {
   },
 };
 
-const communityImages = [
-  "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",
-  "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80",
-  "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",
-  "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
+/* ═══════════════════════════════════════════
+   STATIC DATA
+═══════════════════════════════════════════ */
+const stats = [
+  { id: "gyms",     value: 1000,  suffix: "+", label: "Partner Gyms",       desc: "Verified fitness centers" },
+  { id: "trainers", value: 500,   suffix: "+", label: "Certified Trainers", desc: "Expert professionals" },
+  { id: "cities",   value: 50,    suffix: "+", label: "Cities Covered",     desc: "And growing fast" },
+  { id: "users",    value: 25000, suffix: "+", label: "Happy Users",        desc: "Active members" },
 ];
 
-// ─── Page Header ──────────────────────────────────────────────────────
+const howItWorks = [
+  {
+    step: "01",
+    icon: FiSearch,
+    title: "Search",
+    desc: "Find gyms, trainers, studios, and wellness centers by location or category.",
+  },
+  {
+    step: "02",
+    icon: FiBarChart2,
+    title: "Compare",
+    desc: "Browse detailed profiles, pricing, reviews, and membership options side by side.",
+  },
+  {
+    step: "03",
+    icon: FiCheckCircle,
+    title: "Choose",
+    desc: "Select the perfect fitness partner that matches your goals and lifestyle.",
+  },
+  {
+    step: "04",
+    icon: FiZap,
+    title: "Start",
+    desc: "Begin your fitness journey with confidence, backed by our trusted platform.",
+  },
+];
+
+const audiences = [
+  {
+    icon: "🏃",
+    title: "Fitness Enthusiasts",
+    desc: "Discover gyms, studios, and trainers perfectly matched to your goals, budget, and schedule.",
+    color: "neon",
+    image:
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",
+  },
+  {
+    icon: "🏢",
+    title: "Gym Owners",
+    desc: "List your facility, showcase your amenities, and reach thousands of potential members daily.",
+    color: "blue",
+    image:
+      "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80",
+  },
+  {
+    icon: "💪",
+    title: "Personal Trainers",
+    desc: "Build a compelling profile, highlight your certifications, and attract new clients effortlessly.",
+    color: "neon",
+    image:
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",
+  },
+  {
+    icon: "🧘",
+    title: "Fitness Studios",
+    desc: "Showcase yoga, pilates, dance, and martial arts classes to a highly engaged fitness audience.",
+    color: "blue",
+    image:
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
+  },
+];
+
+const features = [
+  {
+    icon: FiShield,
+    title: "Verified Partners",
+    desc: "Every gym, trainer, and studio is thoroughly vetted and verified before listing.",
+    color: "neon",
+  },
+  {
+    icon: FiStar,
+    title: "Trusted Reviews",
+    desc: "Authentic reviews from real users help you make confident, informed decisions.",
+    color: "blue",
+  },
+  {
+    icon: FiBarChart2,
+    title: "Easy Comparison",
+    desc: "Compare facilities, pricing, and memberships side-by-side with zero hassle.",
+    color: "neon",
+  },
+  {
+    icon: FiMessageCircle,
+    title: "Instant Enquiries",
+    desc: "Connect directly with gyms and trainers through our built-in messaging system.",
+    color: "blue",
+  },
+  {
+    icon: FiGift,
+    title: "Exclusive Deals",
+    desc: "Access member-only discounts, offers, and promotional memberships.",
+    color: "neon",
+  },
+  {
+    icon: FiLock,
+    title: "Secure Platform",
+    desc: "Your data and transactions are protected with enterprise-grade security.",
+    color: "blue",
+  },
+];
+
+const partners = [
+  { name: "FitZone Pro",    abbr: "FZ" },
+  { name: "EliteGym",      abbr: "EG" },
+  { name: "ZenFlow Yoga",  abbr: "ZF" },
+  { name: "CorePilates",   abbr: "CP" },
+  { name: "IronHouse",     abbr: "IH" },
+  { name: "SwimAcademy",   abbr: "SA" },
+  { name: "MartialEdge",   abbr: "ME" },
+  { name: "DanceBox",      abbr: "DB" },
+  { name: "PeakFitness",   abbr: "PF" },
+  { name: "WellnessHub",   abbr: "WH" },
+];
+
+const communityImages = [
+  {
+    src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",
+    label: "Gym Training",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
+    label: "Yoga Sessions",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80",
+    label: "Personal Training",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",
+    label: "Group Classes",
+  },
+];
+
+const impactPoints = [
+  {
+    icon: FiMapPin,
+    stat: "50+ Cities",
+    desc: "Helping people discover fitness opportunities in their neighborhood.",
+  },
+  {
+    icon: FiUsers,
+    stat: "1000+ Partners",
+    desc: "Supporting local gyms, studios, and trainers to grow their business.",
+  },
+  {
+    icon: FiTrendingUp,
+    stat: "25K+ Journeys",
+    desc: "Empowering individuals to start and sustain their fitness journeys.",
+  },
+  {
+    icon: FiAward,
+    stat: "Verified Quality",
+    desc: "Building stronger, healthier communities through trusted connections.",
+  },
+];
+
+/* ═══════════════════════════════════════════
+   PAGE HEADER
+═══════════════════════════════════════════ */
 const PageHeader = () => (
   <section className={styles.pageHeader} aria-label="About Us page header">
-    {/* Background */}
     <div className={styles.headerBg} aria-hidden="true" />
     <div className={styles.headerOverlay} aria-hidden="true" />
     <div className={styles.headerGlow} aria-hidden="true" />
     <div className={styles.headerNoise} aria-hidden="true" />
 
-    <div className={styles.headerContainer}>
-      {/* Breadcrumb */}
-      <motion.nav
-        className={styles.breadcrumb}
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        aria-label="Breadcrumb"
-      >
-        <Link to="/" className={styles.breadcrumbLink}>
-          <FiHome aria-hidden="true" />
-          <span>Home</span>
-        </Link>
-        <FiChevronRight className={styles.breadcrumbSep} aria-hidden="true" />
-        <span className={styles.breadcrumbCurrent} aria-current="page">
-          About Us
-        </span>
-      </motion.nav>
-
+    <div className={styles.headerContainer}>      
       {/* Heading */}
       <motion.h1
         className={styles.headerHeading}
@@ -118,10 +270,10 @@ const PageHeader = () => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
       >
-        Building stronger bodies, stronger minds, and a stronger community.
+        Connecting people with the best fitness experiences, all in one place.
       </motion.p>
 
-      {/* Bottom neon line */}
+      {/* Neon line */}
       <motion.div
         className={styles.headerLine}
         initial={{ scaleX: 0 }}
@@ -133,13 +285,14 @@ const PageHeader = () => (
   </section>
 );
 
-// ─── Our Story ────────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   OUR STORY
+═══════════════════════════════════════════ */
 const OurStory = () => {
   const sectionRef = useRef(null);
-  const imgRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
+  const imgRef     = useRef(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
 
-  // Parallax on image
   useGSAP(
     () => {
       gsap.to(imgRef.current, {
@@ -164,7 +317,7 @@ const OurStory = () => {
     >
       <div className={styles.sectionContainer}>
         <div className={styles.storyGrid}>
-          {/* Left — Image */}
+          {/* Left — image */}
           <motion.div
             className={styles.storyImgWrapper}
             variants={fadeLeft}
@@ -175,7 +328,7 @@ const OurStory = () => {
               <img
                 ref={imgRef}
                 src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80"
-                alt="APEX Fitness main training floor"
+                alt="Premium fitness marketplace experience"
                 className={styles.storyImg}
                 loading="eager"
               />
@@ -186,24 +339,18 @@ const OurStory = () => {
             <motion.div
               className={styles.storyBadge}
               initial={{ opacity: 0, scale: 0.7 }}
-              animate={
-                isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.7 }
-              }
-              transition={{
-                duration: 0.6,
-                delay: 0.5,
-                ease: [0.34, 1.56, 0.64, 1],
-              }}
+              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
             >
-              <span className={styles.storyBadgeNumber}>10+</span>
-              <span className={styles.storyBadgeText}>Years of Excellence</span>
+              <span className={styles.storyBadgeNumber}>1K+</span>
+              <span className={styles.storyBadgeText}>Partner Venues</span>
             </motion.div>
 
             {/* Decorative corner */}
             <div className={styles.storyImgCorner} aria-hidden="true" />
           </motion.div>
 
-          {/* Right — Content */}
+          {/* Right — content */}
           <motion.div
             className={styles.storyContent}
             variants={staggerContainer}
@@ -219,43 +366,35 @@ const OurStory = () => {
               className={styles.storyHeading}
               variants={staggerItem}
             >
-              We Don't Build <span className={styles.accentText}>Gyms.</span>
-              <br />
-              We Build <span className={styles.accentText}>Champions.</span>
+              Transforming The Way{" "}
+              <span className={styles.accentText}>People Discover</span>{" "}
+              Fitness.
             </motion.h2>
 
             <motion.p className={styles.storyText} variants={staggerItem}>
-              APEX Fitness was born from a simple but powerful belief — that
-              every person carries within them the potential for extraordinary
-              physical achievement. Founded in 2014 by former Olympic athlete
-              Marcus Reid, we set out to create something the fitness world had
-              never seen.
+              Finding the right gym, trainer, or fitness program has always been
+              frustrating. Endless searching, unreliable information, and no easy
+              way to compare your options — we knew there had to be a better way.
             </motion.p>
 
             <motion.p className={styles.storyText} variants={staggerItem}>
-              Not just a gym. A performance temple. A place where the equipment
-              is world-class, the coaches are elite, and the community pushes
-              you beyond what you thought possible. Every detail — from the
-              lighting to the layout to the programming — is engineered for one
-              purpose: your transformation.
+              So we built one. Our marketplace brings together thousands of gyms,
+              certified personal trainers, yoga studios, pilates centres, dance
+              academies, swimming centres, and wellness services — all on one
+              trusted platform. Explore, compare, and choose your perfect fitness
+              experience without the guesswork.
             </motion.p>
 
-            {/* Story highlights */}
-            <motion.div
-              className={styles.storyHighlights}
-              variants={staggerItem}
-            >
+            {/* Highlights */}
+            <motion.div className={styles.storyHighlights} variants={staggerItem}>
               {[
-                "Founded by Olympic athlete Marcus Reid",
-                "10,000+ member community worldwide",
-                "Award-winning coaching methodology",
-                "State-of-the-art 25,000 sq ft facility",
+                "1,000+ verified fitness venues",
+                "500+ certified personal trainers",
+                "50+ cities and expanding",
+                "One trusted platform for everything fitness",
               ].map((item) => (
                 <div key={item} className={styles.storyHighlight}>
-                  <FiCheck
-                    className={styles.storyHighlightIcon}
-                    aria-hidden="true"
-                  />
+                  <FiCheckCircle className={styles.storyHighlightIcon} aria-hidden="true" />
                   <span>{item}</span>
                 </div>
               ))}
@@ -263,8 +402,8 @@ const OurStory = () => {
 
             <motion.div variants={staggerItem}>
               <MagneticButton strength={0.3}>
-                <Link to="/programs" className={styles.storyBtn}>
-                  <span>Explore Programs</span>
+                <Link to="/explore" className={styles.storyBtn}>
+                  <span>Explore Platform</span>
                   <FiArrowRight aria-hidden="true" />
                 </Link>
               </MagneticButton>
@@ -276,24 +415,26 @@ const OurStory = () => {
   );
 };
 
-// ─── Mission & Vision ─────────────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   MISSION & VISION
+═══════════════════════════════════════════ */
 const MissionVision = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
 
   const cards = [
     {
       type: "Mission",
       icon: "🎯",
       title: "Our Mission",
-      text: "To provide an unparalleled fitness environment where every member — regardless of their starting point — has access to world-class facilities, elite coaching, and a community that refuses to let them settle for anything less than their best.",
+      text: "To make discovering fitness simple, transparent, and accessible for everyone — whether you're searching for a gym around the corner or a specialist trainer for a specific goal. We remove the barriers between people and the fitness experiences they deserve.",
       color: "neon",
     },
     {
       type: "Vision",
-      icon: "👁",
+      icon: "🌍",
       title: "Our Vision",
-      text: "To become the global standard for premium fitness experiences. A world where peak physical performance is accessible, where strength is celebrated, and where every person who walks through our doors leaves more capable than when they arrived.",
+      text: "To become the most trusted fitness marketplace connecting people with quality fitness experiences across every city. A world where finding the perfect gym, trainer, or studio is as easy as a single search — empowering healthier, stronger communities everywhere.",
       color: "blue",
     },
   ];
@@ -326,30 +467,20 @@ const MissionVision = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {cards.map((card, i) => (
+          {cards.map((card) => (
             <motion.div
               key={card.type}
-              className={`${styles.missionCard} ${
-                styles[`missionCard--${card.color}`]
-              }`}
+              className={`${styles.missionCard} ${styles[`missionCard--${card.color}`]}`}
               variants={staggerItem}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
-              {/* Glass shine */}
               <div className={styles.cardShine} aria-hidden="true" />
               <div className={styles.cardGlow} aria-hidden="true" />
-
-              <span className={styles.missionIcon} aria-hidden="true">
-                {card.icon}
-              </span>
+              <span className={styles.missionIcon} aria-hidden="true">{card.icon}</span>
               <h3 className={styles.missionCardTitle}>{card.title}</h3>
               <p className={styles.missionCardText}>{card.text}</p>
-
-              {/* Bottom accent */}
               <div
-                className={`${styles.missionCardAccent} ${
-                  styles[`missionCardAccent--${card.color}`]
-                }`}
+                className={`${styles.missionCardAccent} ${styles[`missionCardAccent--${card.color}`]}`}
                 aria-hidden="true"
               />
             </motion.div>
@@ -360,25 +491,257 @@ const MissionVision = () => {
   );
 };
 
-// ─── Stats ────────────────────────────────────────────────────────────
-const Stats = () => {
+/* ═══════════════════════════════════════════
+   HOW IT WORKS — Timeline
+═══════════════════════════════════════════ */
+const HowItWorks = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
+  const lineRef    = useRef(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+
+  /* Animate the connecting line */
+  useGSAP(
+    () => {
+      if (!isInView || !lineRef.current) return;
+      gsap.fromTo(
+        lineRef.current,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 1.4,
+          ease: "power2.out",
+          delay: 0.3,
+          transformOrigin: "left center",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+          },
+        },
+      );
+    },
+    { scope: sectionRef, dependencies: [isInView] },
+  );
+
+  return (
+    <section
+      ref={sectionRef}
+      className={styles.howSection}
+      aria-labelledby="how-heading"
+    >
+      <div className={styles.sectionContainer}>
+        <motion.div
+          className={styles.sectionHeader}
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <SectionLabel text="HOW IT WORKS" variant="light" />
+          <h2 id="how-heading" className={styles.sectionHeading}>
+            Your Journey <span className={styles.accentText}>Starts Here</span>
+          </h2>
+          <p className={styles.sectionSubtext}>
+            Four simple steps to finding your perfect fitness match.
+          </p>
+        </motion.div>
+
+        <div className={styles.timelineWrapper}>
+          {/* Connecting line */}
+          <div className={styles.timelineLine} aria-hidden="true">
+            <div ref={lineRef} className={styles.timelineLineFill} />
+          </div>
+
+          <motion.div
+            className={styles.timelineGrid}
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            {howItWorks.map((step, i) => (
+              <motion.div
+                key={step.step}
+                className={styles.timelineStep}
+                variants={staggerItem}
+              >
+                {/* Node */}
+                <div className={styles.timelineNode}>
+                  <div className={styles.timelineNodeInner}>
+                    <step.icon className={styles.timelineNodeIcon} aria-hidden="true" />
+                  </div>
+                  <div className={styles.timelineNodeGlow} aria-hidden="true" />
+                </div>
+
+                {/* Content */}
+                <div className={styles.timelineContent}>
+                  <span className={styles.timelineStepNum}>{step.step}</span>
+                  <h3 className={styles.timelineTitle}>{step.title}</h3>
+                  <p className={styles.timelineDesc}>{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════
+   WHO WE SERVE
+═══════════════════════════════════════════ */
+const WhoWeServe = () => {
+  const sectionRef = useRef(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const { setCursor, resetCursor } = useCursorVariant();
+
+  return (
+    <section
+      ref={sectionRef}
+      className={styles.audienceSection}
+      aria-labelledby="audience-heading"
+    >
+      <div className={styles.audienceBg} aria-hidden="true" />
+      <div className={styles.audienceNoise} aria-hidden="true" />
+
+      <div className={styles.sectionContainer}>
+        <motion.div
+          className={styles.sectionHeader}
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <SectionLabel text="WHO WE SERVE" variant="light" />
+          <h2 id="audience-heading" className={styles.sectionHeading}>
+            Built for <span className={styles.accentText}>Everyone</span>
+          </h2>
+          <p className={styles.sectionSubtext}>
+            Whether you're searching for fitness or offering it, our platform is
+            designed to serve you.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className={styles.audienceGrid}
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {audiences.map((a) => (
+            <motion.article
+              key={a.title}
+              className={`${styles.audienceCard} ${styles[`audienceCard--${a.color}`]}`}
+              variants={staggerItem}
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
+              onMouseEnter={() => setCursor("hover")}
+              onMouseLeave={resetCursor}
+            >
+              {/* Background image */}
+              <div className={styles.audienceImgWrapper}>
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  className={styles.audienceImg}
+                  loading="lazy"
+                />
+                <div className={styles.audienceImgOverlay} aria-hidden="true" />
+              </div>
+
+              {/* Content */}
+              <div className={styles.audienceBody}>
+                <span className={styles.audienceIcon} aria-hidden="true">{a.icon}</span>
+                <h3 className={styles.audienceTitle}>{a.title}</h3>
+                <p className={styles.audienceDesc}>{a.desc}</p>
+                <div
+                  className={`${styles.audienceAccent} ${styles[`audienceAccent--${a.color}`]}`}
+                  aria-hidden="true"
+                />
+              </div>
+
+              <div className={styles.audienceGlow} aria-hidden="true" />
+            </motion.article>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════
+   WHY CHOOSE US — Feature Cards
+═══════════════════════════════════════════ */
+const WhyChooseUs = () => {
+  const sectionRef = useRef(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+
+  return (
+    <section
+      ref={sectionRef}
+      className={styles.featuresSection}
+      aria-labelledby="features-heading"
+    >
+      <div className={styles.sectionContainer}>
+        <motion.div
+          className={styles.sectionHeader}
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <SectionLabel text="WHY US" variant="light" />
+          <h2 id="features-heading" className={styles.sectionHeading}>
+            The Platform <span className={styles.accentText}>Built Right</span>
+          </h2>
+          <p className={styles.sectionSubtext}>
+            Everything you need to discover, compare, and connect with the best
+            fitness experiences.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className={styles.featuresGrid}
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {features.map((f) => (
+            <motion.div
+              key={f.title}
+              className={`${styles.featureCard} ${styles[`featureCard--${f.color}`]}`}
+              variants={staggerItem}
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
+            >
+              <div
+                className={`${styles.featureIconWrap} ${styles[`featureIconWrap--${f.color}`]}`}
+              >
+                <f.icon className={styles.featureIcon} aria-hidden="true" />
+              </div>
+              <h3 className={styles.featureTitle}>{f.title}</h3>
+              <p className={styles.featureDesc}>{f.desc}</p>
+              <div className={styles.featureCardShine} aria-hidden="true" />
+              <div
+                className={`${styles.featureCardGlow} ${styles[`featureCardGlow--${f.color}`]}`}
+                aria-hidden="true"
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════
+   STATISTICS
+═══════════════════════════════════════════ */
+const MarketplaceStats = () => {
+  const sectionRef = useRef(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
 
   useGSAP(
     () => {
       if (!isInView) return;
-
       stats.forEach((stat, i) => {
-        const el = sectionRef.current?.querySelector(
-          `[data-stat="${stat.id}"]`,
-        );
-
-        // ✅ Safety check
+        const el = sectionRef.current?.querySelector(`[data-stat="${stat.id}"]`);
         if (!el) return;
-
         const counter = { val: 0 };
-
         gsap.to(counter, {
           val: stat.value,
           duration: 2.2,
@@ -422,12 +785,8 @@ const Stats = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.id}
-              className={styles.statCard}
-              variants={staggerItem}
-            >
+          {stats.map((stat) => (
+            <motion.div key={stat.id} className={styles.statCard} variants={staggerItem}>
               <div className={styles.statCardInner}>
                 <span
                   data-stat={stat.id}
@@ -448,144 +807,42 @@ const Stats = () => {
   );
 };
 
-// ─── Facilities ───────────────────────────────────────────────────────
-const Facilities = () => {
+/* ═══════════════════════════════════════════
+   TRUSTED PARTNERS — Marquee logos
+═══════════════════════════════════════════ */
+const TrustedPartners = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-5%" });
+  const trackRef   = useRef(null);
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
 
-  return (
-    <section
-      ref={sectionRef}
-      className={styles.facilitiesSection}
-      aria-labelledby="facilities-heading"
-    >
-      <div className={styles.sectionContainer}>
-        <motion.div
-          className={styles.sectionHeader}
-          variants={fadeUp}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <SectionLabel text="WORLD-CLASS FACILITIES" variant="light" />
-          <h2 id="facilities-heading" className={styles.sectionHeading}>
-            Built for <span className={styles.accentText}>Champions</span>
-          </h2>
-          <p className={styles.sectionSubtext}>
-            Every corner of APEX is engineered to elevate your performance.
-          </p>
-        </motion.div>
-
-        {/* Alternating facility rows */}
-        <div className={styles.facilitiesList}>
-          {facilities.map((facility, i) => (
-            <FacilityRow
-              key={facility.id}
-              facility={facility}
-              reverse={i % 2 !== 0}
-              index={i}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const FacilityRow = ({ facility, reverse, index }) => {
-  const rowRef = useRef(null);
-  const imgRef = useRef(null);
-  const isInView = useInView(rowRef, { once: true, margin: "-10%" });
-
-  // Parallax
+  /* Infinite marquee via GSAP */
   useGSAP(
     () => {
-      gsap.to(imgRef.current, {
-        y: -40,
+      if (!trackRef.current) return;
+      const totalWidth = trackRef.current.scrollWidth / 2;
+      gsap.to(trackRef.current, {
+        x: -totalWidth,
+        duration: 28,
         ease: "none",
-        scrollTrigger: {
-          trigger: rowRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.5,
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize((x) => parseFloat(x) % totalWidth),
         },
       });
     },
-    { scope: rowRef },
+    { scope: sectionRef },
   );
 
-  return (
-    <div
-      ref={rowRef}
-      className={`${styles.facilityRow} ${
-        reverse ? styles.facilityRowReverse : ""
-      }`}
-    >
-      {/* Image */}
-      <motion.div
-        className={styles.facilityImgWrapper}
-        variants={reverse ? fadeRight : fadeLeft}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        <div className={styles.facilityImgInner}>
-          <img
-            ref={imgRef}
-            src={facility.image}
-            alt={facility.title}
-            className={styles.facilityImg}
-            loading="lazy"
-          />
-          <div className={styles.facilityImgOverlay} aria-hidden="true" />
-
-          {/* Tag */}
-          <div className={styles.facilityTag}>
-            <span className={styles.facilityTagDot} aria-hidden="true" />
-            {facility.tag}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Content */}
-      <motion.div
-        className={styles.facilityContent}
-        variants={reverse ? fadeLeft : fadeRight}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        <span className={styles.facilityNumber}>0{index + 1}</span>
-        <h3 className={styles.facilityTitle}>{facility.title}</h3>
-        <p className={styles.facilitySubtitle}>{facility.subtitle}</p>
-        <p className={styles.facilityDesc}>{facility.desc}</p>
-
-        <ul className={styles.facilityFeatures} role="list">
-          {facility.features.map((f) => (
-            <li key={f} className={styles.facilityFeature}>
-              <FiCheck
-                className={styles.facilityFeatureIcon}
-                aria-hidden="true"
-              />
-              {f}
-            </li>
-          ))}
-        </ul>
-      </motion.div>
-    </div>
-  );
-};
-
-// ─── Coaches ──────────────────────────────────────────────────────────
-const Coaches = () => {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
+  /* Duplicate array for seamless loop */
+  const doubled = [...partners, ...partners];
 
   return (
     <section
       ref={sectionRef}
-      className={styles.coachesSection}
-      aria-labelledby="coaches-heading"
+      className={styles.partnersSection}
+      aria-labelledby="partners-heading"
     >
-      <div className={styles.coachesBg} aria-hidden="true" />
-      <div className={styles.coachesNoise} aria-hidden="true" />
+      <div className={styles.partnersBg} aria-hidden="true" />
 
       <div className={styles.sectionContainer}>
         <motion.div
@@ -594,390 +851,140 @@ const Coaches = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <SectionLabel text="MEET THE TEAM" variant="light" />
-          <h2 id="coaches-heading" className={styles.sectionHeading}>
-            Trained by the <span className={styles.accentText}>Best</span>
+          <SectionLabel text="TRUSTED PARTNERS" variant="light" />
+          <h2 id="partners-heading" className={styles.sectionHeading}>
+            Powering <span className={styles.accentText}>Premium Fitness</span>
           </h2>
           <p className={styles.sectionSubtext}>
-            Our coaches are not just trainers — they are performance architects
-            who design your path to greatness.
+            Hundreds of quality fitness partners trust our platform to connect
+            them with the right members.
           </p>
         </motion.div>
+      </div>
 
-        <motion.div
-          className={styles.coachesGrid}
-          variants={staggerContainer}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          {coaches.map((coach) => (
-            <CoachCard key={coach.id} coach={coach} />
-          ))}
-        </motion.div>
+      {/* Marquee */}
+      <div className={styles.marqueeWrapper} aria-label="Partner logos">
+        <div className={styles.marqueeTrackOuter}>
+          <div ref={trackRef} className={styles.marqueeTrack}>
+            {doubled.map((p, i) => (
+              <div key={`${p.abbr}-${i}`} className={styles.partnerLogo}>
+                <div className={styles.partnerLogoInner}>
+                  <span className={styles.partnerAbbr}>{p.abbr}</span>
+                  <span className={styles.partnerName}>{p.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Fade edges */}
+        <div className={styles.marqueeEdgeLeft} aria-hidden="true" />
+        <div className={styles.marqueeEdgeRight} aria-hidden="true" />
       </div>
     </section>
   );
 };
 
-const CoachCard = ({ coach }) => {
-  const { setCursor, resetCursor } = useCursorVariant();
-
-  return (
-    <motion.article
-      className={styles.coachCard}
-      variants={staggerItem}
-      onMouseEnter={() => setCursor("hover")}
-      onMouseLeave={resetCursor}
-    >
-      {/* Image wrapper */}
-      <div className={styles.coachImgWrapper}>
-        <img
-          src={coach.image}
-          alt={coach.name}
-          className={styles.coachImg}
-          loading="lazy"
-        />
-        <div className={styles.coachImgOverlay} aria-hidden="true" />
-
-        {/* Social icons — reveal on hover */}
-        <div
-          className={styles.coachSocials}
-          role="list"
-          aria-label={`${coach.name} social links`}
-        >
-          {coach.socials.instagram && (
-            <a
-              href={coach.socials.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${coach.name} on Instagram`}
-              className={styles.coachSocialBtn}
-              role="listitem"
-            >
-              <FiInstagram />
-            </a>
-          )}
-          {coach.socials.linkedin && (
-            <a
-              href={coach.socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${coach.name} on LinkedIn`}
-              className={styles.coachSocialBtn}
-              role="listitem"
-            >
-              <FiLinkedin />
-            </a>
-          )}
-        </div>
-
-        {/* Experience badge */}
-        <div className={styles.coachExp}>
-          <FiStar aria-hidden="true" />
-          <span>{coach.experience}</span>
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className={styles.coachInfo}>
-        <h3 className={styles.coachName}>{coach.name}</h3>
-        <p className={styles.coachPosition}>{coach.position}</p>
-        <p className={styles.coachSpec}>{coach.specialization}</p>
-
-        {/* Certifications */}
-        <div className={styles.coachCerts}>
-          {coach.certifications.map((cert) => (
-            <span key={cert} className={styles.coachCert}>
-              {cert}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Hover glow */}
-      <div className={styles.coachGlow} aria-hidden="true" />
-    </motion.article>
-  );
-};
-
-// ─── Values ───────────────────────────────────────────────────────────
-const Values = () => {
+/* ═══════════════════════════════════════════
+   COMMUNITY IMPACT
+═══════════════════════════════════════════ */
+const CommunityImpact = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
+  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
 
   return (
     <section
       ref={sectionRef}
-      className={styles.valuesSection}
-      aria-labelledby="values-heading"
+      className={styles.impactSection}
+      aria-labelledby="impact-heading"
     >
-      <div className={styles.sectionContainer}>
-        <motion.div
-          className={styles.sectionHeader}
-          variants={fadeUp}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <SectionLabel text="WHAT WE STAND FOR" variant="light" />
-          <h2 id="values-heading" className={styles.sectionHeading}>
-            Our Core <span className={styles.accentText}>Values</span>
-          </h2>
-        </motion.div>
+      <div className={styles.impactBg} aria-hidden="true" />
+      <div className={styles.impactNoise} aria-hidden="true" />
 
-        <motion.div
-          className={styles.valuesGrid}
-          variants={staggerContainer}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          {values.map((value) => (
-            <motion.div
-              key={value.id}
-              className={`${styles.valueCard} ${
-                styles[`valueCard--${value.color}`]
-              }`}
-              variants={staggerItem}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      <div className={styles.sectionContainer}>
+        <div className={styles.impactGrid}>
+          {/* Left — text content */}
+          <motion.div
+            className={styles.impactContent}
+            variants={fadeLeft}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            <SectionLabel text="COMMUNITY IMPACT" variant="light" />
+            <h2
+              id="impact-heading"
+              className={styles.impactHeading}
             >
-              <span className={styles.valueIcon} aria-hidden="true">
-                {value.icon}
-              </span>
-              <h3 className={styles.valueTitle}>{value.title}</h3>
-              <p className={styles.valueDesc}>{value.desc}</p>
-              <div className={styles.valueCardGlow} aria-hidden="true" />
-              <div
-                className={`${styles.valueCardBorder} ${
-                  styles[`valueCardBorder--${value.color}`]
-                }`}
-                aria-hidden="true"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+              Building Healthier{" "}
+              <span className={styles.accentText}>Communities</span> Together.
+            </h2>
+            <p className={styles.impactText}>
+              Every search, every connection, every membership made through our
+              platform contributes to a broader mission — a world where quality
+              fitness is within everyone's reach. We measure our success not in
+              transactions, but in transformations.
+            </p>
 
-// ─── Community ────────────────────────────────────────────────────────
-const Community = () => {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
-
-  return (
-    <section
-      ref={sectionRef}
-      className={styles.communitySection}
-      aria-labelledby="community-heading"
-    >
-      <div className={styles.communityBg} aria-hidden="true" />
-      <div className={styles.communityOverlay} aria-hidden="true" />
-      <div className={styles.communityGlow} aria-hidden="true" />
-
-      <div className={styles.sectionContainer}>
-        <motion.div
-          className={styles.communityContent}
-          variants={staggerContainer}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.div variants={staggerItem}>
-            <SectionLabel text="OUR COMMUNITY" variant="light" />
+            <div className={styles.impactPoints}>
+              {impactPoints.map((p) => (
+                <div key={p.stat} className={styles.impactPoint}>
+                  <div className={styles.impactPointIcon}>
+                    <p.icon aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className={styles.impactPointStat}>{p.stat}</p>
+                    <p className={styles.impactPointDesc}>{p.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
-          <motion.h2
-            id="community-heading"
-            className={styles.communityHeading}
-            variants={staggerItem}
-          >
-            More Than a Gym.
-            <br />
-            <span className={styles.accentText}>A Movement.</span>
-          </motion.h2>
-
-          <motion.p className={styles.communityText} variants={staggerItem}>
-            At APEX, you're joining more than a fitness facility. You're joining
-            a brotherhood and sisterhood of people who refuse to be ordinary. We
-            celebrate every milestone, support every struggle, and show up for
-            each other every single day.
-          </motion.p>
-
+          {/* Right — image mosaic */}
           <motion.div
-            className={styles.communityPillars}
-            variants={staggerItem}
+            className={styles.impactImgGrid}
+            variants={fadeRight}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
           >
-            {[
-              "Member Success Stories",
-              "Group Challenges",
-              "24/7 Support",
-              "Transformation Programs",
-            ].map((pillar) => (
-              <span key={pillar} className={styles.communityPillar}>
-                <span
-                  className={styles.communityPillarDot}
-                  aria-hidden="true"
+            {communityImages.map((img, i) => (
+              <motion.div
+                key={img.label}
+                className={`${styles.impactImgItem} ${i === 0 ? styles.impactImgItemLarge : ""}`}
+                whileHover={{ scale: 1.03, transition: { duration: 0.4 } }}
+              >
+                <img
+                  src={img.src}
+                  alt={img.label}
+                  className={styles.impactImg}
+                  loading="lazy"
                 />
-                {pillar}
-              </span>
+                <div className={styles.impactImgOverlay} aria-hidden="true" />
+                <span className={styles.impactImgLabel}>{img.label}</span>
+              </motion.div>
             ))}
           </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Community image grid */}
-      <motion.div
-        className={styles.communityImgGrid}
-        variants={staggerContainer}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        {communityImages.map((src, i) => (
-          <motion.div
-            key={i}
-            className={styles.communityImgItem}
-            variants={staggerItem}
-            whileHover={{ scale: 1.03, transition: { duration: 0.4 } }}
-          >
-            <img
-              src={src}
-              alt={`APEX community moment ${i + 1}`}
-              className={styles.communityImg}
-              loading="lazy"
-            />
-            <div className={styles.communityImgOverlay} aria-hidden="true" />
-          </motion.div>
-        ))}
-      </motion.div>
-    </section>
-  );
-};
-
-// ─── Final CTA ────────────────────────────────────────────────────────
-const FinalCTA = () => {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
-  const { setCursor, resetCursor } = useCursorVariant();
-
-  const words = "YOUR TRANSFORMATION STARTS HERE.".split(" ");
-
-  return (
-    <section
-      ref={sectionRef}
-      className={styles.ctaSection}
-      aria-labelledby="cta-heading"
-    >
-      <div className={styles.ctaBg} aria-hidden="true" />
-      <div className={styles.ctaGlow} aria-hidden="true" />
-      <div className={styles.ctaNoise} aria-hidden="true" />
-
-      {/* Background word */}
-      <div className={styles.ctaBgWord} aria-hidden="true">
-        APEX
-      </div>
-
-      <div className={styles.sectionContainer}>
-        <motion.div
-          className={styles.ctaContent}
-          variants={staggerContainer}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.div variants={staggerItem}>
-            <SectionLabel text="BEGIN YOUR JOURNEY" variant="light" />
-          </motion.div>
-
-          {/* Headline word by word */}
-          <motion.h2
-            id="cta-heading"
-            className={styles.ctaHeading}
-            variants={staggerContainer}
-            aria-label="Your transformation starts here."
-          >
-            {words.map((word, i) => (
-              <span
-                key={i}
-                className={styles.ctaWordWrapper}
-                aria-hidden="true"
-              >
-                <motion.span
-                  className={`${styles.ctaWord} ${
-                    word === "TRANSFORMATION" ? styles.ctaWordAccent : ""
-                  }`}
-                  variants={{
-                    hidden: { opacity: 0, y: 60 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        duration: 0.8,
-                        delay: i * 0.08,
-                        ease: [0.16, 1, 0.3, 1],
-                      },
-                    },
-                  }}
-                >
-                  {word}
-                </motion.span>
-              </span>
-            ))}
-          </motion.h2>
-
-          <motion.p className={styles.ctaSubtext} variants={staggerItem}>
-            Join over 5,000 members who chose excellence. Your first step starts
-            today.
-          </motion.p>
-
-          <motion.div className={styles.ctaButtons} variants={staggerItem}>
-            <MagneticButton strength={0.4}>
-              <motion.button
-                className={styles.ctaBtnPrimary}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={resetCursor}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <span>Join Now</span>
-                <FiArrowRight aria-hidden="true" />
-                <span className={styles.btnShimmer} aria-hidden="true" />
-              </motion.button>
-            </MagneticButton>
-
-            <MagneticButton strength={0.4}>
-              <motion.button
-                className={styles.ctaBtnSecondary}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={resetCursor}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <span>Book Free Trial</span>
-                <FiArrowUpRight aria-hidden="true" />
-              </motion.button>
-            </MagneticButton>
-          </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-// ─── Main About Page ──────────────────────────────────────────────────
-const About = () => {
-  return (
-    <>
-      <main className={styles.page}>
-        <PageHeader />
-        <OurStory />
-        <MissionVision />
-        <Stats />
-        <Facilities />
-        <Coaches />
-        <Values />
-        <Community />
-        {/* <FinalCTA /> */}
-      </main>
-    </>
-  );
-};
+/* ═══════════════════════════════════════════
+   MAIN PAGE
+═══════════════════════════════════════════ */
+const About = () => (
+  <main className={styles.page}>
+    <PageHeader />
+    <OurStory />
+    <MissionVision />
+    <HowItWorks />
+    <WhoWeServe />
+    <WhyChooseUs />
+    <MarketplaceStats />
+    <TrustedPartners />
+    <CommunityImpact />
+  </main>
+);
 
 export default About;
