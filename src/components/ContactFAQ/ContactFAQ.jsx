@@ -74,7 +74,7 @@ const ContactFAQ = ({ items }) => {
       >
         <p className={styles.footerText}>
           Can't find what you're looking for?{" "}
-          <a href="mailto:support@apexmarket.com" className={styles.footerLink}>
+          <a href="mailto:support@Gymssymarket.com" className={styles.footerLink}>
             Contact our support team
           </a>
           .

@@ -85,7 +85,7 @@ const WhyChooseUs = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <SectionLabel text="THE APEX ADVANTAGE" variant="light" />
+            <SectionLabel text="THE Gymssy ADVANTAGE" variant="light" />
           </motion.div>
 
           <motion.h2

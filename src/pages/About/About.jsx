@@ -5,10 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
 import {
-  FiHome,
-  FiChevronRight,
   FiArrowRight,
-  FiArrowUpRight,
   FiSearch,
   FiBarChart2,
   FiCheckCircle,
@@ -80,10 +77,34 @@ const staggerItem = {
    STATIC DATA
 ═══════════════════════════════════════════ */
 const stats = [
-  { id: "gyms",     value: 1000,  suffix: "+", label: "Partner Gyms",       desc: "Verified fitness centers" },
-  { id: "trainers", value: 500,   suffix: "+", label: "Certified Trainers", desc: "Expert professionals" },
-  { id: "cities",   value: 50,    suffix: "+", label: "Cities Covered",     desc: "And growing fast" },
-  { id: "users",    value: 25000, suffix: "+", label: "Happy Users",        desc: "Active members" },
+  {
+    id: "gyms",
+    value: 1000,
+    suffix: "+",
+    label: "Partner Gyms",
+    desc: "Verified fitness centers",
+  },
+  {
+    id: "trainers",
+    value: 500,
+    suffix: "+",
+    label: "Certified Trainers",
+    desc: "Expert professionals",
+  },
+  {
+    id: "cities",
+    value: 50,
+    suffix: "+",
+    label: "Cities Covered",
+    desc: "And growing fast",
+  },
+  {
+    id: "users",
+    value: 25000,
+    suffix: "+",
+    label: "Happy Users",
+    desc: "Active members",
+  },
 ];
 
 const howItWorks = [
@@ -113,12 +134,15 @@ const howItWorks = [
   },
 ];
 
+/* CHANGE 7 — added ctaLabel to each audience */
 const audiences = [
   {
     icon: "🏃",
     title: "Fitness Enthusiasts",
     desc: "Discover gyms, studios, and trainers perfectly matched to your goals, budget, and schedule.",
     color: "neon",
+    ctaLabel: "Explore Gyms",
+    ctaTo: "/explore",
     image:
       "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",
   },
@@ -127,6 +151,8 @@ const audiences = [
     title: "Gym Owners",
     desc: "List your facility, showcase your amenities, and reach thousands of potential members daily.",
     color: "blue",
+    ctaLabel: "List Your Gym",
+    ctaTo: "/list-gym",
     image:
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80",
   },
@@ -135,6 +161,8 @@ const audiences = [
     title: "Personal Trainers",
     desc: "Build a compelling profile, highlight your certifications, and attract new clients effortlessly.",
     color: "neon",
+    ctaLabel: "Find Trainers",
+    ctaTo: "/trainers",
     image:
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",
   },
@@ -143,6 +171,8 @@ const audiences = [
     title: "Fitness Studios",
     desc: "Showcase yoga, pilates, dance, and martial arts classes to a highly engaged fitness audience.",
     color: "blue",
+    ctaLabel: "Explore Studios",
+    ctaTo: "/studios",
     image:
       "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
   },
@@ -188,16 +218,16 @@ const features = [
 ];
 
 const partners = [
-  { name: "FitZone Pro",    abbr: "FZ" },
-  { name: "EliteGym",      abbr: "EG" },
-  { name: "ZenFlow Yoga",  abbr: "ZF" },
-  { name: "CorePilates",   abbr: "CP" },
-  { name: "IronHouse",     abbr: "IH" },
-  { name: "SwimAcademy",   abbr: "SA" },
-  { name: "MartialEdge",   abbr: "ME" },
-  { name: "DanceBox",      abbr: "DB" },
-  { name: "PeakFitness",   abbr: "PF" },
-  { name: "WellnessHub",   abbr: "WH" },
+  { name: "FitZone Pro", abbr: "FZ" },
+  { name: "EliteGym", abbr: "EG" },
+  { name: "ZenFlow Yoga", abbr: "ZF" },
+  { name: "CorePilates", abbr: "CP" },
+  { name: "IronHouse", abbr: "IH" },
+  { name: "SwimAcademy", abbr: "SA" },
+  { name: "MartialEdge", abbr: "ME" },
+  { name: "DanceBox", abbr: "DB" },
+  { name: "PeakFitness", abbr: "PF" },
+  { name: "WellnessHub", abbr: "WH" },
 ];
 
 const communityImages = [
@@ -249,10 +279,10 @@ const PageHeader = () => (
   <section className={styles.pageHeader} aria-label="About Us page header">
     <div className={styles.headerBg} aria-hidden="true" />
     <div className={styles.headerOverlay} aria-hidden="true" />
-    <div className={styles.headerGlow} aria-hidden="true" />
+    {/* CHANGE 1 — headerGlow removed */}
     <div className={styles.headerNoise} aria-hidden="true" />
 
-    <div className={styles.headerContainer}>      
+    <div className={styles.headerContainer}>
       {/* Heading */}
       <motion.h1
         className={styles.headerHeading}
@@ -290,8 +320,8 @@ const PageHeader = () => (
 ═══════════════════════════════════════════ */
 const OurStory = () => {
   const sectionRef = useRef(null);
-  const imgRef     = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const imgRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
   useGSAP(
     () => {
@@ -339,8 +369,14 @@ const OurStory = () => {
             <motion.div
               className={styles.storyBadge}
               initial={{ opacity: 0, scale: 0.7 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.7 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
+              animate={
+                isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.7 }
+              }
+              transition={{
+                duration: 0.6,
+                delay: 0.5,
+                ease: [0.34, 1.56, 0.64, 1],
+              }}
             >
               <span className={styles.storyBadgeNumber}>1K+</span>
               <span className={styles.storyBadgeText}>Partner Venues</span>
@@ -361,32 +397,37 @@ const OurStory = () => {
               <SectionLabel text="OUR STORY" variant="light" />
             </motion.div>
 
-            <motion.h2
-              id="story-heading"
-              className={styles.storyHeading}
-              variants={staggerItem}
-            >
-              Transforming The Way{" "}
-              <span className={styles.accentText}>People Discover</span>{" "}
-              Fitness.
-            </motion.h2>
+            {/* CHANGE 4 — updated heading */}
+            <motion.div variants={staggerItem}>
+              <p className={styles.storySupLabel}>
+                TRANSFORMING THE WAY PEOPLE DISCOVER FITNESS
+              </p>
+              <h2 id="story-heading" className={styles.storyHeading}>
+                India's Complete{" "}
+                <span className={styles.accentText}>Fitness</span> Marketplace
+              </h2>
+            </motion.div>
 
             <motion.p className={styles.storyText} variants={staggerItem}>
               Finding the right gym, trainer, or fitness program has always been
-              frustrating. Endless searching, unreliable information, and no easy
-              way to compare your options — we knew there had to be a better way.
+              frustrating. Endless searching, unreliable information, and no
+              easy way to compare your options — we knew there had to be a
+              better way.
             </motion.p>
 
             <motion.p className={styles.storyText} variants={staggerItem}>
-              So we built one. Our marketplace brings together thousands of gyms,
-              certified personal trainers, yoga studios, pilates centres, dance
-              academies, swimming centres, and wellness services — all on one
-              trusted platform. Explore, compare, and choose your perfect fitness
-              experience without the guesswork.
+              So we built one. Our marketplace brings together thousands of
+              gyms, certified personal trainers, yoga studios, pilates centres,
+              dance academies, swimming centres, and wellness services — all on
+              one trusted platform. Explore, compare, and choose your perfect
+              fitness experience without the guesswork.
             </motion.p>
 
             {/* Highlights */}
-            <motion.div className={styles.storyHighlights} variants={staggerItem}>
+            <motion.div
+              className={styles.storyHighlights}
+              variants={staggerItem}
+            >
               {[
                 "1,000+ verified fitness venues",
                 "500+ certified personal trainers",
@@ -394,7 +435,10 @@ const OurStory = () => {
                 "One trusted platform for everything fitness",
               ].map((item) => (
                 <div key={item} className={styles.storyHighlight}>
-                  <FiCheckCircle className={styles.storyHighlightIcon} aria-hidden="true" />
+                  <FiCheckCircle
+                    className={styles.storyHighlightIcon}
+                    aria-hidden="true"
+                  />
                   <span>{item}</span>
                 </div>
               ))}
@@ -420,20 +464,24 @@ const OurStory = () => {
 ═══════════════════════════════════════════ */
 const MissionVision = () => {
   const sectionRef = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
+  /* CHANGE 5 — "Why We Exist" → "Why We Built Gymssy"
+     CHANGE 8 — updated mission card content            */
   const cards = [
     {
       type: "Mission",
       icon: "🎯",
-      title: "Our Mission",
-      text: "To make discovering fitness simple, transparent, and accessible for everyone — whether you're searching for a gym around the corner or a specialist trainer for a specific goal. We remove the barriers between people and the fitness experiences they deserve.",
+      title: "OUR MISSION",
+      subTitle: "Making Fitness Accessible for Everyone",
+      text: "Our mission is to simplify the way people discover and book fitness experiences. Gymssy connects users with trusted gyms, yoga studios, dance academies, swimming classes, sports coaching, personal trainers, and wellness services—all on one platform. We also empower fitness businesses to grow by helping them reach more customers and increase bookings.",
       color: "neon",
     },
     {
       type: "Vision",
       icon: "🌍",
       title: "Our Vision",
+      subTitle: null,
       text: "To become the most trusted fitness marketplace connecting people with quality fitness experiences across every city. A world where finding the perfect gym, trainer, or studio is as easy as a single search — empowering healthier, stronger communities everywhere.",
       color: "blue",
     },
@@ -456,8 +504,9 @@ const MissionVision = () => {
           animate={isInView ? "visible" : "hidden"}
         >
           <SectionLabel text="PURPOSE" variant="light" />
+          {/* CHANGE 5 */}
           <h2 id="mission-heading" className={styles.sectionHeading}>
-            Why We <span className={styles.accentText}>Exist</span>
+            Why We <span className={styles.accentText}>Built Gymssy</span>
           </h2>
         </motion.div>
 
@@ -475,12 +524,21 @@ const MissionVision = () => {
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
               <div className={styles.cardShine} aria-hidden="true" />
+              {/* CHANGE 1 — cardGlow kept but opacity-on-hover only, no ambient blur */}
               <div className={styles.cardGlow} aria-hidden="true" />
-              <span className={styles.missionIcon} aria-hidden="true">{card.icon}</span>
+              <span className={styles.missionIcon} aria-hidden="true">
+                {card.icon}
+              </span>
+              {/* CHANGE 8 — mission card has subtitle */}
               <h3 className={styles.missionCardTitle}>{card.title}</h3>
+              {card.subTitle && (
+                <p className={styles.missionCardSubTitle}>{card.subTitle}</p>
+              )}
               <p className={styles.missionCardText}>{card.text}</p>
               <div
-                className={`${styles.missionCardAccent} ${styles[`missionCardAccent--${card.color}`]}`}
+                className={`${styles.missionCardAccent} ${
+                  styles[`missionCardAccent--${card.color}`]
+                }`}
                 aria-hidden="true"
               />
             </motion.div>
@@ -496,10 +554,9 @@ const MissionVision = () => {
 ═══════════════════════════════════════════ */
 const HowItWorks = () => {
   const sectionRef = useRef(null);
-  const lineRef    = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const lineRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
-  /* Animate the connecting line */
   useGSAP(
     () => {
       if (!isInView || !lineRef.current) return;
@@ -556,7 +613,7 @@ const HowItWorks = () => {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            {howItWorks.map((step, i) => (
+            {howItWorks.map((step) => (
               <motion.div
                 key={step.step}
                 className={styles.timelineStep}
@@ -565,8 +622,12 @@ const HowItWorks = () => {
                 {/* Node */}
                 <div className={styles.timelineNode}>
                   <div className={styles.timelineNodeInner}>
-                    <step.icon className={styles.timelineNodeIcon} aria-hidden="true" />
+                    <step.icon
+                      className={styles.timelineNodeIcon}
+                      aria-hidden="true"
+                    />
                   </div>
+                  {/* CHANGE 1 — timelineNodeGlow kept as hover-only, no ambient */}
                   <div className={styles.timelineNodeGlow} aria-hidden="true" />
                 </div>
 
@@ -590,7 +651,7 @@ const HowItWorks = () => {
 ═══════════════════════════════════════════ */
 const WhoWeServe = () => {
   const sectionRef = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
   const { setCursor, resetCursor } = useCursorVariant();
 
   return (
@@ -628,7 +689,9 @@ const WhoWeServe = () => {
           {audiences.map((a) => (
             <motion.article
               key={a.title}
-              className={`${styles.audienceCard} ${styles[`audienceCard--${a.color}`]}`}
+              className={`${styles.audienceCard} ${
+                styles[`audienceCard--${a.color}`]
+              }`}
               variants={staggerItem}
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
               onMouseEnter={() => setCursor("hover")}
@@ -647,18 +710,60 @@ const WhoWeServe = () => {
 
               {/* Content */}
               <div className={styles.audienceBody}>
-                <span className={styles.audienceIcon} aria-hidden="true">{a.icon}</span>
+                <span className={styles.audienceIcon} aria-hidden="true">
+                  {a.icon}
+                </span>
                 <h3 className={styles.audienceTitle}>{a.title}</h3>
                 <p className={styles.audienceDesc}>{a.desc}</p>
+
+                {/* CHANGE 7 — CTA button per card */}
+                <Link
+                  to={a.ctaTo}
+                  className={`${styles.audienceBtn} ${
+                    styles[`audienceBtn--${a.color}`]
+                  }`}
+                >
+                  <span>{a.ctaLabel}</span>
+                  <FiArrowRight aria-hidden="true" />
+                </Link>
+
                 <div
-                  className={`${styles.audienceAccent} ${styles[`audienceAccent--${a.color}`]}`}
+                  className={`${styles.audienceAccent} ${
+                    styles[`audienceAccent--${a.color}`]
+                  }`}
                   aria-hidden="true"
                 />
               </div>
 
+              {/* CHANGE 1 — audienceGlow is hover-only, no ambient */}
               <div className={styles.audienceGlow} aria-hidden="true" />
             </motion.article>
           ))}
+        </motion.div>
+
+        {/* CHANGE 7 — bottom CTA row below the grid */}
+        <motion.div
+          className={styles.audienceCtaRow}
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <MagneticButton strength={0.3}>
+            <Link to="/explore" className={styles.audienceCtaBtnPrimary}>
+              <span>Find Your Fitness Partner</span>
+              <FiArrowRight aria-hidden="true" />
+            </Link>
+          </MagneticButton>
+
+          <MagneticButton strength={0.3}>
+            <Link
+              to="/list-business"
+              className={styles.audienceCtaBtnSecondary}
+            >
+              <span>List Your Business on Gymssy</span>
+              <FiArrowRight aria-hidden="true" />
+            </Link>
+          </MagneticButton>
         </motion.div>
       </div>
     </section>
@@ -670,7 +775,7 @@ const WhoWeServe = () => {
 ═══════════════════════════════════════════ */
 const WhyChooseUs = () => {
   const sectionRef = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
   return (
     <section
@@ -704,12 +809,16 @@ const WhyChooseUs = () => {
           {features.map((f) => (
             <motion.div
               key={f.title}
-              className={`${styles.featureCard} ${styles[`featureCard--${f.color}`]}`}
+              className={`${styles.featureCard} ${
+                styles[`featureCard--${f.color}`]
+              }`}
               variants={staggerItem}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
               <div
-                className={`${styles.featureIconWrap} ${styles[`featureIconWrap--${f.color}`]}`}
+                className={`${styles.featureIconWrap} ${
+                  styles[`featureIconWrap--${f.color}`]
+                }`}
               >
                 <f.icon className={styles.featureIcon} aria-hidden="true" />
               </div>
@@ -717,7 +826,9 @@ const WhyChooseUs = () => {
               <p className={styles.featureDesc}>{f.desc}</p>
               <div className={styles.featureCardShine} aria-hidden="true" />
               <div
-                className={`${styles.featureCardGlow} ${styles[`featureCardGlow--${f.color}`]}`}
+                className={`${styles.featureCardGlow} ${
+                  styles[`featureCardGlow--${f.color}`]
+                }`}
                 aria-hidden="true"
               />
             </motion.div>
@@ -733,13 +844,15 @@ const WhyChooseUs = () => {
 ═══════════════════════════════════════════ */
 const MarketplaceStats = () => {
   const sectionRef = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
   useGSAP(
     () => {
       if (!isInView) return;
       stats.forEach((stat, i) => {
-        const el = sectionRef.current?.querySelector(`[data-stat="${stat.id}"]`);
+        const el = sectionRef.current?.querySelector(
+          `[data-stat="${stat.id}"]`,
+        );
         if (!el) return;
         const counter = { val: 0 };
         gsap.to(counter, {
@@ -764,7 +877,7 @@ const MarketplaceStats = () => {
       aria-labelledby="stats-heading"
     >
       <div className={styles.statsBg} aria-hidden="true" />
-      <div className={styles.statsGlow} aria-hidden="true" />
+      {/* CHANGE 1 — statsGlow removed */}
 
       <div className={styles.sectionContainer}>
         <motion.div
@@ -786,7 +899,11 @@ const MarketplaceStats = () => {
           animate={isInView ? "visible" : "hidden"}
         >
           {stats.map((stat) => (
-            <motion.div key={stat.id} className={styles.statCard} variants={staggerItem}>
+            <motion.div
+              key={stat.id}
+              className={styles.statCard}
+              variants={staggerItem}
+            >
               <div className={styles.statCardInner}>
                 <span
                   data-stat={stat.id}
@@ -812,10 +929,9 @@ const MarketplaceStats = () => {
 ═══════════════════════════════════════════ */
 const TrustedPartners = () => {
   const sectionRef = useRef(null);
-  const trackRef   = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const trackRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
-  /* Infinite marquee via GSAP */
   useGSAP(
     () => {
       if (!trackRef.current) return;
@@ -833,7 +949,6 @@ const TrustedPartners = () => {
     { scope: sectionRef },
   );
 
-  /* Duplicate array for seamless loop */
   const doubled = [...partners, ...partners];
 
   return (
@@ -877,7 +992,6 @@ const TrustedPartners = () => {
           </div>
         </div>
 
-        {/* Fade edges */}
         <div className={styles.marqueeEdgeLeft} aria-hidden="true" />
         <div className={styles.marqueeEdgeRight} aria-hidden="true" />
       </div>
@@ -890,7 +1004,7 @@ const TrustedPartners = () => {
 ═══════════════════════════════════════════ */
 const CommunityImpact = () => {
   const sectionRef = useRef(null);
-  const isInView   = useInView(sectionRef, { once: true, margin: "-10%" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
   return (
     <section
@@ -911,18 +1025,19 @@ const CommunityImpact = () => {
             animate={isInView ? "visible" : "hidden"}
           >
             <SectionLabel text="COMMUNITY IMPACT" variant="light" />
-            <h2
-              id="impact-heading"
-              className={styles.impactHeading}
-            >
+
+            {/* CHANGE 9 — heading unchanged, only description updated */}
+            <h2 id="impact-heading" className={styles.impactHeading}>
               Building Healthier{" "}
               <span className={styles.accentText}>Communities</span> Together.
             </h2>
+
+            {/* CHANGE 9 — updated description */}
             <p className={styles.impactText}>
-              Every search, every connection, every membership made through our
-              platform contributes to a broader mission — a world where quality
-              fitness is within everyone's reach. We measure our success not in
-              transactions, but in transformations.
+              Every search, every connection, and every booking made through
+              Gymssy brings people one step closer to a healthier lifestyle
+              while helping fitness businesses grow. We measure our success not
+              just by bookings, but by the lives we help transform.
             </p>
 
             <div className={styles.impactPoints}>
@@ -950,7 +1065,9 @@ const CommunityImpact = () => {
             {communityImages.map((img, i) => (
               <motion.div
                 key={img.label}
-                className={`${styles.impactImgItem} ${i === 0 ? styles.impactImgItemLarge : ""}`}
+                className={`${styles.impactImgItem} ${
+                  i === 0 ? styles.impactImgItemLarge : ""
+                }`}
                 whileHover={{ scale: 1.03, transition: { duration: 0.4 } }}
               >
                 <img

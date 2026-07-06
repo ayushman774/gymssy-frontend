@@ -19,84 +19,82 @@ import styles from "./Footer.module.css";
 
 // ─── Data ────────────────────────────────────────────────────────────
 const quickLinks = [
-  { label: "Home",       href: "/"         },
-  { label: "About",      href: "/about"    },
-  { label: "Programs",   href: "/programs" },
-  { label: "Membership", href: "/pricing"  },
-  { label: "Trainers",   href: "/trainers" },
-  { label: "Gallery",    href: "/#gallery" },
-  { label: "Contact",    href: "/contact"  },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Explore", href: "/programs" },
+  { label: "Categories", href: "/pricing" },
+  { label: "Partner With Us", href: "/trainers" },
+  { label: "Contact", href: "/contact" },
 ];
 
-const programs = [
-  { label: "Strength Training",   href: "/programs" },
-  { label: "Personal Training",   href: "/programs" },
-  { label: "Weight Loss",         href: "/programs" },
-  { label: "Functional Fitness",  href: "/programs" },
-  { label: "Cardio Training",     href: "/programs" },
-  { label: "Nutrition Coaching",  href: "/programs" },
+const catogories = [
+  { label: "Yoga Studios", href: "/programs" },
+  { label: "Dance Studios", href: "/programs" },
+  { label: "Sports Academies", href: "/programs" },
+  { label: "Swimming", href: "/programs" },
+  { label: "Wellness Centers", href: "/programs" },
 ];
 
 const socialLinks = [
   {
-    icon:  <FiInstagram />,
+    icon: <FiInstagram />,
     label: "Instagram",
-    href:  "https://instagram.com",
+    href: "https://instagram.com",
     color: "instagram",
   },
   {
-    icon:  <FiFacebook />,
+    icon: <FiFacebook />,
     label: "Facebook",
-    href:  "https://facebook.com",
+    href: "https://facebook.com",
     color: "facebook",
   },
   {
-    icon:  <FiYoutube />,
+    icon: <FiYoutube />,
     label: "YouTube",
-    href:  "https://youtube.com",
+    href: "https://youtube.com",
     color: "youtube",
   },
   {
-    icon:  <FiLinkedin />,
+    icon: <FiLinkedin />,
     label: "LinkedIn",
-    href:  "https://linkedin.com",
+    href: "https://linkedin.com",
     color: "linkedin",
   },
 ];
 
 const contactInfo = [
   {
-    icon:  <FiPhone />,
+    icon: <FiPhone />,
     label: "Phone",
     value: "+91  8982295593",
-    href:  "tel:+15550000000",
+    href: "tel:+15550000000",
   },
   {
-    icon:  <FiMail />,
+    icon: <FiMail />,
     label: "Email",
     value: "Contact@gymssy.com",
-    href:  "mailto:Contact@gymssy.com",
+    href: "mailto:Contact@gymssy.com",
   },
   {
-    icon:  <FiMapPin />,
+    icon: <FiMapPin />,
     label: "Address",
     value: "Bhopal, Madhya Pradesh, India",
-    href:  "https://maps.google.com",
+    href: "https://maps.google.com",
   },
 ];
 
 const legalLinks = [
-  { label: "Privacy Policy",    href: "/privacy"  },
-  { label: "Terms & Conditions", href: "/terms"   },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms & Conditions", href: "/terms" },
 ];
 
 // ─── Animation Variants ───────────────────────────────────────────────
 const containerVariants = {
-  hidden:  {},
+  hidden: {},
   visible: {
     transition: {
       staggerChildren: 0.12,
-      delayChildren:   0.1,
+      delayChildren: 0.1,
     },
   },
 };
@@ -104,20 +102,20 @@ const containerVariants = {
 const fadeUpVariants = {
   hidden: {
     opacity: 0,
-    y:       50,
+    y: 50,
   },
   visible: {
     opacity: 1,
-    y:       0,
+    y: 0,
     transition: {
       duration: 0.8,
-      ease:     [0.25, 0.46, 0.45, 0.94],
+      ease: [0.25, 0.46, 0.45, 0.94],
     },
   },
 };
 
 const ctaHeadlineVariants = {
-  hidden:  {},
+  hidden: {},
   visible: {
     transition: { staggerChildren: 0.04 },
   },
@@ -126,16 +124,16 @@ const ctaHeadlineVariants = {
 const ctaWordVariants = {
   hidden: {
     opacity: 0,
-    y:       80,
+    y: 80,
     rotateX: -45,
   },
   visible: {
-    opacity:  1,
-    y:        0,
-    rotateX:  0,
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
     transition: {
       duration: 0.7,
-      ease:     [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1],
     },
   },
 };
@@ -152,13 +150,16 @@ const FooterLink = ({ href, children, external = false }) => {
       <span className={styles.linkText}>{children}</span>
       <span className={styles.linkUnderline} aria-hidden="true" />
       {isExternal && (
-        <FiArrowUpRight className={styles.linkExternalIcon} aria-hidden="true" />
+        <FiArrowUpRight
+          className={styles.linkExternalIcon}
+          aria-hidden="true"
+        />
       )}
     </span>
   );
 
   const sharedProps = {
-    className:    styles.link,
+    className: styles.link,
     onMouseEnter: () => setCursor("hover"),
     onMouseLeave: resetCursor,
   };
@@ -199,7 +200,7 @@ const SocialBtn = ({ icon, label, href, color }) => {
         onMouseEnter={() => setCursor("hover")}
         onMouseLeave={resetCursor}
         whileHover={{ scale: 1.1 }}
-        whileTap={{  scale: 0.9 }}
+        whileTap={{ scale: 0.9 }}
         transition={{ type: "spring", stiffness: 400, damping: 20 }}
       >
         <span className={styles.socialIcon}>{icon}</span>
@@ -233,12 +234,12 @@ const ContactRow = ({ icon, label, value, href }) => {
 
 // ─── CTA Section ─────────────────────────────────────────────────────
 const FooterCTA = () => {
-  const ctaRef   = useRef(null);
+  const ctaRef = useRef(null);
   const isInView = useInView(ctaRef, { once: true, margin: "-15%" });
   const { setCursor, resetCursor } = useCursorVariant();
 
-  const headline = "READY TO TRANSFORM YOUR LIFE?";
-  const words    = headline.split(" ");
+  const headline = "YOUR FITNESS JOURNEY STARTS WITH GYMSSY";
+  const words = headline.split(" ");
 
   return (
     <section
@@ -247,23 +248,23 @@ const FooterCTA = () => {
       aria-labelledby="footer-cta-heading"
     >
       {/* Background layers */}
-      <div className={styles.ctaBg}         aria-hidden="true" />
-      <div className={styles.ctaGlow}       aria-hidden="true" />
-      <div className={styles.ctaGridLines}  aria-hidden="true" />
-      <div className={styles.ctaNoise}      aria-hidden="true" />
+      <div className={styles.ctaBg} aria-hidden="true" />
+      <div className={styles.ctaGlow} aria-hidden="true" />
+      <div className={styles.ctaGridLines} aria-hidden="true" />
+      <div className={styles.ctaNoise} aria-hidden="true" />
 
       {/* Animated orb */}
       <motion.div
         className={styles.ctaOrb}
         aria-hidden="true"
         animate={{
-          scale:   [1, 1.15, 1],
+          scale: [1, 1.15, 1],
           opacity: [0.15, 0.25, 0.15],
         }}
         transition={{
           duration: 5,
-          repeat:   Infinity,
-          ease:     "easeInOut",
+          repeat: Infinity,
+          ease: "easeInOut",
         }}
       />
 
@@ -290,11 +291,7 @@ const FooterCTA = () => {
           aria-label={headline}
         >
           {words.map((word, i) => (
-            <span
-              key={i}
-              className={styles.ctaWordWrapper}
-              aria-hidden="true"
-            >
+            <span key={i} className={styles.ctaWordWrapper} aria-hidden="true">
               <motion.span
                 className={`${styles.ctaWord} ${
                   word === "TRANSFORM" ? styles.ctaWordAccent : ""
@@ -314,8 +311,8 @@ const FooterCTA = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.6 }}
         >
-          Join the community that trains harder, grows stronger,
-          and achieves more.
+          Whether you're looking for the perfect fitness class or want to grow
+          your fitness business, Gymssy brings everything together in one place
         </motion.p>
 
         {/* Buttons */}
@@ -334,7 +331,7 @@ const FooterCTA = () => {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
-              <span className={styles.ctaBtnLabel}>Join Now</span>
+              <span className={styles.ctaBtnLabel}>Find Fitness</span>
               <FiArrowRight className={styles.ctaBtnIcon} aria-hidden="true" />
               <span className={styles.ctaBtnShimmer} aria-hidden="true" />
             </motion.button>
@@ -349,7 +346,7 @@ const FooterCTA = () => {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
-              <span className={styles.ctaBtnLabel}>Book Free Trial</span>
+              <span className={styles.ctaBtnLabel}>Become a Partner</span>
               <FiArrowUpRight
                 className={styles.ctaBtnIcon}
                 aria-hidden="true"
@@ -371,7 +368,7 @@ const FooterCTA = () => {
                 <span className={styles.ctaTrustDot} aria-hidden="true" />
                 {badge}
               </span>
-            )
+            ),
           )}
         </motion.div>
       </div>
@@ -382,7 +379,7 @@ const FooterCTA = () => {
 // ─── Main Footer ──────────────────────────────────────────────────────
 const Footer = () => {
   const footerRef = useRef(null);
-  const isInView  = useInView(footerRef, { once: true, margin: "-10%" });
+  const isInView = useInView(footerRef, { once: true, margin: "-10%" });
 
   const currentYear = new Date().getFullYear();
 
@@ -410,7 +407,7 @@ const Footer = () => {
       {/* ── Footer Body ── */}
       <div className={styles.body}>
         {/* Background effects */}
-        <div className={styles.bodyBg}    aria-hidden="true" />
+        <div className={styles.bodyBg} aria-hidden="true" />
         <div className={styles.bodyNoise} aria-hidden="true" />
 
         <div className={styles.bodyContainer}>
@@ -437,9 +434,9 @@ const Footer = () => {
 
               {/* Description */}
               <p className={styles.brandDesc}>
-                A premium fitness destination dedicated to helping
-                members build strength, confidence, and discipline.
-                Where champions are forged.
+                Discover and book the best fitness experiences around you. From
+                gyms and yoga to dance, sports, swimming, and personal
+                training—all on one trusted platform.
               </p>
 
               {/* Social icons */}
@@ -459,18 +456,13 @@ const Footer = () => {
             </motion.div>
 
             {/* ── Column 2 — Quick Links ── */}
-            <motion.div
-              className={styles.col}
-              variants={fadeUpVariants}
-            >
+            <motion.div className={styles.col} variants={fadeUpVariants}>
               <h3 className={styles.colHeading}>Quick Links</h3>
               <nav aria-label="Footer quick links">
                 <ul className={styles.linkList} role="list">
                   {quickLinks.map((link) => (
                     <li key={link.label} role="listitem">
-                      <FooterLink href={link.href}>
-                        {link.label}
-                      </FooterLink>
+                      <FooterLink href={link.href}>{link.label}</FooterLink>
                     </li>
                   ))}
                 </ul>
@@ -478,18 +470,13 @@ const Footer = () => {
             </motion.div>
 
             {/* ── Column 3 — Programs ── */}
-            <motion.div
-              className={styles.col}
-              variants={fadeUpVariants}
-            >
-              <h3 className={styles.colHeading}>Programs</h3>
+            <motion.div className={styles.col} variants={fadeUpVariants}>
+              <h3 className={styles.colHeading}>Catogories</h3>
               <nav aria-label="Footer programs">
                 <ul className={styles.linkList} role="list">
-                  {programs.map((prog) => (
+                  {catogories.map((prog) => (
                     <li key={prog.label} role="listitem">
-                      <FooterLink href={prog.href}>
-                        {prog.label}
-                      </FooterLink>
+                      <FooterLink href={prog.href}>{prog.label}</FooterLink>
                     </li>
                   ))}
                 </ul>
@@ -497,10 +484,7 @@ const Footer = () => {
             </motion.div>
 
             {/* ── Column 4 — Contact ── */}
-            <motion.div
-              className={styles.col}
-              variants={fadeUpVariants}
-            >
+            <motion.div className={styles.col} variants={fadeUpVariants}>
               <h3 className={styles.colHeading}>Get In Touch</h3>
 
               {/* Contact rows */}
@@ -508,37 +492,6 @@ const Footer = () => {
                 {contactInfo.map((info) => (
                   <ContactRow key={info.label} {...info} />
                 ))}
-              </div>
-
-              {/* Hours */}
-              <div className={styles.hours}>
-                <div className={styles.hoursHeader}>
-                  <FiClock
-                    className={styles.hoursIcon}
-                    aria-hidden="true"
-                  />
-                  <span className={styles.hoursTitle}>Working Hours</span>
-                </div>
-                <div className={styles.hoursGrid}>
-                  <div className={styles.hoursRow}>
-                    <span className={styles.hoursDay}>Mon – Sat</span>
-                    <span className={styles.hoursTime}>
-                      5:00 AM – 11:00 PM
-                    </span>
-                  </div>
-                  <div className={styles.hoursRow}>
-                    <span className={styles.hoursDay}>Sunday</span>
-                    <span className={styles.hoursTime}>
-                      6:00 AM – 8:00 PM
-                    </span>
-                  </div>
-                </div>
-
-                {/* Live indicator */}
-                <div className={styles.liveIndicator} aria-live="polite">
-                  <span className={styles.liveDot} aria-hidden="true" />
-                  <span className={styles.liveText}>Open Now</span>
-                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -556,33 +509,27 @@ const Footer = () => {
           {/* Left — Copyright */}
           <p className={styles.copyright}>
             © {currentYear}{" "}
-            <span className={styles.copyrightBrand}>Gymsssy FITNESS</span>
-            . All rights reserved.
+            <span className={styles.copyrightBrand}>Gymsssy FITNESS</span>. All
+            rights reserved.
           </p>
 
           {/* Center — Designed for Excellence */}
-          <p className={styles.designedFor} aria-label="Designed for Excellence">
+          <p
+            className={styles.designedFor}
+            aria-label="Designed for Excellence"
+          >
             Designed for{" "}
             <span className={styles.designedForAccent}>Excellence</span>
           </p>
 
           {/* Right — Legal links */}
-          <nav
-            className={styles.legalLinks}
-            aria-label="Legal links"
-          >
+          <nav className={styles.legalLinks} aria-label="Legal links">
             {legalLinks.map((link, i) => (
               <span key={link.label} className={styles.legalItem}>
                 {i > 0 && (
-                  <span
-                    className={styles.legalSep}
-                    aria-hidden="true"
-                  />
+                  <span className={styles.legalSep} aria-hidden="true" />
                 )}
-                <Link
-                  to={link.href}
-                  className={styles.legalLink}
-                >
+                <Link to={link.href} className={styles.legalLink}>
                   {link.label}
                 </Link>
               </span>

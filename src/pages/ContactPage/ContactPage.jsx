@@ -36,33 +36,33 @@ const contactCards = [
     id: "support",
     icon: <MdSupportAgent />,
     title: "Customer Support",
-    info: "support@apexmarket.com",
+    info: "support@Gymssymarket.com",
     subInfo: "Mon–Fri · 8AM – 8PM",
     description:
       "Help with memberships, bookings and general platform queries.",
-    href: "mailto:support@apexmarket.com",
+    href: "mailto:support@Gymssymarket.com",
     color: "green",
   },
   {
     id: "email",
     icon: <MdEmail />,
     title: "Email Support",
-    info: "hello@apexmarket.com",
+    info: "hello@Gymssymarket.com",
     subInfo: "Response within 24 hours",
     description:
       "Send us a message any time. We reply within one business day.",
-    href: "mailto:hello@apexmarket.com",
+    href: "mailto:hello@Gymssymarket.com",
     color: "blue",
   },
   {
     id: "partner",
     icon: <MdHandshake />,
     title: "Business Partnerships",
-    info: "partners@apexmarket.com",
+    info: "partners@Gymssymarket.com",
     subInfo: "Gym owners & trainers",
     description:
       "Interested in listing your gym or joining as a trainer partner?",
-    href: "mailto:partners@apexmarket.com",
+    href: "mailto:partners@Gymssymarket.com",
     color: "green",
   },
   {
@@ -393,7 +393,7 @@ const ContactPage = () => {
               step of the way.
             </p>
             <p className={styles.introText}>
-              We're more than a directory. APEX Market connects fitness seekers
+              We're more than a directory. Gymssy Market connects fitness seekers
               with world-class gyms, trainers, and programs across the country —
               and we take our responsibility to both members and partners
               seriously.

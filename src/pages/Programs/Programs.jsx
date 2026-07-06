@@ -195,7 +195,7 @@ const ProgramsIntro = () => {
               <img
                 ref={imgRef}
                 src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=80"
-                alt="APEX training floor"
+                alt="Gymssy training floor"
                 className={styles.introImg}
                 loading="eager"
               />
@@ -245,7 +245,7 @@ const ProgramsIntro = () => {
             </motion.h2>
 
             <motion.p className={styles.introText} variants={staggerItem}>
-              Every body is different. Every goal is unique. That's why APEX
+              Every body is different. Every goal is unique. That's why Gymssy
               offers six distinct performance programs — each built around a
               specific fitness objective and engineered by coaches who have
               helped thousands of members achieve extraordinary results.
@@ -254,7 +254,7 @@ const ProgramsIntro = () => {
             <motion.p className={styles.introText} variants={staggerItem}>
               Whether you're here to build raw strength, lose body fat, improve
               athleticism, or simply feel better than you ever have — there is a
-              program at APEX that was designed specifically for your journey.
+              program at Gymssy that was designed specifically for your journey.
             </motion.p>
 
             {/* Program count pills */}
@@ -575,7 +575,7 @@ const WhyItWorks = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          <SectionLabel text="THE APEX ADVANTAGE" variant="light" />
+          <SectionLabel text="THE Gymssy ADVANTAGE" variant="light" />
           <h2 id="why-heading" className={styles.sectionHeading}>
             Why Our Programs <span className={styles.accentText}>Work</span>
           </h2>
@@ -824,7 +824,7 @@ const FAQSection = () => {
               Common <span className={styles.accentText}>Questions</span>
             </h2>
             <p className={styles.faqSubtext}>
-              Everything you need to know before starting your APEX journey.
+              Everything you need to know before starting your Gymssy journey.
               Still have questions?{" "}
               <Link to="/contact" className={styles.faqLink}>
                 Talk to a coach.

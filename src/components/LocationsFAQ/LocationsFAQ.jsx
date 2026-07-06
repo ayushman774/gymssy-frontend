@@ -26,13 +26,13 @@ const faqs = [
     id: 4,
     question: "Are memberships valid across all branches?",
     answer:
-      "Professional and Elite memberships include multi-branch access, allowing you to train at any APEX location. Starter memberships are single-branch by default but can be upgraded to include network-wide access at any time.",
+      "Professional and Elite memberships include multi-branch access, allowing you to train at any Gymssy location. Starter memberships are single-branch by default but can be upgraded to include network-wide access at any time.",
   },
   {
     id: 5,
     question: "What facilities are available at each location?",
     answer:
-      "Every APEX branch features premium strength and cardio equipment, locker rooms, and group class studios. Additional facilities like sauna, cryotherapy, swimming pools, and rooftop areas vary by branch. Check each location's detail page for a full list.",
+      "Every Gymssy branch features premium strength and cardio equipment, locker rooms, and group class studios. Additional facilities like sauna, cryotherapy, swimming pools, and rooftop areas vary by branch. Check each location's detail page for a full list.",
   },
 ];
 
