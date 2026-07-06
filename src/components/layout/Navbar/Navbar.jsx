@@ -12,9 +12,9 @@ import styles from "./Navbar.module.css";
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Programs", href: "/programs" },
-  { label: "Membership", href: "/membership" },
-  { label: "Trainers", href: "/trainers" },
+  { label: "Explore", href: "/programs" },
+  { label: "Categories", href: "/membership" },
+  { label: "Partner With Us", href: "/trainers" },
   { label: "Gyms Near you", href: "/gyms-near-you" },
   { label: "Contact", href: "/contact" },
 ];

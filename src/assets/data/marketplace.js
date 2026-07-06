@@ -106,7 +106,7 @@ export const CATEGORIES = [
 export const FEATURED_GYMS = [
   {
     id: "gym-1",
-    name: "APEX Performance Center",
+    name: "Gymssy Performance Center",
     image:
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80",
     rating: 4.9,
