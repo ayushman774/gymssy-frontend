@@ -395,7 +395,7 @@ const ContactForm = () => {
           <a href="/privacy" className={styles.privacyLink}>
             Privacy Policy
           </a>{" "}
-          and consent to being contacted by the APEX Market team.
+          and consent to being contacted by the Gymssy Market team.
         </span>
       </div>
       <AnimatePresence>

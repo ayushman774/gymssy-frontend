@@ -28,7 +28,7 @@ const OfficeLocation = () => (
     >
       <div className={styles.mapFrame}>
         <iframe
-          title="APEX Market Office"
+          title="Gymssy Market Office"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00601568459418!3d40.71277937933115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Manhattan%2C%20New%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1634000000000!5m2!1sen!2sus"
           className={styles.mapIframe}
           loading="lazy"
@@ -48,7 +48,7 @@ const OfficeLocation = () => (
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
     >
-      <span className={styles.eyebrow}>APEX MARKET HQ</span>
+      <span className={styles.eyebrow}>Gymssy MARKET HQ</span>
       <h3 className={styles.heading}>Our Office</h3>
 
       <div className={styles.infoList}>
@@ -94,8 +94,8 @@ const OfficeLocation = () => (
           </div>
           <div>
             <span className={styles.infoLabel}>Email</span>
-            <a href="mailto:hello@apexmarket.com" className={styles.infoLink}>
-              hello@apexmarket.com
+            <a href="mailto:hello@Gymssymarket.com" className={styles.infoLink}>
+              hello@Gymssymarket.com
             </a>
           </div>
         </div>

@@ -346,13 +346,13 @@ const GymsNearYouPage = () => {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7 }}
           >
-            <span className={styles.sectionEyebrow}>THE APEX DIFFERENCE</span>
+            <span className={styles.sectionEyebrow}>THE Gymssy DIFFERENCE</span>
             <h2 className={styles.sectionTitle}>
               Why Choose Our{" "}
               <span className={styles.accentText}>Locations</span>
             </h2>
             <p className={styles.sectionSubtitle}>
-              Every APEX branch delivers the same uncompromising standard of
+              Every Gymssy branch delivers the same uncompromising standard of
               excellence.
             </p>
           </motion.div>

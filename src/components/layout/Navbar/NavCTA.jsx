@@ -15,7 +15,7 @@ const ctaVariants = {
   },
 };
 
-const NavCTA = ({ onClick, label = "Join Now", href = "/membership" }) => {
+const NavCTA = ({ onClick, label = "Book Now", href = "/membership" }) => {
   return (
     <motion.div
       variants={ctaVariants}

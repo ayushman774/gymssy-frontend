@@ -27,7 +27,7 @@ export const programs = [
     subtitle: "1-on-1 Elite Coaching",
     tag:      "Premium",
     tagColor: "blue",
-    desc:     "The most personalized fitness experience available. Your dedicated APEX coach designs every workout around your unique body, goals, and schedule. This is not a template — this is your program.",
+    desc:     "The most personalized fitness experience available. Your dedicated Gymssy coach designs every workout around your unique body, goals, and schedule. This is not a template — this is your program.",
     image:    "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80",
     duration: "Ongoing",
     level:    "All Levels",
@@ -170,7 +170,7 @@ export const whyItWorks = [
     id:    1,
     icon:  "🏆",
     title: "Expert Coaches",
-    desc:  "Every APEX coach holds elite certifications and brings years of real-world performance coaching experience.",
+    desc:  "Every Gymssy coach holds elite certifications and brings years of real-world performance coaching experience.",
     color: "neon",
   },
   {
@@ -250,7 +250,7 @@ export const faqs = [
   {
     id:       2,
     question: "Can complete beginners join these programs?",
-    answer:   "Absolutely. Every program at APEX has beginner-friendly pathways. Our coaches are experts at meeting you exactly where you are and building you up progressively. Many of our most successful members started with zero gym experience.",
+    answer:   "Absolutely. Every program at Gymssy has beginner-friendly pathways. Our coaches are experts at meeting you exactly where you are and building you up progressively. Many of our most successful members started with zero gym experience.",
   },
   {
     id:       3,
@@ -265,11 +265,11 @@ export const faqs = [
   {
     id:       5,
     question: "Can I switch programs later?",
-    answer:   "Yes, absolutely. As your fitness evolves, your program should too. APEX members regularly transition between programs as they hit goals and set new ones. Your coach will guide you through every transition seamlessly.",
+    answer:   "Yes, absolutely. As your fitness evolves, your program should too. Gymssy members regularly transition between programs as they hit goals and set new ones. Your coach will guide you through every transition seamlessly.",
   },
   {
     id:       6,
     question: "What equipment do I need?",
-    answer:   "All training happens at our state-of-the-art APEX facility, so you need nothing beyond your commitment. Everything else — equipment, coaching, tracking tools — is provided.",
+    answer:   "All training happens at our state-of-the-art Gymssy facility, so you need nothing beyond your commitment. Everything else — equipment, coaching, tracking tools — is provided.",
   },
 ];

@@ -150,7 +150,7 @@ export const values = [
     id:    4,
     icon:  "🤝",
     title: "Community",
-    desc:  "You're never alone at APEX. Our community lifts each other — literally and figuratively.",
+    desc:  "You're never alone at Gymssy. Our community lifts each other — literally and figuratively.",
     color: "blue",
   },
 ];
