@@ -1,231 +1,233 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiMapPin, FiSearch, FiNavigation, FiX } from "react-icons/fi";
-import {
-  SEARCH_SUGGESTIONS,
-  POPULAR_CHIPS,
-} from "../../../../assets/data/marketplace";
+import { FiMapPin, FiChevronDown, FiArrowRight, FiSearch } from "react-icons/fi";
+import { HiOutlineUsers } from "react-icons/hi";
+import { MdOutlineFitnessCenter, MdOutlineCalendarToday, MdOutlineStar } from "react-icons/md";
 import styles from "./HeroContent.module.css";
 
+/* ── Activity options for the dropdown ── */
+const ACTIVITIES = [
+  "All Activities",
+  "Gyms",
+  "Yoga",
+  "Dance",
+  "Swimming",
+  "CrossFit",
+  "Personal Trainers",
+  "Pilates",
+  "Martial Arts",
+  "Zumba",
+];
+
+/* ── Stats shown on the right ── */
+const STATS = [
+  { icon: MdOutlineFitnessCenter, value: "5000+",   label: "Fitness Centers" },
+  { icon: MdOutlineCalendarToday, value: "50,000+", label: "Classes Booked"  },
+  { icon: MdOutlineStar,          value: "4.8/5",   label: "Average Rating"  },
+];
+
+/* ── Animation variants ── */
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden:  { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.3 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden:  { opacity: 0, y: 32 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 
-/* ── Search Bar ──────────────────────────────────────────── */
+const statVariants = {
+  hidden:  { opacity: 0, x: 40 },
+  visible: (i) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, delay: 0.5 + i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] },
+  }),
+};
+
+/* ════════════════════════════════════════════════
+   SEARCH BAR
+════════════════════════════════════════════════ */
 const HeroSearch = () => {
-  const [location, setLocation] = useState("");
-  const [query, setQuery] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const wrapperRef = useRef(null);
+  const [location,     setLocation]     = useState("");
+  const [activity,     setActivity]     = useState("All Activities");
+  const [dropOpen,     setDropOpen]     = useState(false);
+  const dropRef = useRef(null);
 
-  const filteredSuggestions = query
-    ? SEARCH_SUGGESTIONS.filter((s) =>
-        s.toLowerCase().includes(query.toLowerCase())
-      )
-    : SEARCH_SUGGESTIONS;
-
-  const handleSelect = (suggestion) => {
-    setQuery(suggestion);
-    setShowSuggestions(false);
-  };
-
-  // Close dropdown when clicking outside
+  /* Close dropdown on outside click */
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setShowSuggestions(false);
+    const handler = (e) => {
+      if (dropRef.current && !dropRef.current.contains(e.target)) {
+        setDropOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   return (
-    <div className={styles.searchWrapper} ref={wrapperRef}>
-      <div className={styles.searchPanel}>
+    <div className={styles.searchBar}>
 
-        {/* ── Location Field ── */}
-        <div className={styles.searchField}>
-          <FiMapPin className={styles.searchFieldIcon} />
+      {/* Location field */}
+      <div className={styles.searchField}>
+        <FiMapPin className={styles.searchFieldIcon} aria-hidden="true" />
+        <div className={styles.searchFieldText}>
           <input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            placeholder="Enter your city or area"
+            placeholder="Enter Location"
             className={styles.searchInput}
-            aria-label="Location"
+            aria-label="Enter your location"
           />
-          <button
-            className={styles.gpsBtn}
-            aria-label="Use current location"
-            onClick={() => setLocation("Current Location")}
-          >
-            <FiNavigation className={styles.gpsBtnIcon} />
-          </button>
+          <span className={styles.searchFieldSub}>Your city or area</span>
         </div>
-
-        {/* ── Divider ── */}
-        <div className={styles.searchDivider} aria-hidden="true" />
-
-        {/* ── Query Field ── */}
-        <div className={styles.searchField} style={{ flex: 1, minWidth: 0 }}>
-          <FiSearch className={styles.searchFieldIcon} />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setShowSuggestions(true);
-            }}
-            onFocus={() => setShowSuggestions(true)}
-            placeholder="Gyms, yoga, trainers, CrossFit..."
-            className={`${styles.searchInput} ${styles.searchInputGrow}`}
-            aria-label="Search fitness services"
-            aria-autocomplete="list"
-            aria-expanded={showSuggestions}
-          />
-          {query && (
-            <button
-              className={styles.clearBtn}
-              onClick={() => {
-                setQuery("");
-                setShowSuggestions(false);
-              }}
-              aria-label="Clear search"
-            >
-              <FiX />
-            </button>
-          )}
-        </div>
-
-        {/* ── Search Button ── */}
-        <motion.button
-          className={styles.searchBtn}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          aria-label="Search"
-          onClick={() => setShowSuggestions(false)}
-        >
-          <span className={styles.searchBtnText}>Search</span>
-          <FiSearch className={styles.searchBtnIcon} />
-          <span className={styles.searchBtnRipple} aria-hidden="true" />
-        </motion.button>
       </div>
 
-      {/* ── Dropdown ── */}
-      <AnimatePresence>
-        {showSuggestions && filteredSuggestions.length > 0 && (
-          <motion.div
-            className={styles.suggestions}
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.15 }}
-            role="listbox"
-          >
-            <span className={styles.suggestionsLabel}>
-              {query ? "Matching services" : "Popular searches"}
-            </span>
-            {filteredSuggestions.map((s) => (
-              <button
-                key={s}
-                className={styles.suggestionItem}
-                onMouseDown={() => handleSelect(s)}
-                role="option"
-              >
-                <FiSearch className={styles.suggestionIcon} />
-                {s}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Divider */}
+      <div className={styles.searchDivider} aria-hidden="true" />
+
+      {/* Activity dropdown */}
+      <div className={styles.searchField} ref={dropRef} style={{ position: "relative" }}>
+        <HiOutlineUsers className={styles.searchFieldIcon} aria-hidden="true" />
+        <div
+          className={styles.searchFieldText}
+          role="button"
+          tabIndex={0}
+          onClick={() => setDropOpen((p) => !p)}
+          onKeyDown={(e) => e.key === "Enter" && setDropOpen((p) => !p)}
+          aria-haspopup="listbox"
+          aria-expanded={dropOpen}
+        >
+          <span className={styles.searchInputDisplay}>{activity}</span>
+          <span className={styles.searchFieldSub}>
+            Yoga, Gym, Dance &amp; more
+          </span>
+        </div>
+        <FiChevronDown
+          className={`${styles.chevron} ${dropOpen ? styles.chevronOpen : ""}`}
+          aria-hidden="true"
+        />
+
+        {/* Dropdown list */}
+        <AnimatePresence>
+          {dropOpen && (
+            <motion.ul
+              className={styles.activityDropdown}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.15 }}
+              role="listbox"
+              aria-label="Select activity"
+            >
+              {ACTIVITIES.map((a) => (
+                <li
+                  key={a}
+                  role="option"
+                  aria-selected={activity === a}
+                  className={`${styles.activityOption} ${
+                    activity === a ? styles.activityOptionActive : ""
+                  }`}
+                  onMouseDown={() => {
+                    setActivity(a);
+                    setDropOpen(false);
+                  }}
+                >
+                  {a}
+                </li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* CTA button */}
+      <button className={styles.searchBtn} aria-label="Find Experiences">
+        <span>Find Experiences</span>
+        <FiArrowRight aria-hidden="true" />
+      </button>
     </div>
   );
 };
 
-/* ── Main HeroContent ────────────────────────────────────── */
-const HeroContent = ({ animRefs }) => {
+/* ════════════════════════════════════════════════
+   STAT CARD (floating right)
+════════════════════════════════════════════════ */
+const StatCard = ({ icon: Icon, value, label, index }) => (
+  <motion.div
+    className={styles.statCard}
+    variants={statVariants}
+    custom={index}
+    initial="hidden"
+    animate="visible"
+  >
+    <div className={styles.statIconWrap}>
+      <Icon className={styles.statIcon} aria-hidden="true" />
+    </div>
+    <div>
+      <p className={styles.statValue}>{value}</p>
+      <p className={styles.statLabel}>{label}</p>
+    </div>
+  </motion.div>
+);
+
+/* ════════════════════════════════════════════════
+   HERO CONTENT
+════════════════════════════════════════════════ */
+const HeroContent = () => {
   return (
-    <motion.div
-      className={styles.content}
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      {/* Eyebrow */}
-      <motion.div className={styles.eyebrowRow} variants={itemVariants}>
-        <span className={styles.eyebrowDot} aria-hidden="true" />
-        <span className={styles.eyebrowText}>
-          India's #1 Fitness Marketplace
-        </span>
-        <span className={styles.eyebrowDot} aria-hidden="true" />
-      </motion.div>
+    <div className={styles.layout}>
 
-      {/* Headline */}
-      <motion.h1
-        ref={animRefs?.headline}
-        className={styles.headline}
-        variants={itemVariants}
+      {/* ── LEFT — main copy ── */}
+      <motion.div
+        className={styles.left}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        India's Fitness{" "}
-        <span className={styles.headlineAccent}>Marketplace -</span>{" "}
-        Find, Compare & Book Fitness Classes
-      </motion.h1>
+        {/* Eyebrow badge */}
+        <motion.div className={styles.badge} variants={itemVariants}>
+          <span className={styles.badgeDot} aria-hidden="true" />
+          <span className={styles.badgeText}>India's #1 Fitness Marketplace</span>
+        </motion.div>
 
-      {/* Subheadline */}
-      <motion.p className={styles.subheadline} variants={itemVariants}>
-        Discover gyms, trainers, yoga studios, fitness classes, and wellness
-        experiences near you.
-      </motion.p>
+        {/* Headline — 3 lines matching the image */}
+        <motion.h1 className={styles.headline} variants={itemVariants}>
+          <span className={styles.headlineLine1}>Discover, Compare &amp; Book</span>
+          <span className={styles.headlineLine2}>India's Best</span>
+          <span className={styles.headlineLine3}>Fitness Experiences</span>
+        </motion.h1>
 
-      {/* Search */}
-      <motion.div variants={itemVariants} style={{ width: "100%" }}>
-        <HeroSearch />
+        {/* Subheadline */}
+        <motion.p className={styles.subheadline} variants={itemVariants}>
+          Find gyms, yoga, dance, swimming, CrossFit,
+          personal trainers, and wellness experiences—
+          <br className={styles.subBreak} />
+          all in one place.
+        </motion.p>
+
+        {/* Search bar */}
+        <motion.div variants={itemVariants} style={{ width: "100%" }}>
+          <HeroSearch />
+        </motion.div>
       </motion.div>
 
-      {/* Popular Chips */}
-      <motion.div className={styles.chipsRow} variants={itemVariants}>
-        <span className={styles.chipsLabel}>Popular:</span>
-        {POPULAR_CHIPS.map((chip) => (
-          <motion.button
-            key={chip}
-            className={styles.chip}
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {chip}
-          </motion.button>
+      {/* ── RIGHT — floating stat cards ── */}
+      <div className={styles.right} aria-label="Platform statistics">
+        {STATS.map((s, i) => (
+          <StatCard key={s.label} {...s} index={i} />
         ))}
-      </motion.div>
-
-      {/* Trust row */}
-      <motion.div className={styles.trustRow} variants={itemVariants}>
-        {[
-          { value: "10,000+", label: "Fitness Centers" },
-          { value: "50K+", label: "Happy Members" },
-          { value: "4.9★", label: "Avg. Rating" },
-        ].map((stat) => (
-          <div key={stat.label} className={styles.trustStat}>
-            <span className={styles.trustValue}>{stat.value}</span>
-            <span className={styles.trustLabel}>{stat.label}</span>
-          </div>
-        ))}
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
