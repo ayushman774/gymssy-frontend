@@ -1,452 +1,411 @@
-/* ─── CONTENT WRAPPER ───────────────────────────────────── */
-/*
-  height: 100% + justify-content lets all items
-  distribute evenly inside the viewport-tall hero.
-  gap is kept small so nothing overflows.
-*/
-.content {
+/* ════════════════════════════════════════════════
+   LAYOUT — side by side on desktop
+════════════════════════════════════════════════ */
+.layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Left column — takes up ~55% */
+.left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* tight gap so everything fits in one screen */
-  gap: 1.1rem;
-  width: 100%;
+  gap: 1.5rem;
   max-width: 780px;
-  position: relative;
-  z-index: 2;
+  flex: 0 0 auto;
 }
 
-/* ─── EYEBROW ───────────────────────────────────────────── */
-.eyebrowRow {
+/* Right column — stat cards stacked */
+.right {
   display: flex;
-  align-items: center;
-  gap: 0.55rem;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex-shrink: 0;
+  /* pushed toward the athlete image */
+  margin-left: auto;
+  padding-right: 1rem;
 }
 
-.eyebrowDot {
+/* ════════════════════════════════════════════════
+   BADGE / EYEBROW
+════════════════════════════════════════════════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  border-radius: 999px;
+  background: rgba(57, 255, 20, 0.07);
+}
+
+.badgeDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #39ff14;
-  box-shadow: 0 0 10px rgba(57, 255, 20, 0.7);
-  animation: dotBlink 2s ease-in-out infinite;
   flex-shrink: 0;
+  animation: blink 2s ease-in-out infinite;
 }
 
-@keyframes dotBlink {
+@keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.3; }
 }
 
-.eyebrowText {
+.badgeText {
   font-family: "Inter", sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
-}
-
-/* ─── HEADLINE ──────────────────────────────────────────── */
-/*
-  clamp:
-    min  = 1.9rem  (very small phones)
-    val  = 3.8vw   (scales with viewport)
-    max  = 3.6rem  (caps so it never overflows on desktop)
-*/
-.headline {
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(1.9rem, 3.8vw, 3.6rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-  color: #ffffff;
-  margin: 0;
-  /* never let headline push other items off screen */
-  max-width: 100%;
-}
-
-.headlineAccent {
   color: #39ff14;
-  text-shadow: 0 0 50px rgba(57, 255, 20, 0.35);
 }
 
-/* ─── SUBHEADLINE ───────────────────────────────────────── */
+/* ════════════════════════════════════════════════
+   HEADLINE — 3 distinct lines
+════════════════════════════════════════════════ */
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  line-height: 1.08;
+}
+
+/* Line 1: "Discover, Compare & Book" — white, medium size */
+.headlineLine1 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+/* Line 2: "India's Best" — neon green, large */
+.headlineLine2 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  font-weight: 700;
+  color: #39ff14;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+/* Line 3: "Fitness Experiences" — white, large */
+.headlineLine3 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  font-weight: 700;
+  color: #39ff14;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+/* ════════════════════════════════════════════════
+   SUBHEADLINE
+════════════════════════════════════════════════ */
 .subheadline {
   font-family: "Inter", sans-serif;
-  font-size: clamp(0.88rem, 1.4vw, 1.05rem);
-  color: rgba(255, 255, 255, 0.58);
-  line-height: 1.65;
+  font-size: clamp(0.88rem, 1.3vw, 1rem);
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
   margin: 0;
-  max-width: 520px;
+  max-width: 440px;
 }
 
-/* ════════════════════════════════════════════════════════
-   SEARCH
-   ════════════════════════════════════════════════════════ */
-
-/* Wrapper — dropdown anchors here, never overflow:hidden */
-.searchWrapper {
-  position: relative;
-  width: 100%;
-  max-width: 720px;
+.subBreak {
+  display: none;
 }
 
-/* Pill bar */
-.searchPanel {
+/* ════════════════════════════════════════════════
+   SEARCH BAR
+════════════════════════════════════════════════ */
+.searchBar {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(57, 255, 20, 0.25);
+  max-width: 750px;
+  background: #ffffff;
   border-radius: 10px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow:
-    0 0 30px rgba(57, 255, 20, 0.07),
-    0 16px 48px rgba(0, 0, 0, 0.38);
   overflow: visible;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  position: relative;
 }
 
-.searchPanel:focus-within {
-  border-color: rgba(57, 255, 20, 0.5);
-  box-shadow:
-    0 0 50px rgba(57, 255, 20, 0.12),
-    0 16px 48px rgba(0, 0, 0, 0.5);
-}
-
-/* Field slot */
+/* Each field slot */
 .searchField {
   display: flex;
   align-items: center;
-  padding: 0 1rem;
   gap: 0.5rem;
-  flex-shrink: 0;
+  padding: 0.85rem 1rem;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.searchField:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.searchField:hover {
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .searchFieldIcon {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.38);
-  flex-shrink: 0;
-  transition: color 0.3s;
-}
-
-.searchField:focus-within .searchFieldIcon {
+  font-size: 1.1rem;
   color: #39ff14;
+  flex-shrink: 0;
 }
 
-/* Base input */
+.searchFieldText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+  flex: 1;
+  user-select: none;
+}
+
+/* Actual text input (location) */
 .searchInput {
   background: transparent;
   border: none;
   outline: none;
-  font-family: "Inter", sans-serif;
-  font-size: 0.88rem;
-  color: #ffffff;
-  /* compact vertical padding */
-  padding: 0.95rem 0;
-  width: 150px;
-  min-width: 0;
-  caret-color: #39ff14;
-}
-
-/* Grow variant */
-.searchInputGrow {
-  flex: 1;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #111111;
   width: 100%;
+  caret-color: #39ff14;
+  padding: 0;
 }
 
 .searchInput::placeholder {
-  color: rgba(255, 255, 255, 0.28);
+  color: #111111;
+  font-weight: 600;
 }
 
-/* GPS button */
-.gpsBtn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.38);
+/* Display span for the dropdown trigger */
+.searchInputDisplay {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #111111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sub label (e.g. "Your city or area") */
+.searchFieldSub {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  color: rgba(0, 0, 0, 0.42);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Chevron for dropdown */
+.chevron {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.45);
   flex-shrink: 0;
-  transition: color 0.3s, background 0.3s;
+  transition: transform 0.25s ease;
+  margin-right: 0.25rem;
 }
 
-.gpsBtn:hover {
-  color: #39ff14;
-  background: rgba(57, 255, 20, 0.08);
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
-.gpsBtnIcon { font-size: 0.88rem; }
-
-/* Vertical divider */
+/* Divider between fields */
 .searchDivider {
   width: 1px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.11);
+  background: rgba(0, 0, 0, 0.1);
+  margin: 0.65rem 0;
   flex-shrink: 0;
 }
 
-/* Clear button */
-.clearBtn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.28);
-  font-size: 0.82rem;
-  flex-shrink: 0;
-  transition: color 0.2s, background 0.2s;
-}
-
-.clearBtn:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* ─── DROPDOWN ──────────────────────────────────────────── */
-.suggestions {
+/* ── Activity dropdown ── */
+.activityDropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 6px);
   left: 0;
   right: 0;
-  width: 100%;
-  /* limit height — never flood the page */
-  max-height: 260px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background: rgba(10, 10, 10, 0.97);
-  border: 1px solid rgba(57, 255, 20, 0.18);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   z-index: 9999;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  max-height: 240px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
   scrollbar-width: thin;
   scrollbar-color: rgba(57, 255, 20, 0.3) transparent;
 }
 
-.suggestions::-webkit-scrollbar { width: 4px; }
-.suggestions::-webkit-scrollbar-track { background: transparent; }
-.suggestions::-webkit-scrollbar-thumb {
-  background: rgba(57, 255, 20, 0.3);
-  border-radius: 99px;
-}
-
-.suggestionsLabel {
-  display: block;
+.activityOption {
+  padding: 0.65rem 1.1rem;
   font-family: "Inter", sans-serif;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.26);
-  padding: 0.8rem 1rem 0.35rem;
-  position: sticky;
-  top: 0;
-  background: rgba(10, 10, 10, 0.97);
-  z-index: 1;
-}
-
-.suggestionItem {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  width: 100%;
-  padding: 0.65rem 1rem;
-  background: transparent;
-  border: none;
+  font-size: 0.88rem;
+  color: #222222;
   cursor: pointer;
-  font-family: "Inter", sans-serif;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.62);
-  text-align: left;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s;
 }
 
-.suggestionItem:hover {
-  background: rgba(57, 255, 20, 0.07);
-  color: #ffffff;
+.activityOption:hover {
+  background: rgba(57, 255, 20, 0.08);
+  color: #000000;
 }
 
-.suggestionIcon {
-  font-size: 0.78rem;
-  color: rgba(57, 255, 20, 0.5);
-  flex-shrink: 0;
+.activityOptionActive {
+  background: rgba(57, 255, 20, 0.12);
+  color: #000000;
+  font-weight: 600;
 }
 
-/* ─── SEARCH BUTTON ─────────────────────────────────────── */
+/* ── CTA search button ── */
 .searchBtn {
-  position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  /* smaller vertical padding to keep bar compact */
-  padding: 0.9rem 1.6rem;
+  padding: 0 1.5rem;
   margin: 0.35rem;
   background: #39ff14;
   color: #000000;
   font-family: "Poppins", sans-serif;
   font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  font-weight: 700;
   border: none;
-  border-radius: 7px;
+  border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.28);
-  transition: box-shadow 0.3s;
   flex-shrink: 0;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .searchBtn:hover {
-  box-shadow: 0 6px 36px rgba(57, 255, 20, 0.5);
+  opacity: 0.88;
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.35);
 }
 
-.searchBtnIcon { font-size: 0.92rem; }
-
-.searchBtnRipple {
-  position: absolute;
-  inset: 0;
-  border-radius: 7px;
-  background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-.searchBtn:hover .searchBtnRipple {
-  opacity: 1;
-  animation: rippleEffect 0.6s ease-out;
-}
-
-@keyframes rippleEffect {
-  0%   { transform: scale(0.5); opacity: 0.4; }
-  100% { transform: scale(1.5); opacity: 0; }
-}
-
-/* ─── POPULAR CHIPS ─────────────────────────────────────── */
-.chipsRow {
+/* ════════════════════════════════════════════════
+   STAT CARDS (right column)
+════════════════════════════════════════════════ */
+.statCard {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 1;
+  gap: 0.75rem;
+  padding: 0.8rem 1.1rem;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(57, 255, 20, 0.18);
+  border-radius: 10px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  min-width: 170px;
 }
 
-.chipsLabel {
-  font-family: "Inter", sans-serif;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.38);
-  font-weight: 500;
+.statIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.2);
   flex-shrink: 0;
 }
 
-.chip {
-  padding: 0.3rem 0.85rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 100px;
-  font-family: "Inter", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.22s,
-    background 0.22s,
-    color 0.22s,
-    box-shadow 0.22s;
-}
-
-.chip:hover {
-  border-color: rgba(57, 255, 20, 0.45);
-  background: rgba(57, 255, 20, 0.08);
+.statIcon {
   color: #39ff14;
-  box-shadow: 0 0 10px rgba(57, 255, 20, 0.14);
+  font-size: 1.1rem;
 }
 
-/* ─── TRUST ROW ─────────────────────────────────────────── */
-.trustRow {
-  display: flex;
-  align-items: center;
-  gap: 1.75rem;
-}
-
-.trustStat {
-  display: flex;
-  flex-direction: column;
-  gap: 0.08rem;
-}
-
-.trustValue {
+.statValue {
   font-family: "Poppins", sans-serif;
   font-size: 1.05rem;
   font-weight: 800;
   color: #ffffff;
+  margin: 0;
   line-height: 1;
 }
 
-.trustLabel {
+.statLabel {
   font-family: "Inter", sans-serif;
   font-size: 0.67rem;
-  color: rgba(255, 255, 255, 0.38);
-  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0.18rem 0 0;
+  white-space: nowrap;
 }
 
-/* ─── RESPONSIVE ────────────────────────────────────────── */
-@media (max-width: 1280px) {
-  .headline {
-    font-size: clamp(1.9rem, 3.5vw, 3.2rem);
-  }
-}
-
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .headline {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+  .layout {
+    align-items: flex-end;
   }
-  .content {
-    gap: 1rem;
+
+  .left {
+    max-width: 520px;
+    gap: 1.25rem;
+  }
+
+  .right {
+    padding-right: 0;
+  }
+
+  .statCard {
+    min-width: 150px;
   }
 }
 
 @media (max-width: 768px) {
-  .content {
-    gap: 0.9rem;
-    max-width: 100%;
-  }
-
-  .headline {
-    font-size: clamp(1.7rem, 7vw, 2.6rem);
-  }
-
-  .subheadline {
-    font-size: 0.9rem;
-    max-width: 100%;
-  }
-
-  .searchPanel {
+  .layout {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .left {
+    max-width: 100%;
+    gap: 1.1rem;
+  }
+
+  .right {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .statCard {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .searchBar {
+    flex-direction: column;
+    max-width: 100%;
     border-radius: 10px;
   }
 
   .searchField {
-    padding: 0 1rem;
-    flex-shrink: unset;
+    padding: 0.9rem 1rem;
+  }
+
+  .searchField:first-child {
+    border-radius: 10px 10px 0 0;
   }
 
   .searchDivider {
@@ -455,47 +414,44 @@
     margin: 0 1rem;
   }
 
-  .searchInput {
-    width: 100%;
-    padding: 0.9rem 0;
-  }
-
   .searchBtn {
     margin: 0.4rem;
+    padding: 0.85rem 1rem;
     justify-content: center;
+    border-radius: 8px;
   }
 
-  .trustRow {
-    gap: 1.1rem;
+  .headlineLine2,
+  .headlineLine3 {
+    font-size: clamp(2rem, 9vw, 3.5rem);
   }
 
-  .suggestions {
-    max-height: 200px;
+  .headlineLine1 {
+    font-size: clamp(1.3rem, 4.5vw, 2rem);
   }
 }
 
 @media (max-width: 480px) {
-  .content {
-    gap: 0.8rem;
+  .left {
+    gap: 0.9rem;
   }
 
-  .headline {
-    font-size: clamp(1.55rem, 9vw, 2.2rem);
+  .headlineLine2,
+  .headlineLine3 {
+    font-size: clamp(1.8rem, 11vw, 2.8rem);
   }
 
-  .chipsRow {
-    gap: 0.4rem;
+  .right {
+    display: none; /* hide stats on very small screens — too cramped */
   }
 
-  .trustRow {
-    flex-wrap: wrap;
-    gap: 0.85rem;
+  .subBreak {
+    display: block;
   }
 }
 
-/* ─── REDUCED MOTION ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .eyebrowDot {
+  .badgeDot {
     animation: none;
     opacity: 1;
   }

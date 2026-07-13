@@ -1,123 +1,64 @@
-import { lazy, Suspense, useRef, useState, useEffect } from "react";
-import useMouseParallax from "../../../../hooks/useMouseParallax";
-import useHeroAnimation from "../../../../hooks/useHeroAnimation";
+import { useRef, useState, useEffect } from "react";
 import useReducedMotion from "../../../../hooks/useReducedMotion";
 import HeroContent from "./HeroContent";
 import styles from "./Hero.module.css";
 
-const HeroScene = lazy(() => import("../../../three/HeroScene/HeroScene"));
-
-const VIDEO_SOURCES = {
-  webm: "/videos/hero-loop.webm",
-  mp4: "/videos/hero-loop.mp4",
-  poster:
-    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=60&fit=crop&auto=format",
-};
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1200&q=85&fit=crop&auto=format";
 
 const useDeviceCapability = () => {
   const [capability, setCapability] = useState("high");
-
   useEffect(() => {
-    const checkCapability = () => {
-      const isMobile = window.matchMedia(
-        "(hover: none) and (pointer: coarse)"
-      ).matches;
-      const hasLowMemory =
-        "deviceMemory" in navigator && navigator.deviceMemory < 4;
-      const hasSlowConnection =
-        "connection" in navigator &&
-        ["slow-2g", "2g"].includes(navigator.connection?.effectiveType);
-
-      if (isMobile && hasLowMemory) {
-        setCapability("low");
-      } else if (isMobile || hasSlowConnection) {
-        setCapability("medium");
-      } else {
-        setCapability("high");
-      }
-    };
-    checkCapability();
+    const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const hasLowMemory = "deviceMemory" in navigator && navigator.deviceMemory < 4;
+    const hasSlowConnection =
+      "connection" in navigator &&
+      ["slow-2g", "2g"].includes(navigator.connection?.effectiveType);
+    if (isMobile && hasLowMemory) setCapability("low");
+    else if (isMobile || hasSlowConnection) setCapability("medium");
+    else setCapability("high");
   }, []);
-
   return capability;
 };
 
-const StaticFallback = () => (
-  <div
-    className={styles.staticFallback}
-    style={{ backgroundImage: `url(${VIDEO_SOURCES.poster})` }}
-    role="img"
-    aria-label="Elite athlete training in premium Gymsssy Fitness facility"
-  />
-);
-
 const Hero = () => {
-  const prefersReduced = useReducedMotion();
-  const deviceCapability = useDeviceCapability();
-  const videoRef = useRef(null);
-
-  const isMobile = deviceCapability !== "high";
-  const { mouseX, mouseY } = useMouseParallax({
-    lerpFactor: 0.05,
-    disabled: isMobile || prefersReduced,
-  });
-
-  const animRefs = useHeroAnimation({ isLoaderDone: true });
-  const showVideo = !prefersReduced;
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video || !showVideo) return;
-
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-
-    const playVideo = async () => {
-      try {
-        await video.play();
-      } catch {
-        if (import.meta.env.DEV) {
-          console.info("[Hero] Video autoplay blocked — poster image showing.");
-        }
-      }
-    };
-
-    playVideo();
-  }, [showVideo]);
+  const prefersReduced    = useReducedMotion();
+  const deviceCapability  = useDeviceCapability();
 
   return (
     <section
       className={styles.hero}
-      aria-label="Hero section — Gymsssy Fitness premium gym"
+      aria-label="Hero — Gymssy India's #1 Fitness Marketplace"
     >
-      {/* LAYER 0: NOISE TEXTURE OVERLAY */}
+      {/* ── Noise texture ── */}
       <div className={styles.noiseOverlay} aria-hidden="true" />
 
-      {/* LAYER 1: VIDEO / STATIC BACKGROUND */}
-      <div className={styles.videoLayer} aria-hidden="true">
-        <StaticFallback />
+      {/* ── Dark base gradient ── */}
+      <div className={styles.baseGradient} aria-hidden="true" />
+
+      {/* ── Athlete image — right half ── */}
+      <div className={styles.athleteLayer} aria-hidden="true">
+        <img
+          src={HERO_IMAGE}
+          alt=""
+          className={styles.athleteImg}
+          loading="eager"
+          fetchpriority="high"
+        />
+        {/* fade the image into the dark left side */}
+        <div className={styles.athleteFadeLeft}  aria-hidden="true" />
+        <div className={styles.athleteFadeBottom} aria-hidden="true" />
       </div>
 
-      {/* LAYER 2: GRADIENT OVERLAYS */}
-      <div className={styles.gradientLeft} aria-hidden="true" />
-      <div className={styles.gradientBottom} aria-hidden="true" />
-      <div className={styles.gradientTop} aria-hidden="true" />
-      <div className={styles.vignette} aria-hidden="true" />
-
-      {/* LAYER 4: GRID PATTERN */}
+      {/* ── Grid overlay ── */}
       <div className={styles.gridOverlay} aria-hidden="true" />
 
-      {/* LAYER 5: NEON LINE ACCENTS */}
-      <div className={styles.neonLineLeft} aria-hidden="true" />
-      <div className={styles.neonLineRight} aria-hidden="true" />
-
-      {/* LAYER 6: CONTENT */}
+      {/* ── Content ── */}
       <div className={styles.container}>
-        <HeroContent animRefs={animRefs} />
+        <HeroContent />
       </div>
 
-      {/* LAYER 8: BOTTOM EDGE FADE */}
+      {/* ── Bottom fade into next section ── */}
       <div className={styles.bottomFade} aria-hidden="true" />
     </section>
   );

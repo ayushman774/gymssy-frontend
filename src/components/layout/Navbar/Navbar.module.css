@@ -1,10 +1,10 @@
+/* ─── BASE ──────────────────────────────────────────────── */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: var(--z-sticky);
-
   width: 100%;
   transition:
     background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
@@ -23,7 +23,7 @@
 }
 
 .scrolled {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow:
@@ -32,29 +32,168 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+/* ─── INNER LAYOUT ──────────────────────────────────────── */
+/*
+  4 columns:
+  [logo] [nav — centred] [cta buttons] [hamburger — hidden on desktop]
+*/
 .inner {
   display: grid;
   grid-template-columns: auto 1fr auto auto;
   align-items: center;
+  gap: 0 clamp(1rem, 3vw, 2rem);
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--container-padding);
-  height: 80px; /* ← matches the padding-top offset in Hero */
+  height: 80px;
 }
 
+/* ─── DESKTOP NAV ───────────────────────────────────────── */
 .desktopNav {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
 }
 
+.navLink {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-neon);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 99px;
+}
+
+.navLink:hover {
+  color: #ffffff;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+}
+
+/* Active state */
+.navLinkActive {
+  color: #ffffff;
+}
+
+.navLinkActive::after {
+  transform: scaleX(1);
+}
+
+/* Active dot below the link text (optional indicator) */
+.activeDot {
+  display: none; /* underline approach is cleaner — keep this hidden */
+}
+
+/* ─── DESKTOP CTA BUTTONS ───────────────────────────────── */
 .desktopCTA {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  gap: 0.65rem;
 }
 
+/* Outlined — Log In */
+.btnOutline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-full, 9999px);
+  background: transparent;
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    border-color 0.25s ease,
+    color 0.25s ease,
+    background 0.25s ease;
+}
+
+.btnOutline:hover {
+  border-color: rgba(57, 255, 20, 0.55);
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.05);
+}
+
+/* Filled — Get Started */
+.btnFilled {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.52rem 1.35rem;
+  border-radius: var(--radius-full, 9999px);
+  background: #39ff14;
+  color: #000000;
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    opacity 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.btnFilled:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.35);
+}
+
+/* Shimmer sweep on hover */
+.btnFilledShimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.btnFilled:hover .btnFilledShimmer {
+  transform: translateX(100%);
+}
+
+/* ─── GLASSMORPHISM BORDER LINE ─────────────────────────── */
 .borderLine {
   position: absolute;
   bottom: 0;
@@ -64,9 +203,9 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(57, 255, 20, 0.3) 20%,
-    rgba(57, 255, 20, 0.6) 50%,
-    rgba(57, 255, 20, 0.3) 80%,
+    rgba(57, 255, 20, 0.25) 20%,
+    rgba(57, 255, 20, 0.55) 50%,
+    rgba(57, 255, 20, 0.25) 80%,
     transparent 100%
   );
   transform-origin: center;
@@ -74,11 +213,11 @@
 }
 
 /* ─── RESPONSIVE ────────────────────────────────────────── */
-
 @media (max-width: 1024px) {
   .inner {
+    /* logo | spacer | hamburger */
     grid-template-columns: auto 1fr auto;
-    height: 72px; /* ← matches tablet offset */
+    height: 72px;
   }
 
   .desktopNav {
@@ -92,14 +231,14 @@
 
 @media (max-width: 768px) {
   .inner {
-    height: 64px; /* ← matches mobile offset */
+    height: 64px;
     padding: 0 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .inner {
-    height: 60px; /* ← matches small mobile offset */
+    height: 60px;
     padding: 0 1.25rem;
   }
 }
