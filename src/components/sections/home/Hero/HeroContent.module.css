@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════
-   LAYOUT — side by side on desktop
+   LAYOUT
 ════════════════════════════════════════════════ */
 .layout {
   display: flex;
@@ -9,52 +9,55 @@
   width: 100%;
 }
 
-/* Left column — takes up ~55% */
 .left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.5rem;
-  max-width: 780px;
+  gap: 1.4rem;
+  max-width: 700px;
   flex: 0 0 auto;
 }
 
-/* Right column — stat cards stacked */
 .right {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.8rem;
   flex-shrink: 0;
-  /* pushed toward the athlete image */
   margin-left: auto;
-  padding-right: 1rem;
 }
 
 /* ════════════════════════════════════════════════
-   BADGE / EYEBROW
+   BADGE
 ════════════════════════════════════════════════ */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.4rem 0.9rem;
+  padding: 0.38rem 0.9rem;
   border: 1px solid rgba(57, 255, 20, 0.35);
   border-radius: 999px;
-  background: rgba(57, 255, 20, 0.07);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.5s ease;
 }
 
 .badgeDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #39ff14;
   flex-shrink: 0;
   animation: blink 2s ease-in-out infinite;
+  transition: background 0.5s ease;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .badgeText {
@@ -63,47 +66,44 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #39ff14;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* ════════════════════════════════════════════════
-   HEADLINE — 3 distinct lines
+   HEADLINE
 ════════════════════════════════════════════════ */
 .headline {
   display: flex;
   flex-direction: column;
-  gap: 0;
   margin: 0;
-  line-height: 1.08;
+  line-height: 1.05;
+  gap: 0.05em;
 }
 
-/* Line 1: "Discover, Compare & Book" — white, medium size */
 .headlineLine1 {
   font-family: "Poppins", sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-size: clamp(1.45rem, 2.6vw, 2.4rem);
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.02em;
 }
 
-/* Line 2: "India's Best" — neon green, large */
 .headlineLine2 {
   font-family: "Poppins", sans-serif;
-  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
-  font-weight: 700;
-  color: #39ff14;
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  font-weight: 900;
   letter-spacing: -0.03em;
-  line-height: 1.02;
+  line-height: 1;
+  transition: color 0.5s ease;
 }
 
-/* Line 3: "Fitness Experiences" — white, large */
 .headlineLine3 {
   font-family: "Poppins", sans-serif;
-  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
-  font-weight: 700;
-  color: #39ff14;
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  font-weight: 900;
+  color: #ffffff;
   letter-spacing: -0.03em;
-  line-height: 1.02;
+  line-height: 1;
 }
 
 /* ════════════════════════════════════════════════
@@ -111,73 +111,66 @@
 ════════════════════════════════════════════════ */
 .subheadline {
   font-family: "Inter", sans-serif;
-  font-size: clamp(0.88rem, 1.3vw, 1rem);
-  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(0.85rem, 1.2vw, 0.98rem);
+  color: rgba(255, 255, 255, 0.58);
   line-height: 1.7;
   margin: 0;
-  max-width: 440px;
-}
-
-.subBreak {
-  display: none;
+  max-width: 460px;
 }
 
 /* ════════════════════════════════════════════════
-   SEARCH BAR
+   SEARCH BAR — white card
 ════════════════════════════════════════════════ */
 .searchBar {
   display: flex;
   align-items: stretch;
   width: 100%;
-  max-width: 750px;
+  max-width: 700px;
   background: #ffffff;
   border-radius: 10px;
   overflow: visible;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.07),
+    0 20px 50px rgba(0, 0, 0, 0.3);
   position: relative;
 }
 
-/* Each field slot */
 .searchField {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.85rem 1rem;
+  padding: 0.8rem 1rem;
   flex: 1;
   min-width: 0;
   cursor: pointer;
-}
-
-.searchField:first-child {
-  border-radius: 10px 0 0 10px;
+  transition: background 0.2s ease;
+  border-radius: 10px;
 }
 
 .searchField:hover {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(0, 0, 0, 0.025);
 }
 
 .searchFieldIcon {
-  font-size: 1.1rem;
-  color: #39ff14;
+  font-size: 1.05rem;
   flex-shrink: 0;
+  transition: color 0.4s ease;
 }
 
 .searchFieldText {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.08rem;
   min-width: 0;
   flex: 1;
-  user-select: none;
 }
 
-/* Actual text input (location) */
 .searchInput {
   background: transparent;
   border: none;
   outline: none;
   font-family: "Poppins", sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #111111;
   width: 100%;
@@ -190,10 +183,9 @@
   font-weight: 600;
 }
 
-/* Display span for the dropdown trigger */
 .searchInputDisplay {
   font-family: "Poppins", sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #111111;
   white-space: nowrap;
@@ -201,116 +193,136 @@
   text-overflow: ellipsis;
 }
 
-/* Sub label (e.g. "Your city or area") */
 .searchFieldSub {
   font-family: "Inter", sans-serif;
-  font-size: 0.68rem;
-  color: rgba(0, 0, 0, 0.42);
+  font-size: 0.66rem;
+  color: rgba(0, 0, 0, 0.4);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Chevron for dropdown */
 .chevron {
   font-size: 1rem;
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
   transition: transform 0.25s ease;
-  margin-right: 0.25rem;
+  margin-right: 0.2rem;
 }
 
 .chevronOpen {
   transform: rotate(180deg);
 }
 
-/* Divider between fields */
 .searchDivider {
   width: 1px;
-  background: rgba(0, 0, 0, 0.1);
-  margin: 0.65rem 0;
+  background: rgba(0, 0, 0, 0.09);
+  margin: 0.6rem 0;
   flex-shrink: 0;
 }
 
-/* ── Activity dropdown ── */
+/* Dropdown */
 .activityDropdown {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
   right: 0;
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   z-index: 9999;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-  max-height: 240px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  max-height: 230px;
   overflow-y: auto;
   list-style: none;
   margin: 0;
-  padding: 0.4rem 0;
+  padding: 0.35rem 0;
   scrollbar-width: thin;
-  scrollbar-color: rgba(57, 255, 20, 0.3) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 }
 
 .activityOption {
-  padding: 0.65rem 1.1rem;
+  padding: 0.6rem 1rem;
   font-family: "Inter", sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.87rem;
   color: #222222;
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .activityOption:hover {
-  background: rgba(57, 255, 20, 0.08);
-  color: #000000;
+  background: rgba(57, 255, 20, 0.07);
 }
 
 .activityOptionActive {
-  background: rgba(57, 255, 20, 0.12);
-  color: #000000;
+  background: rgba(57, 255, 20, 0.1);
   font-weight: 600;
 }
 
-/* ── CTA search button ── */
+/* CTA button */
 .searchBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0 1.5rem;
-  margin: 0.35rem;
+  gap: 0.4rem;
+  padding: 0 1.4rem;
+  margin: 0.32rem;
   background: #39ff14;
   color: #000000;
   font-family: "Poppins", sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 700;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.5s ease;
+  min-height: 44px;
 }
 
 .searchBtn:hover {
   opacity: 0.88;
-  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.35);
+  box-shadow: 0 4px 20px rgba(57, 255, 20, 0.3);
 }
 
 /* ════════════════════════════════════════════════
-   STAT CARDS (right column)
+   TRUST BADGES
+════════════════════════════════════════════════ */
+.trustRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.trustBadge {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ════════════════════════════════════════════════
+   STAT CARDS
 ════════════════════════════════════════════════ */
 .statCard {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.8rem 1.1rem;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(57, 255, 20, 0.18);
+  background: rgba(0, 0, 0, 0.52);
+  border: 1px solid
+    color-mix(in srgb, var(--accent) 22%, rgba(255, 255, 255, 0.06));
   border-radius: 10px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  min-width: 170px;
+  min-width: 175px;
+  transition: border-color 0.5s ease;
 }
 
 .statIconWrap {
@@ -320,14 +332,18 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: rgba(57, 255, 20, 0.1);
-  border: 1px solid rgba(57, 255, 20, 0.2);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   flex-shrink: 0;
+  transition:
+    background 0.5s ease,
+    border-color 0.5s ease;
 }
 
 .statIcon {
-  color: #39ff14;
+  color: var(--accent, #39ff14);
   font-size: 1.1rem;
+  transition: color 0.5s ease;
 }
 
 .statValue {
@@ -341,8 +357,8 @@
 
 .statLabel {
   font-family: "Inter", sans-serif;
-  font-size: 0.67rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.48);
   margin: 0.18rem 0 0;
   white-space: nowrap;
 }
@@ -350,22 +366,12 @@
 /* ════════════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  .layout {
-    align-items: flex-end;
-  }
-
-  .left {
-    max-width: 520px;
-    gap: 1.25rem;
-  }
-
+@media (max-width: 1100px) {
   .right {
-    padding-right: 0;
+    display: none;
   }
-
-  .statCard {
-    min-width: 150px;
+  .left {
+    max-width: 600px;
   }
 }
 
@@ -373,61 +379,34 @@
   .layout {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
   }
-
   .left {
     max-width: 100%;
     gap: 1.1rem;
   }
-
-  .right {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-    margin-left: 0;
-    width: 100%;
+  .headlineLine2,
+  .headlineLine3 {
+    font-size: clamp(1.9rem, 9vw, 3.2rem);
   }
-
-  .statCard {
-    flex: 1;
-    min-width: 140px;
+  .headlineLine1 {
+    font-size: clamp(1.15rem, 4vw, 1.8rem);
   }
-
   .searchBar {
     flex-direction: column;
     max-width: 100%;
-    border-radius: 10px;
   }
-
-  .searchField {
-    padding: 0.9rem 1rem;
-  }
-
-  .searchField:first-child {
-    border-radius: 10px 10px 0 0;
-  }
-
   .searchDivider {
     width: calc(100% - 2rem);
     height: 1px;
     margin: 0 1rem;
   }
-
   .searchBtn {
-    margin: 0.4rem;
-    padding: 0.85rem 1rem;
+    margin: 0.35rem;
     justify-content: center;
-    border-radius: 8px;
+    padding: 0.85rem 1rem;
   }
-
-  .headlineLine2,
-  .headlineLine3 {
-    font-size: clamp(2rem, 9vw, 3.5rem);
-  }
-
-  .headlineLine1 {
-    font-size: clamp(1.3rem, 4.5vw, 2rem);
+  .trustRow {
+    gap: 0.65rem;
   }
 }
 
@@ -435,18 +414,15 @@
   .left {
     gap: 0.9rem;
   }
-
   .headlineLine2,
   .headlineLine3 {
-    font-size: clamp(1.8rem, 11vw, 2.8rem);
+    font-size: clamp(1.7rem, 11vw, 2.6rem);
   }
-
-  .right {
-    display: none; /* hide stats on very small screens — too cramped */
+  .subheadline {
+    font-size: 0.85rem;
   }
-
-  .subBreak {
-    display: block;
+  .trustRow {
+    display: none;
   }
 }
 
@@ -454,5 +430,12 @@
   .badgeDot {
     animation: none;
     opacity: 1;
+  }
+  .statCard,
+  .headlineLine2,
+  .searchBtn,
+  .statIcon,
+  .statIconWrap {
+    transition: none;
   }
 }

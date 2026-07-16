@@ -1,0 +1,2179 @@
+/* ═══════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════ */
+.page {
+  background: var(--color-black, #000);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.sectionContainer {
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding: 0 var(--container-padding, 2rem);
+}
+
+.section {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+}
+
+.sectionAlt {
+  background: var(--color-gray-900, #0f0f0f);
+}
+
+.sectionHead {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.sectionHeadRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sectionHeading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  margin: 0.5rem 0;
+}
+
+.sectionSubtext {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.52);
+  max-width: 520px;
+  margin: 0.75rem auto 0;
+  line-height: 1.7;
+}
+
+.accentText {
+  color: #39ff14;
+}
+
+.viewAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #39ff14;
+  text-decoration: none;
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  border-radius: 999px;
+  padding: 0.38rem 0.9rem;
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.viewAllBtn:hover {
+  background: rgba(57, 255, 20, 0.08);
+  border-color: rgba(57, 255, 20, 0.55);
+}
+
+/* ═══════════════════════════════════════════
+   PAGE HEADER
+═══════════════════════════════════════════ */
+.pageHeader {
+  position: relative;
+  height: clamp(240px, 35vh, 380px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.headerBgWrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.headerBgImg {
+  width: 100%;
+  height: 115%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: brightness(0.35) saturate(0.7);
+  display: block;
+}
+
+.headerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.65) 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  z-index: 1;
+}
+
+.headerContent {
+  position: relative;
+  z-index: 2;
+  max-width: var(--container-max, 1280px);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--container-padding, 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.breadcrumbLink {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+
+.breadcrumbLink:hover {
+  color: #39ff14;
+}
+
+.breadcrumbSep {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+}
+
+.breadcrumbCurrent {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #39ff14;
+  letter-spacing: 0.05em;
+}
+
+.headerTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.headerAccent {
+  color: #39ff14;
+}
+
+.headerSubtitle {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 500px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.headerLine {
+  height: 2px;
+  width: clamp(60px, 10vw, 100px);
+  background: linear-gradient(90deg, #39ff14, transparent);
+  border-radius: 999px;
+  transform-origin: left center;
+}
+
+/* ═══════════════════════════════════════════
+   SEARCH SECTION
+═══════════════════════════════════════════ */
+.searchSection {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  background: var(--color-black, #000);
+}
+
+.searchHeader {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.searchHeading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0.5rem 0 0;
+}
+
+/* ── Outer wrapper ── */
+.searchBoxWrap {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.05),
+    0 24px 64px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.searchBoxWrap:focus-within {
+  border-color: rgba(57, 255, 20, 0.4);
+}
+
+/* ── Pill row (inputs + button) ── */
+.searchPill {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 72px;
+}
+
+/* ── Each field slot ── */
+.searchField {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1rem 1.4rem;
+  flex-shrink: 0;
+  flex: 0 0 auto;
+  width: 240px;
+  transition: background 0.2s ease;
+  cursor: text;
+}
+
+.searchFieldGrow {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+.searchFieldActive {
+  background: rgba(57, 255, 20, 0.035);
+}
+
+.searchFieldIcon {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+  transition: color 0.25s ease;
+}
+
+.searchFieldActive .searchFieldIcon {
+  color: #39FF14;
+}
+
+/* Label + input stacked vertically */
+.searchFieldText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.searchLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.32);
+  white-space: nowrap;
+  cursor: text;
+  user-select: none;
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: "Inter", sans-serif;
+  font-size: 0.88rem;
+  color: #ffffff;
+  width: 100%;
+  caret-color: #39FF14;
+  padding: 0;
+  min-width: 0;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.82rem;
+}
+
+/* Clear × button */
+.clearBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 0.82rem;
+  flex-shrink: 0;
+  transition: color 0.2s, background 0.2s;
+}
+
+.clearBtn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Vertical divider between fields */
+.pillDivider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 1rem 0;
+  flex-shrink: 0;
+}
+
+/* Explore CTA button */
+.searchBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0 2rem;
+  margin: 0.5rem;
+  background: #39FF14;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.22s ease, box-shadow 0.22s ease;
+  min-width: 120px;
+}
+
+.searchBtn:hover {
+  opacity: 0.88;
+  box-shadow: 0 4px 22px rgba(57, 255, 20, 0.35);
+}
+
+/* ── Suggestions row (below pill) ── */
+.suggestionsRow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.suggestionsLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.32);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.suggestionsChips {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.suggestionChip {
+  padding: 0.3rem 0.8rem;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.58);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.suggestionChip:hover {
+  border-color: rgba(57, 255, 20, 0.42);
+  background: rgba(57, 255, 20, 0.07);
+  color: #39FF14;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .searchPill {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .searchField {
+    width: 100%;
+    flex: none;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .searchField:last-of-type {
+    border-bottom: none;
+  }
+
+  .pillDivider {
+    display: none;
+  }
+
+  .searchBtn {
+    margin: 0.5rem 0.75rem;
+    padding: 0.85rem;
+    min-width: auto;
+    width: calc(100% - 1.5rem);
+  }
+
+  .suggestionsRow {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .suggestionsChips {
+    gap: 0.35rem;
+  }
+
+  .suggestionChip {
+    font-size: 0.68rem;
+    padding: 0.26rem 0.65rem;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   CATEGORIES GRID
+═══════════════════════════════════════════ */
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+}
+
+.categoryCard {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: border-color 0.35s;
+}
+
+.categoryCard--neon:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+}
+.categoryCard--blue:hover {
+  border-color: rgba(59, 130, 246, 0.35);
+}
+.categoryCard--purple:hover {
+  border-color: rgba(167, 139, 250, 0.35);
+}
+.categoryCard--pink:hover {
+  border-color: rgba(236, 72, 153, 0.35);
+}
+.categoryCard--red:hover {
+  border-color: rgba(239, 68, 68, 0.35);
+}
+.categoryCard--orange:hover {
+  border-color: rgba(249, 115, 22, 0.35);
+}
+.categoryCard--green:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+}
+.categoryCard--teal:hover {
+  border-color: rgba(20, 184, 166, 0.35);
+}
+
+.categoryImgWrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
+
+.categoryImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45) saturate(0.7);
+  transition:
+    transform 0.55s ease,
+    filter 0.55s ease;
+  display: block;
+}
+
+.categoryCard:hover .categoryImg {
+  transform: scale(1.08);
+  filter: brightness(0.55) saturate(1);
+}
+
+.categoryImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.3) 60%,
+    transparent 100%
+  );
+}
+
+.categoryBody {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem 1rem;
+  z-index: 2;
+}
+
+.categoryIcon {
+  font-size: 1.6rem;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.categoryTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.2rem;
+}
+
+.categoryCount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.categoryAccent {
+  height: 2px;
+  border-radius: 999px;
+  margin-top: 0.6rem;
+  width: 30px;
+  transition: width 0.35s;
+}
+
+.categoryCard:hover .categoryAccent {
+  width: 55px;
+}
+
+.categoryAccent--neon {
+  background: #39ff14;
+}
+.categoryAccent--blue {
+  background: #3b82f6;
+}
+.categoryAccent--purple {
+  background: #a78bfa;
+}
+.categoryAccent--pink {
+  background: #ec4899;
+}
+.categoryAccent--red {
+  background: #ef4444;
+}
+.categoryAccent--orange {
+  background: #f97316;
+}
+.categoryAccent--green {
+  background: #39ff14;
+}
+.categoryAccent--teal {
+  background: #14b8a6;
+}
+
+.categoryHoverOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 100%,
+    rgba(57, 255, 20, 0.06),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.categoryCard:hover .categoryHoverOverlay {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   DISCOVER CARDS (Trending)
+═══════════════════════════════════════════ */
+.discoverGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.discoverCard {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.discoverCard:hover {
+  border-color: rgba(57, 255, 20, 0.2);
+}
+
+.discoverImgWrap {
+  position: relative;
+  aspect-ratio: 16/8;
+  overflow: hidden;
+}
+
+.discoverImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.75) saturate(0.85);
+  transition:
+    transform 0.55s ease,
+    filter 0.55s ease;
+  display: block;
+}
+
+.discoverCard:hover .discoverImg {
+  transform: scale(1.05);
+  filter: brightness(0.85) saturate(1);
+}
+
+.discoverImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
+}
+
+.verifiedBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  background: rgba(57, 255, 20, 0.15);
+  border: 1px solid rgba(57, 255, 20, 0.4);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #39ff14;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(8px);
+}
+
+.discoverCategory {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  padding: 0.28rem 0.65rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(8px);
+}
+
+.discoverBody {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.discoverMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.discoverRating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.discoverRating svg {
+  color: #f59e0b;
+}
+
+.discoverReviews {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.discoverDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.discoverDistance {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.discoverDistance svg {
+  font-size: 0.7rem;
+}
+
+.discoverName {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.discoverTags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.discoverTag {
+  padding: 0.22rem 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.discoverFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.discoverPrice {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.discoverPrice strong {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #39ff14;
+}
+
+.discoverActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.discoverBtnOutline {
+  padding: 0.42rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.discoverBtnOutline:hover {
+  border-color: rgba(57, 255, 20, 0.45);
+  color: #39ff14;
+}
+
+.discoverBtnFilled {
+  padding: 0.42rem 0.9rem;
+  background: #39ff14;
+  border: none;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.discoverBtnFilled:hover {
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════
+   COLLECTIONS GRID
+═══════════════════════════════════════════ */
+.collectionsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.collectionCard {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.3s;
+}
+
+.collectionCard:hover {
+  border-color: color-mix(in srgb, var(--col-accent) 40%, transparent);
+}
+
+.collectionImgWrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.collectionImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45) saturate(0.75);
+  transition:
+    transform 0.55s ease,
+    filter 0.55s ease;
+  display: block;
+}
+
+.collectionCard:hover .collectionImg {
+  transform: scale(1.07);
+  filter: brightness(0.55) saturate(1);
+}
+
+.collectionOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.2) 60%,
+    transparent 100%
+  );
+}
+
+.collectionContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  z-index: 2;
+}
+
+.collectionCount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--col-accent) 90%, #fff);
+  margin: 0 0 0.35rem;
+}
+
+.collectionTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.collectionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+}
+
+.collectionBtn:hover {
+  background: color-mix(in srgb, var(--col-accent) 18%, transparent);
+  border-color: color-mix(in srgb, var(--col-accent) 55%, transparent);
+}
+
+/* ═══════════════════════════════════════════
+   CITIES GRID
+═══════════════════════════════════════════ */
+.citiesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.cityCard {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.3s;
+}
+
+.cityCard:hover {
+  border-color: rgba(57, 255, 20, 0.25);
+}
+
+.cityImgWrap {
+  position: relative;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+
+.cityImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45) saturate(0.75);
+  transition:
+    transform 0.55s ease,
+    filter 0.55s ease;
+  display: block;
+}
+
+.cityCard:hover .cityImg {
+  transform: scale(1.07);
+  filter: brightness(0.6) saturate(1);
+}
+
+.cityOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.15) 60%,
+    transparent 100%
+  );
+}
+
+.cityContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem;
+  z-index: 2;
+}
+
+.cityName {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.01em;
+}
+
+.cityCount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 0.85rem;
+}
+
+.cityBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.9rem;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #39ff14;
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+}
+
+.cityBtn:hover {
+  background: rgba(57, 255, 20, 0.18);
+  border-color: rgba(57, 255, 20, 0.55);
+}
+
+/* ═══════════════════════════════════════════
+   TRAINER SWIPER
+═══════════════════════════════════════════ */
+.trainerSwiper {
+  padding-bottom: 3rem !important;
+}
+
+.trainerSwiper :global(.swiper-button-next),
+.trainerSwiper :global(.swiper-button-prev) {
+  color: #39ff14;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  backdrop-filter: blur(8px);
+}
+
+.trainerSwiper :global(.swiper-button-next::after),
+.trainerSwiper :global(.swiper-button-prev::after) {
+  font-size: 0.85rem;
+}
+
+.trainerSwiper :global(.swiper-pagination-bullet) {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.trainerSwiper :global(.swiper-pagination-bullet-active) {
+  background: #39ff14;
+}
+
+.trainerCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  transition:
+    border-color 0.3s,
+    transform 0.3s;
+  cursor: default;
+}
+
+.trainerCard:hover {
+  border-color: rgba(57, 255, 20, 0.25);
+  transform: translateY(-8px);
+}
+
+.trainerImgWrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
+
+.trainerImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8) saturate(0.85);
+  transition:
+    transform 0.55s ease,
+    filter 0.55s ease;
+  display: block;
+}
+
+.trainerCard:hover .trainerImg {
+  transform: scale(1.05);
+  filter: brightness(0.9) saturate(1);
+}
+
+.trainerVerified {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #39ff14;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.trainerBody {
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.trainerRating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.trainerRating svg {
+  color: #f59e0b;
+  font-size: 0.8rem;
+}
+
+.trainerSessions {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.72rem;
+}
+
+.trainerName {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.trainerSpec {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.48);
+  margin: 0;
+}
+
+.trainerMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.trainerExp {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.trainerExp svg {
+  color: #39ff14;
+}
+
+.trainerPrice {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #39ff14;
+}
+
+.trainerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.6rem;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #39ff14;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.trainerBtn:hover {
+  background: rgba(57, 255, 20, 0.15);
+  border-color: rgba(57, 255, 20, 0.5);
+}
+
+/* ═══════════════════════════════════════════
+   GYMS GRID
+═══════════════════════════════════════════ */
+.gymsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.gymCard {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.gymCard:hover {
+  border-color: rgba(57, 255, 20, 0.2);
+}
+
+.gymImgWrap {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.gymImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7) saturate(0.8);
+  transition:
+    transform 0.55s ease,
+    filter 0.55s ease;
+  display: block;
+}
+
+.gymCard:hover .gymImg {
+  transform: scale(1.05);
+  filter: brightness(0.8) saturate(1);
+}
+
+.gymImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
+}
+
+.gymTag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.28rem 0.65rem;
+  background: #39ff14;
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gymVerified {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.28rem 0.65rem;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #39ff14;
+  backdrop-filter: blur(8px);
+}
+
+.gymBody {
+  padding: 1.25rem;
+}
+
+.gymHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.gymLogo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #39ff14;
+  letter-spacing: -0.02em;
+}
+
+.gymMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.gymRating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.gymRating svg {
+  color: #f59e0b;
+}
+
+.gymReviews {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.gymName {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.35rem;
+  letter-spacing: -0.01em;
+}
+
+.gymAddress {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0 0 0.85rem;
+}
+
+.gymAddress svg {
+  color: #39ff14;
+  flex-shrink: 0;
+}
+
+.gymAmenities {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.gymAmenity {
+  padding: 0.22rem 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.gymFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.gymPrice {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #39ff14;
+}
+
+.gymActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.gymBtnOutline {
+  padding: 0.42rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.gymBtnOutline:hover {
+  border-color: rgba(57, 255, 20, 0.4);
+  color: #39ff14;
+}
+
+.gymBtnFilled {
+  padding: 0.42rem 0.9rem;
+  background: #39ff14;
+  border: none;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.gymBtnFilled:hover {
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════
+   OFFERS GRID
+═══════════════════════════════════════════ */
+.offersGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.offerCard {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: default;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.offerGlass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.offerContent {
+  position: relative;
+  z-index: 1;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.offerTag {
+  display: inline-block;
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.offerIcon {
+  font-size: 2.2rem;
+  display: block;
+  margin: 0.25rem 0;
+}
+
+.offerTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.offerSubtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.offerDesc {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.offerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: fit-content;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+
+.offerBtn:hover {
+  opacity: 0.88;
+  transform: scale(1.03);
+}
+
+/* ═══════════════════════════════════════════
+   WHY GYMSSY
+═══════════════════════════════════════════ */
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.whyCard {
+  position: relative;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  cursor: default;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+}
+
+.whyCard--neon:hover {
+  border-color: rgba(57, 255, 20, 0.22);
+  background: rgba(57, 255, 20, 0.02);
+}
+
+.whyCard--blue:hover {
+  border-color: rgba(59, 130, 246, 0.22);
+  background: rgba(59, 130, 246, 0.02);
+}
+
+.whyIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  transition: box-shadow 0.3s;
+}
+
+.whyIconWrap--neon {
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.18);
+}
+
+.whyIconWrap--blue {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.18);
+}
+
+.whyCard--neon:hover .whyIconWrap--neon {
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.22);
+}
+
+.whyCard--blue:hover .whyIconWrap--blue {
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.22);
+}
+
+.whyIcon {
+  font-size: 1.4rem;
+}
+.whyIconWrap--neon .whyIcon {
+  color: #39ff14;
+}
+.whyIconWrap--blue .whyIcon {
+  color: #3b82f6;
+}
+
+.whyTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6rem;
+}
+
+.whyDesc {
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.whyCardShine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ═══════════════════════════════════════════
+   APP SECTION
+═══════════════════════════════════════════ */
+.appSection {
+  position: relative;
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  overflow: hidden;
+}
+
+.appBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 60% 50%,
+    rgba(57, 255, 20, 0.04) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.appGrid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.appContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 520px;
+}
+
+.appHeading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.appDesc {
+  font-family: "Inter", sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.appFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.appFeature {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.appFeatureIcon {
+  color: #39ff14;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.appButtons {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.appStoreBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1.4rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  text-decoration: none;
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+}
+
+.appStoreBtn:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  background: rgba(57, 255, 20, 0.05);
+}
+
+.appStoreBtnIcon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.appStoreBtnSub {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.appStoreBtnLabel {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+
+/* Phone Mockup */
+.appPhoneWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.appPhone {
+  position: relative;
+  width: 220px;
+  height: 440px;
+  background: #111;
+  border-radius: 36px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 40px 80px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.appPhoneScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.appPhoneImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7) saturate(0.8);
+  display: block;
+}
+
+.appPhoneOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+.appPhoneUI {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.appPhoneUIBar {
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 99px;
+}
+
+.appPhoneUIText {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Decorative rings */
+.phoneRing1,
+.phoneRing2 {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(57, 255, 20, 0.08);
+  pointer-events: none;
+}
+
+.phoneRing1 {
+  width: 320px;
+  height: 320px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.phoneRing2 {
+  width: 420px;
+  height: 420px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-color: rgba(57, 255, 20, 0.04);
+}
+
+/* ═══════════════════════════════════════════
+   FINAL CTA
+═══════════════════════════════════════════ */
+.ctaSection {
+  position: relative;
+  padding: clamp(5rem, 10vw, 9rem) 0;
+  overflow: hidden;
+}
+
+.ctaBgWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.ctaBgImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.2) saturate(0.6);
+  display: block;
+}
+
+.ctaOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  z-index: 1;
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.ctaHeading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.9rem, 4.5vw, 4rem);
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.ctaSubtext {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.58);
+  max-width: 480px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ctaButtons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ctaBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: #39ff14;
+  color: #000;
+  border-radius: 999px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    opacity 0.2s,
+    box-shadow 0.2s;
+}
+
+.ctaBtnPrimary:hover {
+  opacity: 0.88;
+  box-shadow: 0 4px 24px rgba(57, 255, 20, 0.35);
+}
+
+.ctaBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.ctaBtnSecondary:hover {
+  border-color: rgba(57, 255, 20, 0.5);
+  color: #39ff14;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 1280px) {
+  .categoriesGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .offersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .categoriesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .collectionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gymsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .whyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .appGrid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .appContent {
+    max-width: 100%;
+    align-items: center;
+  }
+  .appPhoneWrap {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageHeader {
+    margin-top: 64px;
+  }
+  .categoriesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .discoverGrid {
+    grid-template-columns: 1fr;
+  }
+  .collectionsGrid {
+    grid-template-columns: 1fr;
+  }
+  .citiesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gymsGrid {
+    grid-template-columns: 1fr;
+  }
+  .offersGrid {
+    grid-template-columns: 1fr;
+  }
+  .whyGrid {
+    grid-template-columns: 1fr;
+  }
+  .sectionHeadRow {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .searchBox {
+    flex-direction: column;
+    border-radius: 14px;
+    padding: 0;
+  }
+  .searchSeparator {
+    width: calc(100% - 3rem);
+    height: 1px;
+    margin: 0 1.5rem;
+  }
+  .searchBtn {
+    margin: 0.5rem;
+    justify-content: center;
+  }
+  .ctaButtons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+  .ctaBtnPrimary,
+  .ctaBtnSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageHeader {
+    margin-top: 60px;
+    height: clamp(200px, 45vw, 280px);
+  }
+  .categoriesGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .citiesGrid {
+    grid-template-columns: 1fr;
+  }
+  .appButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .appStoreBtn {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .categoryImg,
+  .collectionImg,
+  .cityImg,
+  .gymImg,
+  .trainerImg,
+  .discoverImg,
+  .headerBgImg {
+    transition: none;
+  }
+}
