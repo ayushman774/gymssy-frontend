@@ -9,7 +9,7 @@ import styles from "./Navbar.module.css";
 // ── Navigation data ───────────────────────────────────────────────────────
 export const NAV_LINKS = [
   { label: "Home",           href: "/"            },
-  { label: "Discover",       href: "/explore"     },
+  { label: "Discover",       href: "/discover"     },
   { label: "Partner With Us",href: "/trainers"    },
   { label: "About",          href: "/about"       },
 ];
