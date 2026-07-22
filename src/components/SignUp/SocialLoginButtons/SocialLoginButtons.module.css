@@ -1,0 +1,75 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ─── Shared button ───────────────────────────────────────── */
+.socialBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+  min-height: 48px;
+}
+
+.socialBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.socialBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Apple button – slightly different style */
+.appleBtn {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.appleBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Icon ────────────────────────────────────────────────── */
+.socialIcon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+/* ─── Loaders ─────────────────────────────────────────────── */
+.loader {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+.loaderDark {
+  border-color: rgba(255, 255, 255, 0.15);
+  border-top-color: #ffffff;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
