@@ -1,0 +1,145 @@
+.wrapper {
+  position: relative;
+  padding-top: 40px;
+}
+
+/* Connecting line */
+.lineTrack {
+  position: absolute;
+  top: 40px; /* aligns with dot center */
+  left: calc(12.5% + 12px);
+  right: calc(12.5% + 12px);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.line {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #39ff14, rgba(57, 255, 20, 0.3));
+  transform-origin: left;
+  /* scaleX animated by GSAP */
+}
+
+/* Grid */
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Dot */
+.dotWrapper {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(57, 255, 20, 0.15);
+  border: 1px solid rgba(57, 255, 20, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dotInner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #39ff14;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.7);
+}
+
+/* Card */
+.card {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 28px 24px;
+  width: 100%;
+  text-align: center;
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.22);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+
+.stepIconWrapper {
+  width: 48px;
+  height: 48px;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.18);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.stepIcon {
+  font-size: 1.4rem;
+  color: #39ff14;
+  display: flex;
+}
+
+.stepNumber {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(57, 255, 20, 0.6);
+  margin-bottom: 10px;
+}
+
+.stepTitle {
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.stepDesc {
+  font-family: "Inter", sans-serif;
+  font-size: 0.845rem;
+  color: rgba(255, 255, 255, 0.48);
+  line-height: 1.65;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .stepsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lineTrack {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .stepsGrid {
+    grid-template-columns: 1fr;
+  }
+}

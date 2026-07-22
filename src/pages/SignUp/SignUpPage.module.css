@@ -1,0 +1,528 @@
+/* ─── Page Shell ────────────────────────────────────────── */
+.page {
+  display: flex;
+  min-height: 100vh;
+  background: #000000;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LEFT PANEL
+═══════════════════════════════════════════════════════════ */
+.leftPanel {
+  position: relative;
+  width: 45%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Background */
+.leftBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.leftBgImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+.leftOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    175deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.6) 40%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+}
+
+/* Floating shapes */
+.floatShape {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floatShape1 {
+  width: 120px;
+  height: 120px;
+  top: 12%;
+  right: 10%;
+  background: radial-gradient(
+    circle,
+    rgba(57, 255, 20, 0.08) 0%,
+    transparent 70%
+  );
+  border: 1px solid rgba(57, 255, 20, 0.12);
+}
+
+.floatShape2 {
+  width: 80px;
+  height: 80px;
+  top: 35%;
+  left: 8%;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.07) 0%,
+    transparent 70%
+  );
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.floatShape3 {
+  width: 56px;
+  height: 56px;
+  bottom: 28%;
+  right: 18%;
+  background: radial-gradient(
+    circle,
+    rgba(57, 255, 20, 0.06) 0%,
+    transparent 70%
+  );
+  border: 1px solid rgba(57, 255, 20, 0.1);
+}
+
+/* Content */
+.leftContent {
+  position: relative;
+  z-index: 2;
+  padding: 48px 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* Logo */
+.logo {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.logoText {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+}
+
+.logoAccent {
+  color: #39ff14;
+}
+
+/* Headline */
+.leftHeadlineBlock {
+  opacity: 0; /* GSAP animated */
+}
+
+.eyebrow {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #39ff14;
+  margin-bottom: 12px;
+}
+
+.leftHeadline {
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.accentText {
+  color: #39ff14;
+}
+
+.leftSubheading {
+  font-family: "Inter", sans-serif;
+  font-size: 0.925rem;
+  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.75;
+  max-width: 380px;
+}
+
+/* Feature list */
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0; /* GSAP animated */
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #39ff14;
+}
+
+.featureText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 500;
+}
+
+/* Trust badge */
+.trustBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 10px 18px;
+  opacity: 0; /* GSAP animated */
+  width: fit-content;
+}
+
+.trustIcon {
+  color: #39ff14;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.trustBadge span {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.trustBadge strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RIGHT PANEL
+═══════════════════════════════════════════════════════════ */
+.rightPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  background: #000000;
+  position: relative;
+  opacity: 0; /* GSAP animated */
+
+  /* Subtle right-panel texture */
+  background-image: radial-gradient(
+    ellipse at 80% 20%,
+    rgba(57, 255, 20, 0.03) 0%,
+    transparent 60%
+  );
+  margin-top: 5%;
+}
+
+.cardWrapper {
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ─── Glassmorphism Card ─────────────────────────────────── */
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 44px 40px;
+  width: 100%;
+}
+
+/* ─── Progress ───────────────────────────────────────────── */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #39ff14, rgba(57, 255, 20, 0.6));
+  border-radius: 100px;
+}
+
+.progressLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── Card Header ────────────────────────────────────────── */
+.cardHeader {
+  margin-bottom: 28px;
+}
+
+.cardTitle {
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.cardSubtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+}
+
+/* ─── Account Type Section ───────────────────────────────── */
+.typeSection {
+  margin-bottom: 28px;
+}
+
+.typeLabel {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+}
+
+.typeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ─── Continue Button ────────────────────────────────────── */
+.continueBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 28px;
+  background: #39ff14;
+  color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.925rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.continueBtn:hover {
+  background: #ffffff;
+  box-shadow: 0 10px 32px rgba(57, 255, 20, 0.22);
+}
+
+.continueBtnArrow {
+  font-size: 1.1rem;
+  transition: transform 0.25s ease;
+}
+
+.continueBtn:hover .continueBtnArrow {
+  transform: translateX(4px);
+}
+
+/* ─── Selected Type Pill ─────────────────────────────────── */
+.selectedTypePill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(57, 255, 20, 0.07);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 100px;
+  padding: 8px 16px;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+
+.selectedTypeEmoji {
+  font-size: 1.05rem;
+}
+
+.selectedTypeText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #39ff14;
+}
+
+.changeTypeBtn {
+  background: transparent;
+  border: none;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  transition: color 0.2s ease;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.changeTypeBtn:hover {
+  color: #ffffff;
+}
+
+/* ─── Sign-in Prompt ─────────────────────────────────────── */
+.signinPrompt {
+  font-family: "Inter", sans-serif;
+  font-size: 0.855rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  margin-top: 4px;
+}
+
+.signinLink {
+  color: #39ff14;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+  margin-left: 4px;
+  position: relative;
+}
+
+.signinLink::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #39ff14;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.signinLink:hover::after {
+  transform: scaleX(1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .leftPanel {
+    width: 42%;
+  }
+
+  .leftContent {
+    padding: 40px 40px;
+    gap: 28px;
+  }
+
+  .leftHeadline {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .leftPanel {
+    width: 100%;
+    min-height: 300px;
+    justify-content: flex-end;
+  }
+
+  .leftContent {
+    padding: 32px 24px;
+    gap: 20px;
+  }
+
+  .leftHeadline {
+    font-size: 1.75rem;
+  }
+
+  .leftSubheading {
+    font-size: 0.875rem;
+  }
+
+  .floatShape {
+    display: none;
+  }
+
+  .rightPanel {
+    padding: 32px 20px 48px;
+    align-items: flex-start;
+  }
+
+  .card {
+    padding: 32px 24px;
+  }
+
+  .typeGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .leftPanel {
+    min-height: 260px;
+  }
+
+  .leftContent {
+    padding: 24px 20px;
+  }
+
+  .trustBadge {
+    display: none;
+  }
+
+  .typeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 28px 18px;
+  }
+}

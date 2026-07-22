@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import NavLogo from "./NavLogo";
 import HamburgerButton from "./HamburgerButton";
@@ -10,7 +10,7 @@ import styles from "./Navbar.module.css";
 export const NAV_LINKS = [
   { label: "Home",           href: "/"            },
   { label: "Discover",       href: "/discover"     },
-  { label: "Partner With Us",href: "/trainers"    },
+  { label: "Partner With Us",href: "/partner-with-us"    },
   { label: "About",          href: "/about"       },
 ];
 
@@ -90,9 +90,9 @@ const Navbar = () => {
             aria-label="Primary navigation"
           >
             {NAV_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
+                to={link.href}
                 className={`${styles.navLink} ${
                   activeLink === link.href ? styles.navLinkActive : ""
                 }`}
@@ -101,17 +101,17 @@ const Navbar = () => {
                 {activeLink === link.href && (
                   <span className={styles.activeDot} aria-hidden="true" />
                 )}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Desktop CTA buttons */}
           <div className={styles.desktopCTA}>
             <a href="/login"    className={styles.btnOutline}>Log In</a>
-            <a href="/register" className={styles.btnFilled}>
+            <Link to="/sign-up" className={styles.btnFilled}>
               Get Started
               <span className={styles.btnFilledShimmer} aria-hidden="true" />
-            </a>
+            </Link>
           </div>
 
           {/* Hamburger (mobile only) */}

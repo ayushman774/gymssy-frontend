@@ -11,6 +11,8 @@ import TrainersPage from "./pages/TrainersPage/TrainersPage";
 import GymsNearYouPage from "./pages/GymsNearYouPage/GymsNearYouPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import DiscoverPage from "./pages/Discover/DiscoverPage";
+import PartnerWithUsPage from "./pages/PartnerWithUS/PartnerWithUsPage";
+import SignUpPage from "./pages/SignUp/SignUpPage";
 
 const App = () => {
   const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
@@ -28,6 +30,8 @@ const App = () => {
         <Route path="/gyms-near-you" element={<GymsNearYouPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/discover" element={<DiscoverPage />} />
+        <Route path="/partner-with-us" element={<PartnerWithUsPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
 
         {/* Add more routes as pages are built */}
         {/* <Route path="/pricing"  element={<Pricing />}  /> */}
