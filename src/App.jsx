@@ -11,7 +11,7 @@ import TrainersPage from "./pages/TrainersPage/TrainersPage";
 import GymsNearYouPage from "./pages/GymsNearYouPage/GymsNearYouPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import DiscoverPage from "./pages/Discover/DiscoverPage";
-import PartnerWithUsPage from "./pages/PartnerWithUS/PartnerWithUsPage";
+import PartnerWithUsPage from "./pages/PartnerWithUs/PartnerWithUsPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";
 
 const App = () => {
