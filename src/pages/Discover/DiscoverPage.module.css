@@ -1495,35 +1495,213 @@
 /* ═══════════════════════════════════════════
    OFFERS GRID
 ═══════════════════════════════════════════ */
+
 .offersGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.25rem;
 }
 
+/* ── Base card shell ── */
 .offerCard {
   position: relative;
   border-radius: 18px;
   overflow: hidden;
   cursor: default;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
 
-.offerGlass {
+/* ══ VARIANT: neon ══
+   Neon green background — flagship card */
+.offerCard--neon {
+  background: #39ff14;
+  border: 1px solid #39ff14;
+}
+
+.offerCard--neon .offerTag {
+  background: rgba(0, 0, 0, 0.12);
+  color: #000000;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.offerCard--neon .offerTitle {
+  color: #000000;
+}
+
+.offerCard--neon .offerSubtitle {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.offerCard--neon .offerDesc {
+  color: rgba(0, 0, 0, 0.58);
+}
+
+.offerCard--neon .offerBtn {
+  background: #000000;
+  color: #39ff14;
+  border-color: transparent;
+}
+
+.offerCard--neon .offerBtn:hover {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.offerCard--neon:hover {
+  box-shadow:
+    0 20px 60px rgba(57, 255, 20, 0.35),
+    0 0 0 1px rgba(57, 255, 20, 0.6);
+}
+
+/* ══ VARIANT: dark ══
+   Pure black with neon green accents */
+.offerCard--dark {
+  background: #000000;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+}
+
+.offerCard--dark .offerTag {
+  background: rgba(57, 255, 20, 0.1);
+  color: #39ff14;
+  border-color: rgba(57, 255, 20, 0.2);
+}
+
+.offerCard--dark .offerTitle {
+  color: #39ff14;
+}
+
+.offerCard--dark .offerSubtitle {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.offerCard--dark .offerDesc {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.offerCard--dark .offerBtn {
+  background: #39ff14;
+  color: #000000;
+  border-color: transparent;
+}
+
+.offerCard--dark .offerBtn:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.offerCard--dark:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  border-color: rgba(57, 255, 20, 0.5);
+}
+
+/* ══ VARIANT: outline ══
+   Transparent with neon green border */
+.offerCard--outline {
+  background: rgba(57, 255, 20, 0.03);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+.offerCard--outline .offerTag {
+  background: rgba(57, 255, 20, 0.08);
+  color: #39ff14;
+  border-color: rgba(57, 255, 20, 0.18);
+}
+
+.offerCard--outline .offerTitle {
+  color: #ffffff;
+}
+
+.offerCard--outline .offerSubtitle {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.offerCard--outline .offerDesc {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.offerCard--outline .offerBtn {
+  background: transparent;
+  color: #39ff14;
+  border-color: rgba(57, 255, 20, 0.4);
+}
+
+.offerCard--outline .offerBtn:hover {
+  background: rgba(57, 255, 20, 0.1);
+  border-color: #39ff14;
+}
+
+.offerCard--outline:hover {
+  background: rgba(57, 255, 20, 0.05);
+  border-color: rgba(57, 255, 20, 0.55);
+  box-shadow: 0 20px 60px rgba(57, 255, 20, 0.08);
+}
+
+/* ══ VARIANT: white ══
+   White surface — high-contrast contrast card */
+.offerCard--white {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.offerCard--white .offerTag {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000000;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.offerCard--white .offerTitle {
+  color: #000000;
+}
+
+.offerCard--white .offerSubtitle {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.offerCard--white .offerDesc {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.offerCard--white .offerBtn {
+  background: #000000;
+  color: #39ff14;
+  border-color: transparent;
+}
+
+.offerCard--white .offerBtn:hover {
+  background: #1a1a1a;
+}
+
+.offerCard--white:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Shine layer (all variants) ── */
+.offerShine {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 50%;
+  height: 45%;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.07) 0%,
     transparent 100%
   );
   pointer-events: none;
   border-radius: inherit;
+  z-index: 0;
 }
 
+/* Dark + outline variants get a neon-tinted shine */
+.offerCard--dark .offerShine,
+.offerCard--outline .offerShine {
+  background: linear-gradient(
+    to bottom,
+    rgba(57, 255, 20, 0.05) 0%,
+    transparent 100%
+  );
+}
+
+/* ── Content wrapper ── */
 .offerContent {
   position: relative;
   z-index: 1;
@@ -1533,54 +1711,62 @@
   gap: 0.5rem;
 }
 
+/* ── Tag pill ── */
 .offerTag {
   display: inline-block;
-  padding: 0.22rem 0.65rem;
+  padding: 0.22rem 0.7rem;
   border-radius: 999px;
+  border: 1px solid transparent;
   font-family: "Inter", sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   width: fit-content;
 }
 
+/* ── Icon ── */
 .offerIcon {
   font-size: 2.2rem;
   display: block;
-  margin: 0.25rem 0;
+  margin: 0.3rem 0 0.1rem;
+  line-height: 1;
 }
 
+/* ── Title ── */
 .offerTitle {
   font-family: "Poppins", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.55rem;
   font-weight: 900;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin: 0;
 }
 
+/* ── Subtitle ── */
 .offerSubtitle {
   font-family: "Poppins", sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
   margin: 0;
-  opacity: 0.85;
+  line-height: 1.3;
 }
 
+/* ── Description ── */
 .offerDesc {
   font-family: "Inter", sans-serif;
   font-size: 0.78rem;
-  line-height: 1.6;
-  margin: 0.25rem 0 0.5rem;
+  line-height: 1.65;
+  margin: 0.2rem 0 0.6rem;
 }
 
+/* ── CTA button ── */
 .offerBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.55rem 1.1rem;
-  border: none;
+  gap: 0.4rem;
+  padding: 0.58rem 1.15rem;
+  border: 1px solid transparent;
   border-radius: 999px;
   font-family: "Inter", sans-serif;
   font-size: 0.78rem;
@@ -1588,13 +1774,30 @@
   cursor: pointer;
   width: fit-content;
   transition:
-    opacity 0.2s,
-    transform 0.2s;
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.22s ease;
+  letter-spacing: 0.01em;
 }
 
 .offerBtn:hover {
-  opacity: 0.88;
-  transform: scale(1.03);
+  transform: scale(1.04);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1280px) {
+  .offersGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .offersGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -2176,4 +2379,110 @@
   .headerBgImg {
     transition: none;
   }
+}
+
+/* ═══════════════════════════════════════════
+   COMPARE — card states & toggle button
+   (Appended to DiscoverPage.module.css)
+═══════════════════════════════════════════ */
+
+/* ── Compare toggle button
+   Sits in the top-right of image wrappers ── */
+.compareToggle {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+
+  /* Stack below verified badge if both exist */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 0.3rem 0.7rem;
+  background: rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+  z-index: 3;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    transform 0.2s ease;
+}
+
+.compareToggle svg {
+  font-size: 0.78rem;
+  flex-shrink: 0;
+}
+
+.compareToggle:hover:not(:disabled) {
+  background: rgba(57, 255, 20, 0.15);
+  border-color: rgba(57, 255, 20, 0.45);
+  color: #39ff14;
+  transform: scale(1.04);
+}
+
+/* Active (selected) state */
+.compareToggleActive {
+  background: rgba(57, 255, 20, 0.18) !important;
+  border-color: #39ff14 !important;
+  color: #39ff14 !important;
+}
+
+/* Disabled state — max 3 reached, not selected */
+.compareToggle:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Selected card highlight ── */
+.discoverCardSelected {
+  border-color: rgba(57, 255, 20, 0.4) !important;
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.15),
+    0 12px 40px rgba(57, 255, 20, 0.08) !important;
+}
+
+.gymCardSelected {
+  border-color: rgba(57, 255, 20, 0.4) !important;
+  box-shadow:
+    0 0 0 1px rgba(57, 255, 20, 0.15),
+    0 12px 40px rgba(57, 255, 20, 0.08) !important;
+}
+
+/* ── Discover card: push verified badge
+   left so toggle doesn't overlap it ── */
+.discoverImgWrap .verifiedBadge {
+  /* Already positioned top-left — no conflict */
+}
+
+/* ── Gym card: reposition verified badge
+   so compare toggle fits top-right ── */
+.gymImgWrap .gymVerified {
+  /* verified badge already top-right —
+     move it below the compare toggle */
+  top: 2.4rem;
+}
+
+/* ── Body scroll padding when CompareBar is visible ──
+   Prevents content hiding behind fixed bar */
+.page {
+  padding-bottom: 0;
+}
+
+/* When compare bar is showing (JS adds class via body),
+   add bottom padding. Handled via CSS custom property. */
+body[data-compare-open="true"] {
+  padding-bottom: 100px;
 }

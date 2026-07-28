@@ -1,0 +1,223 @@
+.card {
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.cardPopular {
+  border-color: rgba(57, 255, 20, 0.35);
+  background: linear-gradient(180deg, rgba(57, 255, 20, 0.04) 0%, #0b0b0b 60%);
+}
+
+.cardPopular:hover {
+  border-color: rgba(57, 255, 20, 0.5);
+}
+
+.cardPremium {
+  border-color: rgba(59, 130, 246, 0.3);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.04) 0%, #0b0b0b 60%);
+}
+
+.cardPremium:hover {
+  border-color: rgba(59, 130, 246, 0.45);
+}
+
+/* Badges */
+.popularBadge,
+.premiumBadge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 5px 16px;
+  border-radius: 0 0 10px 10px;
+  font-family: "Inter", sans-serif;
+}
+
+.popularBadge {
+  background: #39ff14;
+  color: #000;
+}
+
+.premiumBadge {
+  background: #3b82f6;
+  color: #fff;
+}
+
+/* Plan Header */
+.planHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+  margin-top: 16px;
+}
+
+.planName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.2px;
+}
+
+.planDuration {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: "Inter", sans-serif;
+}
+
+/* Pricing */
+.pricingBlock {
+  margin-bottom: 20px;
+}
+
+.originalPrice {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: "Inter", sans-serif;
+  text-decoration: line-through;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.currency {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 6px;
+}
+
+.price {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.billingPeriod {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: "Inter", sans-serif;
+  display: block;
+  margin-top: 4px;
+}
+
+.savingsBadge {
+  display: inline-block;
+  margin-top: 10px;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  color: #39ff14;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 20px 0;
+}
+
+/* Features */
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  flex: 1;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: "Inter", sans-serif;
+}
+
+.featureExcluded {
+  color: rgba(255, 255, 255, 0.25);
+  text-decoration: line-through;
+}
+
+.featureCheck {
+  color: #39ff14;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+}
+
+.featureCross {
+  color: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  font-size: 0.85rem;
+}
+
+/* CTA */
+.cta {
+  width: 100%;
+  padding: 13px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.cta:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.ctaPopular {
+  background: #39ff14;
+  border-color: #39ff14;
+  color: #000;
+}
+
+.ctaPopular:hover {
+  background: #2de010;
+  border-color: #2de010;
+  transform: translateY(-1px);
+}
+
+/* Note */
+.note {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: "Inter", sans-serif;
+  text-align: center;
+  margin: 12px 0 0;
+}
