@@ -1,0 +1,104 @@
+.quickInfoBar {
+  background: #0b0b0b;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 0;
+}
+
+.quickInfoInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.quickInfoInner::-webkit-scrollbar {
+  display: none;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 28px;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.infoItem:first-child {
+  padding-left: 0;
+}
+
+.infoItem:last-child {
+  border-right: none;
+}
+
+.iconWrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconWrapAccent {
+  background: rgba(57, 255, 20, 0.08);
+  border-color: rgba(57, 255, 20, 0.2);
+}
+
+.iconWrapAccent .infoIcon {
+  color: #39ff14;
+}
+
+.infoIcon {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.infoText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.infoLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: "Inter", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.infoValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  font-family: "Poppins", sans-serif;
+}
+
+.infoSub {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: "Inter", sans-serif;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .quickInfoInner {
+    gap: 0;
+  }
+
+  .infoItem {
+    padding: 16px 20px;
+  }
+}

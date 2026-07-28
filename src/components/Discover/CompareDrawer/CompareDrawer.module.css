@@ -1,0 +1,560 @@
+/* ── Backdrop ── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-end;
+}
+
+/* ── Drawer panel ── */
+.drawer {
+  width: 100%;
+  max-height: 90vh;
+  background: #0a0a0a;
+  border-top: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow:
+    0 -4px 40px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(57, 255, 20, 0.06);
+}
+
+/* ── Header ── */
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.drawerHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.drawerHeaderIcon {
+  font-size: 1.4rem;
+  color: #39ff14;
+  flex-shrink: 0;
+}
+
+.drawerTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 3px;
+  letter-spacing: -0.01em;
+}
+
+.drawerSubtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.closeBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Scrollable body ── */
+.drawerBody {
+  overflow-y: auto;
+  overflow-x: auto;
+  flex: 1;
+  padding: 28px 32px 40px;
+  scroll-behavior: smooth;
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(57, 255, 20, 0.2) transparent;
+}
+
+.drawerBody::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.drawerBody::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.drawerBody::-webkit-scrollbar-thumb {
+  background: rgba(57, 255, 20, 0.2);
+  border-radius: 999px;
+}
+
+/* ── Column layout helpers ── */
+
+/* Shared grid base — label col + item cols */
+.tableHeader,
+.attrRow,
+.bestValueRow {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+/* 1 label col + item cols */
+.oneCol {
+  grid-template-columns: 180px 1fr;
+}
+.twoCol {
+  grid-template-columns: 180px 1fr 1fr;
+}
+.threeCol {
+  grid-template-columns: 180px 1fr 1fr 1fr;
+}
+
+/* ── Table header — card columns ── */
+.tableHeader {
+  margin-bottom: 8px;
+  align-items: stretch;
+}
+
+.rowLabelSpacer {
+  /* Blank top-left cell */
+}
+
+/* Column card */
+.colHeader {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s ease;
+}
+
+.colHeader:hover {
+  border-color: rgba(57, 255, 20, 0.2);
+}
+
+/* Card image */
+.colImgWrap {
+  position: relative;
+  aspect-ratio: 16/7;
+  overflow: hidden;
+}
+
+.colImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.75) saturate(0.8);
+  transition:
+    transform 0.5s ease,
+    filter 0.5s ease;
+  display: block;
+}
+
+.colHeader:hover .colImg {
+  transform: scale(1.04);
+  filter: brightness(0.85) saturate(1);
+}
+
+.colImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 55%);
+}
+
+/* Card meta */
+.colMeta {
+  padding: 16px 16px 10px;
+  flex: 1;
+}
+
+.colCategory {
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #39ff14;
+  margin-bottom: 6px;
+}
+
+.colName {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.colAddress {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.colAddress svg {
+  color: #39ff14;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+
+/* Card actions */
+.colActions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px 14px;
+}
+
+.colViewBtn {
+  flex: 1;
+  padding: 8px 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 7px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.colViewBtn:hover {
+  border-color: rgba(57, 255, 20, 0.35);
+  color: #39ff14;
+}
+
+.colBookBtn {
+  flex: 1;
+  padding: 8px 0;
+  background: #39ff14;
+  border: none;
+  border-radius: 7px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #000000;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.colBookBtn:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(57, 255, 20, 0.25);
+}
+
+/* Remove button on card */
+.colRemoveBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  padding: 7px 0;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.colRemoveBtn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* ── Attribute rows ── */
+.attributeRows {
+  margin-top: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.attrRow {
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.attrRow:last-child {
+  border-bottom: none;
+}
+
+.attrRowAlt {
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.attrRow:hover {
+  background: rgba(57, 255, 20, 0.025);
+}
+
+/* Row label */
+.rowLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.rowLabelIcon {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.rowLabelText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
+/* Attribute cell */
+.attrCell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* ── Attribute value styles ── */
+.attrValue {
+  font-family: "Inter", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+}
+
+.attrNa {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Rating */
+.attrRating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.starIcon {
+  color: #f59e0b;
+  font-size: 0.85rem;
+}
+
+.attrRatingSub {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Price */
+.attrPrice {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #39ff14;
+}
+
+/* Verified badge */
+.attrVerified {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.22);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #39ff14;
+}
+
+.attrUnverified {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Tags */
+.attrTags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.attrTag {
+  padding: 3px 9px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Best value row ── */
+.bestValueRow {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: rgba(57, 255, 20, 0.04);
+  border: 1px solid rgba(57, 255, 20, 0.14);
+  border-radius: 12px;
+  align-items: center;
+}
+
+.bestValueLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.bestValueIcon {
+  font-size: 0.9rem;
+  color: #39ff14;
+}
+
+.bestValueLabel span {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #39ff14;
+  white-space: nowrap;
+}
+
+.bestValueCell {
+  display: flex;
+  align-items: center;
+}
+
+.bestValueBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #39ff14;
+  border-radius: 999px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: 0.02em;
+}
+
+.bestValueNone {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.18);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .drawer {
+    max-height: 95vh;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .drawerHeader {
+    padding: 18px 20px;
+  }
+
+  .drawerBody {
+    padding: 20px 16px 32px;
+  }
+
+  /* On mobile, column layouts become narrow — rely on horizontal scroll */
+  .oneCol {
+    grid-template-columns: 130px 1fr;
+  }
+  .twoCol {
+    grid-template-columns: 130px minmax(180px, 1fr) minmax(180px, 1fr);
+  }
+  .threeCol {
+    grid-template-columns: 130px minmax(160px, 1fr) minmax(160px, 1fr) minmax(
+        160px,
+        1fr
+      );
+  }
+
+  .drawerTitle {
+    font-size: 1rem;
+  }
+
+  .drawerSubtitle {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .colActions {
+    flex-direction: column;
+  }
+}

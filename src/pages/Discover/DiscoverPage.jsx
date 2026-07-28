@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -30,6 +30,8 @@ import {
 import { HiOutlineLocationMarker, HiOutlineSparkles } from "react-icons/hi";
 import SectionLabel from "../../components/ui/SectionLabel/SectionLabel";
 import styles from "./DiscoverPage.module.css";
+import CompareBar from "../../components/Discover/CompareBar/CompareBar";
+import CompareDrawer from "../../components/Discover/CompareDrawer/CompareDrawer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -399,7 +401,7 @@ const GYMS = [
     image:
       "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
     logo: "AF",
-    verified: true,
+    verified: false,
     tag: "Popular",
   },
   {
@@ -413,7 +415,7 @@ const GYMS = [
     image:
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80",
     logo: "GG",
-    verified: true,
+    verified: false,
     tag: "Premium",
   },
   {
@@ -427,7 +429,7 @@ const GYMS = [
     image:
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
     logo: "CF",
-    verified: true,
+    verified: false,
     tag: "Top Rated",
   },
 ];
@@ -439,8 +441,7 @@ const OFFERS = [
     subtitle: "First session on us",
     desc: "Try any gym or studio completely free. No credit card required.",
     icon: "🎁",
-    gradient: "linear-gradient(135deg, #39FF14 0%, #00c853 100%)",
-    textColor: "#000",
+    variant: "outline", // neon green card
     tag: "Limited",
   },
   {
@@ -449,8 +450,7 @@ const OFFERS = [
     subtitle: "Monthly Memberships",
     desc: "Get 30% off on your first 3 months at 500+ partner gyms.",
     icon: "🔥",
-    gradient: "linear-gradient(135deg, #f97316 0%, #ef4444 100%)",
-    textColor: "#fff",
+    variant: "outline", // black card with neon accents
     tag: "Hot Deal",
   },
   {
@@ -459,8 +459,7 @@ const OFFERS = [
     subtitle: "₹199 only",
     desc: "Access any partner gym on weekends. Perfect for travel.",
     icon: "🗓️",
-    gradient: "linear-gradient(135deg, #3B82F6 0%, #6366f1 100%)",
-    textColor: "#fff",
+    variant: "outline", // bordered card
     tag: "New",
   },
   {
@@ -469,8 +468,7 @@ const OFFERS = [
     subtitle: "20% off sessions",
     desc: "Book 5 personal training sessions and save 20% instantly.",
     icon: "💪",
-    gradient: "linear-gradient(135deg, #a78bfa 0%, #ec4899 100%)",
-    textColor: "#fff",
+    variant: "outline", // white surface card
     tag: "Popular",
   },
 ];
@@ -521,23 +519,29 @@ const WHY_FEATURES = [
 /* ── Search Bar ── */
 const SearchBar = () => {
   const [location, setLocation] = useState("");
-  const [query,    setQuery]    = useState("");
+  const [query, setQuery] = useState("");
   const [locFocus, setLocFocus] = useState(false);
-  const [qFocus,   setQFocus]   = useState(false);
+  const [qFocus, setQFocus] = useState(false);
 
   const SUGGESTIONS = [
-    "Gyms", "Yoga", "Personal Trainers", "Pilates",
-    "CrossFit", "Swimming", "Dance", "Martial Arts",
+    "Gyms",
+    "Yoga",
+    "Personal Trainers",
+    "Pilates",
+    "CrossFit",
+    "Swimming",
+    "Dance",
+    "Martial Arts",
   ];
 
   return (
     <div className={styles.searchBoxWrap}>
-
       {/* ── Top pill row ── */}
       <div className={styles.searchPill}>
-
         {/* Location field */}
-        <div className={`${styles.searchField} ${locFocus ? styles.searchFieldActive : ""}`}>
+        <div
+          className={`${styles.searchField} ${locFocus ? styles.searchFieldActive : ""}`}
+        >
           <FiMapPin className={styles.searchFieldIcon} aria-hidden="true" />
           <div className={styles.searchFieldText}>
             <label className={styles.searchLabel} htmlFor="disc-location">
@@ -570,7 +574,9 @@ const SearchBar = () => {
         <div className={styles.pillDivider} aria-hidden="true" />
 
         {/* Query field */}
-        <div className={`${styles.searchField} ${styles.searchFieldGrow} ${qFocus ? styles.searchFieldActive : ""}`}>
+        <div
+          className={`${styles.searchField} ${styles.searchFieldGrow} ${qFocus ? styles.searchFieldActive : ""}`}
+        >
           <FiSearch className={styles.searchFieldIcon} aria-hidden="true" />
           <div className={styles.searchFieldText}>
             <label className={styles.searchLabel} htmlFor="disc-query">
@@ -621,7 +627,6 @@ const SearchBar = () => {
           ))}
         </div>
       </div>
-
     </div>
   );
 };
@@ -657,68 +662,89 @@ const CategoryCard = ({ cat, index }) => (
   </motion.div>
 );
 
-/* ── Discover Card (Trending) ── */
-const DiscoverCard = ({ item }) => (
-  <motion.article
-    className={styles.discoverCard}
-    variants={staggerItem}
-    whileHover={{ y: -8, transition: { duration: 0.3 } }}
-  >
-    {/* Image */}
-    <div className={styles.discoverImgWrap}>
-      <img
-        src={item.image}
-        alt={item.name}
-        className={styles.discoverImg}
-        loading="lazy"
-      />
-      <div className={styles.discoverImgOverlay} aria-hidden="true" />
-      {item.verified && (
-        <div className={styles.verifiedBadge}>
-          <FiCheck aria-hidden="true" />
-          Verified
-        </div>
-      )}
-      <div className={styles.discoverCategory}>{item.category}</div>
-    </div>
+const DiscoverCard = ({ item, compareItems, onCompareToggle }) => {
+  const isSelected = compareItems.some((c) => c.id === item.id);
+  const isDisabled = compareItems.length >= 3 && !isSelected;
 
-    {/* Body */}
-    <div className={styles.discoverBody}>
-      <div className={styles.discoverMeta}>
-        <span className={styles.discoverRating}>
-          <FiStar aria-hidden="true" />
-          {item.rating}
-        </span>
-        <span className={styles.discoverReviews}>({item.reviews})</span>
-        <span className={styles.discoverDot} aria-hidden="true" />
-        <span className={styles.discoverDistance}>
-          <FiNavigation aria-hidden="true" />
-          {item.distance}
-        </span>
+  return (
+    <motion.article
+      className={`${styles.discoverCard} ${isSelected ? styles.discoverCardSelected : ""}`}
+      variants={staggerItem}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+    >
+      {/* Image */}
+      <div className={styles.discoverImgWrap}>
+        <img
+          src={item.image}
+          alt={item.name}
+          className={styles.discoverImg}
+          loading="lazy"
+        />
+        <div className={styles.discoverImgOverlay} aria-hidden="true" />
+
+        {item.verified && (
+          <div className={styles.verifiedBadge}>
+            <FiCheck aria-hidden="true" />
+            Verified
+          </div>
+        )}
+        <div className={styles.discoverCategory}>{item.category}</div>
+
+        {/* ── Compare toggle ── */}
+        <button
+          className={`${styles.compareToggle} ${isSelected ? styles.compareToggleActive : ""}`}
+          onClick={() => onCompareToggle(item)}
+          disabled={isDisabled}
+          aria-pressed={isSelected}
+          aria-label={
+            isSelected
+              ? `Remove ${item.name} from comparison`
+              : `Add ${item.name} to comparison`
+          }
+        >
+          <FiBarChart2 aria-hidden="true" />
+          <span>{isSelected ? "Added" : "Compare"}</span>
+        </button>
       </div>
 
-      <h3 className={styles.discoverName}>{item.name}</h3>
-
-      <div className={styles.discoverTags}>
-        {item.tags.map((t) => (
-          <span key={t} className={styles.discoverTag}>
-            {t}
+      {/* Body — unchanged */}
+      <div className={styles.discoverBody}>
+        <div className={styles.discoverMeta}>
+          <span className={styles.discoverRating}>
+            <FiStar aria-hidden="true" />
+            {item.rating}
           </span>
-        ))}
-      </div>
+          <span className={styles.discoverReviews}>({item.reviews})</span>
+          <span className={styles.discoverDot} aria-hidden="true" />
+          <span className={styles.discoverDistance}>
+            <FiNavigation aria-hidden="true" />
+            {item.distance}
+          </span>
+        </div>
 
-      <div className={styles.discoverFooter}>
-        <span className={styles.discoverPrice}>
-          From <strong>{item.price}</strong>
-        </span>
-        <div className={styles.discoverActions}>
-          <button className={styles.discoverBtnOutline}>View</button>
-          <button className={styles.discoverBtnFilled}>Book Now</button>
+        <h3 className={styles.discoverName}>{item.name}</h3>
+
+        <div className={styles.discoverTags}>
+          {item.tags.map((t) => (
+            <span key={t} className={styles.discoverTag}>
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <div className={styles.discoverFooter}>
+          <span className={styles.discoverPrice}>
+            From <strong>{item.price}</strong>
+          </span>
+          <div className={styles.discoverActions}>
+            <button className={styles.discoverBtnOutline}>View</button>
+            <button className={styles.discoverBtnFilled}>Book Now</button>
+          </div>
         </div>
       </div>
-    </div>
-  </motion.article>
-);
+    </motion.article>
+  );
+};
 
 /* ── Collection Card ── */
 const CollectionCard = ({ col }) => (
@@ -812,109 +838,123 @@ const TrainerCard = ({ trainer }) => (
   </div>
 );
 
-/* ── Gym Card ── */
-const GymCard = ({ gym }) => (
-  <motion.article
-    className={styles.gymCard}
-    variants={staggerItem}
-    whileHover={{ y: -8, transition: { duration: 0.3 } }}
-  >
-    <div className={styles.gymImgWrap}>
-      <img
-        src={gym.image}
-        alt={gym.name}
-        className={styles.gymImg}
-        loading="lazy"
-      />
-      <div className={styles.gymImgOverlay} aria-hidden="true" />
-      {gym.tag && <div className={styles.gymTag}>{gym.tag}</div>}
-      {gym.verified && (
-        <div className={styles.gymVerified}>
-          <FiShield aria-hidden="true" /> Verified
-        </div>
-      )}
-    </div>
-    <div className={styles.gymBody}>
-      <div className={styles.gymHeader}>
-        <div className={styles.gymLogo}>{gym.logo}</div>
-        <div className={styles.gymMeta}>
-          <span className={styles.gymRating}>
-            <FiStar aria-hidden="true" />
-            {gym.rating}
-          </span>
-          <span className={styles.gymReviews}>({gym.reviews} reviews)</span>
-        </div>
-      </div>
-      <h3 className={styles.gymName}>{gym.name}</h3>
-      <p className={styles.gymAddress}>
-        <FiMapPin aria-hidden="true" /> {gym.address}
-      </p>
-      <div className={styles.gymAmenities}>
-        {gym.amenities.map((a) => (
-          <span key={a} className={styles.gymAmenity}>
-            {a}
-          </span>
-        ))}
-      </div>
-      <div className={styles.gymFooter}>
-        <span className={styles.gymPrice}>From {gym.price}</span>
-        <div className={styles.gymActions}>
-          <button className={styles.gymBtnOutline}>View Gym</button>
-          <button className={styles.gymBtnFilled}>Membership</button>
-        </div>
-      </div>
-    </div>
-  </motion.article>
-);
+const GymCard = ({ gym, compareItems, onCompareToggle, onViewGym }) => {
+  const isSelected = compareItems.some((c) => c.id === `gym-${gym.id}`);
+  const isDisabled = compareItems.length >= 3 && !isSelected;
 
-/* ── Offer Card ── */
+  // Normalise gym into a comparable item shape
+  const compareItem = {
+    id: `gym-${gym.id}`,
+    name: gym.name,
+    category: "Gym",
+    image: gym.image,
+    rating: gym.rating,
+    reviews: gym.reviews,
+    price: gym.price,
+    verified: gym.verified,
+    amenities: gym.amenities,
+    address: gym.address,
+  };
+
+  return (
+    <motion.article
+      className={`${styles.gymCard} ${isSelected ? styles.gymCardSelected : ""}`}
+      variants={staggerItem}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+    >
+      <div className={styles.gymImgWrap}>
+        <img
+          src={gym.image}
+          alt={gym.name}
+          className={styles.gymImg}
+          loading="lazy"
+        />
+        <div className={styles.gymImgOverlay} aria-hidden="true" />
+        {gym.tag && <div className={styles.gymTag}>{gym.tag}</div>}
+        {gym.verified && (
+          <div className={styles.gymVerified}>
+            <FiShield aria-hidden="true" /> Verified
+          </div>
+        )}
+
+        {/* ── Compare toggle ── */}
+        <button
+          className={`${styles.compareToggle} ${isSelected ? styles.compareToggleActive : ""}`}
+          onClick={() => onCompareToggle(compareItem)}
+          disabled={isDisabled}
+          aria-pressed={isSelected}
+          aria-label={
+            isSelected
+              ? `Remove ${gym.name} from comparison`
+              : `Add ${gym.name} to comparison`
+          }
+        >
+          <FiBarChart2 aria-hidden="true" />
+          <span>{isSelected ? "Added" : "Compare"}</span>
+        </button>
+      </div>
+
+      {/* Body — unchanged from original */}
+      <div className={styles.gymBody}>
+        <div className={styles.gymHeader}>
+          <div className={styles.gymLogo}>{gym.logo}</div>
+          <div className={styles.gymMeta}>
+            <span className={styles.gymRating}>
+              <FiStar aria-hidden="true" />
+              {gym.rating}
+            </span>
+            <span className={styles.gymReviews}>({gym.reviews} reviews)</span>
+          </div>
+        </div>
+        <h3 className={styles.gymName}>{gym.name}</h3>
+        <p className={styles.gymAddress}>
+          <FiMapPin aria-hidden="true" /> {gym.address}
+        </p>
+        <div className={styles.gymAmenities}>
+          {gym.amenities.map((a) => (
+            <span key={a} className={styles.gymAmenity}>
+              {a}
+            </span>
+          ))}
+        </div>
+        <div className={styles.gymFooter}>
+          <span className={styles.gymPrice}>From {gym.price}</span>
+          <div className={styles.gymActions}>
+            <button className={styles.gymBtnOutline} onClick={onViewGym}>View Gym</button>
+            <button className={styles.gymBtnFilled}>Membership</button>
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  );
+};
+
 const OfferCard = ({ offer }) => (
   <motion.div
-    className={styles.offerCard}
+    className={`${styles.offerCard} ${styles[`offerCard--${offer.variant}`]}`}
     variants={staggerItem}
     whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3 } }}
-    style={{ background: offer.gradient }}
   >
-    <div className={styles.offerGlass} aria-hidden="true" />
+    {/* Shine layer */}
+    <div className={styles.offerShine} aria-hidden="true" />
+
     <div className={styles.offerContent}>
-      <span
-        className={styles.offerTag}
-        style={{
-          color: offer.textColor === "#000" ? "#000" : "#fff",
-          background: "rgba(255,255,255,0.2)",
-        }}
-      >
-        {offer.tag}
-      </span>
+      {/* Tag */}
+      <span className={styles.offerTag}>{offer.tag}</span>
+
+      {/* Icon */}
       <span className={styles.offerIcon} aria-hidden="true">
         {offer.icon}
       </span>
-      <h3 className={styles.offerTitle} style={{ color: offer.textColor }}>
-        {offer.title}
-      </h3>
-      <p className={styles.offerSubtitle} style={{ color: offer.textColor }}>
-        {offer.subtitle}
-      </p>
-      <p
-        className={styles.offerDesc}
-        style={{
-          color:
-            offer.textColor === "#000"
-              ? "rgba(0,0,0,0.7)"
-              : "rgba(255,255,255,0.8)",
-        }}
-      >
-        {offer.desc}
-      </p>
-      <button
-        className={styles.offerBtn}
-        style={{
-          background:
-            offer.textColor === "#000" ? "#000" : "rgba(255,255,255,0.18)",
-          color: offer.textColor === "#000" ? "#39FF14" : "#fff",
-        }}
-      >
-        Claim Now <FiArrowRight />
+
+      {/* Text */}
+      <h3 className={styles.offerTitle}>{offer.title}</h3>
+      <p className={styles.offerSubtitle}>{offer.subtitle}</p>
+      <p className={styles.offerDesc}>{offer.desc}</p>
+
+      {/* CTA */}
+      <button className={styles.offerBtn}>
+        Claim Now <FiArrowRight aria-hidden="true" />
       </button>
     </div>
   </motion.div>
@@ -1087,8 +1127,7 @@ const TrendingCategories = () => {
   );
 };
 
-/* ── Trending Near You ── */
-const TrendingNearYou = () => {
+const TrendingNearYou = ({ compareItems, onCompareToggle }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-8%" });
 
@@ -1126,7 +1165,12 @@ const TrendingNearYou = () => {
           animate={inView ? "visible" : "hidden"}
         >
           {TRENDING.map((item) => (
-            <DiscoverCard key={item.id} item={item} />
+            <DiscoverCard
+              key={item.id}
+              item={item}
+              compareItems={compareItems}
+              onCompareToggle={onCompareToggle}
+            />
           ))}
         </motion.div>
       </div>
@@ -1281,8 +1325,7 @@ const TopTrainers = () => {
   );
 };
 
-/* ── Featured Gyms ── */
-const FeaturedGyms = () => {
+const FeaturedGyms = ({ compareItems, onCompareToggle, onViewGym }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-8%" });
 
@@ -1320,7 +1363,13 @@ const FeaturedGyms = () => {
           animate={inView ? "visible" : "hidden"}
         >
           {GYMS.map((gym) => (
-            <GymCard key={gym.id} gym={gym} />
+            <GymCard
+              key={gym.id}
+              gym={gym}
+              compareItems={compareItems}
+              onCompareToggle={onCompareToggle}
+              onViewGym={onViewGym}
+            />
           ))}
         </motion.div>
       </div>
@@ -1429,19 +1478,91 @@ const WhyGymssy = () => {
 /* ═══════════════════════════════════════════
    MAIN PAGE
 ═══════════════════════════════════════════ */
-const DiscoverPage = () => (
-  <main className={styles.page}>
-    <PageHeader />
-    <SmartSearch />
-    <TrendingCategories />
-    <TrendingNearYou />
-    <FeaturedCollections />
-    <PopularCities />
-    <TopTrainers />
-    <FeaturedGyms />
-    <SpecialOffers />
-    <WhyGymssy />
-  </main>
-);
+
+const DiscoverPage = () => {
+  const [compareItems, setCompareItems] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Toggle item in/out of compare list (max 3)
+  const handleCompareToggle = (item) => {
+    setCompareItems((prev) => {
+      const exists = prev.find((c) => c.id === item.id);
+      if (exists) {
+        return prev.filter((c) => c.id !== item.id);
+      }
+      if (prev.length >= 3) return prev; // Hard cap at 3
+      return [...prev, item];
+    });
+  };
+
+  const handleRemoveFromCompare = (id) => {
+    setCompareItems((prev) => {
+      const next = prev.filter((c) => c.id !== id);
+      // Auto-close drawer if fewer than 2 items remain
+      if (next.length < 2) setDrawerOpen(false);
+      return next;
+    });
+  };
+
+  const handleClearCompare = () => {
+    setCompareItems([]);
+    setDrawerOpen(false);
+  };
+
+  const handleOpenDrawer = () => {
+    if (compareItems.length >= 2) setDrawerOpen(true);
+  };
+
+  const handleViewGym = () => {
+    navigate("/gym-detail/cult-fit-indiranagar");
+  };
+
+  return (
+    <main className={styles.page}>
+      <PageHeader />
+      <SmartSearch />
+      <TrendingCategories />
+
+      {/* Trending Near You — compare enabled */}
+      <TrendingNearYou
+        compareItems={compareItems}
+        onCompareToggle={handleCompareToggle}
+        onViewGym={handleViewGym}
+      />
+
+      <FeaturedCollections />
+      <PopularCities />
+      <TopTrainers />
+
+      {/* Featured Gyms — compare enabled */}
+      <FeaturedGyms
+        compareItems={compareItems}
+        onCompareToggle={handleCompareToggle}
+        onViewGym={handleViewGym}
+      />
+
+      <SpecialOffers />
+      <WhyGymssy />
+
+      {/* ── Compare Bar (floating) ── */}
+      <CompareBar
+        items={compareItems}
+        onRemove={handleRemoveFromCompare}
+        onCompare={handleOpenDrawer}
+        onClear={handleClearCompare}
+      />
+
+      {/* ── Compare Drawer ── */}
+      {drawerOpen && (
+        <CompareDrawer
+          items={compareItems}
+          onClose={() => setDrawerOpen(false)}
+          onRemove={handleRemoveFromCompare}
+        />
+      )}
+    </main>
+  );
+};
 
 export default DiscoverPage;

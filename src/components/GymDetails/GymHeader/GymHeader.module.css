@@ -1,0 +1,351 @@
+.header {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 28px;
+}
+
+.headerInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.headerLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.categoryRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.categoryTag {
+  font-size: 0.75rem;
+  font-family: "Inter", sans-serif;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.verifiedBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-family: "Inter", sans-serif;
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.openStatusBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-family: "Inter", sans-serif;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.openStatusOpen {
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.15);
+}
+
+.openStatusClosed {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.gymName {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.ratingBlock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stars {
+  display: flex;
+  gap: 1px;
+}
+
+.star {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.starFilled {
+  color: #f59e0b;
+}
+
+.ratingValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+}
+
+.reviewCount {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: "Inter", sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.metaDivider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.9rem;
+}
+
+.locationBlock {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: "Inter", sans-serif;
+}
+
+.distanceBadge {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: "Inter", sans-serif;
+}
+
+.tagRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.tag {
+  font-size: 0.72rem;
+  font-family: "Inter", sans-serif;
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* Right */
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.actionRow {
+  display: flex;
+  gap: 8px;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  font-family: "Inter", sans-serif;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.iconBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.iconBtnSaved {
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.iconBtnSaved:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Share Menu */
+.shareWrapper {
+  position: relative;
+}
+
+.shareMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 8px;
+  min-width: 180px;
+  z-index: 100;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.shareItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-family: "Inter", sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.shareItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+/* CTA Row */
+.ctaRow {
+  display: flex;
+  gap: 10px;
+}
+
+.ctaPrimary {
+  padding: 12px 24px;
+  background: #39ff14;
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.ctaPrimary:hover {
+  background: #2de010;
+  transform: translateY(-1px);
+}
+
+.ctaSecondary {
+  padding: 12px 24px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.ctaSecondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.priceNote {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.priceNote strong {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .headerInner {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .headerRight {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .ctaRow {
+    width: 100%;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 20px 16px 24px;
+  }
+
+  .gymName {
+    font-size: 1.6rem;
+  }
+
+  .metaRow {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}

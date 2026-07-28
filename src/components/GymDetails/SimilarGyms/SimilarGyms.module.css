@@ -1,0 +1,227 @@
+.section {
+  background: #0b0b0b;
+  padding: 60px 0;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.4px;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.viewAllLink {
+  font-size: 0.82rem;
+  color: #39ff14;
+  font-family: "Inter", sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.viewAllLink:hover {
+  opacity: 0.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(57, 255, 20, 0.2);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.imageWrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.04);
+}
+
+.verifiedBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  color: #39ff14;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  padding: 3px 9px;
+  border-radius: 5px;
+  backdrop-filter: blur(6px);
+}
+
+.categoryBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 0.65rem;
+  font-family: "Inter", sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.65);
+  padding: 3px 9px;
+  border-radius: 5px;
+  backdrop-filter: blur(6px);
+}
+
+.content {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.gymName {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.2px;
+  line-height: 1.3;
+}
+
+.ratingBlock {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+}
+
+.starIcon {
+  color: #f59e0b;
+  fill: #f59e0b;
+  font-size: 0.75rem;
+}
+
+.reviewCount {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
+  font-size: 0.72rem;
+}
+
+.locationRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: "Inter", sans-serif;
+}
+
+.distance {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.priceLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: "Inter", sans-serif;
+}
+
+.price {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cardActions {
+  margin-top: 4px;
+}
+
+.viewBtn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(57, 255, 20, 0.06);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 10px;
+  color: #39ff14;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.viewBtn:hover {
+  background: rgba(57, 255, 20, 0.12);
+  border-color: rgba(57, 255, 20, 0.35);
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

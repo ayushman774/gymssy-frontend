@@ -1,0 +1,175 @@
+.timingsSection {
+  padding-bottom: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.titleIcon {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8rem;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+}
+
+.statusOpen {
+  background: rgba(57, 255, 20, 0.08);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+}
+
+.statusClosed {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.timingsList {
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.timingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.timingRow:last-child {
+  border-bottom: none;
+}
+
+.timingRow:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.timingRowToday {
+  background: rgba(57, 255, 20, 0.04);
+  border-left: 3px solid rgba(57, 255, 20, 0.4);
+}
+
+.timingRowToday:hover {
+  background: rgba(57, 255, 20, 0.06);
+}
+
+.dayWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.todayDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #39ff14;
+  flex-shrink: 0;
+}
+
+.dayName {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: "Inter", sans-serif;
+  min-width: 90px;
+}
+
+.dayNameToday {
+  color: #fff;
+  font-weight: 600;
+}
+
+.todayLabel {
+  font-size: 0.65rem;
+  font-family: "Inter", sans-serif;
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.timeWrap {
+  text-align: right;
+}
+
+.timeRange {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: "Inter", sans-serif;
+}
+
+.timeRangeToday {
+  color: #fff;
+  font-weight: 600;
+}
+
+.closedLabel {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: "Inter", sans-serif;
+}
+
+.alwaysOpen {
+  font-size: 0.82rem;
+  color: #39ff14;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .timingRow {
+    padding: 13px 16px;
+  }
+
+  .dayName {
+    min-width: 70px;
+    font-size: 0.8rem;
+  }
+
+  .timeRange {
+    font-size: 0.8rem;
+  }
+}

@@ -441,7 +441,7 @@ const PartnerWithUsPage = () => {
             <div className={styles.whyContent} ref={whyRightRef}>
               <p className={styles.sectionEyebrow}>Why Choose Gymssy</p>
               <h2 className={styles.sectionTitle}>
-                Grow Your Fitness Business with{" "}
+                Grow Your Fitness Business Faster with{" "}
                 <span className={styles.accent}>Gymssy</span>
               </h2>
               <p className={styles.whyDesc}>
@@ -487,7 +487,7 @@ const PartnerWithUsPage = () => {
           <div className={styles.sectionHeader}>
             <p className={styles.sectionEyebrow}>Open To Everyone</p>
             <h2 className={styles.sectionTitle}>
-              Who Can <span className={styles.accent}>Join</span>
+              Who Can <span className={styles.accent}>Join ?</span>
             </h2>
             <p className={styles.sectionDesc}>
               Whether you run a gym, teach yoga, or coach athletes — Gymssy
