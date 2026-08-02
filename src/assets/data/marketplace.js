@@ -438,3 +438,22 @@ export const POPULAR_CHIPS = [
   "Dance",
   "Nutrition",
 ];
+
+export const FEATURED_GYMS_RECENT = [
+  {
+    id: 1,
+    slug: "cult-fit-indiranagar",          // ← must match route param
+    name: "Cult.fit Indiranagar",
+    category: "Premium Gym",
+    location: "Indiranagar, Bengaluru",
+    distance: "1.2 km",
+    rating: 4.8,
+    reviews: 1240,
+    priceFrom: 999,
+    isOpen: true,
+    isVerified: true,
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
+    // ... other existing fields
+  },
+  // ... other gyms
+];

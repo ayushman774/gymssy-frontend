@@ -1005,21 +1005,6 @@ const PageHeader = () => {
       <div className={styles.headerOverlay} aria-hidden="true" />
 
       <div className={styles.headerContent}>
-        {/* Breadcrumb */}
-        <motion.nav
-          className={styles.breadcrumb}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          aria-label="Breadcrumb"
-        >
-          <Link to="/" className={styles.breadcrumbLink}>
-            Home
-          </Link>
-          <FiChevronRight className={styles.breadcrumbSep} aria-hidden="true" />
-          <span className={styles.breadcrumbCurrent}>Discover</span>
-        </motion.nav>
-
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

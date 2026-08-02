@@ -1,0 +1,383 @@
+/* ─────────────────────────────
+   SECTION SHELL
+───────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  padding: 6rem 0 7rem;
+  background: #0a0a0a;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ─────────────────────────────
+   BACKGROUNDS
+───────────────────────────── */
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 65% 55% at 10% 50%,
+      rgba(0, 255, 136, 0.04) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 45% at 90% 40%,
+      rgba(0, 122, 255, 0.04) 0%,
+      transparent 65%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgNoise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─────────────────────────────
+   CONTAINER
+───────────────────────────── */
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* ─────────────────────────────
+   HEADER
+───────────────────────────── */
+.header {
+  padding: 0 1.5rem;
+  margin-bottom: 2.75rem;
+}
+
+.headlineRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.75rem 0 0.6rem;
+}
+
+.headline {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.headlineAccent {
+  background: linear-gradient(135deg, #39ff14 0%, #39ff14 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subCopy {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.025rem);
+  color: rgba(255, 255, 255, 0.48);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+/* ─────────────────────────────
+   HEADER RIGHT — arrows + view all
+───────────────────────────── */
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* Arrow navigation */
+.arrowNav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.arrowBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
+  color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+.arrowBtn:hover {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: rgba(0, 255, 136, 0.35);
+  color: #00ff88;
+  transform: scale(1.08);
+}
+
+.arrowBtn:focus-visible {
+  outline: 2px solid #00ff88;
+  outline-offset: 3px;
+}
+
+.arrowBtn:disabled,
+.arrowBtn.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* View All */
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #00ff88;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: gap 0.25s ease, opacity 0.25s ease;
+  flex-shrink: 0;
+}
+
+.viewAll:hover {
+  gap: 0.65rem;
+  opacity: 0.85;
+}
+
+.viewAll:focus-visible {
+  outline: 2px solid #00ff88;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.viewAllIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.viewAll:hover .viewAllIcon {
+  transform: translateX(3px);
+}
+
+/* ─────────────────────────────
+   NEON LINE
+───────────────────────────── */
+.neonLineWrapper {
+  margin-top: 1.4rem;
+  height: 2px;
+  width: 100%;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.neonLine {
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(to right, #39ff14, transparent);
+    transform-origin: left;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+/* ─────────────────────────────
+   SWIPER WRAPPER
+───────────────────────────── */
+.swiperWrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Override Swiper defaults */
+.swiper {
+  width: 100%;
+  overflow: visible;
+  /* Left padding aligns first card with container */
+  padding-left: 1.5rem !important;
+  padding-bottom: 1.25rem !important;
+  /* Clip only vertically so edge fade works horizontally */
+  clip-path: none;
+}
+
+/* Individual slide */
+.slide {
+  /* Fixed card width — controls how many are visible */
+  width: 292px !important;
+  height: auto;
+}
+
+/* Spacer at end */
+.spacerSlide {
+  width: 0.75rem !important;
+  pointer-events: none;
+}
+
+/* Right-side scroll fade */
+.scrollFadeRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 1.25rem;
+  width: 120px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(10, 10, 10, 0.85) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─────────────────────────────
+   EDGE FADES (section level)
+───────────────────────────── */
+.edgeFadeTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 1) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.edgeFadeBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 1) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+══════════════════════════════════════════════════════ */
+
+/* Large desktop — wider cards, more visible */
+@media (min-width: 1400px) {
+  .slide {
+    width: 316px !important;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .section {
+    padding: 5rem 0 6rem;
+  }
+
+  .slide {
+    width: 268px !important;
+  }
+
+  .arrowNav {
+    display: none; /* arrows hidden on tablet, swipe instead */
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .section {
+    padding: 4rem 0 5rem;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .slide {
+    width: 78vw !important;
+    max-width: 300px;
+  }
+
+  .swiper {
+    padding-left: 1.25rem !important;
+  }
+
+  .scrollFadeRight {
+    width: 60px;
+  }
+
+  .headlineRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .headerRight {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide {
+    width: 82vw !important;
+  }
+
+  .swiper {
+    padding-left: 1rem !important;
+  }
+}
+
+/* ─────────────────────────────
+   HIDE SWIPER NATIVE ARROWS
+   (we use custom ones)
+───────────────────────────── */
+:global(.swiper-button-next),
+:global(.swiper-button-prev) {
+  display: none !important;
+}
+
+/* ─────────────────────────────
+   REDUCED MOTION
+───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .neonLine {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}

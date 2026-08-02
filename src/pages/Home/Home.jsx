@@ -1,6 +1,7 @@
 import styles from "./Home.module.css";
 import Hero from "../../components/sections/home/Hero/Hero";
 import ExploreCategories from "../../components/sections/home/ExploreCategories/ExploreCategories";
+import RecentlyViewed from "../../components/sections/home/RecentlyViewed/RecentlyViewed";
 import GymsNearYou from "../../components/sections/home/GymsNearYou/GymsNearYou";
 import FeaturedTrainers from "../../components/sections/home/FeaturedTrainers/FeaturedTrainers";
 import TrendingExperiences from "../../components/sections/home/TrendingExperiences/TrendingExperiences";
@@ -12,6 +13,7 @@ const Home = () => {
     <main className={styles.home}>
       <Hero />
       <ExploreCategories />
+      <RecentlyViewed />
       <GymsNearYou />
       <FeaturedTrainers />
       <TrendingExperiences />

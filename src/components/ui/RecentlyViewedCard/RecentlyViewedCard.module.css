@@ -1,0 +1,478 @@
+/* ─────────────────────────────
+   CARD SHELL
+───────────────────────────── */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.35s ease,
+    border-color 0.35s ease;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    0 4px 20px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.card:focus-visible {
+  outline: 2px solid #00ff88;
+  outline-offset: 3px;
+}
+
+/* Hover neon border overlay */
+.hoverBorder {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 1.5px solid var(--border-color, #00ff88);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .hoverBorder {
+  opacity: 0.5;
+}
+
+/* ─────────────────────────────
+   IMAGE BLOCK
+───────────────────────────── */
+.imageBlock {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Skeleton */
+.skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Image */
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition:
+    opacity 0.4s ease,
+    transform 0.55s ease;
+  z-index: 2;
+}
+
+/* Image overlay */
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.15) 50%,
+    transparent 100%
+  );
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ── Status Badge (top-left) ── */
+.statusBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid transparent;
+}
+
+.statusOpen {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: rgba(0, 255, 136, 0.3);
+  color: #00ff88;
+}
+
+.statusClosed {
+  background: rgba(255, 77, 77, 0.15);
+  border-color: rgba(255, 77, 77, 0.3);
+  color: #ff6b6b;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotOpen {
+  background: #00ff88;
+  box-shadow: 0 0 6px rgba(0, 255, 136, 0.8);
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.dotClosed {
+  background: #ff6b6b;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ── Wishlist Button (top-right) ── */
+.wishlistBtn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 4;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.wishlistBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.wishlistBtn:focus-visible {
+  outline: 2px solid #00ff88;
+  outline-offset: 2px;
+}
+
+.heartIcon {
+  width: 15px;
+  height: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  transition:
+    color 0.25s ease,
+    fill 0.25s ease;
+  stroke-width: 2;
+}
+
+.wishlistActive .heartIcon {
+  color: #ff4d6d;
+  fill: #ff4d6d;
+}
+
+/* ── Category Pill (bottom-left of image) ── */
+.categoryPill {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 4;
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid;
+}
+
+/* ─────────────────────────────
+   CONTENT BLOCK
+───────────────────────────── */
+.contentBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem 1.1rem 1.1rem;
+  flex: 1;
+}
+
+/* Name row */
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
+}
+
+.gymName {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Verified badge */
+.verifiedBadge {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.verifiedIcon {
+  width: 15px;
+  height: 15px;
+  color: #00ff88;
+  stroke-width: 2.5;
+}
+
+/* Location row */
+.locationRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.locationItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.locationIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.distancePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.distanceIcon {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+/* Rating row */
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.starIcon {
+  width: 13px;
+  height: 13px;
+  color: #fbbf24;
+  fill: #fbbf24;
+  flex-shrink: 0;
+}
+
+.ratingVal {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.reviewCount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0.1rem 0;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.1rem;
+}
+
+/* Price */
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.priceFrom {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.priceVal {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #00ff88;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.pricePer {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* View Details button */
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  background: var(--btn-color, #00ff88);
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+  box-shadow: 0 3px 12px rgba(0, 255, 136, 0.2);
+}
+
+.viewBtn:hover {
+  box-shadow: 0 6px 22px rgba(0, 255, 136, 0.32);
+  opacity: 0.9;
+}
+
+.viewBtn:focus-visible {
+  outline: 2px solid var(--btn-color, #00ff88);
+  outline-offset: 3px;
+}
+
+.viewBtnIcon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.viewBtn:hover .viewBtnIcon {
+  transform: translateX(2px);
+}
+
+/* ─────────────────────────────
+   REDUCED MOTION
+───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .image,
+  .viewBtn,
+  .wishlistBtn {
+    transition: none;
+  }
+
+  .skeleton {
+    animation: none;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .dotOpen {
+    animation: none;
+  }
+}
