@@ -4,118 +4,198 @@ import HeroContent from "./HeroContent";
 import styles from "./Hero.module.css";
 
 /* ══════════════════════════════════════════════════════
-   VIDEO SOURCE
-   Replace these with your actual video files in /public/videos/
-   Free sources listed below.
+   HERO BACKGROUND IMAGES
+   High-quality fitness images from Unsplash.
+   Replace URLs with your own CDN/assets in production.
 ══════════════════════════════════════════════════════ */
-const VIDEO = {
-  // Option A — use a direct MP4 link (works instantly for testing)
-  // Replace with your downloaded file path in production
-  mp4: "/videos/fitness-hero.mp4",
-  webm: "/videos/fitness-hero.webm",
+const HERO_IMAGES = [
+  {
+    id: 1,
+    url: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=85&fit=crop&auto=format",
+    alt: "Premium gym interior with modern equipment",
+  },
+  {
+    id: 2,
+    url: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1920&q=85&fit=crop&auto=format",
+    alt: "Athlete training with weights",
+  },
+  {
+    id: 3,
+    url: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=1920&q=85&fit=crop&auto=format",
+    alt: "CrossFit workout session",
+  },
+  {
+    id: 4,
+    url: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1920&q=85&fit=crop&auto=format",
+    alt: "Yoga studio with peaceful atmosphere",
+  },
+  {
+    id: 5,
+    url: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1920&q=85&fit=crop&auto=format",
+    alt: "Modern fitness center with cardio equipment",
+  },
+  {
+    id: 6,
+    url: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=1920&q=85&fit=crop&auto=format",
+    alt: "Personal training session",
+  },
+];
 
-  // Poster shown while video loads / on reduced motion
-  poster:
-    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80&fit=crop&auto=format",
-};
+/* Auto-slide interval in milliseconds */
+const SLIDE_INTERVAL = 4500;
+const TRANSITION_DURATION = 1200; // ms — must match CSS
 
 /* ══════════════════════════════════════════════════════
-   VIDEO BACKGROUND
+   IMAGE SLIDESHOW BACKGROUND
 ══════════════════════════════════════════════════════ */
-const HeroVideo = ({ reducedMotion }) => {
-  const videoRef = useRef(null);
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
+const HeroSlideshow = ({ reducedMotion }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [nextIndex, setNextIndex] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [loadedImages, setLoadedImages] = useState(new Set([0]));
+  const timerRef = useRef(null);
+  const transitionRef = useRef(null);
 
+  /* ── Preload adjacent images ── */
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video || reducedMotion) return;
-
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    video.preload = "auto";
-
-    const tryPlay = async () => {
-      try {
-        await video.play();
-      } catch (e) {
-        // Autoplay blocked — poster image visible as fallback
-        if (import.meta.env.DEV) {
-          console.info("[Hero] Video autoplay blocked — poster showing.");
-        }
-      }
+    const preload = (index) => {
+      if (loadedImages.has(index)) return;
+      const img = new Image();
+      img.src = HERO_IMAGES[index].url;
+      img.onload = () => {
+        setLoadedImages((prev) => new Set([...prev, index]));
+      };
     };
 
-    if (video.readyState >= 3) {
-      setLoaded(true);
-      tryPlay();
-    } else {
-      video.addEventListener(
-        "canplaythrough",
-        () => {
-          setLoaded(true);
-          tryPlay();
-        },
-        { once: true },
-      );
+    // Preload next and previous
+    const next = (currentIndex + 1) % HERO_IMAGES.length;
+    const prev = (currentIndex - 1 + HERO_IMAGES.length) % HERO_IMAGES.length;
+    preload(next);
+    preload(prev);
+  }, [currentIndex, loadedImages]);
 
-      video.addEventListener(
-        "error",
-        () => {
-          setError(true);
-        },
-        { once: true },
-      );
-    }
-  }, [reducedMotion]);
+  /* ── Auto advance slides ── */
+  useEffect(() => {
+    if (reducedMotion) return;
 
-  // On reduced motion — just show poster
+    const startTimer = () => {
+      timerRef.current = setTimeout(() => {
+        advance();
+      }, SLIDE_INTERVAL);
+    };
+
+    startTimer();
+
+    return () => {
+      clearTimeout(timerRef.current);
+      clearTimeout(transitionRef.current);
+    };
+  }, [currentIndex, reducedMotion]);
+
+  const advance = () => {
+    if (isTransitioning) return;
+
+    const next = (currentIndex + 1) % HERO_IMAGES.length;
+
+    setNextIndex(next);
+    setIsTransitioning(true);
+
+    transitionRef.current = setTimeout(() => {
+      setCurrentIndex(next);
+      setNextIndex(null);
+      setIsTransitioning(false);
+    }, TRANSITION_DURATION);
+  };
+
+  const goTo = (index) => {
+    if (isTransitioning || index === currentIndex) return;
+
+    clearTimeout(timerRef.current);
+    clearTimeout(transitionRef.current);
+
+    setNextIndex(index);
+    setIsTransitioning(true);
+
+    transitionRef.current = setTimeout(() => {
+      setCurrentIndex(index);
+      setNextIndex(null);
+      setIsTransitioning(false);
+    }, TRANSITION_DURATION);
+  };
+
+  /* ── Reduced motion: just show first image ── */
   if (reducedMotion) {
     return (
-      <div
-        className={styles.videoPoster}
-        style={{ backgroundImage: `url(${VIDEO.poster})` }}
-        role="img"
-        aria-label="Fitness background"
-      />
+      <div className={styles.slideshowWrapper}>
+        <div
+          className={styles.slide}
+          style={{ backgroundImage: `url(${HERO_IMAGES[0].url})` }}
+          role="img"
+          aria-label={HERO_IMAGES[0].alt}
+        />
+      </div>
     );
   }
 
   return (
-    <div className={styles.videoWrapper}>
-      {/* Poster shown until video is ready */}
+    <div
+      className={styles.slideshowWrapper}
+      role="region"
+      aria-label="Hero background slideshow"
+      aria-live="off"
+    >
+      {/* ── Current slide — always visible ── */}
       <div
-        className={`${styles.videoPoster} ${loaded ? styles.videoPosterHidden : ""}`}
-        style={{ backgroundImage: `url(${VIDEO.poster})` }}
+        className={`${styles.slide} ${styles.slideCurrent}`}
+        style={{
+          backgroundImage: `url(${HERO_IMAGES[currentIndex].url})`,
+        }}
+        role="img"
+        aria-label={HERO_IMAGES[currentIndex].alt}
         aria-hidden="true"
       />
 
-      {/* Video element */}
-      {!error && (
-        <video
-          ref={videoRef}
-          className={`${styles.videoEl} ${loaded ? styles.videoElVisible : ""}`}
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster={VIDEO.poster}
-          aria-hidden="true"
-        >
-          <source src={VIDEO.webm} type="video/webm" />
-          <source src={VIDEO.mp4} type="video/mp4" />
-        </video>
-      )}
-
-      {/* If video fails, keep poster visible */}
-      {error && (
+      {/* ── Next slide — fades in during transition ── */}
+      {nextIndex !== null && (
         <div
-          className={`${styles.videoPoster} ${styles.videoPosterVisible}`}
-          style={{ backgroundImage: `url(${VIDEO.poster})` }}
+          className={`${styles.slide} ${styles.slideNext} ${
+            isTransitioning ? styles.slideNextVisible : ""
+          }`}
+          style={{
+            backgroundImage: `url(${HERO_IMAGES[nextIndex].url})`,
+          }}
+          role="img"
+          aria-label={HERO_IMAGES[nextIndex].alt}
           aria-hidden="true"
         />
       )}
+
+      {/* ── Dot indicators ── */}
+      <div className={styles.dots} role="tablist" aria-label="Slide indicators">
+        {HERO_IMAGES.map((img, i) => (
+          <button
+            key={img.id}
+            className={`${styles.dot} ${
+              i === currentIndex ? styles.dotActive : ""
+            }`}
+            onClick={() => goTo(i)}
+            role="tab"
+            aria-selected={i === currentIndex}
+            aria-label={`Go to slide ${i + 1}: ${img.alt}`}
+          />
+        ))}
+      </div>
+
+      {/* ── Progress bar ── */}
+      <div className={styles.progressBar} aria-hidden="true">
+        <div
+          key={currentIndex}
+          className={styles.progressFill}
+          style={{
+            animationDuration: `${SLIDE_INTERVAL}ms`,
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -134,9 +214,9 @@ const Hero = () => {
       {/* ── Layer 0: Noise ── */}
       <div className={styles.noiseOverlay} aria-hidden="true" />
 
-      {/* ── Layer 1: Video / Poster ── */}
+      {/* ── Layer 1: Image Slideshow ── */}
       <div className={styles.videoLayer} aria-hidden="true">
-        <HeroVideo reducedMotion={prefersReduced} />
+        <HeroSlideshow reducedMotion={prefersReduced} />
       </div>
 
       {/* ── Layer 2: Overlays ── */}
