@@ -250,3 +250,186 @@
     opacity: 1 !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════
+   SLIDESHOW — replaces video classes
+   Keep all your existing Hero.module.css intact.
+   Only add/replace the classes below.
+══════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────
+   SLIDESHOW WRAPPER
+   Fills the videoLayer exactly
+───────────────────────────── */
+.slideshowWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────
+   BASE SLIDE
+   Both current and next share this.
+───────────────────────────── */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* Subtle Ken Burns effect — slow zoom */
+  animation: kenBurns 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* ─────────────────────────────
+   CURRENT SLIDE
+   Always underneath, fully visible.
+───────────────────────────── */
+.slideCurrent {
+  z-index: 1;
+  opacity: 1;
+}
+
+/* ─────────────────────────────
+   NEXT SLIDE
+   Sits on top, starts invisible,
+   fades in during transition.
+───────────────────────────── */
+.slideNext {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 1200ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Next slide gets a slightly different
+     Ken Burns starting point */
+  animation: kenBurnsAlt 18s ease-in-out infinite alternate;
+}
+
+.slideNextVisible {
+  opacity: 1;
+}
+
+/* ─────────────────────────────
+   KEN BURNS — subtle zoom
+───────────────────────────── */
+@keyframes kenBurns {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1%, -1%); }
+}
+
+@keyframes kenBurnsAlt {
+  0%   { transform: scale(1.04) translate(1%, 0); }
+  100% { transform: scale(1) translate(0, 1%); }
+}
+
+/* ─────────────────────────────
+   DOT INDICATORS
+───────────────────────────── */
+.dots {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Sit above overlays */
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    width 0.3s ease;
+  flex-shrink: 0;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.65);
+  transform: scale(1.25);
+}
+
+.dotActive {
+  /* Active dot is a pill shape */
+  width: 22px;
+  border-radius: 999px;
+  background: #00ff88;
+  transform: scale(1);
+}
+
+.dot:focus-visible {
+  outline: 2px solid #00ff88;
+  outline-offset: 3px;
+}
+
+/* ─────────────────────────────
+   PROGRESS BAR
+   Thin neon green line at the
+   very bottom that depletes as
+   the slide timer counts down.
+───────────────────────────── */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #00ff88 0%,
+    rgba(0, 255, 136, 0.6) 100%
+  );
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+  transform-origin: left center;
+  /* Reset and run on each new slide */
+  animation: progressShrink linear forwards;
+}
+
+@keyframes progressShrink {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+/* ─────────────────────────────
+   REMOVE OLD VIDEO CLASSES
+   (keep in file, they just won't
+    be used — no harm done)
+───────────────────────────── */
+
+/* ─────────────────────────────
+   REDUCED MOTION OVERRIDES
+───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .slideNext {
+    animation: none;
+    transition: none;
+  }
+
+  .progressFill {
+    animation: none;
+  }
+
+  .dot {
+    transition: none;
+  }
+}
