@@ -46,3 +46,10 @@
 .label--dark .text {
   color: var(--color-gray-500);
 }
+
+@media (max-width: 600px) {
+  .label{
+    z-index: 9;
+    position: relative;
+  }
+}
