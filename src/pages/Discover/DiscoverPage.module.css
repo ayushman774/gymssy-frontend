@@ -283,7 +283,7 @@
 }
 
 .searchFieldActive .searchFieldIcon {
-  color: #39FF14;
+  color: #39ff14;
 }
 
 /* Label + input stacked vertically */
@@ -315,7 +315,7 @@
   font-size: 0.88rem;
   color: #ffffff;
   width: 100%;
-  caret-color: #39FF14;
+  caret-color: #39ff14;
   padding: 0;
   min-width: 0;
 }
@@ -339,7 +339,9 @@
   color: rgba(255, 255, 255, 0.28);
   font-size: 0.82rem;
   flex-shrink: 0;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 
 .clearBtn:hover {
@@ -363,7 +365,7 @@
   gap: 0.45rem;
   padding: 0 2rem;
   margin: 0.5rem;
-  background: #39FF14;
+  background: #39ff14;
   color: #000000;
   font-family: "Poppins", sans-serif;
   font-size: 0.88rem;
@@ -374,7 +376,9 @@
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: opacity 0.22s ease, box-shadow 0.22s ease;
+  transition:
+    opacity 0.22s ease,
+    box-shadow 0.22s ease;
   min-width: 120px;
 }
 
@@ -420,13 +424,16 @@
   color: rgba(255, 255, 255, 0.58);
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s;
 }
 
 .suggestionChip:hover {
   border-color: rgba(57, 255, 20, 0.42);
   background: rgba(57, 255, 20, 0.07);
-  color: #39FF14;
+  color: #39ff14;
 }
 
 /* ── Responsive ── */
@@ -1508,7 +1515,9 @@
   border-radius: 18px;
   overflow: hidden;
   cursor: default;
-  transition: box-shadow 0.35s ease, transform 0.35s ease;
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.35s ease;
 }
 
 /* ══ VARIANT: neon ══
@@ -2350,8 +2359,8 @@
 
 @media (max-width: 480px) {
   .pageHeader {
-    margin-top: 60px;
-    height: clamp(200px, 45vw, 280px);
+    margin-top: 70px;
+    height: clamp(225px, 45vw, 280px);
   }
   .categoriesGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -2366,6 +2375,13 @@
   }
   .appStoreBtn {
     justify-content: center;
+  }
+  .searchSection {
+    padding: clamp(0.5rem, 5vw, 4rem) 0;
+    background: var(--color-black, #000);
+  }
+  .section {
+    padding: clamp(0rem, 8vw, 7rem) 0;
   }
 }
 

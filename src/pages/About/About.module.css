@@ -60,7 +60,7 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%),
+    linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%),
     url("https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1600&q=80");
   background-size: cover;
   background-position: center 40%;
@@ -403,11 +403,7 @@
 }
 
 .missionCard--neon .cardGlow {
-  background: radial-gradient(
-    circle,
-    rgba(57, 255, 20, 0.08),
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(57, 255, 20, 0.08), transparent 70%);
 }
 
 .missionCard--blue .cardGlow {
@@ -558,11 +554,7 @@
   position: absolute;
   inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(57, 255, 20, 0.1),
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(57, 255, 20, 0.1), transparent 70%);
   opacity: 0;
   transition: opacity var(--transition-slow);
   pointer-events: none;
@@ -672,7 +664,9 @@
   height: 100%;
   object-fit: cover;
   filter: grayscale(60%) brightness(0.4) saturate(0.5);
-  transition: filter 0.5s ease, transform 0.6s ease;
+  transition:
+    filter 0.5s ease,
+    transform 0.6s ease;
   display: block;
 }
 
@@ -886,7 +880,9 @@
   background: rgba(255, 255, 255, 0.02);
   overflow: hidden;
   cursor: default;
-  transition: border-color var(--transition-slow), background var(--transition-slow);
+  transition:
+    border-color var(--transition-slow),
+    background var(--transition-slow);
 }
 
 .featureCard--neon:hover {
@@ -1155,7 +1151,9 @@
   border-radius: var(--radius-lg);
   white-space: nowrap;
   filter: grayscale(100%) opacity(0.5);
-  transition: filter var(--transition-slow), border-color var(--transition-slow);
+  transition:
+    filter var(--transition-slow),
+    border-color var(--transition-slow);
   cursor: default;
 }
 
@@ -1344,7 +1342,9 @@
   object-fit: cover;
   display: block;
   filter: saturate(0.7) brightness(0.75);
-  transition: filter 0.4s ease, transform 0.6s ease;
+  transition:
+    filter 0.4s ease,
+    transform 0.6s ease;
 }
 
 .impactImgItem:hover .impactImg {
@@ -1354,11 +1354,7 @@
 .impactImgOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.5) 0%,
-    transparent 60%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
 }
 
 .impactImgLabel {
@@ -1671,6 +1667,17 @@
 
   .storyBadgeNumber {
     font-size: 1.3rem;
+  }
+
+  .story,
+  .missionSection,
+  .howSection,
+  .audienceSection,
+  .featuresSection,
+  .statsSection,
+  .partnersSection,
+  .impactSection {
+    padding: 20px 0px;
   }
 }
 
