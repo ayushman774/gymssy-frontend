@@ -210,7 +210,6 @@ const RecentlyViewed = () => {
       </div>
 
       {/* ── Edge fades ── */}
-      <div className={styles.edgeFadeTop} aria-hidden="true" />
       <div className={styles.edgeFadeBottom} aria-hidden="true" />
     </section>
   );

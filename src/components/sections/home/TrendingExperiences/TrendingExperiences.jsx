@@ -174,7 +174,6 @@ const TrendingExperiences = () => {
         </div>
       </div>
 
-      <div className={styles.edgeFadeTop} aria-hidden="true" />
       <div className={styles.edgeFadeBottom} aria-hidden="true" />
     </section>
   );

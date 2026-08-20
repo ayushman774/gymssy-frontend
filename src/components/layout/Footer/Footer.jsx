@@ -447,12 +447,6 @@ const Footer = () => {
                   </div>
                 ))}
               </div>
-
-              {/* Tagline */}
-              <p className={styles.tagline}>
-                <span className={styles.taglineDot} aria-hidden="true" />
-                Forging Champions Since 2009
-              </p>
             </motion.div>
 
             {/* ── Column 2 — Quick Links ── */}
