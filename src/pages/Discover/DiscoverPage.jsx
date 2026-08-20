@@ -277,7 +277,7 @@ const COLLECTIONS = [
     count: "15 centers",
     image:
       "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800&q=80",
-    color: "#a78bfa",
+    color: "#39ff14",
   },
 ];
 

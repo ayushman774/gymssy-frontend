@@ -31,7 +31,7 @@
 }
 
 .card:focus-visible {
-  outline: 2px solid #00ff88;
+  outline: 2px solid #39ff14;
   outline-offset: 3px;
 }
 
@@ -40,7 +40,7 @@
   position: absolute;
   inset: 0;
   border-radius: 18px;
-  border: 1.5px solid var(--border-color, #00ff88);
+  border: 1.5px solid var(--border-color, #39ff14);
   pointer-events: none;
   z-index: 5;
   opacity: 0;
@@ -137,7 +137,7 @@
 .statusOpen {
   background: rgba(0, 255, 136, 0.15);
   border-color: rgba(0, 255, 136, 0.3);
-  color: #00ff88;
+  color: #39ff14;
 }
 
 .statusClosed {
@@ -154,7 +154,7 @@
 }
 
 .dotOpen {
-  background: #00ff88;
+  background: #39ff14;
   box-shadow: 0 0 6px rgba(0, 255, 136, 0.8);
   animation: pulse 2s infinite ease-in-out;
 }
@@ -201,7 +201,7 @@
 }
 
 .wishlistBtn:focus-visible {
-  outline: 2px solid #00ff88;
+  outline: 2px solid #39ff14;
   outline-offset: 2px;
 }
 
@@ -283,7 +283,7 @@
 .verifiedIcon {
   width: 15px;
   height: 15px;
-  color: #00ff88;
+  color: #39ff14;
   stroke-width: 2.5;
 }
 
@@ -401,7 +401,7 @@
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 700;
-  color: #00ff88;
+  color: #39ff14;
   letter-spacing: -0.01em;
   line-height: 1;
 }
@@ -421,7 +421,7 @@
   font-size: 0.78rem;
   font-weight: 600;
   color: #0a0a0a;
-  background: var(--btn-color, #00ff88);
+  background: var(--btn-color, #39ff14);
   border: none;
   border-radius: 10px;
   padding: 0.5rem 0.85rem;
@@ -441,7 +441,7 @@
 }
 
 .viewBtn:focus-visible {
-  outline: 2px solid var(--btn-color, #00ff88);
+  outline: 2px solid var(--btn-color, #39ff14);
   outline-offset: 3px;
 }
 

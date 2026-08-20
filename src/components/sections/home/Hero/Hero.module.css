@@ -364,12 +364,12 @@
   /* Active dot is a pill shape */
   width: 22px;
   border-radius: 999px;
-  background: #00ff88;
+  background: #39ff14;
   transform: scale(1);
 }
 
 .dot:focus-visible {
-  outline: 2px solid #00ff88;
+  outline: 2px solid #39ff14;
   outline-offset: 3px;
 }
 
@@ -395,7 +395,7 @@
   width: 100%;
   background: linear-gradient(
     90deg,
-    #00ff88 0%,
+    #39ff14 0%,
     rgba(0, 255, 136, 0.6) 100%
   );
   box-shadow: 0 0 8px rgba(0, 255, 136, 0.6);

@@ -1,0 +1,109 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.card {
+  position: relative;
+  background: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card:hover {
+  border-color: rgba(167, 139, 250, 0.3);
+  background: #131313;
+}
+
+.card:focus-visible {
+  outline: 2px solid #39ff14;
+  outline-offset: 3px;
+}
+
+.left {
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  display: block;
+}
+
+.right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.title {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.description {
+  font-family: "Inter", sans-serif;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.38);
+  margin: 0;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.count {
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #39ff14;
+  margin-top: 2px;
+}
+
+.arrow {
+  font-size: 1rem;
+  color: rgba(167, 139, 250, 0.45);
+  flex-shrink: 0;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.card:hover .arrow {
+  color: #39ff14;
+  transform: translateX(3px);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .card {
+    padding: 16px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .arrow {
+    transition: none;
+  }
+}

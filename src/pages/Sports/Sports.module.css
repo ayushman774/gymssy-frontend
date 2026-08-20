@@ -1,0 +1,920 @@
+/* ══════════════════════════════════════════════════════
+   Sports Page — module styles
+   Mirrors Fitness.module.css and Wellness.module.css
+   Neon green accent (#39ff14), dark-first
+══════════════════════════════════════════════════════ */
+
+.page {
+  background: #0a0a0a;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Empty / Error states ── */
+.emptyState {
+  text-align: center;
+  padding: 64px 24px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 16px;
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 24px;
+  text-align: center;
+  color: rgba(255, 100, 100, 0.85);
+  font-size: 16px;
+}
+
+.errorIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.retryBtn {
+  margin-top: 8px;
+  padding: 10px 24px;
+  background: #39ff14;
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+
+.retryBtn:hover {
+  background: #2de610;
+}
+
+/* ══════════════════════════════════════════════════════
+   ACADEMIES SECTION
+══════════════════════════════════════════════════════ */
+.academiesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* ── Academy Card ── */
+.academyCard {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.academyCard:hover {
+  border-color: rgba(57, 255, 20, 0.25);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.academyImageWrapper {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.academyImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.academyCard:hover .academyImage {
+  transform: scale(1.04);
+}
+
+.academyImageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.55) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+}
+
+.academyBadges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+.verifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #39ff14;
+  color: #000000;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  line-height: 1;
+}
+
+.statusBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  line-height: 1;
+}
+
+.statusOpen {
+  background: rgba(57, 255, 20, 0.15);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+.statusClosed {
+  background: rgba(255, 80, 80, 0.12);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 80, 80, 0.25);
+}
+
+.distanceBadge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: 100px;
+  z-index: 2;
+}
+
+.distanceBadge svg {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.ratingBadge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: 100px;
+  z-index: 2;
+}
+
+.ratingStar {
+  color: #fbbf24;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.ratingVal {
+  font-weight: 700;
+}
+
+.ratingCount {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+}
+
+.academyContent {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.academyName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.academyCategory {
+  font-size: 13px;
+  color: #39ff14;
+  font-weight: 500;
+  display: block;
+}
+
+.academyLocation {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.academyLocation svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.academyFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 12px;
+}
+
+.academyPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.academyFrom {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.academyPriceVal {
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.academyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(57, 255, 20, 0.1);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.academyBtn:hover {
+  background: #39ff14;
+  color: #000000;
+  border-color: #39ff14;
+}
+
+.academyBtn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════
+   COACHES SECTION
+══════════════════════════════════════════════════════ */
+.coachesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* ── Coach Card ── */
+.coachCard {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.coachCard:hover {
+  border-color: rgba(57, 255, 20, 0.25);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.coachImageWrapper {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.coachImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.coachCard:hover .coachImage {
+  transform: scale(1.04);
+}
+
+.coachAvailBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  z-index: 2;
+  line-height: 1;
+}
+
+.coachAvailOpen {
+  background: rgba(57, 255, 20, 0.15);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+.coachAvailClosed {
+  background: rgba(255, 100, 100, 0.1);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 100, 100, 0.2);
+}
+
+.coachAvailDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  display: block;
+}
+
+.coachInfo {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.coachName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.coachSpec {
+  font-size: 13px;
+  color: #39ff14;
+  font-weight: 500;
+  margin: 0;
+}
+
+.coachExp {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.coachRating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.coachStar {
+  color: #fbbf24;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.coachReviews {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+}
+
+.coachFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 10px;
+}
+
+.coachPrice {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.coachBtn {
+  background: rgba(57, 255, 20, 0.1);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.coachBtn:hover {
+  background: #39ff14;
+  color: #000000;
+  border-color: #39ff14;
+}
+
+/* ══════════════════════════════════════════════════════
+   EXPERIENCES SECTION
+══════════════════════════════════════════════════════ */
+.experiencesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* ── Experience Card ── */
+.expCard {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.expCard:hover {
+  border-color: rgba(57, 255, 20, 0.25);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* Experience Image */
+.expImageWrapper {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.expImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.expCard:hover .expImage {
+  transform: scale(1.04);
+}
+
+.expImageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+}
+
+/* Trending badge */
+.trendBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, #ff6b00, #ff9500);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  z-index: 2;
+  line-height: 1;
+}
+
+.trendBadge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+/* Category badge */
+.expCategoryBadge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #000000;
+  background: #39ff14;
+  padding: 4px 10px;
+  border-radius: 100px;
+  z-index: 2;
+  line-height: 1;
+}
+
+/* Experience Content */
+.expContent {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.expTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Meta row */
+.expMeta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.expMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 500;
+}
+
+.expMetaItem svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Level badge */
+.expLevel {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  padding: 3px 10px;
+  border-radius: 100px;
+  line-height: 1.4;
+}
+
+/* Footer */
+.expFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 12px;
+}
+
+.expPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.expFrom {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.expVal {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.expBookBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(57, 255, 20, 0.1);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.expBookBtn:hover {
+  background: #39ff14;
+  color: #000000;
+  border-color: #39ff14;
+}
+
+.expBookBtn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════
+   FINAL CTA SECTION
+══════════════════════════════════════════════════════ */
+.finalCta {
+  position: relative;
+  padding: 120px 24px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.finalCtaBg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.finalCtaBgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.finalCtaOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.finalCtaGradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(57, 255, 20, 0.08) 0%,
+    transparent 70%
+  );
+}
+
+.finalCtaInner {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.finalCtaEyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #39ff14;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  padding: 6px 16px;
+  border-radius: 100px;
+}
+
+.finalCtaHeading {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.finalCtaAccent {
+  color: #39ff14;
+}
+
+.finalCtaSubtitle {
+  font-size: clamp(15px, 2vw, 18px);
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.finalCtaBtns {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.finalCtaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #39ff14;
+  color: #000000;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.finalCtaPrimary:hover {
+  background: #2de610;
+}
+
+.finalCtaPrimary svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.finalCtaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.finalCtaSecondary:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+
+/* ── Large tablets / small desktops ── */
+@media (max-width: 1200px) {
+  .academiesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .coachesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .experiencesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Tablets ── */
+@media (max-width: 900px) {
+  .academiesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coachesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .experiencesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .finalCta {
+    padding: 90px 24px;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .academiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .coachesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .experiencesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .finalCta {
+    padding: 72px 20px;
+  }
+
+  .finalCtaBtns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .finalCtaPrimary,
+  .finalCtaSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .academyFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .academyBtn {
+    justify-content: center;
+  }
+
+  .expFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .expBookBtn {
+    justify-content: center;
+  }
+}
+
+/* ── Very small screens ── */
+@media (max-width: 380px) {
+  .academyName {
+    font-size: 15px;
+  }
+
+  .coachName {
+    font-size: 15px;
+  }
+
+  .expTitle {
+    font-size: 15px;
+  }
+}
