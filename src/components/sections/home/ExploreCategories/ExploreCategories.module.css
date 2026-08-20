@@ -1,23 +1,35 @@
-/* ============================================================
+/* ══════════════════════════════════════════════════════
    EXPLORE CATEGORIES — Section
-   ============================================================ */
+   Gymssy Design System
+══════════════════════════════════════════════════════ */
 
+/* ─────────────────────────────
+   SECTION SHELL
+───────────────────────────── */
 .section {
   position: relative;
-  padding: 7rem 0;
+  padding: 7rem 0 6rem;
   background: #0b0b0b;
   overflow: hidden;
 }
 
-/* Backgrounds */
+/* ─────────────────────────────
+   BACKGROUNDS
+───────────────────────────── */
 .bgGradient {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at 50% 0%,
-    rgba(57, 255, 20, 0.04) 0%,
-    transparent 65%
-  );
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 15% 50%,
+      rgba(57, 255, 20, 0.04) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 85% 40%,
+      rgba(59, 130, 246, 0.03) 0%,
+      transparent 65%
+    );
   pointer-events: none;
 }
 
@@ -29,14 +41,20 @@
   pointer-events: none;
 }
 
-/* Container */
+/* ─────────────────────────────
+   CONTAINER
+───────────────────────────── */
 .container {
-  max-width: 1380px;
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-/* Header */
+/* ─────────────────────────────
+   HEADER
+───────────────────────────── */
 .header {
   text-align: center;
   margin-bottom: 3.5rem;
@@ -48,16 +66,17 @@
   justify-content: center;
   gap: 2rem;
   flex-wrap: wrap;
-  margin-bottom: 0.75rem;
+  margin: 0.75rem 0;
 }
 
 .headline {
   font-family: "Poppins", sans-serif;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.9rem, 4vw, 3rem);
   font-weight: 800;
   color: #ffffff;
   margin: 0;
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .headlineAccent {
@@ -67,11 +86,12 @@
 .subCopy {
   font-family: "Inter", sans-serif;
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.48);
   margin: 0;
   line-height: 1.7;
 }
 
+/* View All link */
 .viewAll {
   display: inline-flex;
   align-items: center;
@@ -85,17 +105,25 @@
   text-transform: uppercase;
   border-bottom: 1px solid rgba(57, 255, 20, 0.35);
   padding-bottom: 2px;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
   white-space: nowrap;
 }
 
 .viewAll:hover {
   opacity: 0.75;
 }
+
+.viewAll:focus-visible {
+  outline: 2px solid #39ff14;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 .viewAllIcon {
   font-size: 0.9rem;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
+
 .viewAll:hover .viewAllIcon {
   transform: translateX(4px);
 }
@@ -116,18 +144,157 @@
   box-shadow: 0 0 12px rgba(57, 255, 20, 0.5);
 }
 
-/* Grid — 5 columns */
-.grid {
+/* ─────────────────────────────
+   MAIN 3-CARD GRID
+───────────────────────────── */
+.mainGrid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .cardSlot {
-  height: 100%;
+  /* Allow card to fill full height of grid cell */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Edge fades */
+.cardSlot > * {
+  flex: 1;
+}
+
+/* ─────────────────────────────
+   SUBCATEGORY PANEL
+───────────────────────────── */
+.subPanel {
+  width: 100%;
+  /* overflow hidden required for height:0 animation */
+  overflow: hidden;
+  margin-top: 1.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  /* Accent left border */
+  border-left: 2px solid var(--accent, #39ff14);
+}
+
+.subPanelInner {
+  padding: 28px 28px 24px;
+}
+
+/* Panel header */
+.subPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.subPanelTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.subPanelDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent, #39ff14);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px var(--accent, #39ff14);
+}
+
+.subPanelViewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent, #39ff14);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition:
+    opacity 0.2s ease,
+    gap 0.2s ease;
+  flex-shrink: 0;
+}
+
+.subPanelViewAll:hover {
+  opacity: 0.75;
+  gap: 8px;
+}
+
+.subPanelViewAll:focus-visible {
+  outline: 2px solid var(--accent, #39ff14);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.subPanelViewAllIcon {
+  width: 13px;
+  height: 13px;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.subPanelViewAll:hover .subPanelViewAllIcon {
+  transform: translateX(3px);
+}
+
+/* Divider */
+.subPanelDivider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--accent, #39ff14),
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent
+  );
+  margin-bottom: 22px;
+  transform-origin: left center;
+}
+
+/* Chips grid — wrapping flex */
+.chipsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ─────────────────────────────
+   HINT TEXT
+───────────────────────────── */
+.hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 1.75rem;
+  letter-spacing: 0.01em;
+}
+
+.hintIcon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────
+   EDGE FADES
+───────────────────────────── */
 .edgeFadeTop {
   position: absolute;
   top: 0;
@@ -148,23 +315,86 @@
   pointer-events: none;
 }
 
-@media (max-width: 1200px) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+
+/* ── Tablet ── */
 @media (max-width: 900px) {
-  .grid {
+  .mainGrid {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
+
   .section {
-    padding: 0rem 0;
+    padding: 5rem 0 4rem;
   }
- 
+
+  .subPanelInner {
+    padding: 22px 20px 20px;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 680px) {
+  /* Stack to single column or horizontal scroll */
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .section {
+    padding: 4rem 0 3rem;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .subPanelInner {
+    padding: 18px 16px 16px;
+  }
+
+  .chipsGrid {
+    gap: 8px;
+  }
+
+  .headlineRow {
+    gap: 1rem;
+  }
+}
+
+/* ── Small mobile — horizontal scroll for cards ── */
+@media (max-width: 480px) {
+  .mainGrid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .mainGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cardSlot {
+    flex: 0 0 80vw;
+    max-width: 300px;
+    scroll-snap-align: start;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .neonLine {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  .cardSlot {
+    opacity: 1;
+  }
 }

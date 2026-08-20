@@ -8,24 +8,26 @@ import styles from "./Navbar.module.css";
 
 // ── Navigation data ───────────────────────────────────────────────────────
 export const NAV_LINKS = [
-  { label: "Home",           href: "/"            },
-  { label: "Discover",       href: "/discover"     },
-  { label: "Partner With Us",href: "/partner-with-us"    },
-  { label: "About",          href: "/about"       },
+  { label: "Home", href: "/" },
+  { label: "Fitness", href: "/discover" },
+  { label: "Wellness", href: "/discover" },
+  { label: "Sports", href: "/discover" },
+  { label: "Partner With Us", href: "/partner-with-us" },
+  { label: "About", href: "/about" },
 ];
 
 const SCROLL_THRESHOLD = 60;
 
 const Navbar = () => {
-  const [isScrolled,  setIsScrolled]  = useState(false);
-  const [isHidden,    setIsHidden]    = useState(false);
-  const [mobileOpen,  setMobileOpen]  = useState(false);
-  const [activeLink,  setActiveLink]  = useState("/");
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("/");
 
-  const lastScrollY   = useRef(0);
-  const scrollDirRef  = useRef("up");
-  const location      = useLocation();
-  const { scrollY }   = useScroll();
+  const lastScrollY = useRef(0);
+  const scrollDirRef = useRef("up");
+  const location = useLocation();
+  const { scrollY } = useScroll();
 
   // ── Sync active link with route ─────────────────────────────────────────
   useEffect(() => {
@@ -36,12 +38,14 @@ const Navbar = () => {
   // ── Lock body scroll when mobile menu open ──────────────────────────────
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
 
   // ── Scroll behaviour ────────────────────────────────────────────────────
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous  = lastScrollY.current;
+    const previous = lastScrollY.current;
     const direction = latest > previous ? "down" : "up";
 
     setIsScrolled(latest > SCROLL_THRESHOLD);
@@ -62,11 +66,17 @@ const Navbar = () => {
   });
 
   const toggleMobile = useCallback(() => setMobileOpen((p) => !p), []);
-  const closeMobile  = useCallback(() => setMobileOpen(false),      []);
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   const navVariants = {
-    visible: { y: 0,      transition: { duration: 0.4,  ease: [0.25, 0.46, 0.45, 0.94] } },
-    hidden:  { y: "-100%",transition: { duration: 0.35, ease: [0.55, 0,    1,    0.45]  } },
+    visible: {
+      y: 0,
+      transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+    },
+    hidden: {
+      y: "-100%",
+      transition: { duration: 0.35, ease: [0.55, 0, 1, 0.45] },
+    },
   };
 
   return (
@@ -79,7 +89,6 @@ const Navbar = () => {
         role="banner"
       >
         <div className={styles.inner}>
-
           {/* Logo */}
           <NavLogo onClick={closeMobile} />
 
@@ -107,7 +116,9 @@ const Navbar = () => {
 
           {/* Desktop CTA buttons */}
           <div className={styles.desktopCTA}>
-            <a href="/login"    className={styles.btnOutline}>Log In</a>
+            <a href="/login" className={styles.btnOutline}>
+              Log In
+            </a>
             <Link to="/sign-up" className={styles.btnFilled}>
               Get Started
               <span className={styles.btnFilledShimmer} aria-hidden="true" />
