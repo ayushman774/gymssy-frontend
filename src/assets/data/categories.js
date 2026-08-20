@@ -74,7 +74,7 @@ export const MAIN_CATEGORIES = [
     slug: "wellness",
     image:
       "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200&q=85&fit=crop&auto=format",
-    accentColor: "#a78bfa",
+    accentColor: "#39ff14",
     count: "1,800+ centers",
     subcategories: [
       {

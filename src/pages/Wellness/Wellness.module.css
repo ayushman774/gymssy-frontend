@@ -1,0 +1,336 @@
+/* ══════════════════════════════════════════════════════
+   WELLNESS PAGE
+   Mirrors Fitness.module.css architecture.
+   Purple/violet accent replaces neon green.
+══════════════════════════════════════════════════════ */
+
+.page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── Experiences Grid ── */
+.experiencesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* ── Wellness Centers row ── */
+.centersRow {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 8px;
+}
+
+.centersRow::-webkit-scrollbar {
+  display: none;
+}
+
+.centersItem {
+  flex: 0 0 292px;
+  scroll-snap-align: start;
+}
+
+/* ── Trending Grid ── */
+.trendingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* ── Error State ── */
+.errorState {
+  width: 100%;
+  padding: 48px 24px;
+  text-align: center;
+  border: 1px dashed rgba(239, 68, 68, 0.2);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.errorIcon {
+  width: 24px;
+  height: 24px;
+  color: rgba(239, 68, 68, 0.6);
+}
+
+.errorState p {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+.retryBtn {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #39ff14;
+  background: rgba(167, 139, 250, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 8px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.retryBtn:hover {
+  background: rgba(167, 139, 250, 0.14);
+}
+
+/* ── Empty State ── */
+.emptyState {
+  width: 100%;
+  padding: 48px 24px;
+  text-align: center;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.emptyState p {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════════════════
+   WELLNESS EXPERIENCE CARD
+   Purple accent version of the fitness ExperienceCard
+══════════════════════════════════════════════════════ */
+
+.expCard {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.expCard:hover {
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+  border-color: rgba(167, 139, 250, 0.25);
+}
+
+.expImageWrapper {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.expImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+.expCard:hover .expImage {
+  transform: scale(1.05);
+}
+
+.expImageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 60%);
+}
+
+/* Trending badge — purple for wellness */
+.trendBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(167, 139, 250, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  color: #39ff14;
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+.expCategoryBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 3px 9px;
+  backdrop-filter: blur(6px);
+}
+
+.expContent {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.expTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.expMeta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.expMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.expLevel {
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+.expFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.expPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.expFrom {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Purple price for wellness */
+.expVal {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #39ff14;
+}
+
+.expBookBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #39ff14;
+  border: none;
+  border-radius: 9px;
+  padding: 8px 13px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.expBookBtn:hover {
+  opacity: 0.85;
+}
+
+.expBookBtn:focus-visible {
+  outline: 2px solid #39ff14;
+  outline-offset: 3px;
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+
+@media (max-width: 1100px) {
+  .experiencesGrid,
+  .trendingGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .centersItem {
+    flex: 0 0 78vw;
+  }
+
+  .experiencesGrid,
+  .trendingGrid {
+    display: flex;
+    overflow-x: auto;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 6px;
+  }
+
+  .experiencesGrid::-webkit-scrollbar,
+  .trendingGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .experiencesGrid > *,
+  .trendingGrid > * {
+    flex: 0 0 80vw;
+    max-width: 300px;
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expImage,
+  .expCard,
+  .expBookBtn,
+  .retryBtn {
+    transition: none;
+  }
+}

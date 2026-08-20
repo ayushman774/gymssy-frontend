@@ -1,0 +1,106 @@
+/* ══════════════════════════════════════════════════════
+   SKELETON CARD — shimmer loading state
+══════════════════════════════════════════════════════ */
+
+.skeleton {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Shimmer animation */
+.imageArea,
+.line {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.09) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Image placeholder */
+.imageArea {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 0;
+}
+
+/* Body */
+.body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Lines */
+.line {
+  height: 10px;
+  border-radius: 6px;
+}
+
+.lineShort {
+  width: 40%;
+}
+.lineMed {
+  width: 65%;
+}
+.lineLong {
+  width: 85%;
+}
+
+/* Variants */
+.gym {
+  width: 292px;
+  min-width: 292px;
+}
+
+.trainer {
+  width: 260px;
+  min-width: 260px;
+}
+
+.experience {
+  width: 292px;
+  min-width: 292px;
+}
+
+.city {
+  width: 200px;
+  min-width: 200px;
+}
+
+.city .imageArea {
+  aspect-ratio: 4 / 3;
+}
+
+/* Row wrapper */
+.row {
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .imageArea,
+  .line {
+    animation: none;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
