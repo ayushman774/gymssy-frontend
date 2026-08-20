@@ -133,12 +133,12 @@
 .arrowBtn:hover {
   background: rgba(0, 255, 136, 0.1);
   border-color: rgba(0, 255, 136, 0.35);
-  color: #00ff88;
+  color: #39ff14;
   transform: scale(1.08);
 }
 
 .arrowBtn:focus-visible {
-  outline: 2px solid #00ff88;
+  outline: 2px solid #39ff14;
   outline-offset: 3px;
 }
 
@@ -163,7 +163,7 @@
   font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #00ff88;
+  color: #39ff14;
   text-decoration: none;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -179,7 +179,7 @@
 }
 
 .viewAll:focus-visible {
-  outline: 2px solid #00ff88;
+  outline: 2px solid #39ff14;
   outline-offset: 4px;
   border-radius: 4px;
 }

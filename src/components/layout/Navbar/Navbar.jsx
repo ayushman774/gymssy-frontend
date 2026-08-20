@@ -9,9 +9,9 @@ import styles from "./Navbar.module.css";
 // ── Navigation data ───────────────────────────────────────────────────────
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Fitness", href: "/discover" },
-  { label: "Wellness", href: "/discover" },
-  { label: "Sports", href: "/discover" },
+  { label: "Fitness", href: "/fitness" },
+  { label: "Wellness", href: "/wellness" },
+  { label: "Sports", href: "/sports" },
   { label: "Partner With Us", href: "/partner-with-us" },
   { label: "About", href: "/about" },
 ];

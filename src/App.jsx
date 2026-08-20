@@ -14,6 +14,9 @@ import DiscoverPage from "./pages/Discover/DiscoverPage";
 import PartnerWithUsPage from "./pages/PartnerWithUs/PartnerWithUsPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";
 import GymDetailsPage from "./pages/GymDetailsPage/GymDetailsPage";
+import Fitness from "./pages/Fitness/Fitness";
+import Wellness from "./pages/Wellness/Wellness";
+import Sports from "./pages/Sports/Sports";
 
 const App = () => {
   const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
@@ -34,6 +37,9 @@ const App = () => {
         <Route path="/partner-with-us" element={<PartnerWithUsPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/gym-detail/:slug" element={<GymDetailsPage />} />
+        <Route path="/fitness" element={<Fitness />} />
+        <Route path="/wellness" element={<Wellness />} />
+        <Route path="/sports" element={<Sports />} />
 
         {/* Add more routes as pages are built */}
         {/* <Route path="/pricing"  element={<Pricing />}  /> */}
