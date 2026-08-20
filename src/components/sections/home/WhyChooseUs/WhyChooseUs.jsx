@@ -4,8 +4,12 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  MdVerified, MdStar, MdCompareArrows,
-  MdSecurity, MdLocalOffer, MdRateReview,
+  MdVerified,
+  MdStar,
+  MdCompareArrows,
+  MdSecurity,
+  MdLocalOffer,
+  MdRateReview,
 } from "react-icons/md";
 import SectionLabel from "../../../ui/SectionLabel/SectionLabel";
 import { WHY_FEATURES } from "../../../../assets/data/marketplace";
@@ -14,12 +18,12 @@ import styles from "./WhyChooseUs.module.css";
 gsap.registerPlugin(ScrollTrigger);
 
 const iconMap = {
-  verified:  <MdVerified />,
-  trainers:  <MdStar />,
-  compare:   <MdCompareArrows />,
-  secure:    <MdSecurity />,
-  deals:     <MdLocalOffer />,
-  reviews:   <MdRateReview />,
+  verified: <MdVerified />,
+  trainers: <MdStar />,
+  compare: <MdCompareArrows />,
+  secure: <MdSecurity />,
+  deals: <MdLocalOffer />,
+  reviews: <MdRateReview />,
 };
 
 const FeatureCard = ({ feature, index }) => {
@@ -38,12 +42,16 @@ const FeatureCard = ({ feature, index }) => {
       }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
     >
-      <div className={`${styles.iconBox} ${isGreen ? styles.iconBoxGreen : styles.iconBoxBlue}`}>
+      <div
+        className={`${styles.iconBox} ${isGreen ? styles.iconBoxGreen : styles.iconBoxBlue}`}
+      >
         <span className={styles.icon}>{iconMap[feature.id]}</span>
       </div>
       <h3 className={styles.title}>{feature.title}</h3>
       <p className={styles.desc}>{feature.description}</p>
-      <div className={`${styles.cardAccent} ${isGreen ? styles.accentGreen : styles.accentBlue}`} />
+      <div
+        className={`${styles.cardAccent} ${isGreen ? styles.accentGreen : styles.accentBlue}`}
+      />
     </motion.div>
   );
 };
@@ -59,13 +67,19 @@ const WhyChooseUs = () => {
         neonLineRef.current,
         { scaleX: 0, opacity: 0 },
         {
-          scaleX: 1, opacity: 1, duration: 1.2,
+          scaleX: 1,
+          opacity: 1,
+          duration: 1.2,
           ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 75%", once: true },
-        }
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            once: true,
+          },
+        },
       );
     },
-    { scope: sectionRef }
+    { scope: sectionRef },
   );
 
   return (
@@ -119,9 +133,6 @@ const WhyChooseUs = () => {
           ))}
         </div>
       </div>
-
-      <div className={styles.edgeFadeTop} aria-hidden="true" />
-      <div className={styles.edgeFadeBottom} aria-hidden="true" />
     </section>
   );
 };

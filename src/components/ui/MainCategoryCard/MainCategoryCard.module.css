@@ -1,0 +1,256 @@
+/* ══════════════════════════════════════════════════════
+   MAIN CATEGORY CARD
+   Large hero-style card — Gymssy design system
+══════════════════════════════════════════════════════ */
+
+.card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  /* Minimum height for the hero card */
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1.5px solid rgba(255, 255, 255, 0.07);
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s ease;
+  outline: none;
+  /* GPU layer */
+  will-change: transform;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent, #39ff14);
+  outline-offset: 3px;
+}
+
+/* Active state — accent border */
+.cardActive {
+  border-color: color-mix(in srgb, var(--accent, #39ff14) 55%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent, #39ff14) 20%, transparent),
+    0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Image ── */
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.image {
+  position: absolute;
+  inset: -4px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.55) saturate(0.8);
+  will-change: transform;
+  transition: filter 0.4s ease;
+}
+
+.card:hover .image,
+.cardActive .image {
+  filter: brightness(0.48) saturate(0.85);
+}
+
+/* Dark overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+}
+
+/* Accent gradient at bottom */
+.accentGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--accent, #39ff14) 12%, transparent) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover .accentGradient,
+.cardActive .accentGradient {
+  opacity: 1;
+}
+
+/* Active indicator line */
+.activeLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent, #39ff14);
+  border-radius: 0 0 3px 3px;
+  transform-origin: left;
+  z-index: 5;
+  box-shadow: 0 0 12px var(--accent, #39ff14);
+}
+
+/* ── Content ── */
+.content {
+  position: relative;
+  z-index: 2;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Count pill */
+.countPill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-family: "Inter", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--accent, #39ff14);
+  background: color-mix(in srgb, var(--accent, #39ff14) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #39ff14) 28%, transparent);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+/* Title */
+.title {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/* Description */
+.description {
+  font-family: "Inter", sans-serif;
+  font-size: 0.83rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.exploreText {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent, #39ff14);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* Arrow button */
+.arrowBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card:hover .arrowBtn {
+  background: color-mix(in srgb, var(--accent, #39ff14) 18%, transparent);
+  border-color: color-mix(in srgb, var(--accent, #39ff14) 45%, transparent);
+}
+
+.arrowBtnActive {
+  background: color-mix(
+    in srgb,
+    var(--accent, #39ff14) 22%,
+    transparent
+  ) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--accent, #39ff14) 55%,
+    transparent
+  ) !important;
+}
+
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+  color: #ffffff;
+}
+
+.card:hover .arrowIcon,
+.cardActive .arrowIcon {
+  color: var(--accent, #39ff14);
+}
+
+/* Border glow overlay */
+.borderGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 1.5px solid var(--accent, #39ff14);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .borderGlow {
+  opacity: 0.4;
+}
+
+/* ─────────────────────────────
+   REDUCED MOTION
+───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .image,
+  .arrowBtn,
+  .accentGradient {
+    transition: none;
+  }
+}

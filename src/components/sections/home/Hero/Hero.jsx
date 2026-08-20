@@ -209,7 +209,7 @@ const Hero = () => {
   return (
     <section
       className={styles.hero}
-      aria-label="Hero — Gymssy India's #1 Fitness Marketplace"
+      aria-label="Hero — Gymssy Fitness Marketplace"
     >
       {/* ── Layer 0: Noise ── */}
       <div className={styles.noiseOverlay} aria-hidden="true" />
