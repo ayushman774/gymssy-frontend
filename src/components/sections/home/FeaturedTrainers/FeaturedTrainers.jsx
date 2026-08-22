@@ -4,10 +4,10 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import TrainerCard from "../../../ui/TrainerCard/TrainerCard";
 import SectionLabel from "../../../ui/SectionLabel/SectionLabel";
 import { FEATURED_TRAINERS } from "../../../../assets/data/marketplace";
 import styles from "./FeaturedTrainers.module.css";
+import TrainerCard from "../Trainers/TrainerCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
