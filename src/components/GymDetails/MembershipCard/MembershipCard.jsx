@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import { FiCheck, FiX } from "react-icons/fi";
 import styles from "./MembershipCard.module.css";
 
-const MembershipCard = ({ plan, onSelect }) => {
-  const isPopular = plan.popular;
-  const isPremium = plan.color === "premium";
+const MembershipCard = ({ membership, onSelect }) => {
+  const isPopular = membership.popular || false;
+  const isPremium = membership.color === "premium";
 
   return (
     <motion.div
@@ -27,27 +27,27 @@ const MembershipCard = ({ plan, onSelect }) => {
 
       {/* Plan Header */}
       <div className={styles.planHeader}>
-        <span className={styles.planName}>{plan.name}</span>
-        <span className={styles.planDuration}>{plan.duration}</span>
+        <span className={styles.planName}>{membership.name}</span>
+        <span className={styles.planDuration}>{membership.duration}</span>
       </div>
 
       {/* Pricing */}
       <div className={styles.pricingBlock}>
-        {plan.originalPrice && (
+        {membership.originalPrice && (
           <span className={styles.originalPrice}>
-            {plan.currency}
-            {plan.originalPrice.toLocaleString("en-IN")}
+            {membership.currency}
+            {membership.originalPrice.toLocaleString("en-IN")}
           </span>
         )}
         <div className={styles.priceRow}>
-          <span className={styles.currency}>{plan.currency}</span>
+          <span className={styles.currency}>{membership.currency}</span>
           <span className={styles.price}>
-            {plan.price.toLocaleString("en-IN")}
+            {membership.price.toLocaleString("en-IN")}
           </span>
         </div>
-        <span className={styles.billingPeriod}>{plan.billingPeriod}</span>
-        {plan.savings && (
-          <span className={styles.savingsBadge}>{plan.savings}</span>
+        <span className={styles.billingPeriod}>{membership.billingPeriod}</span>
+        {membership.savings && (
+          <span className={styles.savingsBadge}>{membership.savings}</span>
         )}
       </div>
 
@@ -56,7 +56,7 @@ const MembershipCard = ({ plan, onSelect }) => {
 
       {/* Features */}
       <ul className={styles.featureList}>
-        {plan.features.map((feature, i) => (
+        {membership.features.map((feature, i) => (
           <li
             key={i}
             className={`${styles.featureItem} ${
@@ -77,9 +77,9 @@ const MembershipCard = ({ plan, onSelect }) => {
       <button
         className={`${styles.cta} ${isPopular ? styles.ctaPopular : ""}`}
         onClick={onSelect}
-        aria-label={`Select ${plan.name} plan — ${plan.currency}${plan.price} ${plan.billingPeriod}`}
+        aria-label={`Select ${membership.name} membership — ${membership.currency}${membership.price} ${membership.billingPeriod}`}
       >
-        {plan.cta}
+        {membership.cta}
       </button>
 
       {/* Note */}

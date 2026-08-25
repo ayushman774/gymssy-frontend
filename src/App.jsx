@@ -17,6 +17,9 @@ import GymDetailsPage from "./pages/GymDetailsPage/GymDetailsPage";
 import Fitness from "./pages/Fitness/Fitness";
 import Wellness from "./pages/Wellness/Wellness";
 import Sports from "./pages/Sports/Sports";
+import TrainerDetail from "./pages/TrainerDetail/TrainerDetail";
+import CategoryListingPage from "./pages/CategoryListingPage/CategoryListingPage";
+import CityListingsPage from "./pages/CityListingsPage/CityListingsPage";
 
 const App = () => {
   const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
@@ -40,6 +43,9 @@ const App = () => {
         <Route path="/fitness" element={<Fitness />} />
         <Route path="/wellness" element={<Wellness />} />
         <Route path="/sports" element={<Sports />} />
+        <Route path="/trainers/:slug" element={<TrainerDetail />} />
+        <Route path="/category/:slug" element={<CategoryListingPage />} />
+        <Route path="/gyms/:citySlug" element={<CityListingsPage />} />
 
         {/* Add more routes as pages are built */}
         {/* <Route path="/pricing"  element={<Pricing />}  /> */}

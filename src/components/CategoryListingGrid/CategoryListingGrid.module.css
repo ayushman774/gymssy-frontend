@@ -1,0 +1,192 @@
+/* ══════════════════════════════════════════════════════
+   CategoryListingGrid.module.css
+══════════════════════════════════════════════════════ */
+
+/* ── Result grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* ── Skeleton shimmer ── */
+@keyframes shimmer {
+  0% {
+    background-position: -500px 0;
+  }
+  100% {
+    background-position: 500px 0;
+  }
+}
+
+.skeleton {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonImg {
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(90deg, #181818 25%, #222222 50%, #181818 75%);
+  background-size: 500px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.skeletonLine {
+  border-radius: 5px;
+  background: linear-gradient(90deg, #181818 25%, #222222 50%, #181818 75%);
+  background-size: 500px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.skeletonBtn {
+  width: 64px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #181818 25%, #222222 50%, #181818 75%);
+  background-size: 500px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ── State boxes (error / empty) ── */
+.stateBox {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 72px 24px;
+  text-align: center;
+}
+
+.stateIconWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.stateTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.stateText {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  max-width: 360px;
+  line-height: 1.65;
+}
+
+.stateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(57, 255, 20, 0.1);
+  color: #39ff14;
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 10px;
+  padding: 11px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 4px;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.stateBtn:hover {
+  background: #39ff14;
+  color: #000;
+}
+
+/* ── Layout: sidebar + grid ── */
+.layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Grid area takes all remaining space */
+.gridArea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Results header */
+.resultsHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+
+.resultsCount {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
+
+.resultsNum {
+  font-size: 22px;
+  font-weight: 900;
+  color: #39FF14;
+  letter-spacing: -0.02em;
+}
+
+.resultsLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
