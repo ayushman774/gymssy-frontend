@@ -1,45 +1,12 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaDumbbell,
-  FaRunning,
-  FaUsers,
-  FaUserTie,
-  FaShower,
-  FaLock,
-  FaCar,
-  FaWifi,
-  FaSnowflake,
-  FaTint,
-  FaAppleAlt,
-  FaHeartbeat,
-  FaClock,
-  FaFire,
-  FaGlobe,
-} from "react-icons/fa";
+import DynamicIcon from "../../ui/DynamicIcon/DynamicIcon";
+import { Dumbbell } from "lucide-react"; // fallback
 import styles from "./FacilityGrid.module.css";
-
-const iconMap = {
-  FaDumbbell,
-  FaRunning,
-  FaUsers,
-  FaUserTie,
-  FaShower,
-  FaLock,
-  FaCar,
-  FaWifi,
-  FaSnowflake,
-  FaTint,
-  FaAppleAlt,
-  FaHeartbeat,
-  FaClock,
-  FaFire,
-  FaGlobe,
-};
 
 const FacilityGrid = ({ facilities }) => {
   const [showAll, setShowAll] = useState(false);
-  const displayFacilities = showAll ? facilities : facilities.slice(0, 8);
+  const displayed = showAll ? facilities : facilities.slice(0, 8);
 
   return (
     <div className={styles.facilitySection}>
@@ -49,35 +16,35 @@ const FacilityGrid = ({ facilities }) => {
       </div>
 
       <div className={styles.grid}>
-        {displayFacilities.map((facility, i) => {
-          const IconComponent = iconMap[facility.icon] || FaDumbbell;
-          return (
-            <motion.div
-              key={facility.id}
-              className={`${styles.card} ${
-                !facility.available ? styles.cardUnavailable : ""
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.05 }}
-              whileHover={facility.available ? { y: -3 } : {}}
-            >
-              <div className={styles.iconWrap}>
-                <IconComponent className={styles.icon} />
-              </div>
-              <div className={styles.info}>
-                <span className={styles.name}>{facility.name}</span>
-                {facility.description && (
-                  <span className={styles.desc}>{facility.description}</span>
-                )}
-              </div>
-              {!facility.available && (
-                <span className={styles.unavailableBadge}>Coming Soon</span>
+        {displayed.map((facility, i) => (
+          <motion.div
+            key={facility.id ?? i}
+            className={`${styles.card} ${!facility.available ? styles.cardUnavailable : ""}`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: i * 0.05 }}
+            whileHover={facility.available ? { y: -3 } : {}}
+          >
+            <div className={styles.iconWrap}>
+              <DynamicIcon
+                name={facility.icon}
+                fallback={Dumbbell}
+                size={20}
+                className={styles.icon}
+              />
+            </div>
+            <div className={styles.info}>
+              <span className={styles.name}>{facility.name}</span>
+              {facility.description && (
+                <span className={styles.desc}>{facility.description}</span>
               )}
-            </motion.div>
-          );
-        })}
+            </div>
+            {!facility.available && (
+              <span className={styles.unavailableBadge}>Coming Soon</span>
+            )}
+          </motion.div>
+        ))}
       </div>
 
       {facilities.length > 8 && (
@@ -87,7 +54,12 @@ const FacilityGrid = ({ facilities }) => {
           aria-expanded={showAll}
         >
           {showAll ? "Show Less" : `View All ${facilities.length} Amenities`}
-          <span className={showAll ? styles.arrowUp : styles.arrowDown}>›</span>
+          <span
+            className={showAll ? styles.arrowUp : styles.arrowDown}
+            aria-hidden="true"
+          >
+            ›
+          </span>
         </button>
       )}
     </div>

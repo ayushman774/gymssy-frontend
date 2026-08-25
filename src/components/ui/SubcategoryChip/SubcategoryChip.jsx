@@ -1,42 +1,63 @@
+// src/ui/SubcategoryChip/SubcategoryChip.jsx
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
+import DynamicIcon from "../DynamicIcon/DynamicIcon";
 import styles from "./SubcategoryChip.module.css";
 
-/* ══════════════════════════════════════════════════════
-   SUBCATEGORY CHIP
-   Small navigable pill shown in the expanded panel.
-══════════════════════════════════════════════════════ */
 const SubcategoryChip = ({ subcategory, accentColor, index }) => {
   const { title, slug, icon, count } = subcategory;
 
+  /* Format count: 2400 → "2.4k", 890 → "890" */
+  const formattedCount =
+    count >= 1000 ? `${(count / 1000).toFixed(1)}k` : String(count ?? 0);
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.88, y: 12 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.35,
         delay: index * 0.045,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: "easeOut",
       }}
     >
       <Link
         to={`/category/${slug}`}
         className={styles.chip}
         style={{ "--accent": accentColor }}
-        aria-label={`Browse ${title} — ${count} options`}
+        aria-label={`${title}${count ? ` — ${formattedCount} listings` : ""}`}
       >
-        {/* Icon */}
+        {/* Icon from backend */}
         {icon && (
-          <span className={styles.icon} aria-hidden="true">
-            {icon}
+          <span className={styles.chipIconWrap} aria-hidden="true">
+            <DynamicIcon
+              name={icon}
+              size={14}
+              strokeWidth={2}
+              className={styles.chipIcon}
+            />
           </span>
         )}
 
         {/* Label */}
-        <span className={styles.label}>{title}</span>
+        <span className={styles.chipLabel}>{title}</span>
 
-        {/* Count */}
-        {count && <span className={styles.count}>{count}</span>}
+        {/* Count badge */}
+        {count != null && (
+          <span className={styles.chipCount} aria-hidden="true">
+            {formattedCount}
+          </span>
+        )}
+
+        {/* Trailing arrow */}
+        <ChevronRight
+          size={12}
+          strokeWidth={2.5}
+          className={styles.chipArrow}
+          aria-hidden="true"
+        />
       </Link>
     </motion.div>
   );

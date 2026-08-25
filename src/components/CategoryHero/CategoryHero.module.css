@@ -1,0 +1,163 @@
+/* ══════════════════════════════════════════════════════
+   CategoryHero.module.css
+   Premium dark hero for category listing pages.
+══════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  background: #0a0a0a;
+  padding: 95px 60px 10px 60px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Background image treatment */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.heroBgImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  opacity: 0.18;
+  display: block;
+}
+
+.heroBgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.6) 0%,
+    rgba(10, 10, 10, 0.85) 60%,
+    #0a0a0a 100%
+  );
+}
+
+/* Fallback gradient when no image */
+.heroBgFallback {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% -10%,
+    rgba(57, 255, 20, 0.055) 0%,
+    transparent 70%
+  );
+}
+
+/* Neon accent line at top */
+.heroAccentLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #39ff14 50%,
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+.heroInner {
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.bcLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.bcLink:hover {
+  color: #39ff14;
+}
+
+.bcSep {
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.bcCurrent {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Title */
+.heroTitle {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+/* Description */
+.heroDesc {
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  max-width: 540px;
+  line-height: 1.65;
+}
+
+/* Count */
+.heroCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 100px;
+  padding: 6px 16px;
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.heroCountNum {
+  font-size: 14px;
+  font-weight: 800;
+  color: #39ff14;
+}
+
+.heroCountLabel {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 500;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .hero {
+    padding: 40px 0 36px;
+  }
+  .heroTitle {
+    letter-spacing: -0.02em;
+  }
+}
