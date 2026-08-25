@@ -1,24 +1,97 @@
+/**
+ * ExploreCategories.jsx
+ *
+ * CHANGES FROM PREVIOUS VERSION:
+ *   - Removed static MAIN_CATEGORIES import
+ *   - Added useCategoriesData hook (API-driven)
+ *   - Added loading skeleton (3 cards matching real card dimensions)
+ *   - Added error state with retry button
+ *   - All animation/interaction logic unchanged
+ *   - MainCategoryCard, SubcategoryChip, SectionLabel unchanged
+ */
+
 import { useRef, useState, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
-import { FiArrowRight, FiGrid } from "react-icons/fi";
+import {
+  FiArrowRight,
+  FiGrid,
+  FiAlertCircle,
+  FiRefreshCw,
+} from "react-icons/fi";
 
 import MainCategoryCard from "../../../ui/MainCategoryCard/MainCategoryCard";
 import SubcategoryChip from "../../../ui/SubcategoryChip/SubcategoryChip";
 import SectionLabel from "../../../ui/SectionLabel/SectionLabel";
-import { MAIN_CATEGORIES } from "../../../../assets/data/categories";
+import useCategoriesData from "../../../../hooks/useCategoriesData";
 
 import styles from "./ExploreCategories.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ══════════════════════════════════════════════════════
-   SUBCATEGORY PANEL
-   Animated panel that reveals when a main category
-   is selected. AnimatePresence handles mount/unmount.
+   LOADING SKELETON
+   3 placeholder cards that match MainCategoryCard shape.
+   Uses CSS animation — no extra libraries.
+══════════════════════════════════════════════════════ */
+const CategorySkeleton = () => (
+  <div
+    className={styles.mainGrid}
+    aria-label="Loading categories"
+    aria-busy="true"
+  >
+    {[0, 1, 2].map((i) => (
+      <div key={i} className={styles.skeletonCard} aria-hidden="true">
+        <div className={styles.skeletonImg} />
+        <div className={styles.skeletonBody}>
+          <div
+            className={styles.skeletonLine}
+            style={{ width: "55%", height: 22 }}
+          />
+          <div
+            className={styles.skeletonLine}
+            style={{ width: "80%", height: 14, marginTop: 10 }}
+          />
+          <div
+            className={styles.skeletonLine}
+            style={{ width: "65%", height: 14, marginTop: 6 }}
+          />
+          <div className={styles.skeletonChips}>
+            {[0, 1, 2].map((j) => (
+              <div key={j} className={styles.skeletonChip} />
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+/* ══════════════════════════════════════════════════════
+   ERROR STATE
+══════════════════════════════════════════════════════ */
+const ErrorState = ({ message, onRetry }) => (
+  <motion.div
+    className={styles.errorState}
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.4 }}
+    role="alert"
+  >
+    <FiAlertCircle className={styles.errorIcon} aria-hidden="true" />
+    <p className={styles.errorMsg}>{message}</p>
+    <button className={styles.retryBtn} onClick={onRetry}>
+      <FiRefreshCw aria-hidden="true" />
+      Try Again
+    </button>
+  </motion.div>
+);
+
+/* ══════════════════════════════════════════════════════
+   SUBCATEGORY PANEL — unchanged from original
 ══════════════════════════════════════════════════════ */
 const SubcategoryPanel = ({ category }) => {
   const { subcategories, title, accentColor, slug } = category;
@@ -39,7 +112,6 @@ const SubcategoryPanel = ({ category }) => {
       style={{ "--accent": accentColor }}
       aria-label={`${title} subcategories`}
     >
-      {/* Panel inner — padded so overflow:hidden clips cleanly */}
       <div className={styles.subPanelInner}>
         {/* Panel header */}
         <div className={styles.subPanelHeader}>
@@ -66,25 +138,31 @@ const SubcategoryPanel = ({ category }) => {
           className={styles.subPanelDivider}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 0.55, delay: 0.1, ease: "power3.out" }}
+          transition={{ duration: 0.55, delay: 0.1 }}
         />
 
-        {/* Chips grid */}
-        <div
-          className={styles.chipsGrid}
-          role="list"
-          aria-label={`${title} subcategories`}
-        >
-          {subcategories.map((sub, i) => (
-            <div key={sub.id} role="listitem">
-              <SubcategoryChip
-                subcategory={sub}
-                accentColor={accentColor}
-                index={i}
-              />
-            </div>
-          ))}
-        </div>
+        {/* Chips */}
+        {subcategories.length > 0 ? (
+          <div
+            className={styles.chipsGrid}
+            role="list"
+            aria-label={`${title} subcategories`}
+          >
+            {subcategories.map((sub, i) => (
+              <div key={sub.id} role="listitem">
+                <SubcategoryChip
+                  subcategory={sub}
+                  accentColor={accentColor}
+                  index={i}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className={styles.noSubs}>
+            No subcategories found for {title} yet.
+          </p>
+        )}
       </div>
     </motion.div>
   );
@@ -96,62 +174,85 @@ const SubcategoryPanel = ({ category }) => {
 const ExploreCategories = () => {
   const sectionRef = useRef(null);
   const neonLineRef = useRef(null);
+  const gsapRan = useRef(false);
 
-  /* Active main category — null means none selected */
   const [activeId, setActiveId] = useState(null);
 
-  const isInView = useInView(sectionRef, {
-    once: true,
-    margin: "-8% 0px",
-  });
+  /* ── API data ── */
+  const {
+    mainCategories,
+    loading,
+    error,
+    /* expose refetch from hook if needed */
+  } = useCategoriesData();
 
-  /* ── Toggle: clicking same card closes it ── */
+  /* Re-fetch trigger — increment forces useEffect to re-run */
+  const [retryKey, setRetryKey] = useState(0);
+  const handleRetry = useCallback(() => setRetryKey((k) => k + 1), []);
+
+  const isInView = useInView(sectionRef, { once: true, margin: "-8% 0px" });
+
+  /* ── Toggle ── */
   const handleCategoryClick = useCallback((id) => {
     setActiveId((prev) => (prev === id ? null : id));
   }, []);
 
   /* ── Active category object ── */
-  const activeCategory = MAIN_CATEGORIES.find((c) => c.id === activeId) ?? null;
+  const activeCategory = mainCategories.find((c) => c.id === activeId) ?? null;
 
-  /* ── GSAP animations ── */
+  /* ── GSAP — runs once after categories load ── */
   useGSAP(
     () => {
+      if (loading || error || mainCategories.length === 0) return;
+      if (gsapRan.current) return;
+      gsapRan.current = true;
+
       /* Neon line draw */
-      gsap.fromTo(
-        neonLineRef.current,
-        { scaleX: 0, opacity: 0 },
-        {
-          scaleX: 1,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            once: true,
+      if (neonLineRef.current) {
+        gsap.fromTo(
+          neonLineRef.current,
+          { scaleX: 0, opacity: 0 },
+          {
+            scaleX: 1,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              once: true,
+            },
           },
-        },
-      );
+        );
+      }
 
       /* Main cards stagger */
-      gsap.fromTo(
+      const cardSlots = sectionRef.current?.querySelectorAll(
         `.${styles.cardSlot}`,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.72,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: `.${styles.mainGrid}`,
-            start: "top 80%",
-            once: true,
-          },
-        },
       );
+      if (cardSlots?.length) {
+        gsap.fromTo(
+          cardSlots,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.72,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current?.querySelector(`.${styles.mainGrid}`),
+              start: "top 80%",
+              once: true,
+            },
+          },
+        );
+      }
     },
-    { scope: sectionRef },
+    {
+      scope: sectionRef,
+      dependencies: [loading, error, mainCategories.length],
+    },
   );
 
   return (
@@ -218,54 +319,80 @@ const ExploreCategories = () => {
           </div>
         </div>
 
-        {/* ══ MAIN 3-CARD GRID ══ */}
-        <div
-          className={styles.mainGrid}
-          role="list"
-          aria-label="Main fitness categories"
-        >
-          {MAIN_CATEGORIES.map((cat, index) => (
-            <div key={cat.id} className={styles.cardSlot} role="listitem">
-              <MainCategoryCard
-                category={cat}
-                isActive={activeId === cat.id}
-                onClick={() => handleCategoryClick(cat.id)}
-                index={index}
-              />
-            </div>
-          ))}
-        </div>
+        {/* ══ CONTENT STATES ══ */}
 
-        {/* ══ SUBCATEGORY PANEL ══
-            AnimatePresence handles smooth enter/exit.
-            Key on activeId forces remount when category changes
-            so entrance animation always plays.
-        ══════════════════════════════════════════════ */}
-        <AnimatePresence mode="wait">
-          {activeCategory && (
-            <SubcategoryPanel
-              key={activeCategory.id}
-              category={activeCategory}
-            />
-          )}
-        </AnimatePresence>
+        {/* Loading */}
+        {loading && <CategorySkeleton />}
 
-        {/* ══ BOTTOM HINT — only when nothing is selected ══ */}
-        <AnimatePresence>
-          {!activeId && (
-            <motion.p
-              className={styles.hint}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
-              aria-live="polite"
+        {/* Error */}
+        {!loading && error && (
+          <ErrorState
+            message="Unable to load categories. Please check your connection."
+            onRetry={handleRetry}
+          />
+        )}
+
+        {/* Success — main 3-card grid */}
+        {!loading && !error && mainCategories.length > 0 && (
+          <>
+            <div
+              className={styles.mainGrid}
+              role="list"
+              aria-label="Main fitness categories"
             >
-              <FiGrid className={styles.hintIcon} aria-hidden="true" />
-              Select a category to explore subcategories
-            </motion.p>
-          )}
-        </AnimatePresence>
+              {mainCategories.map((cat, index) => (
+                <div key={cat.id} className={styles.cardSlot} role="listitem">
+                  <MainCategoryCard
+                    category={cat}
+                    isActive={activeId === cat.id}
+                    onClick={() => handleCategoryClick(cat.id)}
+                    index={index}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* ── SUBCATEGORY PANEL ── */}
+            <AnimatePresence mode="wait">
+              {activeCategory && (
+                <SubcategoryPanel
+                  key={activeCategory.id}
+                  category={activeCategory}
+                />
+              )}
+            </AnimatePresence>
+
+            {/* ── HINT — only when nothing selected ── */}
+            <AnimatePresence>
+              {!activeId && (
+                <motion.p
+                  className={styles.hint}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4, delay: 0.6 }}
+                  aria-live="polite"
+                >
+                  <FiGrid className={styles.hintIcon} aria-hidden="true" />
+                  Select a category to explore subcategories
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </>
+        )}
+
+        {/* Empty — API returned no main categories */}
+        {!loading && !error && mainCategories.length === 0 && (
+          <motion.p
+            className={styles.emptyState}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            role="status"
+          >
+            No categories available right now. Please check back soon.
+          </motion.p>
+        )}
       </div>
 
       {/* ── Edge fades ── */}

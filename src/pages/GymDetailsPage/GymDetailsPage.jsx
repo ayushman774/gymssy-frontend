@@ -1,22 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+// src/pages/GymDetailsPage/GymDetailsPage.jsx
+
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  FiHome,
-  FiChevronRight,
-  FiHeart,
-  FiMapPin,
-  FiStar,
   FiCheck,
   FiPhone,
   FiMail,
+  FiMapPin,
+  FiStar,
   FiCamera,
+  FiAlertCircle,
+  FiRefreshCw,
 } from "react-icons/fi";
 
-import { getGymBySlug, getSimilarGyms } from "../../data/gymsData";
+import useGymDetails from "../../hooks/useGymDetails";
 import { recordGymView } from "../../utils/recentlyViewed";
 
 import styles from "./GymDetailsPage.module.css";
@@ -36,17 +37,50 @@ import ClassCard from "../../components/GymDetails/ClassCard/ClassCard";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ══════════════════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════════════════ */
+const formatTime = (t) => {
+  if (!t) return "";
+  const [h, m] = t.split(":").map(Number);
+  const suffix = h >= 12 ? "PM" : "AM";
+  const hour = h % 12 || 12;
+  return `${hour}:${m.toString().padStart(2, "0")} ${suffix}`;
+};
+
+const getCurrentDayTiming = (timings = []) => {
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const today = days[new Date().getDay()];
+  return timings.find((t) => t.day === today) ?? null;
+};
+
+const computeOpenStatus = (todayTiming) => {
+  if (!todayTiming?.isOpen) return false;
+  const now = new Date();
+  const [openH, openM] = todayTiming.open.split(":").map(Number);
+  const [closeH, closeM] = todayTiming.close.split(":").map(Number);
+  const curr = now.getHours() * 60 + now.getMinutes();
+  return curr >= openH * 60 + openM && curr <= closeH * 60 + closeM;
+};
+
+/* ══════════════════════════════════════════════════════════════
    GYM DETAILS PAGE
 ══════════════════════════════════════════════════════════════ */
 const GymDetailsPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  /* ── State ── */
-  const [gym, setGym] = useState(null);
-  const [similarGyms, setSimilarGyms] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  /* ── API ── */
+  const { gym, similarGyms, loading, error, refetch } = useGymDetails(slug);
+
+  /* ── UI state ── */
   const [isSaved, setIsSaved] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
@@ -64,34 +98,14 @@ const GymDetailsPage = () => {
     if (slug) recordGymView(slug);
   }, [slug]);
 
-  /* ── Data loading ── */
+  /* ── Sticky bar ── */
   useEffect(() => {
-    setLoading(true);
-    setNotFound(false);
-
-    const timer = setTimeout(() => {
-      const found = getGymBySlug(slug);
-      if (found) {
-        setGym(found);
-        setSimilarGyms(getSimilarGyms(slug, 4));
-        setNotFound(false);
-      } else {
-        setNotFound(true);
-      }
-      setLoading(false);
-    }, 800);
-
-    return () => clearTimeout(timer);
-  }, [slug]);
-
-  /* ── Sticky bar on scroll ── */
-  useEffect(() => {
-    const handleScroll = () => setShowStickyBar(window.scrollY > 600);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setShowStickyBar(window.scrollY > 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ── GSAP entrance ── */
+  /* ── GSAP entrance (runs after gym loads) ── */
   useEffect(() => {
     if (!gym || loading) return;
     const ctx = gsap.context(() => {
@@ -104,10 +118,7 @@ const GymDetailsPage = () => {
           duration: 0.8,
           stagger: 0.12,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: pageRef.current,
-            start: "top 80%",
-          },
+          scrollTrigger: { trigger: pageRef.current, start: "top 80%" },
         },
       );
     }, pageRef);
@@ -116,13 +127,13 @@ const GymDetailsPage = () => {
 
   /* ── Close share menu on outside click ── */
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const handler = (e) => {
       if (shareMenuRef.current && !shareMenuRef.current.contains(e.target)) {
         setShowShareMenu(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   /* ── Saved state ── */
@@ -133,60 +144,67 @@ const GymDetailsPage = () => {
   }, [gym]);
 
   /* ── Handlers ── */
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
+    if (!gym) return;
     const saved = JSON.parse(localStorage.getItem("gymssy_saved") || "[]");
     const updated = isSaved
       ? saved.filter((id) => id !== gym.id)
       : [...saved, gym.id];
     localStorage.setItem("gymssy_saved", JSON.stringify(updated));
     setIsSaved(!isSaved);
-  };
+  }, [gym, isSaved]);
 
-  const handleShare = async () => {
+  const handleShare = useCallback(async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${gym.name} | Gymssy`,
-          text: `Check out ${gym.name} on Gymssy`,
+          title: `${gym?.name} | Gymssy`,
+          text: `Check out ${gym?.name} on Gymssy`,
           url: window.location.href,
         });
+        return;
       } catch {
-        setShowShareMenu(true);
+        /* fall through */
       }
-    } else {
-      setShowShareMenu((prev) => !prev);
     }
-  };
+    setShowShareMenu((p) => !p);
+  }, [gym]);
 
-  const handleCopyLink = () => {
+  const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href);
     setShowShareMenu(false);
-  };
+  }, []);
 
-  const handleBookVisit = () => setShowBookingModal(true);
+  const handleBookVisit = useCallback(() => setShowBookingModal(true), []);
 
-  const handleSelectMembership = (membership) => {
+  const handleSelectMembership = useCallback((membership) => {
     setSelectedMembership(membership);
     setShowBookingModal(true);
-  };
+  }, []);
 
-  const scrollToMemberships = () => {
+  const scrollToMemberships = useCallback(() => {
     document
       .getElementById("memberships")
       ?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
-  /* ── Loading ── */
-  if (loading) {
+  /* ══ EARLY RETURNS ══ */
+  if (loading)
     return (
       <div className={styles.page}>
         <LoadingState />
       </div>
     );
+
+  if (error) {
+    return (
+      <div className={styles.page}>
+        <ErrorState message={error} onRetry={refetch} />
+      </div>
+    );
   }
 
-  /* ── Not found ── */
-  if (notFound || !gym) {
+  if (!gym) {
     return (
       <div className={styles.page}>
         <NotFoundState onBack={() => navigate(-1)} />
@@ -194,71 +212,34 @@ const GymDetailsPage = () => {
     );
   }
 
-  /* ── Helpers ── */
-  const formatTime = (t) => {
-    const [h, m] = t.split(":").map(Number);
-    const suffix = h >= 12 ? "PM" : "AM";
-    const hour = h % 12 || 12;
-    return `${hour}:${m.toString().padStart(2, "0")} ${suffix}`;
-  };
-
-  const getCurrentDayTiming = () => {
-    if (!gym?.timings) return null;
-    const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const today = days[new Date().getDay()];
-    return gym.timings.find((t) => t.day === today) ?? null;
-  };
-
-  const todayTiming = getCurrentDayTiming();
-
-  const isOpenNow = () => {
-    if (!todayTiming || !todayTiming.isOpen) return false;
-    const now = new Date();
-    const [openH, openM] = todayTiming.open.split(":").map(Number);
-    const [closeH, closeM] = todayTiming.close.split(":").map(Number);
-    const curr = now.getHours() * 60 + now.getMinutes();
-    return curr >= openH * 60 + openM && curr <= closeH * 60 + closeM;
-  };
-
-  const openStatus = isOpenNow();
-
-  const lowestPrice = gym.memberships
+  /* ── Derived values ── */
+  const todayTiming = getCurrentDayTiming(gym.timings);
+  const openStatus = computeOpenStatus(todayTiming);
+  const lowestPrice = gym.memberships?.length
     ? Math.min(...gym.memberships.map((m) => m.price))
-    : null;
+    : gym.priceFrom;
 
-  /* ══════════════════════════════════════════════════════════════
-     RENDER
-  ══════════════════════════════════════════════════════════════ */
+  /* ══ RENDER ══ */
   return (
     <>
-      {/* ── SEO ── */}
       <Helmet>
         <title>{gym.name} | Memberships, Trainers & Reviews | Gymssy</title>
         <meta
           name="description"
-          content={`Join ${gym.name} in ${gym.location.area}, ${gym.location.city}. Memberships from ₹${lowestPrice}/month. Book a free visit on Gymssy.`}
+          content={`Join ${gym.name} in ${gym.location?.area}, ${gym.location?.city}. Memberships from ₹${lowestPrice}/month. Book a free visit on Gymssy.`}
         />
         <meta property="og:title" content={`${gym.name} | Gymssy`} />
         <meta
           property="og:description"
-          content={`${gym.category} in ${gym.location.area}, ${gym.location.city}. Rated ${gym.rating}/5 by ${gym.reviewCount} members.`}
+          content={`${gym.category} in ${gym.location?.area}, ${gym.location?.city}. Rated ${gym.rating}/5 by ${gym.reviewCount} members.`}
         />
-        <meta property="og:image" content={gym.images.cover} />
+        <meta property="og:image" content={gym.images?.cover} />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:type" content="business.business" />
       </Helmet>
 
       <div className={styles.page} ref={pageRef}>
-  
-        {/* ══ GYM HEADER ══ */}
+        {/* ══ HEADER ══ */}
         <GymHeader
           gym={gym}
           isSaved={isSaved}
@@ -275,16 +256,18 @@ const GymDetailsPage = () => {
           lowestPrice={lowestPrice}
         />
 
-        {/* ══ IMAGE GALLERY ══ */}
-        <div className={styles.gallerySection} ref={heroRef}>
-          <GymGallery
-            images={gym.images.gallery}
-            gymName={gym.name}
-            onViewAll={() => setShowAllPhotos(true)}
-          />
-        </div>
+        {/* ══ GALLERY ══ */}
+        {gym.images?.gallery?.length > 0 && (
+          <div className={styles.gallerySection} ref={heroRef}>
+            <GymGallery
+              images={gym.images.gallery}
+              gymName={gym.name}
+              onViewAll={() => setShowAllPhotos(true)}
+            />
+          </div>
+        )}
 
-        {/* ══ QUICK INFO BAR ══ */}
+        {/* ══ QUICK INFO ══ */}
         <GymQuickInfo
           rating={gym.rating}
           reviewCount={gym.reviewCount}
@@ -296,31 +279,23 @@ const GymDetailsPage = () => {
           currency="₹"
         />
 
-        {/* ══════════════════════════════════════════════════════
-            MAIN CONTENT WRAPPER
-            All sections share this max-width container
-        ══════════════════════════════════════════════════════ */}
+        {/* ══ MAIN CONTENT ══ */}
         <div className={styles.mainContent}>
-          {/* ════════════════════════════════════════════════════
-              ZONE A — TWO-COLUMN GRID
-              About Gym (left) + Sticky Booking Card (right)
-              Only this zone has the two-column layout.
-          ════════════════════════════════════════════════════ */}
+          {/* ── Zone A: Two-column ── */}
           <div className={styles.contentGrid}>
-            {/* ── About — left column ── */}
+            {/* About — left */}
             <div className={styles.leftColumn}>
               <section className={styles.section} id="about">
                 <AboutGym gym={gym} />
               </section>
             </div>
 
-            {/* ── Sticky Booking Card — right column ── */}
+            {/* Booking card — right */}
             <aside
               className={styles.rightColumn}
               aria-label="Booking information"
             >
               <div className={styles.desktopBookingCard}>
-                {/* Price + Rating */}
                 <div className={styles.bookingCardHeader}>
                   <div>
                     <span className={styles.bookingPrice}>
@@ -339,21 +314,15 @@ const GymDetailsPage = () => {
                   </div>
                 </div>
 
-                {/* Open/Closed */}
                 <div
-                  className={`${styles.openBadge} ${
-                    openStatus ? styles.openBadgeOpen : styles.openBadgeClosed
-                  }`}
+                  className={`${styles.openBadge} ${openStatus ? styles.openBadgeOpen : styles.openBadgeClosed}`}
                 >
                   <span className={styles.openDot} aria-hidden="true" />
                   {openStatus
-                    ? `Open until ${
-                        todayTiming ? formatTime(todayTiming.close) : ""
-                      }`
+                    ? `Open until ${todayTiming ? formatTime(todayTiming.close) : ""}`
                     : "Currently Closed"}
                 </div>
 
-                {/* CTAs */}
                 <button
                   className={styles.bookingPrimary}
                   onClick={handleBookVisit}
@@ -361,7 +330,6 @@ const GymDetailsPage = () => {
                 >
                   Book Free Visit
                 </button>
-
                 <button
                   className={styles.bookingSecondary}
                   onClick={scrollToMemberships}
@@ -370,16 +338,17 @@ const GymDetailsPage = () => {
                   View Memberships
                 </button>
 
-                {/* Meta */}
                 <div className={styles.bookingMeta}>
                   <div className={styles.bookingMetaItem}>
                     <FiMapPin size={13} aria-hidden="true" />
-                    <span>{gym.location.area}</span>
+                    <span>{gym.location?.area}</span>
                   </div>
-                  <div className={styles.bookingMetaItem}>
-                    <FiPhone size={13} aria-hidden="true" />
-                    <a href={`tel:${gym.phone}`}>{gym.phone}</a>
-                  </div>
+                  {gym.phone && (
+                    <div className={styles.bookingMetaItem}>
+                      <FiPhone size={13} aria-hidden="true" />
+                      <a href={`tel:${gym.phone}`}>{gym.phone}</a>
+                    </div>
+                  )}
                   {gym.email && (
                     <div className={styles.bookingMetaItem}>
                       <FiMail size={13} aria-hidden="true" />
@@ -388,7 +357,6 @@ const GymDetailsPage = () => {
                   )}
                 </div>
 
-                {/* Note */}
                 <div className={styles.bookingNote}>
                   <FiCheck size={12} aria-hidden="true" />
                   Free cancellation · No commitment
@@ -396,23 +364,46 @@ const GymDetailsPage = () => {
               </div>
             </aside>
           </div>
-          {/* ── END ZONE A ── */}
 
-          {/* ════════════════════════════════════════════════════
-              ZONE B — FULL WIDTH SECTIONS
-              Every section from Facilities onwards.
-              No column constraint — spans full mainContent width.
-          ════════════════════════════════════════════════════ */}
+          {/* ── Zone B: Full-width sections ── */}
 
-          {/* ── Facilities ── */}
-          <section
-            className={`${styles.section} ${styles.fullWidthSection}`}
-            id="facilities"
-          >
-            <FacilityGrid facilities={gym.facilities} />
-          </section>
+          {/* Memberships */}
+          {gym.memberships?.length > 0 && (
+            <section
+              className={`${styles.section} ${styles.fullWidthSection}`}
+              id="memberships"
+            >
+              <div className={styles.sectionHeader}>
+                <div className={styles.sectionHeaderLeft}>
+                  <h2 className={styles.sectionTitle}>Membership Plans</h2>
+                  <p className={styles.sectionSubtitle}>
+                    Choose the plan that fits your goals.
+                  </p>
+                </div>
+              </div>
+              <div className={styles.membershipGrid}>
+                {gym.memberships.map((plan, i) => (
+                  <MembershipCard
+                    key={i}
+                    membership={plan}
+                    onSelect={handleSelectMembership}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
 
-          {/* ── Trainers ── */}
+          {/* Facilities */}
+          {gym.facilities?.length > 0 && (
+            <section
+              className={`${styles.section} ${styles.fullWidthSection}`}
+              id="facilities"
+            >
+              <FacilityGrid facilities={gym.facilities} />
+            </section>
+          )}
+
+          {/* Trainers */}
           {gym.trainers?.length > 0 && (
             <section
               className={`${styles.section} ${styles.fullWidthSection}`}
@@ -434,7 +425,7 @@ const GymDetailsPage = () => {
             </section>
           )}
 
-          {/* ── Classes ── */}
+          {/* Classes */}
           {gym.classes?.length > 0 && (
             <section
               className={`${styles.section} ${styles.fullWidthSection}`}
@@ -456,84 +447,93 @@ const GymDetailsPage = () => {
             </section>
           )}
 
-          {/* ── Timings ── */}
-          <section
-            className={`${styles.section} ${styles.fullWidthSection}`}
-            id="timings"
-          >
-            <GymTimings
-              timings={gym.timings}
-              openStatus={openStatus}
-              formatTime={formatTime}
-            />
-          </section>
+          {/* Timings */}
+          {gym.timings?.length > 0 && (
+            <section
+              className={`${styles.section} ${styles.fullWidthSection}`}
+              id="timings"
+            >
+              <GymTimings
+                timings={gym.timings}
+                openStatus={openStatus}
+                formatTime={formatTime}
+              />
+            </section>
+          )}
 
-          {/* ── Location ── */}
-          <section
-            className={`${styles.section} ${styles.fullWidthSection}`}
-            id="location"
-          >
-            <LocationMap gym={gym} />
-          </section>
+          {/* Location */}
+          {gym.coordinates && (
+            <section
+              className={`${styles.section} ${styles.fullWidthSection}`}
+              id="location"
+            >
+              <LocationMap gym={gym} />
+            </section>
+          )}
 
-          {/* ── Reviews ── */}
-          <section
-            className={`${styles.section} ${styles.fullWidthSection}`}
-            id="reviews"
-          >
-            <ReviewSection
-              rating={gym.rating}
-              reviewCount={gym.reviewCount}
-              ratingBreakdown={gym.ratingBreakdown}
-              reviews={gym.reviews}
-              onWriteReview={handleBookVisit}
-            />
-          </section>
+          {/* Reviews */}
+          {gym.reviews?.length > 0 && (
+            <section
+              className={`${styles.section} ${styles.fullWidthSection}`}
+              id="reviews"
+            >
+              <ReviewSection
+                rating={gym.rating}
+                reviewCount={gym.reviewCount}
+                ratingBreakdown={gym.ratingBreakdown}
+                reviews={gym.reviews}
+                onWriteReview={handleBookVisit}
+              />
+            </section>
+          )}
 
-          {/* ── Photo Gallery ── */}
-          <section
-            className={`${styles.section} ${styles.fullWidthSection}`}
-            id="photos"
-          >
-            <div className={styles.sectionHeader}>
-              <div className={styles.sectionHeaderLeft}>
-                <h2 className={styles.sectionTitle}>Photo Gallery</h2>
+          {/* Photo Gallery */}
+          {gym.images?.gallery?.length > 0 && (
+            <section
+              className={`${styles.section} ${styles.fullWidthSection}`}
+              id="photos"
+            >
+              <div className={styles.sectionHeader}>
+                <div className={styles.sectionHeaderLeft}>
+                  <h2 className={styles.sectionTitle}>Photo Gallery</h2>
+                </div>
+                <button
+                  className={styles.viewAllLink}
+                  onClick={() => setShowAllPhotos(true)}
+                  aria-label="View all gym photos"
+                >
+                  <FiCamera size={13} aria-hidden="true" />
+                  View All Photos
+                </button>
               </div>
-              <button
-                className={styles.viewAllLink}
-                onClick={() => setShowAllPhotos(true)}
-                aria-label="View all gym photos"
-              >
-                <FiCamera size={13} aria-hidden="true" />
-                View All Photos
-              </button>
-            </div>
-            <PhotoGallery
-              images={gym.images.gallery}
-              gymName={gym.name}
-              showAll={showAllPhotos}
-              onClose={() => setShowAllPhotos(false)}
-            />
-          </section>
+              <PhotoGallery
+                images={gym.images.gallery}
+                gymName={gym.name}
+                showAll={showAllPhotos}
+                onClose={() => setShowAllPhotos(false)}
+              />
+            </section>
+          )}
         </div>
-        {/* ══ END MAIN CONTENT ══ */}
 
         {/* ══ SIMILAR GYMS ══ */}
-        <div className={styles.similarSection}>
-          <SimilarGyms gyms={similarGyms} onBookVisit={handleBookVisit} />
-        </div>
+        {similarGyms.length > 0 && (
+          <div className={styles.similarSection}>
+            <SimilarGyms gyms={similarGyms} onBookVisit={handleBookVisit} />
+          </div>
+        )}
       </div>
     </>
   );
 };
 
 /* ══════════════════════════════════════════════════════════════
-   ABOUT GYM — inline sub-component
+   ABOUT GYM — unchanged logic, just uses normalised field names
 ══════════════════════════════════════════════════════════════ */
 const AboutGym = ({ gym }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const descriptionParagraphs = gym.description
+  const descriptionParagraphs = (gym.description ?? "")
     .trim()
     .split("\n\n")
     .filter(Boolean);
@@ -547,14 +547,11 @@ const AboutGym = ({ gym }) => {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className={styles.aboutGrid}>
-        {/* Text */}
         <div className={styles.aboutLeft}>
           <h2 className={styles.sectionTitle}>About {gym.name}</h2>
 
           <div
-            className={`${styles.aboutText} ${
-              expanded ? styles.aboutTextExpanded : ""
-            }`}
+            className={`${styles.aboutText} ${expanded ? styles.aboutTextExpanded : ""}`}
           >
             {descriptionParagraphs.map((para, i) => (
               <p key={i}>{para.trim()}</p>
@@ -578,11 +575,10 @@ const AboutGym = ({ gym }) => {
           )}
         </div>
 
-        {/* Highlights */}
         <div className={styles.aboutRight}>
           <h3 className={styles.highlightsTitle}>Highlights</h3>
           <ul className={styles.highlightsList} aria-label="Gym highlights">
-            {gym.highlights.map((h, i) => (
+            {(gym.highlights ?? []).map((h, i) => (
               <motion.li
                 key={i}
                 className={styles.highlightItem}
@@ -613,7 +609,7 @@ const LoadingState = () => (
       justifyContent: "center",
       minHeight: "60vh",
       flexDirection: "column",
-      gap: "16px",
+      gap: 16,
       color: "rgba(255,255,255,0.4)",
       fontFamily: "Inter, sans-serif",
       fontSize: "0.9rem",
@@ -638,7 +634,60 @@ const LoadingState = () => (
 );
 
 /* ══════════════════════════════════════════════════════════════
-   NOT FOUND STATE
+   ERROR STATE
+══════════════════════════════════════════════════════════════ */
+const ErrorState = ({ message, onRetry }) => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "60vh",
+      flexDirection: "column",
+      gap: 16,
+      padding: "40px 24px",
+      textAlign: "center",
+    }}
+    role="alert"
+  >
+    <FiAlertCircle size={36} color="#ef4444" aria-hidden="true" />
+    <p
+      style={{
+        fontFamily: "Inter, sans-serif",
+        fontSize: "0.95rem",
+        color: "rgba(255,255,255,0.6)",
+        margin: 0,
+        maxWidth: 380,
+        lineHeight: 1.6,
+      }}
+    >
+      {message}
+    </p>
+    <button
+      onClick={onRetry}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        background: "#39ff14",
+        color: "#000",
+        border: "none",
+        borderRadius: 12,
+        padding: "12px 24px",
+        fontFamily: "Poppins, sans-serif",
+        fontSize: "0.875rem",
+        fontWeight: 700,
+        cursor: "pointer",
+      }}
+    >
+      <FiRefreshCw size={14} aria-hidden="true" />
+      Try Again
+    </button>
+  </div>
+);
+
+/* ══════════════════════════════════════════════════════════════
+   NOT FOUND STATE — unchanged
 ══════════════════════════════════════════════════════════════ */
 const NotFoundState = ({ onBack }) => (
   <div
@@ -648,7 +697,7 @@ const NotFoundState = ({ onBack }) => (
       justifyContent: "center",
       minHeight: "60vh",
       flexDirection: "column",
-      gap: "20px",
+      gap: 20,
       padding: "40px 24px",
       textAlign: "center",
     }}
@@ -679,8 +728,7 @@ const NotFoundState = ({ onBack }) => (
         lineHeight: 1.6,
       }}
     >
-      We couldn&apos;t find the gym you&apos;re looking for. It may have been
-      removed or the link is incorrect.
+      We couldn&apos;t find the gym you&apos;re looking for.
     </p>
     <button
       onClick={onBack}

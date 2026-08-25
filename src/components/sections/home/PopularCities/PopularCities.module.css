@@ -85,6 +85,97 @@
   background: linear-gradient(to top, #0b0b0b, transparent);
   pointer-events: none;
 }
+
+/* ── Skeleton cards ── */
+.skeletonCard {
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.skeletonImg {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.07);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.skeletonLine {
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ── Error state ── */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.errorIcon {
+  font-size: 2.2rem;
+  color: #ef4444;
+}
+
+.errorMsg {
+  font-family: Inter, sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 340px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.retryBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: Inter, sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.retryBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ── Empty state ── */
+.emptyState {
+  text-align: center;
+  font-family: Inter, sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 56px 0;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);

@@ -1,0 +1,360 @@
+/* ══════════════════════════════════════════════════════
+   CategoryFilters.module.css
+   Single component — desktop sidebar + mobile toolbar/drawer
+══════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════
+   DESKTOP SIDEBAR  (> 900px)
+═══════════════════════════════════════ */
+.sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  /* Shown on desktop, hidden on mobile */
+  display: block;
+}
+
+.filterBody {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  overflow: hidden;
+  position: sticky;
+  top: 88px;
+}
+
+/* Filter header */
+.filterHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.filterHeadLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.resetBtn {
+  font-size: 12px;
+  font-weight: 600;
+  color: #39FF14;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: opacity 0.18s;
+}
+.resetBtn:hover { opacity: 0.7; }
+
+/* Groups */
+.group {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.group:last-of-type { border-bottom: none; }
+
+.groupLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Select */
+.selectWrap {
+  position: relative;
+}
+
+.select {
+  width: 100%;
+  appearance: none;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 9px 30px 9px 11px;
+  cursor: pointer;
+  outline: none;
+  color-scheme: dark;
+  transition: border-color 0.18s;
+}
+.select:focus { border-color: rgba(57, 255, 20, 0.38); }
+
+.selectIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.38);
+  pointer-events: none;
+}
+
+/* Rating buttons */
+.ratingList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ratingBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 8px 11px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+}
+.ratingBtn:hover {
+  border-color: rgba(57, 255, 20, 0.28);
+  color: #fff;
+}
+.ratingBtnActive {
+  border-color: rgba(57, 255, 20, 0.42);
+  background: rgba(57, 255, 20, 0.07);
+  color: #39FF14;
+}
+
+/* Toggle */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.toggleLabel {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 500;
+}
+
+.toggleWrap { position: relative; }
+
+.toggleInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.track {
+  width: 38px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  position: relative;
+  transition: background 0.22s, border-color 0.22s;
+}
+.trackOn {
+  background: rgba(57, 255, 20, 0.22);
+  border-color: rgba(57, 255, 20, 0.38);
+}
+
+.thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: transform 0.22s, background 0.22s;
+}
+.trackOn .thumb {
+  transform: translateX(16px);
+  background: #39FF14;
+}
+
+/* Note */
+.note {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.22);
+  font-style: italic;
+  padding: 10px 16px 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   MOBILE TOOLBAR  (≤ 900px)
+═══════════════════════════════════════ */
+.mobileBar {
+  display: none; /* hidden on desktop */
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  /* Shown via responsive rule below */
+}
+
+.mobileFilterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: border-color 0.18s;
+}
+.mobileFilterBtn:hover { border-color: rgba(57, 255, 20, 0.35); }
+
+.mobileSortWrap {
+  position: relative;
+  flex: 1;
+  min-width: 130px;
+  max-width: 200px;
+}
+
+.mobileSelect {
+  width: 100%;
+  appearance: none;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 9px 28px 9px 11px;
+  cursor: pointer;
+  outline: none;
+  color-scheme: dark;
+}
+
+.mobileCount {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.38);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════
+   MOBILE DRAWER
+═══════════════════════════════════════ */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 400;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(300px, 85vw);
+  background: #111111;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 401;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.drawerTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.drawerClose {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.drawerClose:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* Drawer body — scrollable */
+.drawerBody {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Inside drawer, filterBody loses its sticky/border-radius */
+.drawerBody .filterBody {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  position: static;
+}
+
+.drawerFooter {
+  padding: 14px 16px;
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.applyBtn {
+  width: 100%;
+  background: #39FF14;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.18s;
+}
+.applyBtn:hover { background: #2de610; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE BREAKPOINT
+   This is the ONLY place display toggling happens.
+═══════════════════════════════════════ */
+@media (max-width: 900px) {
+  /* Hide desktop sidebar */
+  .sidebar { display: none; }
+
+  /* Show mobile toolbar */
+  .mobileBar { display: flex; }
+}

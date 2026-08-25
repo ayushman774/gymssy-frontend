@@ -1,15 +1,31 @@
-import { useRef } from "react";
+// src/ui/MainCategoryCard/MainCategoryCard.jsx
+
 import { motion } from "framer-motion";
-import { FiArrowRight } from "react-icons/fi";
+import { ArrowRight } from "lucide-react";
+import DynamicIcon from "../DynamicIcon/DynamicIcon";
 import styles from "./MainCategoryCard.module.css";
 
-/* ══════════════════════════════════════════════════════
-   MAIN CATEGORY CARD
-   Large hero-style card with image background.
-   Used in the 3-card top row of ExploreCategories.
-══════════════════════════════════════════════════════ */
+/**
+ * resolveImage — unchanged
+ */
+const resolveImage = (image, fallbackAlt = "") => {
+  if (!image) return { src: "", alt: fallbackAlt };
+  if (typeof image === "string") return { src: image, alt: fallbackAlt };
+  return { src: image.url ?? "", alt: image.alt ?? fallbackAlt };
+};
+
 const MainCategoryCard = ({ category, isActive, onClick, index }) => {
-  const { title, description, image, accentColor, count } = category;
+  const {
+    title,
+    description,
+    image,
+    accentColor,
+    count,
+    icon, // e.g. "Dumbbell" | "HeartPulse" | "Trophy"
+    iconSize, // optional override from backend (rarely set)
+  } = category;
+
+  const { src: imgSrc, alt: imgAlt } = resolveImage(image, title);
 
   return (
     <motion.article
@@ -40,7 +56,7 @@ const MainCategoryCard = ({ category, isActive, onClick, index }) => {
       <div className={styles.imageWrapper} aria-hidden="true">
         <motion.div
           className={styles.image}
-          style={{ backgroundImage: `url(${image})` }}
+          style={{ backgroundImage: imgSrc ? `url(${imgSrc})` : "none" }}
           variants={{
             hover: {
               scale: 1.06,
@@ -48,9 +64,19 @@ const MainCategoryCard = ({ category, isActive, onClick, index }) => {
             },
           }}
         />
-        {/* Dark overlay */}
+
+        {imgSrc && (
+          <img
+            src={imgSrc}
+            alt={imgAlt}
+            className={styles.srOnlyImg}
+            aria-hidden="false"
+            fetchPriority={index === 0 ? "high" : "auto"}
+            loading={index === 0 ? "eager" : "lazy"}
+          />
+        )}
+
         <div className={styles.overlay} />
-        {/* Accent gradient at bottom */}
         <div className={styles.accentGradient} />
       </div>
 
@@ -67,6 +93,18 @@ const MainCategoryCard = ({ category, isActive, onClick, index }) => {
 
       {/* ── Content ── */}
       <div className={styles.content}>
+        {/* ── Category icon badge ── */}
+        {icon && (
+          <div className={styles.iconBadge} aria-hidden="true">
+            <DynamicIcon
+              name={icon}
+              size={iconSize ?? 22}
+              strokeWidth={1.6}
+              className={styles.iconBadgeSvg}
+            />
+          </div>
+        )}
+
         {/* Count pill */}
         <span className={styles.countPill}>{count}</span>
 
@@ -76,15 +114,16 @@ const MainCategoryCard = ({ category, isActive, onClick, index }) => {
         {/* Description */}
         <p className={styles.description}>{description}</p>
 
-        {/* Footer row */}
+        {/* Footer */}
         <div className={styles.footer}>
           <span className={styles.exploreText}>
             {isActive ? "Browsing" : "Explore"}
           </span>
 
-          {/* Arrow button */}
           <motion.div
-            className={`${styles.arrowBtn} ${isActive ? styles.arrowBtnActive : ""}`}
+            className={`${styles.arrowBtn} ${
+              isActive ? styles.arrowBtnActive : ""
+            }`}
             variants={{
               hover: {
                 x: 4,
@@ -94,7 +133,7 @@ const MainCategoryCard = ({ category, isActive, onClick, index }) => {
             }}
             aria-hidden="true"
           >
-            <FiArrowRight className={styles.arrowIcon} />
+            <ArrowRight className={styles.arrowIcon} size={16} />
           </motion.div>
         </div>
       </div>
@@ -103,10 +142,7 @@ const MainCategoryCard = ({ category, isActive, onClick, index }) => {
       <motion.div
         className={styles.borderGlow}
         variants={{
-          hover: {
-            opacity: 1,
-            transition: { duration: 0.3 },
-          },
+          hover: { opacity: 1, transition: { duration: 0.3 } },
         }}
         initial={{ opacity: isActive ? 0.6 : 0 }}
         animate={{ opacity: isActive ? 0.6 : 0 }}

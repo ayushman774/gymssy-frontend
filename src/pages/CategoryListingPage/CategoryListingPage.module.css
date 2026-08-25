@@ -1,0 +1,203 @@
+/* ══════════════════════════════════════════════════════
+   CategoryListingPage.module.css
+══════════════════════════════════════════════════════ */
+
+.page {
+  background: #0a0a0a;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #fff;
+}
+
+.mainWrap {
+  padding: 16px 60px;
+  width: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Results header ── */
+.resultsHeader {
+  display: none; /* shown on desktop, hidden on mobile via layout flex */
+}
+
+.resultsCount {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
+
+.resultsNum {
+  font-size: 22px;
+  font-weight: 900;
+  color: #39ff14;
+  letter-spacing: -0.02em;
+}
+
+.resultsLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ── Main layout ── */
+.layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Grid takes remaining space */
+.gridArea {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Not found ── */
+.notFoundPage {
+  min-height: 70vh;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.notFoundBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  max-width: 440px;
+}
+
+.notFoundIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(57, 255, 20, 0.07);
+  border: 1px solid rgba(57, 255, 20, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #39ff14;
+}
+
+.notFoundTitle {
+  font-size: 30px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+}
+
+.notFoundText {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.65;
+}
+
+.notFoundBtns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #39ff14;
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.btnPrimary:hover {
+  background: #2de610;
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  transition:
+    border-color 0.18s,
+    background 0.18s;
+}
+.btnGhost:hover {
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.resultsHeader{
+    margin-bottom: 10px;
+}
+
+/* ── Responsive ── */
+@media (min-width: 901px) {
+  .resultsHeader {
+    display: flex;
+  }
+
+  /* On desktop, hide the mobile toolbar version of CategoryFilters */
+  /* The sidebar version inside .layout is shown */
+}
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* The sidebar inside layout is hidden via CategoryFilters CSS */
+  /* Mobile toolbar is shown above */
+  .mainWrap {
+    padding: 24px 0 60px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mainWrap {
+    padding: 20px 0 48px;
+  }
+  .container {
+    padding: 0 16px;
+    gap: 16px;
+  }
+  .notFoundBtns {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btnPrimary,
+  .btnGhost {
+    width: 100%;
+    justify-content: center;
+  }
+}
