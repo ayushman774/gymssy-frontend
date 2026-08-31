@@ -5,7 +5,7 @@ import { fetchFeaturedTrainers } from "../services/categoryService";
 const resolveImageUrl = (image) => {
   if (!image) return "";
   if (typeof image === "string") return image;
-  return image.url ?? "";
+  return image.url || image.src || "";
 };
 
 /* ── normalise a single trainer ── */

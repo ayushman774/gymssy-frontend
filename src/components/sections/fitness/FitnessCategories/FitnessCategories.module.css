@@ -152,6 +152,45 @@
   opacity: 0;
 }
 
+
+.skeletonCard {
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  height: 100%;
+}
+
+.skeletonImg {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.07);
+  animation: fitCatShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.skeletonLine {
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.07);
+  animation: fitCatShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes fitCatShimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 /* Responsive */
 @media (max-width: 1100px) {
   .grid {
