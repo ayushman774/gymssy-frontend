@@ -174,3 +174,13 @@ export const fetchCityInfo = async (slug) => {
   const list = json.data ?? [];
   return list.find((c) => c.slug === slug) ?? null;
 };
+
+/**
+ * fetchTrainerBySlug
+ * GET /trainers/:slug
+ * Returns a single trainer's full detail object.
+ */
+export const fetchTrainerBySlug = async (slug) => {
+  const json = await apiFetch(`/trainers/${slug}`);
+  return json.data; // trainer object
+};

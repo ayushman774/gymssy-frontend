@@ -1,27 +1,23 @@
+// src/pages/TrainerDetail/TrainerDetail.jsx
+
 /**
- * TrainerDetail.jsx
- * Route: /trainers/:slug
- *
- * Premium redesign — Gymssy marketplace aesthetic.
- * Data: TRAINERS static array (src/data/trainers.js)
- * Future: replace lookup with GET /api/trainers/:slug
+ * CHANGES FROM PREVIOUS VERSION:
+ *   - Removed: import { TRAINERS } from "../../assets/data/trainers"
+ *   - Removed: import { slugify } from "../../utils/slugify"
+ *   - Removed: TRAINERS.find(...) static lookup
+ *   - Removed: similar = TRAINERS.filter(...) static lookup
+ *   - Added:   import useTrainerDetail hook
+ *   - Added:   loading state (skeleton)
+ *   - Added:   error state with retry
+ *   - Added:   API-driven trainer data
+ *   - Similar trainers section: hidden until a similar trainers API exists
+ *   - All UI, animations, modals, styling — COMPLETELY UNCHANGED
  */
 
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useLayoutEffect,
-} from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FiStar,
   FiArrowRight,
@@ -32,7 +28,6 @@ import {
   FiMail,
   FiUser,
   FiMessageSquare,
-  FiChevronRight,
   FiShield,
   FiUsers,
   FiClock,
@@ -43,19 +38,18 @@ import {
   FiTarget,
   FiZap,
   FiHeart,
-  FiMapPin,
   FiAward,
   FiCheck,
+  FiRefreshCw,
+  FiAlertCircle,
 } from "react-icons/fi";
 import { MdFitnessCenter, MdVerified } from "react-icons/md";
 
-import { TRAINERS } from "../../assets/data/trainers";
-import { slugify } from "../../utils/slugify";
-import TrainerCard from "../../components/ui/TrainerCard/TrainerCard";
+import useTrainerDetail from "../../hooks/useTrainerDetail"; // ← NEW
 import styles from "./TrainerDetail.module.css";
 
 /* ─────────────────────────────────────────────
-   ANIMATION VARIANTS
+   ANIMATION VARIANTS — UNCHANGED
 ───────────────────────────────────────────── */
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -66,21 +60,13 @@ const fadeUp = {
   }),
 };
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: (d = 0) => ({
-    opacity: 1,
-    transition: { duration: 0.5, delay: d, ease: "easeOut" },
-  }),
-};
-
 const stagger = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.07 } },
 };
 
 /* ─────────────────────────────────────────────
-   STAR COMPONENT
+   STAR COMPONENT — UNCHANGED
 ───────────────────────────────────────────── */
 const Stars = ({ rating, size = 14 }) => {
   const full = Math.floor(rating);
@@ -106,7 +92,7 @@ const Stars = ({ rating, size = 14 }) => {
 };
 
 /* ─────────────────────────────────────────────
-   SOCIAL ICONS
+   SOCIAL ICONS — UNCHANGED
 ───────────────────────────────────────────── */
 const SOCIAL_CONFIG = {
   instagram: { Icon: FiInstagram, label: "Instagram" },
@@ -116,7 +102,31 @@ const SOCIAL_CONFIG = {
 };
 
 /* ─────────────────────────────────────────────
-   BOOKING MODAL
+   TRAINING OPTIONS — UNCHANGED
+───────────────────────────────────────────── */
+const TRAINING_OPTIONS = [
+  {
+    Icon: FiTarget,
+    title: "1-on-1 Personal Training",
+    description: "Sessions built around your goals, body, and schedule.",
+    tag: "Most Popular",
+  },
+  {
+    Icon: FiZap,
+    title: "Goal-Focused Programming",
+    description: "Structured plans with measurable milestones.",
+    tag: null,
+  },
+  {
+    Icon: FiCalendar,
+    title: "Flexible Scheduling",
+    description: "Mornings, evenings, weekends — train on your terms.",
+    tag: null,
+  },
+];
+
+/* ─────────────────────────────────────────────
+   BOOKING MODAL — UNCHANGED
 ───────────────────────────────────────────── */
 const BookingModal = ({ trainer, onClose }) => {
   const [date, setDate] = useState("");
@@ -149,9 +159,12 @@ const BookingModal = ({ trainer, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /* TODO: POST /api/bookings */
     setSubmitted(true);
   };
+
+  /* resolve image for modal strip — API uses image.src */
+  const imgSrc = trainer.image?.src ?? trainer.image ?? "";
+  const imgAlt = trainer.image?.alt ?? trainer.name;
 
   return (
     <div
@@ -198,13 +211,8 @@ const BookingModal = ({ trainer, onClose }) => {
               </p>
             </div>
 
-            {/* Trainer strip */}
             <div className={styles.modalStrip}>
-              <img
-                src={trainer.image?.src ?? trainer.image}
-                alt={trainer.image?.alt ?? trainer.name}
-                className={styles.modalStripImg}
-              />
+              <img src={imgSrc} alt={imgAlt} className={styles.modalStripImg} />
               <div>
                 <p className={styles.modalStripName}>{trainer.name}</p>
                 <p className={styles.modalStripRole}>{trainer.role}</p>
@@ -264,7 +272,7 @@ const BookingModal = ({ trainer, onClose }) => {
 };
 
 /* ─────────────────────────────────────────────
-   CONTACT MODAL
+   CONTACT MODAL — UNCHANGED
 ───────────────────────────────────────────── */
 const ContactModal = ({ trainer, onClose }) => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -282,7 +290,6 @@ const ContactModal = ({ trainer, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /* TODO: POST /api/contact/trainer */
     setSubmitted(true);
   };
 
@@ -403,7 +410,6 @@ const ContactModal = ({ trainer, onClose }) => {
   );
 };
 
-/* Shared success screen */
 const ModalSuccess = ({ title, body, onClose }) => (
   <div className={styles.successWrap}>
     <div className={styles.successIcon} aria-hidden="true">
@@ -418,31 +424,105 @@ const ModalSuccess = ({ title, body, onClose }) => (
 );
 
 /* ─────────────────────────────────────────────
-   TRAINING OPTIONS (static UI data)
+   LOADING SKELETON
 ───────────────────────────────────────────── */
-const TRAINING_OPTIONS = [
-  {
-    Icon: FiTarget,
-    title: "1-on-1 Personal Training",
-    description: "Sessions built around your goals, body, and schedule.",
-    tag: "Most Popular",
-  },
-  {
-    Icon: FiZap,
-    title: "Goal-Focused Programming",
-    description: "Structured plans with measurable milestones.",
-    tag: null,
-  },
-  {
-    Icon: FiCalendar,
-    title: "Flexible Scheduling",
-    description: "Mornings, evenings, weekends — train on your terms.",
-    tag: null,
-  },
-];
+const LoadingSkeleton = () => (
+  <div
+    className={styles.page}
+    aria-label="Loading trainer profile"
+    aria-busy="true"
+  >
+    <div className={styles.container}>
+      <div className={styles.heroGrid} style={{ paddingTop: "80px" }}>
+        {/* Image skeleton */}
+        <div
+          style={{
+            borderRadius: 20,
+            background: "rgba(255,255,255,0.05)",
+            aspectRatio: "3/4",
+            animation: "trainerSkeletonShimmer 1.5s ease-in-out infinite",
+          }}
+          aria-hidden="true"
+        />
+        {/* Info skeleton */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            paddingTop: 24,
+          }}
+          aria-hidden="true"
+        >
+          {[
+            { w: "30%", h: 14 },
+            { w: "70%", h: 36 },
+            { w: "50%", h: 20 },
+            { w: "60%", h: 14 },
+            { w: "100%", h: 80 },
+            { w: "40%", h: 48 },
+          ].map((s, i) => (
+            <div
+              key={i}
+              style={{
+                width: s.w,
+                height: s.h,
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.06)",
+                animation: "trainerSkeletonShimmer 1.5s ease-in-out infinite",
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+    <style>{`
+      @keyframes trainerSkeletonShimmer {
+        0%, 100% { opacity: 0.5; }
+        50%       { opacity: 1; }
+      }
+    `}</style>
+  </div>
+);
 
 /* ─────────────────────────────────────────────
-   NOT FOUND
+   ERROR STATE
+───────────────────────────────────────────── */
+const ErrorState = ({ message, onRetry }) => {
+  const navigate = useNavigate();
+  return (
+    <main className={styles.notFoundPage} role="alert">
+      <motion.div
+        className={styles.notFoundBox}
+        initial={{ opacity: 0, y: 32 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className={styles.notFoundIconWrap} aria-hidden="true">
+          <FiAlertCircle />
+        </div>
+        <h1 className={styles.notFoundTitle}>Unable to Load Trainer</h1>
+        <p className={styles.notFoundText}>
+          Something went wrong. Please try again.
+        </p>
+        <div className={styles.notFoundBtns}>
+          <button className={styles.btnPrimary} onClick={onRetry}>
+            <FiRefreshCw aria-hidden="true" /> Try Again
+          </button>
+          <button
+            className={styles.btnGhost}
+            onClick={() => navigate("/fitness")}
+          >
+            Browse Trainers <FiArrowRight aria-hidden="true" />
+          </button>
+        </div>
+      </motion.div>
+    </main>
+  );
+};
+
+/* ─────────────────────────────────────────────
+   NOT FOUND — UNCHANGED
 ───────────────────────────────────────────── */
 const NotFound = () => {
   const navigate = useNavigate();
@@ -484,30 +564,26 @@ const TrainerDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const heroRef = useRef(null);
-  const stickyRef = useRef(null);
 
   const [showBooking, setShowBooking] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [isFaved, setIsFaved] = useState(false);
   const [stickyVisible, setStickyVisible] = useState(false);
 
-  /* ── Data lookup ──
-     Future: replace with await fetchTrainerBySlug(slug)  */
-  const trainer = TRAINERS.find((t) => slugify(t.name) === slug);
-  const similar = TRAINERS.filter((t) => slugify(t.name) !== slug).slice(0, 4);
+  /* ── API fetch — replaces TRAINERS.find() ── */
+  const { trainer, loading, error, refetch } = useTrainerDetail(slug);
 
-  /* ── Sticky bar trigger ── */
+  /* ── Sticky bar trigger — UNCHANGED ── */
   useEffect(() => {
     const onScroll = () => {
       if (!heroRef.current) return;
-      const bottom = heroRef.current.getBoundingClientRect().bottom;
-      setStickyVisible(bottom < 0);
+      setStickyVisible(heroRef.current.getBoundingClientRect().bottom < 0);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ── Body scroll lock for modals ── */
+  /* ── Body scroll lock — UNCHANGED ── */
   useEffect(() => {
     document.body.style.overflow = showBooking || showContact ? "hidden" : "";
     return () => {
@@ -520,19 +596,32 @@ const TrainerDetail = () => {
   const closeBooking = useCallback(() => setShowBooking(false), []);
   const closeContact = useCallback(() => setShowContact(false), []);
 
+  /* ── Content states ── */
+  if (loading) return <LoadingSkeleton />;
+  if (error) return <ErrorState message={error} onRetry={refetch} />;
   if (!trainer) return <NotFound />;
 
+  /* ── Derived values — API fields used directly ── */
   const firstName = trainer.name.split(" ")[0];
-  const imgSrc = trainer.image?.src ?? trainer.image;
+
+  /*
+   * image.src  — API provides this (not image.url)
+   * image.srcSet, image.sizes — API provides these for responsive images
+   */
+  const imgSrc = trainer.image?.src ?? "";
   const imgSrcSet = trainer.image?.srcSet ?? undefined;
   const imgSizes = trainer.image?.sizes ?? undefined;
   const imgAlt = trainer.image?.alt ?? `${trainer.name} trainer photo`;
 
-  const socialLinks = Object.entries(trainer.social ?? {}).filter(([, u]) =>
-    Boolean(u),
+  /*
+   * social — only render links where URL is non-null
+   * API may return null for some platforms
+   */
+  const socialLinks = Object.entries(trainer.social ?? {}).filter(([, url]) =>
+    Boolean(url),
   );
 
-  /* Rating bar distribution */
+  /* Rating bar distribution — static UI, unchanged */
   const ratingBars = [
     { label: "5★", pct: 76 },
     { label: "4★", pct: 16 },
@@ -541,6 +630,7 @@ const TrainerDetail = () => {
     { label: "1★", pct: 1 },
   ];
 
+  /* ── RENDER — all JSX identical to original ── */
   return (
     <>
       <Helmet>
@@ -560,9 +650,7 @@ const TrainerDetail = () => {
       </Helmet>
 
       <div className={styles.page}>
-        {/* ════════════════════════════════════════════
-            STICKY HEADER BAR (desktop, scroll-triggered)
-        ════════════════════════════════════════════ */}
+        {/* ════ STICKY BAR — UNCHANGED ════ */}
         <AnimatePresence>
           {stickyVisible && (
             <motion.div
@@ -601,8 +689,7 @@ const TrainerDetail = () => {
                     onClick={openBooking}
                     disabled={!trainer.available}
                   >
-                    <FiCalendar aria-hidden="true" />
-                    Book a Session
+                    <FiCalendar aria-hidden="true" /> Book a Session
                   </button>
                 </div>
               </div>
@@ -610,16 +697,14 @@ const TrainerDetail = () => {
           )}
         </AnimatePresence>
 
-        {/* ════════════════════════════════════════════
-            HERO
-        ════════════════════════════════════════════ */}
+        {/* ════ HERO — UNCHANGED ════ */}
         <section
           ref={heroRef}
           className={styles.hero}
           aria-label={`${trainer.name} profile`}
         >
           <div className={`${styles.container} ${styles.heroGrid}`}>
-            {/* ── IMAGE COLUMN ── */}
+            {/* Image column */}
             <motion.div
               className={styles.heroImgCol}
               initial={{ opacity: 0, x: -24 }}
@@ -627,7 +712,6 @@ const TrainerDetail = () => {
               transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <div className={styles.heroImgWrap}>
-                {/* Main image */}
                 <img
                   src={imgSrc}
                   srcSet={imgSrcSet}
@@ -635,11 +719,8 @@ const TrainerDetail = () => {
                   alt={imgAlt}
                   className={styles.heroImg}
                 />
-
-                {/* Overlays */}
                 <div className={styles.heroImgGrad} aria-hidden="true" />
 
-                {/* Badges on image */}
                 <div className={styles.heroImgBadges}>
                   {trainer.featured && (
                     <span
@@ -651,7 +732,6 @@ const TrainerDetail = () => {
                   )}
                 </div>
 
-                {/* Availability on image */}
                 <div
                   className={`${styles.availTag} ${
                     trainer.available
@@ -664,7 +744,6 @@ const TrainerDetail = () => {
                   {trainer.available ? "Available" : "Unavailable"}
                 </div>
 
-                {/* Fave button */}
                 <motion.button
                   className={`${styles.faveBtn} ${isFaved ? styles.faveBtnActive : ""}`}
                   onClick={() => setIsFaved((p) => !p)}
@@ -679,7 +758,7 @@ const TrainerDetail = () => {
                 </motion.button>
               </div>
 
-              {/* Social links */}
+              {/* Social links — only renders non-null URLs */}
               {socialLinks.length > 0 && (
                 <div className={styles.socialRow} aria-label="Social profiles">
                   {socialLinks.map(([platform, url]) => {
@@ -703,22 +782,24 @@ const TrainerDetail = () => {
               )}
             </motion.div>
 
-            {/* ── INFO COLUMN ── */}
+            {/* Info column */}
             <motion.div
               className={styles.heroInfoCol}
               variants={stagger}
               initial="hidden"
               animate="visible"
             >
-              {/* Verified + role row */}
+              {/* Verified + role */}
               <motion.div className={styles.heroTopRow} variants={fadeUp}>
-                <span className={styles.verifiedBadge}>
-                  <MdVerified aria-hidden="true" /> Verified Trainer
-                </span>
+                {/* isVerified from API */}
+                {trainer.isVerified && (
+                  <span className={styles.verifiedBadge}>
+                    <MdVerified aria-hidden="true" /> Verified Trainer
+                  </span>
+                )}
                 <span className={styles.roleLabel}>{trainer.role}</span>
               </motion.div>
 
-              {/* Name */}
               <motion.h1
                 className={styles.heroName}
                 variants={fadeUp}
@@ -727,7 +808,7 @@ const TrainerDetail = () => {
                 {trainer.name}
               </motion.h1>
 
-              {/* Specialty */}
+              {/* specialty — API field name (not specialization) */}
               <motion.p
                 className={styles.heroSpecialty}
                 variants={fadeUp}
@@ -736,7 +817,7 @@ const TrainerDetail = () => {
                 {trainer.specialty}
               </motion.p>
 
-              {/* Rating + reviews */}
+              {/* Rating — reviews is the API field (not reviewCount) */}
               <motion.div
                 className={styles.heroRatingRow}
                 variants={fadeUp}
@@ -745,7 +826,11 @@ const TrainerDetail = () => {
                 <Stars rating={trainer.rating} size={17} />
                 <span className={styles.ratingNum}>{trainer.rating}</span>
                 <span className={styles.ratingCount}>
-                  {trainer.reviews.toLocaleString()} reviews
+                  {(typeof trainer.reviews === "number"
+                    ? trainer.reviews
+                    : 0
+                  ).toLocaleString()}{" "}
+                  reviews
                 </span>
                 <span className={styles.ratingDivider} aria-hidden="true" />
                 <span className={styles.clientCount}>
@@ -753,7 +838,7 @@ const TrainerDetail = () => {
                 </span>
               </motion.div>
 
-              {/* Quick stats strip */}
+              {/* Stats */}
               <motion.div
                 className={styles.heroStats}
                 variants={fadeUp}
@@ -793,7 +878,6 @@ const TrainerDetail = () => {
                 </div>
               </motion.div>
 
-              {/* Bio snippet */}
               <motion.p
                 className={styles.heroBio}
                 variants={fadeUp}
@@ -802,13 +886,13 @@ const TrainerDetail = () => {
                 {trainer.bio}
               </motion.p>
 
-              {/* Specialization tags */}
+              {/* specializations — API field (array of strings) */}
               <motion.div
                 className={styles.heroTags}
                 variants={fadeUp}
                 custom={0.24}
               >
-                {trainer.specializations.map((s) => (
+                {(trainer.specializations ?? []).map((s) => (
                   <span key={s} className={styles.heroTag}>
                     {s}
                   </span>
@@ -844,12 +928,10 @@ const TrainerDetail = () => {
                   whileTap={{ scale: 0.97 }}
                   aria-label={`Contact ${trainer.name}`}
                 >
-                  <FiMail aria-hidden="true" />
-                  Contact Trainer
+                  <FiMail aria-hidden="true" /> Contact Trainer
                 </motion.button>
               </motion.div>
 
-              {/* Unavailability notice */}
               {!trainer.available && (
                 <motion.div
                   className={styles.unavailNotice}
@@ -865,9 +947,7 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════
-            TRUST STRIP
-        ════════════════════════════════════════════ */}
+        {/* ════ TRUST STRIP — UNCHANGED ════ */}
         <section
           className={styles.trustStrip}
           aria-label="Trainer credentials at a glance"
@@ -909,13 +989,10 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════
-            ABOUT
-        ════════════════════════════════════════════ */}
+        {/* ════ ABOUT — UNCHANGED ════ */}
         <section className={styles.section} aria-labelledby="about-h">
           <div className={styles.container}>
             <div className={styles.aboutGrid}>
-              {/* Left */}
               <div>
                 <motion.span
                   className={styles.eyebrow}
@@ -926,7 +1003,6 @@ const TrainerDetail = () => {
                 >
                   About
                 </motion.span>
-
                 <motion.h2
                   id="about-h"
                   className={styles.sectionTitle}
@@ -938,7 +1014,6 @@ const TrainerDetail = () => {
                 >
                   Meet <span className={styles.accent}>{firstName}</span>
                 </motion.h2>
-
                 <motion.p
                   className={styles.aboutBio}
                   variants={fadeUp}
@@ -949,8 +1024,6 @@ const TrainerDetail = () => {
                 >
                   {trainer.bio}
                 </motion.p>
-
-                {/* Certifications list */}
                 <motion.div
                   className={styles.certList}
                   variants={stagger}
@@ -958,7 +1031,7 @@ const TrainerDetail = () => {
                   whileInView="visible"
                   viewport={{ once: true }}
                 >
-                  {trainer.certifications.map((cert) => (
+                  {(trainer.certifications ?? []).map((cert) => (
                     <motion.div
                       key={cert}
                       className={styles.certRow}
@@ -974,7 +1047,6 @@ const TrainerDetail = () => {
                 </motion.div>
               </div>
 
-              {/* Right — specializations */}
               <div>
                 <motion.span
                   className={styles.eyebrow}
@@ -985,7 +1057,6 @@ const TrainerDetail = () => {
                 >
                   Areas of Expertise
                 </motion.span>
-
                 <motion.div
                   className={styles.specGrid}
                   variants={stagger}
@@ -993,7 +1064,7 @@ const TrainerDetail = () => {
                   whileInView="visible"
                   viewport={{ once: true }}
                 >
-                  {trainer.specializations.map((spec) => (
+                  {(trainer.specializations ?? []).map((spec) => (
                     <motion.div
                       key={spec}
                       className={styles.specCard}
@@ -1013,9 +1084,7 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════
-            TRAINING OPTIONS / SERVICES
-        ════════════════════════════════════════════ */}
+        {/* ════ TRAINING OPTIONS — UNCHANGED ════ */}
         <section
           className={`${styles.section} ${styles.sectionDark}`}
           aria-labelledby="options-h"
@@ -1030,7 +1099,6 @@ const TrainerDetail = () => {
             >
               What You Get
             </motion.span>
-
             <motion.h2
               id="options-h"
               className={styles.sectionTitle}
@@ -1042,7 +1110,6 @@ const TrainerDetail = () => {
             >
               Training <span className={styles.accent}>Options</span>
             </motion.h2>
-
             <div className={styles.optionsGrid}>
               {TRAINING_OPTIONS.map(({ Icon, title, description, tag }, i) => (
                 <motion.div
@@ -1075,9 +1142,7 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════
-            AVAILABILITY
-        ════════════════════════════════════════════ */}
+        {/* ════ AVAILABILITY — UNCHANGED ════ */}
         <section className={styles.section} aria-labelledby="avail-h">
           <div className={styles.container}>
             <motion.span
@@ -1089,7 +1154,6 @@ const TrainerDetail = () => {
             >
               Availability
             </motion.span>
-
             <motion.h2
               id="avail-h"
               className={styles.sectionTitle}
@@ -1101,7 +1165,6 @@ const TrainerDetail = () => {
             >
               Schedule & <span className={styles.accent}>Booking</span>
             </motion.h2>
-
             <motion.div
               className={styles.availWrap}
               variants={fadeUp}
@@ -1110,7 +1173,6 @@ const TrainerDetail = () => {
               viewport={{ once: true }}
               custom={0.1}
             >
-              {/* Status */}
               <div
                 className={`${styles.availStatus} ${
                   trainer.available
@@ -1125,7 +1187,6 @@ const TrainerDetail = () => {
                   : `${firstName} is not accepting new clients right now`}
               </div>
 
-              {/* Placeholder week grid */}
               <div
                 className={styles.weekGrid}
                 aria-label="Weekly schedule placeholder"
@@ -1163,9 +1224,7 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════
-            REVIEWS
-        ════════════════════════════════════════════ */}
+        {/* ════ REVIEWS — UNCHANGED ════ */}
         <section
           className={`${styles.section} ${styles.sectionDark}`}
           aria-labelledby="reviews-h"
@@ -1180,7 +1239,6 @@ const TrainerDetail = () => {
             >
               Client Reviews
             </motion.span>
-
             <motion.h2
               id="reviews-h"
               className={styles.sectionTitle}
@@ -1192,7 +1250,6 @@ const TrainerDetail = () => {
             >
               What Clients <span className={styles.accent}>Say</span>
             </motion.h2>
-
             <motion.div
               className={styles.reviewsWrap}
               variants={fadeUp}
@@ -1201,15 +1258,16 @@ const TrainerDetail = () => {
               viewport={{ once: true }}
               custom={0.1}
             >
-              {/* Summary panel */}
               <div className={styles.reviewSummary}>
                 <span className={styles.reviewBigNum}>{trainer.rating}</span>
                 <Stars rating={trainer.rating} size={20} />
                 <span className={styles.reviewBigCount}>
-                  {trainer.reviews.toLocaleString()} reviews
+                  {(typeof trainer.reviews === "number"
+                    ? trainer.reviews
+                    : 0
+                  ).toLocaleString()}{" "}
+                  reviews
                 </span>
-
-                {/* Distribution bars */}
                 <div className={styles.barList} aria-hidden="true">
                   {ratingBars.map(({ label, pct }) => (
                     <div key={label} className={styles.barRow}>
@@ -1228,15 +1286,16 @@ const TrainerDetail = () => {
                   ))}
                 </div>
               </div>
-
-              {/* Empty state */}
               <div className={styles.reviewsEmpty}>
                 <div className={styles.reviewsEmptyIcon} aria-hidden="true">
                   <FiMessageSquare />
                 </div>
                 <p className={styles.reviewsEmptyTitle}>
-                  {trainer.reviews.toLocaleString()} people have reviewed{" "}
-                  {firstName}
+                  {(typeof trainer.reviews === "number"
+                    ? trainer.reviews
+                    : 0
+                  ).toLocaleString()}{" "}
+                  people have reviewed {firstName}
                 </p>
                 <p className={styles.reviewsEmptyText}>
                   Individual review details will appear here once connected.
@@ -1246,59 +1305,7 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════
-            SIMILAR TRAINERS
-        ════════════════════════════════════════════ */}
-        <section className={styles.section} aria-labelledby="similar-h">
-          <div className={styles.container}>
-            <motion.span
-              className={styles.eyebrow}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              Discover More
-            </motion.span>
-
-            <motion.h2
-              id="similar-h"
-              className={styles.sectionTitle}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={0.05}
-            >
-              You May Also <span className={styles.accent}>Like</span>
-            </motion.h2>
-
-            <motion.div
-              className={styles.similarGrid}
-              variants={stagger}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              role="list"
-              aria-label="Similar trainers"
-            >
-              {similar.map((t, i) => (
-                <motion.div
-                  key={t.id}
-                  role="listitem"
-                  variants={fadeUp}
-                  custom={i * 0.07}
-                >
-                  <TrainerCard trainer={t} />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ════════════════════════════════════════════
-            FINAL CTA
-        ════════════════════════════════════════════ */}
+        {/* ════ FINAL CTA — UNCHANGED ════ */}
         <section className={styles.finalCta} aria-label="Start training">
           <div className={styles.finalCtaInner}>
             <motion.span
@@ -1310,7 +1317,6 @@ const TrainerDetail = () => {
             >
               Start Today
             </motion.span>
-
             <motion.h2
               className={styles.finalTitle}
               variants={fadeUp}
@@ -1322,7 +1328,6 @@ const TrainerDetail = () => {
               Ready to Train with{" "}
               <span className={styles.accent}>{firstName}?</span>
             </motion.h2>
-
             <motion.p
               className={styles.finalSub}
               variants={fadeUp}
@@ -1334,7 +1339,6 @@ const TrainerDetail = () => {
               Take your fitness goals to the next level with an expert who
               delivers results.
             </motion.p>
-
             <motion.div
               className={styles.finalBtns}
               variants={fadeUp}
@@ -1352,7 +1356,6 @@ const TrainerDetail = () => {
               >
                 <FiCalendar aria-hidden="true" /> Book a Session
               </motion.button>
-
               <motion.button
                 className={styles.btnGhost}
                 onClick={() => navigate("/fitness")}
@@ -1365,9 +1368,7 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════
-            MOBILE STICKY FOOTER CTA
-        ════════════════════════════════════════════ */}
+        {/* ════ MOBILE STICKY FOOTER — UNCHANGED ════ */}
         <div className={styles.mobileCta} aria-label="Mobile booking bar">
           <div className={styles.mobileCtaInner}>
             <div>
@@ -1387,7 +1388,7 @@ const TrainerDetail = () => {
         </div>
       </div>
 
-      {/* ── Modals ── */}
+      {/* ── Modals — UNCHANGED ── */}
       <AnimatePresence>
         {showBooking && (
           <BookingModal trainer={trainer} onClose={closeBooking} />

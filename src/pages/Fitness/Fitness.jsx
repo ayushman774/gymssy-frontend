@@ -162,7 +162,7 @@ const FitnessTrainerCard = ({ trainer, index }) => {
           <span className={styles.trainerPrice}>{price} / session</span>
           <button
             className={styles.trainerBtn}
-            onClick={() => navigate(`/trainer/${trainer.slug}`)}
+            onClick={() => navigate(`/trainers/${trainer.slug}`)}
             aria-label={`View ${trainer.name}'s profile`}
           >
             View Trainer
@@ -178,7 +178,7 @@ const FitnessTrainerCard = ({ trainer, index }) => {
 ══════════════════════════════════════════════════════ */
 const Fitness = () => {
   const categoriesRef = useRef(null);
-  const { gyms, trainers, experiences, cities, loading } = useFitnessData();
+  const { fitnessCategories, gyms, trainers, experiences, cities, loading } = useFitnessData();
 
   /* Scroll to categories when hero CTA is clicked */
   const scrollToCategories = () => {
@@ -211,7 +211,12 @@ const Fitness = () => {
         <FitnessHero onExploreClick={scrollToCategories} />
 
         {/* ══ SUBCATEGORIES ══ */}
-        <FitnessCategories sectionRef={categoriesRef} />
+        <FitnessCategories
+          sectionRef={categoriesRef}
+          categories={fitnessCategories}
+          loading={loading.categories}
+        />
+
 
         {/* ══ FEATURED GYMS ══ */}
         <FitnessSection
