@@ -11,32 +11,24 @@ import {
 import { MdLocalFireDepartment } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-/* ── Existing reusable components ── */
 import GymCard from "../../components/ui/RecentlyViewedCard/RecentlyViewedCard";
 import { SkeletonRow } from "../../components/ui/SkeletonCard/SkeletonCard";
-
-/* ── Reused FitnessSection wrapper — passes purple neonColor ── */
 import FitnessSection from "../../components/sections/fitness/FitnessSection/FitnessSection";
 
-/* ── Wellness-specific sections ── */
 import WellnessHero from "../../components/sections/wellness/WellnessHero/WellnessHero";
 import WellnessCategories from "../../components/sections/wellness/WellnessCategories/WellnessCategories";
 import YogaMindfulness from "../../components/sections/wellness/YogaMindfulness/YogaMindfulness";
 import WellnessNutrition from "../../components/sections/wellness/WellnessNutrition/WellnessNutrition";
 import WellnessRecovery from "../../components/sections/wellness/WellnessRecovery/WellnessRecovery";
 import WellnessGoals from "../../components/sections/wellness/WellnessGoals/WellnessGoals";
-import WellnessCities from "../../components/sections/wellness/WellnessCities/WellnessCities";
+// import WellnessCities from "../../components/sections/wellness/WellnessCities/WellnessCities";
 import WellnessBenefits from "../../components/sections/wellness/WellnessBenefits/WellnessBenefits";
 
-/* ── Data hook ── */
 import useWellnessData from "../../hooks/useWellnessData";
-
 import styles from "./Wellness.module.css";
 
 /* ══════════════════════════════════════════════════════
-   WELLNESS EXPERIENCE CARD
-   Same structure as Fitness ExperienceCard.
-   Purple accent replaces neon green.
+   WELLNESS EXPERIENCE CARD — unchanged
 ══════════════════════════════════════════════════════ */
 const WellnessExperienceCard = ({ exp, index }) => {
   const navigate = useNavigate();
@@ -54,7 +46,6 @@ const WellnessExperienceCard = ({ exp, index }) => {
       }}
       whileHover={{ y: -6, transition: { duration: 0.25 } }}
     >
-      {/* Image */}
       <div className={styles.expImageWrapper}>
         <img
           src={exp.image}
@@ -63,21 +54,17 @@ const WellnessExperienceCard = ({ exp, index }) => {
           loading="lazy"
         />
         <div className={styles.expImageOverlay} aria-hidden="true" />
-
         {exp.trending && (
           <div className={styles.trendBadge} aria-label="Trending">
             <MdLocalFireDepartment aria-hidden="true" />
             Trending
           </div>
         )}
-
         <div className={styles.expCategoryBadge}>{exp.category}</div>
       </div>
 
-      {/* Content */}
       <div className={styles.expContent}>
         <h3 className={styles.expTitle}>{exp.title}</h3>
-
         <div className={styles.expMeta}>
           <span className={styles.expMetaItem}>
             <FiClock aria-hidden="true" /> {exp.duration}
@@ -89,9 +76,7 @@ const WellnessExperienceCard = ({ exp, index }) => {
             <FiStar aria-hidden="true" /> {exp.rating}
           </span>
         </div>
-
         <span className={styles.expLevel}>{exp.level}</span>
-
         <div className={styles.expFooter}>
           <div className={styles.expPrice}>
             <span className={styles.expFrom}>From</span>
@@ -138,7 +123,10 @@ const EmptyState = ({ message }) => (
 ══════════════════════════════════════════════════════ */
 const Wellness = () => {
   const categoriesRef = useRef(null);
-  const { centers, experiences, cities, loading, error } = useWellnessData();
+
+  // ── nutritionists added to destructure ──
+  const { centers, experiences, cities, nutritionists, loading, error } =
+    useWellnessData();
 
   const scrollToCategories = () => {
     document
@@ -148,7 +136,6 @@ const Wellness = () => {
 
   return (
     <>
-      {/* ── SEO ── */}
       <Helmet>
         <title>
           Wellness — Yoga, Meditation & Wellness Experiences | Gymssy
@@ -168,13 +155,11 @@ const Wellness = () => {
       </Helmet>
 
       <main className={styles.page}>
-        {/* ══ HERO ══ */}
         <WellnessHero onExploreClick={scrollToCategories} />
 
-        {/* ══ WELLNESS SUBCATEGORIES ══ */}
         <WellnessCategories sectionRef={categoriesRef} />
 
-        {/* ══ FEATURED WELLNESS EXPERIENCES ══ */}
+        {/* ══ FEATURED WELLNESS EXPERIENCES — unchanged ══ */}
         <FitnessSection
           id="featured-wellness-experiences"
           label="HIGHLY RATED"
@@ -206,10 +191,9 @@ const Wellness = () => {
           )}
         </FitnessSection>
 
-        {/* ══ YOGA & MINDFULNESS ══ */}
         <YogaMindfulness />
 
-        {/* ══ WELLNESS CENTERS ══ */}
+        {/* ══ WELLNESS CENTERS — unchanged ══ */}
         <FitnessSection
           id="wellness-centers"
           label="TOP RATED"
@@ -244,16 +228,17 @@ const Wellness = () => {
           )}
         </FitnessSection>
 
-        {/* ══ NUTRITION & HEALTHY LIVING ══ */}
-        <WellnessNutrition />
+        {/* ══ NUTRITION — now receives API data ══ */}
+        <WellnessNutrition
+          nutritionists={nutritionists}
+          loading={loading.nutritionists}
+          error={error.nutritionists}
+        />
 
-        {/* ══ RECOVERY & MOBILITY ══ */}
         <WellnessRecovery />
-
-        {/* ══ WELLNESS GOALS ══ */}
         <WellnessGoals />
 
-        {/* ══ TRENDING WELLNESS EXPERIENCES ══ */}
+        {/* ══ TRENDING — unchanged ══ */}
         <FitnessSection
           id="trending-wellness"
           label="TRENDING NOW"
@@ -272,7 +257,6 @@ const Wellness = () => {
               role="list"
               aria-label="Trending wellness experiences"
             >
-              {/* Show trending subset — filter or use all if not enough */}
               {(experiences.filter((e) => e.trending).length > 0
                 ? experiences.filter((e) => e.trending)
                 : experiences
@@ -287,10 +271,7 @@ const Wellness = () => {
           )}
         </FitnessSection>
 
-        {/* ══ POPULAR CITIES ══ */}
-        <WellnessCities cities={cities} loading={loading} />
-
-        {/* ══ WHY GYMSSY FOR WELLNESS ══ */}
+        {/* <WellnessCities cities={cities} loading={loading} /> */}
         <WellnessBenefits />
       </main>
     </>

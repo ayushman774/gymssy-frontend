@@ -1,0 +1,298 @@
+/* ── Tokens (mirror page-level tokens) ──────────────────────── */
+.card {
+  --ac: #39ff14;
+  --ac-dim: rgba(57, 255, 20, 0.08);
+  --ac-border: rgba(57, 255, 20, 0.22);
+  --bg: #0a0a0a;
+  --s1: #111111;
+  --s2: #161616;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-md: rgba(255, 255, 255, 0.12);
+  --text: #ffffff;
+  --text-2: rgba(255, 255, 255, 0.65);
+  --text-3: rgba(255, 255, 255, 0.4);
+  --text-4: rgba(255, 255, 255, 0.22);
+  --r: 16px;
+  --r-sm: 10px;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  display: flex;
+  flex-direction: column;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 0.22s var(--ease),
+    box-shadow 0.22s var(--ease);
+  outline: none;
+  text-align: left;
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: var(--ac-border);
+  box-shadow:
+    0 0 0 1px var(--ac-border),
+    0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+.card:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--ac),
+    0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+/* ── Image ─────────────────────────────────────────────────── */
+.imgWrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--s2);
+  flex-shrink: 0;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.55s var(--ease);
+}
+
+.card:hover .img {
+  transform: scale(1.05);
+}
+
+.imgFallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--s2), var(--s1));
+}
+
+.imgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* Availability badge */
+.availBadge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.availOpen {
+  background: rgba(57, 255, 20, 0.14);
+  color: var(--ac);
+  border: 1px solid var(--ac-border);
+}
+
+.availClosed {
+  background: rgba(255, 80, 80, 0.12);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 80, 80, 0.25);
+}
+
+.availDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  animation: ndotPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes ndotPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.82);
+  }
+}
+
+/* Verified badge */
+.verifiedBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(57, 255, 20, 0.15);
+  border: 1px solid var(--ac-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ac);
+  backdrop-filter: blur(6px);
+}
+.verifiedBadge svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Featured ribbon */
+.featuredRibbon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #000;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Body ──────────────────────────────────────────────────── */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 18px 20px;
+  flex: 1;
+}
+
+.role {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ac);
+  margin: 0;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+.specialty {
+  font-size: 13px;
+  color: var(--text-3);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Rating */
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.starIcon {
+  width: 13px;
+  height: 13px;
+  color: #fbbf24;
+  fill: #fbbf24;
+  flex-shrink: 0;
+}
+
+.ratingNum {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.ratingCount {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* Quick stats */
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+.stat svg {
+  width: 12px;
+  height: 12px;
+  color: var(--ac);
+  flex-shrink: 0;
+}
+
+/* Pills */
+.pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--s2);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 100px;
+  transition:
+    border-color 0.18s,
+    color 0.18s;
+}
+.card:hover .pill {
+  border-color: var(--ac-border);
+  color: var(--ac);
+}
+
+/* CTA link */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ac);
+  margin-top: auto;
+  padding-top: 6px;
+  transition: gap 0.18s;
+}
+.card:hover .cta {
+  gap: 9px;
+}
+.cta svg {
+  width: 13px;
+  height: 13px;
+  transition: transform 0.18s;
+}
+.card:hover .cta svg {
+  transform: translateX(3px);
+}

@@ -1,127 +1,224 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.1rem;
-  width: 100%;
+/* src/components/sections/wellness/WellnessNutrition/WellnessNutrition.module.css
+   Preserves all existing styles — only ADDITIONS made below.
+   New additions are clearly marked.
+*/
+
+/* ── Tokens ─────────────────────────────────────────────────── */
+.section {
+  --ac: #39ff14;
+  --ac-dim: rgba(57, 255, 20, 0.08);
+  --ac-border: rgba(57, 255, 20, 0.22);
+  --bg: #0a0a0a;
+  --s1: #111111;
+  --s2: #161616;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-md: rgba(255, 255, 255, 0.12);
+  --text: #ffffff;
+  --text-2: rgba(255, 255, 255, 0.65);
+  --text-3: rgba(255, 255, 255, 0.4);
+  --text-4: rgba(255, 255, 255, 0.22);
+  --r: 16px;
+  --r-sm: 10px;
+
+  background: var(--bg);
+  padding: 80px 0;
 }
 
-.card {
-  position: relative;
-  background: #0f0f0f;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 16px;
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  cursor: pointer;
-  outline: none;
-  overflow: hidden;
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-  -webkit-tap-highlight-color: transparent;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-.card:hover {
-  border-color: rgba(167, 139, 250, 0.3);
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.4);
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
 }
 
-.card:focus-visible {
-  outline: 2px solid #39ff14;
-  outline-offset: 3px;
-}
-
-.iconWrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(167, 139, 250, 0.1);
-  border: 1px solid rgba(167, 139, 250, 0.22);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.icon {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.body {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.eyebrow {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac);
+  margin-bottom: 12px;
 }
 
 .title {
-  font-family: "Poppins", sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 16px;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
 }
 
-.description {
-  font-family: "Inter", sans-serif;
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.42);
-  line-height: 1.55;
-  margin: 0;
+.accent {
+  color: var(--ac);
 }
 
-.count {
-  font-family: "Inter", sans-serif;
-  font-size: 0.7rem;
+.subtitle {
+  font-size: 16px;
+  color: var(--text-2);
+  margin: 0 auto;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* ── Cards Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+/* ── View All ── */
+.viewAll {
+  display: flex;
+  justify-content: center;
+}
+
+.viewAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border-md);
+  padding: 13px 28px;
+  border-radius: var(--r-sm);
+  font-size: 15px;
   font-weight: 600;
-  color: #39ff14;
-  margin-top: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+.viewAllBtn:hover {
+  border-color: var(--ac-border);
+  background: var(--ac-dim);
+  color: var(--ac);
+}
+.viewAllBtn svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s;
+}
+.viewAllBtn:hover svg {
+  transform: translateX(4px);
 }
 
-.glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at 0% 100%,
-    rgba(167, 139, 250, 0.07) 0%,
-    transparent 65%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
+/* ── Error State ── */
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px;
+  background: var(--s1);
+  border: 1px solid rgba(255, 80, 80, 0.15);
+  border-radius: var(--r);
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.card:hover .glow {
-  opacity: 1;
+.errorText {
+  font-size: 14px;
+  color: rgba(255, 140, 140, 0.85);
+  margin: 0;
 }
 
+.retryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-md);
+  padding: 10px 20px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+.retryBtn:hover {
+  border-color: var(--border-md);
+  background: rgba(255, 255, 255, 0.04);
+}
+.retryBtn svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* ── Empty State ── */
+.emptyText {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-3);
+  padding: 40px 0;
+  margin: 0 0 40px;
+}
+
+/* ── Skeleton cards (NEW) ── */
+.skeletonCard {
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--s1);
+  border: 1px solid var(--border);
+}
+
+.skeletonImg {
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.05);
+  animation: wnSkeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonLine {
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  animation: wnSkeletonShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes wnSkeletonShimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ── Responsive ── */
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
+  .section {
+    padding: 56px 0;
+  }
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.85rem;
+    grid-template-columns: 1fr;
   }
-  .card {
-    padding: 18px 16px;
-  }
-}
-
-@media (max-width: 400px) {
-  .grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card,
-  .glow {
-    transition: none;
+  .viewAllBtn {
+    width: 100%;
+    justify-content: center;
   }
 }

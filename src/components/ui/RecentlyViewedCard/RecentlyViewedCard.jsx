@@ -51,6 +51,8 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
     image,
   } = gym;
 
+  console.log(gym)
+
   const accentColor = getCategoryColor(category);
 
   /* ── Handlers ── */
@@ -116,7 +118,7 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
         {!imageLoaded && <div className={styles.skeleton} aria-hidden="true" />}
 
         <motion.img
-          src={image}
+          src={image.url}
           alt={`${name} gym facility`}
           className={styles.image}
           loading="lazy"

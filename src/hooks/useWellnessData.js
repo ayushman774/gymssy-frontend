@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
+import { FALLBACK_WELLNESS_CITIES } from "../assets/data/wellnessData";
+
 import {
-  FALLBACK_WELLNESS_CENTERS,
-  FALLBACK_WELLNESS_EXPERIENCES,
-  FALLBACK_WELLNESS_CITIES,
-} from "../assets/data/wellnessData";
+  fetchWellnessExperiences,
+  fetchFeaturedWellnessCenters,
+  fetchFeaturedNutritionists,
+} from "../services/categoryService";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
+/* ─────────────────────────────────────────────────────────────
+   fetchWithFallback
+   Used only by cities — unchanged.
+───────────────────────────────────────────────────────────── */
 const fetchWithFallback = async (endpoint, fallback) => {
   if (!BASE_URL) {
     return { data: fallback, source: "fallback" };
@@ -24,62 +30,100 @@ const fetchWithFallback = async (endpoint, fallback) => {
   }
 };
 
+/* ─────────────────────────────────────────────────────────────
+   useWellnessData
+   Centers:       fetchFeaturedWellnessCenters  — no fallback
+   Experiences:   fetchWellnessExperiences      — no fallback
+   Cities:        fetchWithFallback             — FALLBACK_WELLNESS_CITIES
+   Nutritionists: fetchFeaturedNutritionists    — no fallback
+───────────────────────────────────────────────────────────── */
 const useWellnessData = () => {
-  const [centers, setCenters] = useState([]);
-  const [experiences, setExperiences] = useState([]);
-  const [cities, setCities] = useState([]);
+  const [centers,       setCenters]       = useState([]);
+  const [experiences,   setExperiences]   = useState([]);
+  const [cities,        setCities]        = useState([]);
+  const [nutritionists, setNutritionists] = useState([]);
 
   const [loading, setLoading] = useState({
-    centers: true,
-    experiences: true,
-    cities: true,
+    centers:       true,
+    experiences:   true,
+    cities:        true,
+    nutritionists: true,
   });
 
   const [error, setError] = useState({
-    centers: null,
-    experiences: null,
-    cities: null,
+    centers:       null,
+    experiences:   null,
+    cities:        null,
+    nutritionists: null,
   });
 
   useEffect(() => {
     let cancelled = false;
 
     const load = async () => {
-      const [centersResult, experiencesResult, citiesResult] =
-        await Promise.all([
-          /* 
-            Attempt wellness-filtered gym endpoint.
-            Falls back to static wellness centers if API
-            doesn't yet support ?type=wellness filter.
-          */
-          fetchWithFallback(
-            "/api/gyms/featured?type=wellness",
-            FALLBACK_WELLNESS_CENTERS,
-          ),
-          fetchWithFallback(
-            "/api/experiences/trending?type=wellness",
-            FALLBACK_WELLNESS_EXPERIENCES,
-          ),
-          /* Same cities endpoint as fitness page */
-          fetchWithFallback("/api/cities/popular", FALLBACK_WELLNESS_CITIES),
-        ]);
+      // ── Cities: existing fallback behavior — unchanged ──
+      const citiesResultPromise = fetchWithFallback(
+        "/api/cities/popular",
+        FALLBACK_WELLNESS_CITIES,
+      );
+
+      // ── Centers ──
+      let centersData  = [];
+      let centersError = null;
+      try {
+        centersData = await fetchFeaturedWellnessCenters();
+      } catch (err) {
+        centersError = err?.message ?? "Failed to load wellness centers.";
+      }
+
+      // ── Experiences ──
+      let experiencesData  = [];
+      let experiencesError = null;
+      try {
+        experiencesData = await fetchWellnessExperiences();
+      } catch (err) {
+        experiencesError = err?.message ?? "Failed to load experiences.";
+      }
+
+      // ── Nutritionists ──
+      let nutritionistsData  = [];
+      let nutritionistsError = null;
+      try {
+        nutritionistsData = await fetchFeaturedNutritionists();
+      } catch (err) {
+        nutritionistsError =
+          err?.message ?? "Failed to load nutritionists.";
+      }
+
+      const citiesResult = await citiesResultPromise;
 
       if (cancelled) return;
 
-      setCenters(centersResult.data.slice(0, 6));
-      setExperiences(experiencesResult.data.slice(0, 6));
+      setCenters(centersData);
+      setExperiences(experiencesData);
       setCities(citiesResult.data.slice(0, 6));
+      setNutritionists(nutritionistsData);
 
-      setLoading({ centers: false, experiences: false, cities: false });
+      setLoading({
+        centers:       false,
+        experiences:   false,
+        cities:        false,
+        nutritionists: false,
+      });
+
+      setError({
+        centers:       centersError,
+        experiences:   experiencesError,
+        cities:        null,
+        nutritionists: nutritionistsError,
+      });
     };
 
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
-  return { centers, experiences, cities, loading, error };
+  return { centers, experiences, cities, nutritionists, loading, error };
 };
 
 export default useWellnessData;

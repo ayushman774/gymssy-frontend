@@ -11,18 +11,14 @@ const YogaCard = ({ item, index }) => {
   return (
     <motion.article
       className={styles.card}
-      onClick={() =>
-        navigate(`/discover?q=${encodeURIComponent(item.title)}&type=wellness`)
-      }
+      onClick={() => navigate("/category/yoga")}
       role="button"
       tabIndex={0}
       aria-label={`${item.title} — ${item.description}`}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          navigate(
-            `/discover?q=${encodeURIComponent(item.title)}&type=wellness`,
-          );
+          navigate("/category/yoga");
         }
       }}
       initial={{ opacity: 0, y: 35 }}
@@ -65,7 +61,7 @@ const YogaMindfulness = () => (
     title="Yoga &"
     titleAccent="Mindfulness"
     subtitle="Slow down, reconnect and find your balance through mindful movement and meditation."
-    viewAllHref="/wellness/yoga"
+    viewAllHref="/category/yoga"
     viewAllText="View All Yoga"
     neonColor="#39ff14"
   >
