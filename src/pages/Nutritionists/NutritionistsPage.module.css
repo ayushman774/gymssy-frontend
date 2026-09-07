@@ -1,0 +1,369 @@
+/* src/pages/Nutritionists/NutritionistsPage.module.css */
+
+.page {
+  --ac: #39ff14;
+  --ac-dim: rgba(57, 255, 20, 0.08);
+  --ac-border: rgba(57, 255, 20, 0.22);
+  --bg: #0a0a0a;
+  --s1: #111111;
+  --s2: #161616;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-md: rgba(255, 255, 255, 0.12);
+  --text: #ffffff;
+  --text-2: rgba(255, 255, 255, 0.65);
+  --text-3: rgba(255, 255, 255, 0.4);
+  --r: 16px;
+  --r-sm: 10px;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.accent {
+  color: var(--ac);
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  padding: 120px 0 80px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 40%,
+    rgba(57, 255, 20, 0.055) 0%,
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.heroInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac);
+  background: var(--ac-dim);
+  border: 1px solid var(--ac-border);
+  padding: 5px 16px;
+  border-radius: 100px;
+}
+
+.heroTitle {
+  font-size: clamp(34px, 5vw, 58px);
+  font-weight: 900;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.07;
+  letter-spacing: -0.03em;
+}
+
+.heroSub {
+  font-size: 16px;
+  color: var(--text-2);
+  margin: 0;
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+/* Search bar */
+.searchWrap {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  margin-top: 8px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-3);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  background: var(--s1);
+  border: 1px solid var(--border-md);
+  border-radius: var(--r-sm);
+  padding: 13px 100px 13px 42px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+.searchComingSoon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  background: var(--s2);
+  border: 1px solid var(--border);
+  padding: 3px 9px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════
+   LISTING SECTION
+═══════════════════════════════════════════════════ */
+.listing {
+  padding: 64px 0 80px;
+}
+
+.listingHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.listingTitle {
+  font-size: clamp(22px, 2.8vw, 34px);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.listingCount {
+  font-size: 13px;
+  color: var(--text-3);
+  margin: 0;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ── Skeleton ── */
+.skeletonCard {
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--s1);
+  border: 1px solid var(--border);
+}
+
+.skeletonImg {
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.05);
+  animation: npShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonLine {
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  animation: npShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes npShimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ── State box (error / empty) ── */
+.stateBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 64px 40px;
+  text-align: center;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+}
+
+.stateIconWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--ac-dim);
+  border: 1px solid var(--ac-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ac);
+}
+.stateIconWrap svg {
+  width: 24px;
+  height: 24px;
+}
+
+.stateTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.stateText {
+  font-size: 14px;
+  color: var(--text-3);
+  margin: 0;
+  line-height: 1.65;
+}
+
+.retryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--ac);
+  color: #000;
+  border: none;
+  padding: 11px 22px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 4px;
+  transition: background 0.18s;
+}
+.retryBtn:hover {
+  background: #2de010;
+}
+.retryBtn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ═══════════════════════════════════════════════════
+   BOTTOM CTA STRIP
+═══════════════════════════════════════════════════ */
+.ctaStrip {
+  border-top: 1px solid var(--border);
+  padding: 36px 0;
+  background: var(--s1);
+}
+
+.ctaStripInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ctaStripLabel {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+
+.ctaStripSub {
+  font-size: 13px;
+  color: var(--text-3);
+  margin: 0;
+}
+
+.ctaStripLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ac);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid var(--ac-border);
+  padding: 10px 20px;
+  border-radius: var(--r-sm);
+  background: var(--ac-dim);
+  white-space: nowrap;
+  transition:
+    background 0.18s,
+    border-color 0.18s;
+}
+.ctaStripLink:hover {
+  background: rgba(57, 255, 20, 0.14);
+  border-color: rgba(57, 255, 20, 0.38);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 90px 0 56px;
+  }
+  .listing {
+    padding: 48px 0 64px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .listingHeader {
+    flex-direction: column;
+  }
+
+  .ctaStripInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ctaStripLink {
+    width: 100%;
+    justify-content: center;
+  }
+}
