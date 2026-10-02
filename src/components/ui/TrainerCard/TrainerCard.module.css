@@ -146,6 +146,12 @@
   letter-spacing: 0.04em;
 }
 
+.role {
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.48);
+}
+
 .metaRow {
   display: flex;
   align-items: center;
@@ -189,6 +195,7 @@
   padding-top: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   margin-top: 0.25rem;
+  justify-content: flex-end;
 }
 
 .price {

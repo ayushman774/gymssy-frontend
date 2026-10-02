@@ -1,239 +1,92 @@
-/**
- * CategoryListingPage.jsx
- * Route: /category/:slug
- *
- * Fix: CategoryFilters rendered ONCE only.
- * The component itself handles desktop sidebar vs mobile toolbar
- * display via its own internal CSS.
- */
-
-import { useState, useCallback, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import { useCallback, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { LayoutGrid, ArrowLeft } from "lucide-react";
-
-import useCategoryListing from "../../hooks/useCategoryListing";
-import CategoryHero from "../../components/CategoryHero/CategoryHero";
+import { ArrowLeft, LayoutGrid, RefreshCw } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import CategoryFilters from "../../components/CategoryFilters/CategoryFilters";
+import CategoryHero from "../../components/CategoryHero/CategoryHero";
 import CategoryListingGrid from "../../components/CategoryListingGrid/CategoryListingGrid";
-
+import useDiscovery from "../../hooks/useDiscovery";
+import useDiscoveryReferences from "../../hooks/useDiscoveryReferences";
+import {
+  buildCategoryDiscoveryFilters,
+  categoryDiscoveryUrlSearch,
+  changeCategoryDiscoveryFilter,
+  clearCategoryDiscoveryFilters,
+  readCategoryDiscoveryUrl,
+  resolveCategorySlug,
+  validateCategoryDiscoveryState,
+} from "../../utils/categoryDiscovery";
 import styles from "./CategoryListingPage.module.css";
 
-/* ─────────────────────────────────────────────────────
-   Safe string extractor — prevents object-as-child errors
-───────────────────────────────────────────────────── */
-const safeStr = (val, fallback = "") => {
-  if (val === null || val === undefined) return fallback;
-  if (typeof val === "string") return val.trim() || fallback;
-  if (typeof val === "number") return String(val);
-  if (typeof val === "object") {
-    return val.name ?? val.title ?? val.label ?? fallback;
-  }
+const safeStr = (value, fallback = "") => {
+  if (value === null || value === undefined) return fallback;
+  if (typeof value === "string") return value.trim() || fallback;
+  if (typeof value === "number") return String(value);
+  if (typeof value === "object") return value.name ?? value.title ?? value.label ?? fallback;
   return fallback;
 };
 
-const slugToTitle = (slug = "") =>
-  slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+const slugToTitle = (slug = "") => slug.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
-/* ─────────────────────────────────────────────────────
-   Default filter state
-───────────────────────────────────────────────────── */
-const DEFAULT_FILTERS = {
-  sort: "recommended",
-  minRating: null,
-  openNow: false,
-};
-
-/* ─────────────────────────────────────────────────────
-   Client-side filter + sort
-───────────────────────────────────────────────────── */
-const applyClientFilters = (listings, filters) => {
-  let result = [...listings];
-
-  if (filters.minRating !== null) {
-    result = result.filter(
-      (g) => g.rating != null && Number(g.rating) >= filters.minRating,
-    );
-  }
-
-  if (filters.openNow) {
-    result = result.filter((g) => g.isOpen === true);
-  }
-
-  switch (filters.sort) {
-    case "rating":
-      result.sort((a, b) => (Number(b.rating) || 0) - (Number(a.rating) || 0));
-      break;
-    case "price_asc":
-      result.sort(
-        (a, b) =>
-          (Number(a.price ?? a.priceFrom ?? a.membershipFrom) || Infinity) -
-          (Number(b.price ?? b.priceFrom ?? b.membershipFrom) || Infinity),
-      );
-      break;
-    case "price_desc":
-      result.sort(
-        (a, b) =>
-          (Number(b.price ?? b.priceFrom ?? b.membershipFrom) || 0) -
-          (Number(a.price ?? a.priceFrom ?? a.membershipFrom) || 0),
-      );
-      break;
-    default:
-      break;
-  }
-
-  return result;
-};
-
-/* ─────────────────────────────────────────────────────
-   NOT FOUND
-───────────────────────────────────────────────────── */
 const CategoryNotFound = () => {
   const navigate = useNavigate();
-  return (
-    <main className={styles.notFoundPage}>
-      <motion.div
-        className={styles.notFoundBox}
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45 }}
-      >
-        <div className={styles.notFoundIcon} aria-hidden="true">
-          <LayoutGrid size={32} />
-        </div>
-        <h1 className={styles.notFoundTitle}>Category Not Found</h1>
-        <p className={styles.notFoundText}>
-          The category you're looking for doesn't exist or may have moved.
-        </p>
-        <div className={styles.notFoundBtns}>
-          <button className={styles.btnPrimary} onClick={() => navigate(-1)}>
-            <ArrowLeft size={15} aria-hidden="true" />
-            Go Back
-          </button>
-          <Link to="/" className={styles.btnGhost}>
-            Explore Categories
-          </Link>
-        </div>
-      </motion.div>
-    </main>
-  );
+  return <main className={styles.notFoundPage}><motion.div className={styles.notFoundBox} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+    <div className={styles.notFoundIcon} aria-hidden="true"><LayoutGrid size={32} /></div>
+    <h1 className={styles.notFoundTitle}>Category Not Found</h1>
+    <p className={styles.notFoundText}>The category you’re looking for doesn’t exist or is not currently available.</p>
+    <div className={styles.notFoundBtns}><button className={styles.btnPrimary} onClick={() => navigate(-1)}><ArrowLeft size={15} aria-hidden="true" /> Go Back</button><Link to="/" className={styles.btnGhost}>Explore Categories</Link></div>
+  </motion.div></main>;
 };
 
-/* ══════════════════════════════════════════════════════
-   MAIN PAGE
-══════════════════════════════════════════════════════ */
-const CategoryListingPage = () => {
+const TaxonomyError = ({ onRetry }) => <main className={styles.notFoundPage}><motion.div className={styles.notFoundBox} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
+  <div className={styles.notFoundIcon} aria-hidden="true"><RefreshCw size={30} /></div>
+  <h1 className={styles.notFoundTitle}>Categories are temporarily unavailable</h1>
+  <p className={styles.notFoundText}>We couldn’t confirm this category right now. Please try again.</p>
+  <button className={styles.btnPrimary} onClick={onRetry}><RefreshCw size={15} aria-hidden="true" /> Retry</button>
+</motion.div></main>;
+
+export default function CategoryListingPage() {
   const { slug } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
+  const references = useDiscoveryReferences();
+  const resolution = useMemo(() => resolveCategorySlug(slug, references.categories), [slug, references.categories]);
+  const rawFilters = useMemo(() => readCategoryDiscoveryUrl(location.search), [location.search]);
+  const filters = useMemo(() => validateCategoryDiscoveryState(rawFilters, references.cities), [rawFilters, references.cities]);
+  const discoveryFilters = useMemo(() => buildCategoryDiscoveryFilters(resolution, filters), [resolution, filters]);
+  const discovery = useDiscovery(discoveryFilters, Boolean(resolution) && !references.loading && !references.error);
 
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
-
-  /* ── Fetch ── */
-  const { category, listings, total, loading, error, retry } =
-    useCategoryListing(slug);
-
-  /* ── Safe page title — always a plain string ── */
-  const pageTitle = safeStr(category?.name, slugToTitle(slug ?? ""));
-
-  /* ── Safe description — always a plain string ── */
-  const pageDesc = safeStr(
-    category?.description,
-    `Find the best ${pageTitle} near you on Gymssy.`,
-  );
-
-  /* ── Client-side filtering ── */
-  const displayListings = applyClientFilters(listings, filters);
-
-  /* ── Handlers ── */
-  const handleFilterChange = useCallback((key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  }, []);
-
-  const handleFilterReset = useCallback(() => {
-    setFilters(DEFAULT_FILTERS);
-  }, []);
-
-  /* ── Scroll to top on slug change ── */
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [slug]);
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [slug]);
+    if (references.loading || references.error) return;
+    const normalized = categoryDiscoveryUrlSearch(filters);
+    if (normalized !== location.search) navigate({ pathname: `/category/${slug}`, search: normalized }, { replace: true });
+  }, [filters, location.search, navigate, references.error, references.loading, slug]);
 
-  /* ── Guard: no slug ── */
+  const setFilters = useCallback((next) => navigate({ pathname: `/category/${slug}`, search: categoryDiscoveryUrlSearch(next) }), [navigate, slug]);
+  const handleFilterChange = useCallback((field, value) => setFilters(changeCategoryDiscoveryFilter(filters, field, value)), [filters, setFilters]);
+  const handleReset = useCallback(() => setFilters(clearCategoryDiscoveryFilters()), [setFilters]);
+  const handlePageChange = useCallback((page) => setFilters({ ...filters, page }), [filters, setFilters]);
+
   if (!slug) return <CategoryNotFound />;
+  if (references.error) return <TaxonomyError onRetry={references.retry} />;
+  if (!references.loading && !resolution) return <CategoryNotFound />;
 
-  /* ── Guard: definite 404 ── */
-  const isInvalidSlug = !loading && error && listings.length === 0 && !category;
-  if (isInvalidSlug) return <CategoryNotFound />;
+  const category = resolution?.category;
+  const pageTitle = safeStr(category?.name, slugToTitle(slug));
+  const pageDesc = safeStr(category?.description, `Find the best ${pageTitle} on Gymssy.`);
+  const total = discovery.pagination?.total ?? 0;
+  const loading = references.loading || discovery.loading;
 
-  return (
-    <>
-      <Helmet>
-        <title>
-          {pageTitle} — Gymssy | Fitness, Wellness & Sports Marketplace
-        </title>
-        <meta name="description" content={pageDesc} />
-        <meta property="og:title" content={`${pageTitle} on Gymssy`} />
-        <meta property="og:description" content={pageDesc} />
-      </Helmet>
-
-      <div className={styles.page}>
-        {/* ════ HERO ════ */}
-        <CategoryHero
-          category={category}
-          slug={slug}
-          total={total}
-          loading={loading}
-          resolvedTitle={pageTitle}
-          resolvedDesc={pageDesc}
-        />
-
-        {/* ════ MAIN CONTENT ════ */}
-        <div className={styles.mainWrap}>
-          <div className={styles.container}>
-            {/* ════════════════════════════════════════════
-                LAYOUT: sidebar (desktop) + grid
-                
-                CategoryFilters is rendered ONCE here.
-                Internally it shows either:
-                  • the sidebar     (desktop > 900px)
-                  • the toolbar     (mobile  ≤ 900px)
-                via its own CSS — not duplicated in the page.
-            ════════════════════════════════════════════ */}
-            <div className={styles.layout}>
-              {/* ── LEFT: filter sidebar (desktop only) ──
-                  Hidden on mobile via CSS inside CategoryFilters.
-                  CategoryFilters renders its own mobile toolbar
-                  OUTSIDE this layout div via a portal-like pattern,
-                  OR we use the approach below: one instance,
-                  the component itself decides what to show.       */}
-              <CategoryFilters
-                filters={filters}
-                onChange={handleFilterChange}
-                onReset={handleFilterReset}
-                totalResults={displayListings.length}
-              />
-
-              {/* ── RIGHT: results ── */}
-              <div className={styles.gridArea}>
-                {/* Listing grid */}
-                <CategoryListingGrid
-                  listings={displayListings}
-                  loading={loading}
-                  error={error}
-                  onRetry={retry}
-                  categoryTitle={pageTitle}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default CategoryListingPage;
+  return <>
+    <Helmet><title>{pageTitle} — Gymssy | Fitness, Wellness & Sports Marketplace</title><meta name="description" content={pageDesc} /><meta property="og:title" content={`${pageTitle} on Gymssy`} /><meta property="og:description" content={pageDesc} /></Helmet>
+    <div className={styles.page}>
+      <CategoryHero category={category} slug={slug} total={total} loading={loading} resolvedTitle={pageTitle} resolvedDesc={pageDesc} />
+      <div className={styles.mainWrap}><div className={styles.container}><div className={styles.layout}>
+        <CategoryFilters filters={filters} cities={references.cities} onChange={handleFilterChange} onReset={handleReset} totalResults={total} />
+        <div className={styles.gridArea}><CategoryListingGrid listings={discovery.listings} pagination={discovery.pagination} loading={loading} error={discovery.error} onRetry={discovery.retry} onReset={handleReset} onPageChange={handlePageChange} categoryTitle={pageTitle} /></div>
+      </div></div></div>
+    </div>
+  </>;
+}

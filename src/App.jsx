@@ -10,7 +10,7 @@ import Membership from "./pages/MembershipPage/MembershipPage";
 import TrainersPage from "./pages/TrainersPage/TrainersPage";
 import GymsNearYouPage from "./pages/GymsNearYouPage/GymsNearYouPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
-import DiscoverPage from "./pages/Discover/DiscoverPage";
+import DiscoverPage from "./pages/Discover/DiscoverMarketplacePage";
 import PartnerWithUsPage from "./pages/PartnerWithUs/PartnerWithUsPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";
 import GymDetailsPage from "./pages/GymDetailsPage/GymDetailsPage";
@@ -22,10 +22,13 @@ import CategoryListingPage from "./pages/CategoryListingPage/CategoryListingPage
 import CityListingsPage from "./pages/CityListingsPage/CityListingsPage";
 import NutritionistsPage from "./pages/Nutritionists/NutritionistsPage";
 import NutritionistDetailsPage from "./pages/Nutritionists/NutritionistDetailsPage";
+import LoginPage from "./pages/Login/LoginPage.jsx";
+import FavoritesPage from "./pages/Favorites/FavoritesPage.jsx";
+import EnquiriesPage from "./pages/Enquiries/EnquiriesPage.jsx";
+
+const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
 
 const App = () => {
-  const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
-
   return (
     <div className={styles.app}>
       <Navbar />
@@ -41,6 +44,10 @@ const App = () => {
         <Route path="/discover" element={<DiscoverPage />} />
         <Route path="/partner-with-us" element={<PartnerWithUsPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/sign-in" element={<LoginPage />} />
+        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/enquiries" element={<EnquiriesPage />} />
         <Route path="/gym-detail/:slug" element={<GymDetailsPage />} />
         <Route path="/fitness" element={<Fitness />} />
         <Route path="/wellness" element={<Wellness />} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   HiOutlineEye,
@@ -11,6 +11,8 @@ import PasswordStrengthIndicator from "../PasswordStrengthIndicator/PasswordStre
 import SocialLoginButtons from "../SocialLoginButtons/SocialLoginButtons";
 
 import styles from "./SignupForm.module.css";
+import { useCustomerAuth } from "../../../context/CustomerAuthContext.jsx";
+import { registerCustomer as registerAccount } from "../../../services/customerAuthService.js";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -18,11 +20,10 @@ const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 const validatePhone = (phone) => /^[6-9]\d{9}$/.test(phone.replace(/\s/g, ""));
 
-const validatePassword = (password) => password.length >= 8;
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const SignupForm = ({ accountType }) => {
+  const { register } = useCustomerAuth();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -40,6 +41,7 @@ const SignupForm = ({ accountType }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   // ── Floating label helper
   const isActive = (name) =>
@@ -131,9 +133,32 @@ const SignupForm = ({ accountType }) => {
       return;
     }
     setLoading(true);
-    await new Promise((res) => setTimeout(res, 2000));
-    setLoading(false);
-    setSubmitted(true);
+    setSubmitError("");
+    try {
+      const providerTypes = {
+        "gym-owner": "gym_owner",
+        trainer: "trainer",
+        studio: "studio_owner",
+      };
+      const isCustomer = accountType === "enthusiast";
+      const details = {
+        name: formData.fullName.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        password: formData.password,
+        ...(isCustomer ? {} : {
+          accountType: "business",
+          providerType: providerTypes[accountType],
+        }),
+      };
+      if (isCustomer) await register(details);
+      else await registerAccount(details);
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(error?.message || "Unable to create your account.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // ── Success state
@@ -343,6 +368,7 @@ const SignupForm = ({ accountType }) => {
       </div>
 
       {/* ─── Submit ─── */}
+      {submitError && <p className={styles.errorMsg} role="alert">{submitError}</p>}
       <motion.button
         type="submit"
         className={styles.submitBtn}

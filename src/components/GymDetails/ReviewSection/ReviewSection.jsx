@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { FiStar, FiThumbsUp, FiCheck, FiEdit3 } from "react-icons/fi";
+import { FiThumbsUp, FiCheck, FiEdit3 } from "react-icons/fi";
 import styles from "./ReviewSection.module.css";
 
 const ReviewSection = ({
@@ -44,14 +44,16 @@ const ReviewSection = ({
       {/* Header */}
       <div className={styles.sectionHeader}>
         <h2 className={styles.title}>Reviews & Ratings</h2>
-        <button
-          className={styles.writeReviewBtn}
-          onClick={onWriteReview}
-          aria-label="Write a review"
-        >
-          <FiEdit3 size={13} />
-          Write a Review
-        </button>
+        {onWriteReview && (
+          <button
+            className={styles.writeReviewBtn}
+            onClick={onWriteReview}
+            aria-label="Write a review"
+          >
+            <FiEdit3 size={13} />
+            Write a Review
+          </button>
+        )}
       </div>
 
       {/* Summary */}

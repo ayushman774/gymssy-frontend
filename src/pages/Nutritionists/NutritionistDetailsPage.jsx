@@ -33,6 +33,8 @@ import { MdVerified } from "react-icons/md";
 import useNutritionistDetail from "../../hooks/useNutritionistDetail";
 import useNutritionists from "../../hooks/useNutritionists";
 import NutritionistCard from "../../components/ui/NutritionistCard/NutritionistCard";
+import { useFavorites } from "../../context/FavoritesContext.jsx";
+import EnquiryDialog from "../../components/Enquiries/EnquiryDialog.jsx";
 import styles from "./NutritionistDetailsPage.module.css";
 
 /* ── Animation variants ── */
@@ -531,11 +533,13 @@ const NutritionistDetailsPage = () => {
 
   const [showConsultation, setShowConsultation] = useState(false);
   const [showContact, setShowContact] = useState(false);
-  const [isFaved, setIsFaved] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
   const [stickyVisible, setStickyVisible] = useState(false);
 
   /* ── Primary data fetch ── */
   const { nutritionist, loading, error, refetch } = useNutritionistDetail(slug);
+  const nutritionistTargetId = nutritionist?._id || nutritionist?.id;
+  const isFaved = nutritionistTargetId ? isFavorite("nutritionist", nutritionistTargetId) : false;
 
   /* ── Related nutritionists (reuse featured endpoint) ── */
   const { nutritionists: allNutritionists } = useNutritionists();
@@ -728,7 +732,7 @@ const NutritionistDetailsPage = () => {
                 {/* Favourite */}
                 <motion.button
                   className={`${styles.faveBtn} ${isFaved ? styles.faveBtnActive : ""}`}
-                  onClick={() => setIsFaved((p) => !p)}
+                  onClick={() => nutritionistTargetId && toggleFavorite("nutritionist", nutritionistTargetId)}
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.9 }}
                   aria-label={
@@ -1402,20 +1406,7 @@ const NutritionistDetailsPage = () => {
         </div>
       </div>
 
-      {/* ── Modals ── */}
-      <AnimatePresence>
-        {showConsultation && (
-          <ConsultationModal
-            nutritionist={nutritionist}
-            onClose={closeConsultation}
-          />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showContact && (
-          <ContactModal nutritionist={nutritionist} onClose={closeContact} />
-        )}
-      </AnimatePresence>
+      <EnquiryDialog open={showConsultation || showContact} onClose={() => { closeConsultation(); closeContact(); }} targetType="nutritionist" targetId={nutritionistTargetId} intent="consultation" listingName={nutritionist.name} />
     </>
   );
 };

@@ -113,6 +113,76 @@
   height: 100%;
 }
 
+.skeletonCard {
+  min-height: 410px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+}
+
+.skeletonImage {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(100deg, #111 20%, #202520 45%, #111 70%);
+  background-size: 240% 100%;
+  animation: venueShimmer 1.4s linear infinite;
+}
+
+.skeletonBody {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.4rem;
+}
+
+.skeletonBody span {
+  display: block;
+  width: 82%;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.skeletonBody span:nth-child(2) { width: 58%; }
+.skeletonBody span:nth-child(3) { width: 38%; }
+
+@keyframes venueShimmer {
+  to { background-position: -240% 0; }
+}
+
+.sectionState {
+  display: grid;
+  min-height: 220px;
+  place-content: center;
+  justify-items: center;
+  gap: 0.8rem;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.sectionState svg {
+  color: #39ff14;
+  font-size: 1.4rem;
+}
+
+.sectionState p { margin: 0; }
+
+.sectionState button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  color: #000;
+  font-weight: 700;
+  border: 0;
+  border-radius: 4px;
+  background: #39ff14;
+  cursor: pointer;
+}
+
 /* Bottom CTA */
 .bottomCTA {
   position: relative;

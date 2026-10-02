@@ -5,6 +5,7 @@ import { FiStar, FiArrowRight } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import styles from "./TrainerCard.module.css";
+import FavoriteButton from "../../Favorites/FavoriteButton.jsx";
 
 /* ── resolve image regardless of string | { url, alt } ── */
 const resolveImage = (image, fallbackAlt = "") => {
@@ -19,15 +20,16 @@ const TrainerCard = ({ trainer, isCenter }) => {
   const {
     name,
     slug,
-    specialization,
+    role,
+    specialty,
     experience,
     rating,
     reviewCount,
     image,
-    pricePerSession,
     available,
     isVerified,
     href,
+    id,
   } = trainer;
 
   const { src: imgSrc, alt: imgAlt } = resolveImage(image, name);
@@ -54,15 +56,16 @@ const TrainerCard = ({ trainer, isCenter }) => {
         <div className={styles.imageOverlay} />
 
         {/* Availability badge */}
-        <div
-          className={`${styles.availBadge} ${
-            available ? styles.availOpen : styles.availBusy
-          }`}
-          aria-label={available ? "Available for booking" : "Currently busy"}
-        >
-          <span className={styles.availDot} aria-hidden="true" />
-          {available ? "Available" : "Busy"}
-        </div>
+        {typeof available === "boolean" && (
+          <div
+            className={`${styles.availBadge} ${available ? styles.availOpen : styles.availBusy}`}
+            aria-label={available ? "Available" : "Currently unavailable"}
+          >
+            <span className={styles.availDot} aria-hidden="true" />
+            {available ? "Available" : "Unavailable"}
+          </div>
+        )}
+        {id && <div style={{ position: "absolute", top: 12, right: 12, zIndex: 4 }}><FavoriteButton targetType="trainer" targetId={id} name={name} /></div>}
       </div>
 
       {/* ── Content ── */}
@@ -77,7 +80,8 @@ const TrainerCard = ({ trainer, isCenter }) => {
           )}
         </div>
 
-        <span className={styles.specialization}>{specialization}</span>
+        <span className={styles.specialization}>{specialty || role}</span>
+        {specialty && role && <span className={styles.role}>{role}</span>}
 
         <div className={styles.metaRow}>
           <div className={styles.rating}>
@@ -85,22 +89,18 @@ const TrainerCard = ({ trainer, isCenter }) => {
             <span className={styles.ratingVal}>{rating}</span>
             <span className={styles.ratingCnt}>({reviewCount})</span>
           </div>
-          <span className={styles.exp}>{experience} yrs exp</span>
+          {experience && <span className={styles.exp}>{experience}</span>}
         </div>
 
         <div className={styles.footer}>
-          <div className={styles.price}>
-            <span className={styles.priceVal}>${pricePerSession}</span>
-            <span className={styles.pricePer}>/session</span>
-          </div>
           <motion.button
             className={styles.bookBtn}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => navigate(destination)}
-            aria-label={`Book session with ${name}`}
+            aria-label={`View ${name}'s profile`}
           >
-            Book Session
+            View Profile
             <FiArrowRight className={styles.bookArrow} aria-hidden="true" />
           </motion.button>
         </div>

@@ -6,7 +6,7 @@
  * Never hardcodes localhost.
  */
 
-const BASE = import.meta.env.VITE_API_URL ?? "https://api.gymssy.com/api";
+const BASE = import.meta.env?.VITE_API_URL ?? "https://api.gymssy.com/api";
 
 /* ─────────────────────────────────────────────────────
    Internal fetch wrapper
@@ -48,8 +48,8 @@ const apiFetch = async (path, options = {}) => {
    GET /categories
    Returns pre-nested array of main categories.
 ───────────────────────────────────────────────────── */
-export const fetchCategories = async () => {
-  const json = await apiFetch("/categories");
+export const fetchCategories = async (options = {}) => {
+  const json = await apiFetch("/categories", options);
   return json.data;
 };
 
@@ -61,28 +61,6 @@ export const fetchCategories = async () => {
 export const fetchCategoryBySlug = async (slug) => {
   const json = await apiFetch(`/categories/${slug}`);
   return json.data;
-};
-
-/* ─────────────────────────────────────────────────────
-   fetchListingsByCategory
-   GET /gyms/category/:slug
-   Returns listings for a given category slug.
-───────────────────────────────────────────────────── */
-export const fetchListingsByCategory = async (slug, params = {}) => {
-  const qs = new URLSearchParams(
-    Object.entries(params).filter(
-      ([, v]) => v !== "" && v !== null && v !== undefined,
-    ),
-  ).toString();
-
-  const path = `/gyms/category/${slug}${qs ? `?${qs}` : ""}`;
-  const json = await apiFetch(path);
-
-  return {
-    data: json.data ?? json.gyms ?? [],
-    total: json.total ?? json.count ?? json.data?.length ?? 0,
-    page: json.page ?? 1,
-  };
 };
 
 /* ─────────────────────────────────────────────────────

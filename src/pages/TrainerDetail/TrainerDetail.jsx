@@ -44,8 +44,10 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import { MdFitnessCenter, MdVerified } from "react-icons/md";
+import EnquiryDialog from "../../components/Enquiries/EnquiryDialog.jsx";
 
 import useTrainerDetail from "../../hooks/useTrainerDetail"; // ← NEW
+import { useFavorites } from "../../context/FavoritesContext.jsx";
 import styles from "./TrainerDetail.module.css";
 
 /* ─────────────────────────────────────────────
@@ -567,11 +569,13 @@ const TrainerDetail = () => {
 
   const [showBooking, setShowBooking] = useState(false);
   const [showContact, setShowContact] = useState(false);
-  const [isFaved, setIsFaved] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
   const [stickyVisible, setStickyVisible] = useState(false);
 
   /* ── API fetch — replaces TRAINERS.find() ── */
   const { trainer, loading, error, refetch } = useTrainerDetail(slug);
+  const trainerTargetId = trainer?._id || trainer?.id;
+  const isFaved = trainerTargetId ? isFavorite("trainer", trainerTargetId) : false;
 
   /* ── Sticky bar trigger — UNCHANGED ── */
   useEffect(() => {
@@ -746,7 +750,7 @@ const TrainerDetail = () => {
 
                 <motion.button
                   className={`${styles.faveBtn} ${isFaved ? styles.faveBtnActive : ""}`}
-                  onClick={() => setIsFaved((p) => !p)}
+                  onClick={() => trainerTargetId && toggleFavorite("trainer", trainerTargetId)}
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.9 }}
                   aria-label={
@@ -1388,17 +1392,7 @@ const TrainerDetail = () => {
         </div>
       </div>
 
-      {/* ── Modals — UNCHANGED ── */}
-      <AnimatePresence>
-        {showBooking && (
-          <BookingModal trainer={trainer} onClose={closeBooking} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showContact && (
-          <ContactModal trainer={trainer} onClose={closeContact} />
-        )}
-      </AnimatePresence>
+      <EnquiryDialog open={showBooking || showContact} onClose={() => { closeBooking(); closeContact(); }} targetType="trainer" targetId={trainerTargetId} intent="training" listingName={trainer.name} />
     </>
   );
 };

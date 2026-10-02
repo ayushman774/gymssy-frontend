@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import styles from "./LocationsFAQ.module.css";
@@ -8,31 +8,31 @@ const faqs = [
     id: 1,
     question: "How do I find the nearest gym to me?",
     answer:
-      "Use the search bar at the top of this page to search by city, area, or gym name. You can also use the interactive map to visually explore all our locations and click on any marker to see branch details.",
+      "Choose a City and use the search and taxonomy filters to browse physical venues listed on Gymssy. Customer-relative GPS distance is not calculated yet.",
   },
   {
     id: 2,
-    question: "Can I visit a location before joining?",
+    question: "Can I contact or visit a venue before joining?",
     answer:
-      "Absolutely. We offer free trial visits at every branch so you can experience the facility, meet our trainers, and make an informed decision. Book your free trial through the website or call your nearest branch directly.",
+      "Open the venue detail page to review the information supplied by that business. Trial visits and contact options depend on the individual venue.",
   },
   {
     id: 3,
     question: "Do all locations offer personal training?",
     answer:
-      "Personal training is available at the majority of our locations. Each branch page shows the specific services and trainer team available. Our Elite membership includes dedicated personal coaching at all participating branches.",
+      "Services vary by business. Review the venue detail page for the information currently provided by that listing.",
   },
   {
     id: 4,
-    question: "Are memberships valid across all branches?",
+    question: "Are memberships shared between venues?",
     answer:
-      "Professional and Elite memberships include multi-branch access, allowing you to train at any Gymssy location. Starter memberships are single-branch by default but can be upgraded to include network-wide access at any time.",
+      "Gymssy lists independent marketplace businesses, so membership access and terms are controlled by each venue unless its detail page states otherwise.",
   },
   {
     id: 5,
     question: "What facilities are available at each location?",
     answer:
-      "Every Gymssy branch features premium strength and cardio equipment, locker rooms, and group class studios. Additional facilities like sauna, cryotherapy, swimming pools, and rooftop areas vary by branch. Check each location's detail page for a full list.",
+      "Facilities vary by venue. Check the individual detail page for the information currently supplied by the business.",
   },
 ];
 
