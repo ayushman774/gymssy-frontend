@@ -35,6 +35,7 @@ import useNutritionists from "../../hooks/useNutritionists";
 import NutritionistCard from "../../components/ui/NutritionistCard/NutritionistCard";
 import { useFavorites } from "../../context/FavoritesContext.jsx";
 import EnquiryDialog from "../../components/Enquiries/EnquiryDialog.jsx";
+import BookingDialog from "../../components/Bookings/BookingDialog.jsx";
 import styles from "./NutritionistDetailsPage.module.css";
 
 /* ── Animation variants ── */
@@ -87,6 +88,8 @@ const Stars = ({ rating, size = 14 }) => {
 /* ═══════════════════════════════════════════════════
    CONSULTATION MODAL
 ═══════════════════════════════════════════════════ */
+// Legacy local-only modal is retired and intentionally not mounted; the shared BookingDialog owns the flow.
+// eslint-disable-next-line no-unused-vars
 const ConsultationModal = ({ nutritionist, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [date, setDate] = useState("");
@@ -241,6 +244,8 @@ const ConsultationModal = ({ nutritionist, onClose }) => {
 /* ═══════════════════════════════════════════════════
    CONTACT MODAL
 ═══════════════════════════════════════════════════ */
+// Legacy contact modal is retired; EnquiryDialog owns provider contact.
+// eslint-disable-next-line no-unused-vars
 const ContactModal = ({ nutritionist, onClose }) => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
@@ -1406,7 +1411,8 @@ const NutritionistDetailsPage = () => {
         </div>
       </div>
 
-      <EnquiryDialog open={showConsultation || showContact} onClose={() => { closeConsultation(); closeContact(); }} targetType="nutritionist" targetId={nutritionistTargetId} intent="consultation" listingName={nutritionist.name} />
+      <BookingDialog open={showConsultation} onClose={closeConsultation} targetType="nutritionist" targetId={nutritionistTargetId} bookingType="consultation" listingName={nutritionist.name} />
+      <EnquiryDialog open={showContact} onClose={closeContact} targetType="nutritionist" targetId={nutritionistTargetId} intent="consultation" listingName={nutritionist.name} />
     </>
   );
 };

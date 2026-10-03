@@ -45,6 +45,7 @@ import {
 } from "react-icons/fi";
 import { MdFitnessCenter, MdVerified } from "react-icons/md";
 import EnquiryDialog from "../../components/Enquiries/EnquiryDialog.jsx";
+import BookingDialog from "../../components/Bookings/BookingDialog.jsx";
 
 import useTrainerDetail from "../../hooks/useTrainerDetail"; // ← NEW
 import { useFavorites } from "../../context/FavoritesContext.jsx";
@@ -130,6 +131,8 @@ const TRAINING_OPTIONS = [
 /* ─────────────────────────────────────────────
    BOOKING MODAL — UNCHANGED
 ───────────────────────────────────────────── */
+// Legacy local-only modal is retired and intentionally not mounted; the shared BookingDialog owns the flow.
+// eslint-disable-next-line no-unused-vars
 const BookingModal = ({ trainer, onClose }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -276,6 +279,8 @@ const BookingModal = ({ trainer, onClose }) => {
 /* ─────────────────────────────────────────────
    CONTACT MODAL — UNCHANGED
 ───────────────────────────────────────────── */
+// Legacy contact modal is retired; EnquiryDialog owns provider contact.
+// eslint-disable-next-line no-unused-vars
 const ContactModal = ({ trainer, onClose }) => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
@@ -490,7 +495,7 @@ const LoadingSkeleton = () => (
 /* ─────────────────────────────────────────────
    ERROR STATE
 ───────────────────────────────────────────── */
-const ErrorState = ({ message, onRetry }) => {
+const ErrorState = ({ onRetry }) => {
   const navigate = useNavigate();
   return (
     <main className={styles.notFoundPage} role="alert">
@@ -1392,7 +1397,8 @@ const TrainerDetail = () => {
         </div>
       </div>
 
-      <EnquiryDialog open={showBooking || showContact} onClose={() => { closeBooking(); closeContact(); }} targetType="trainer" targetId={trainerTargetId} intent="training" listingName={trainer.name} />
+      <BookingDialog open={showBooking} onClose={closeBooking} targetType="trainer" targetId={trainerTargetId} bookingType="session" listingName={trainer.name} />
+      <EnquiryDialog open={showContact} onClose={closeContact} targetType="trainer" targetId={trainerTargetId} intent="training" listingName={trainer.name} />
     </>
   );
 };

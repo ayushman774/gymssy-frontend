@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import NavCTA from "./NavCTA";
 import styles from "./MobileMenu.module.css";
+import { useCustomerAuth } from "../../../context/CustomerAuthContext.jsx";
 
 // ── Animation variants ────────────────────────────────────────────────────
 
@@ -75,6 +76,7 @@ const SOCIAL_LINKS = [
 
 // ── MobileMenu ────────────────────────────────────────────────────────────
 const MobileMenu = ({ isOpen, links, activeLink, onClose }) => {
+  const { isAuthenticated, logout } = useCustomerAuth();
   const prefersReduced = useReducedMotion();
   const firstLinkRef = useRef(null);
 
@@ -175,6 +177,11 @@ const MobileMenu = ({ isOpen, links, activeLink, onClose }) => {
                   );
                 })}
               </ul>
+
+              {isAuthenticated && <ul className={styles.linksList} role="list" aria-label="Customer account">
+                {[{ label: "Favorites", href: "/favorites" }, { label: "Enquiries", href: "/enquiries" }, { label: "My Bookings", href: "/bookings" }].map((link) => <motion.li key={link.href} variants={linkItemVariants} className={styles.linkItem}><Link to={link.href} className={styles.link} onClick={onClose}><span className={styles.linkLabel}>{link.label}</span><span className={styles.linkArrow} aria-hidden="true">→</span></Link></motion.li>)}
+                <motion.li variants={linkItemVariants} className={styles.linkItem}><button type="button" className={styles.link} onClick={() => { logout(); onClose(); }}><span className={styles.linkLabel}>Log Out</span></button></motion.li>
+              </ul>}
 
               {/* ── DIVIDER ───────────────────────────── */}
               <motion.div

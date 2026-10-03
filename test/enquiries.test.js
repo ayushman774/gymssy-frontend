@@ -16,11 +16,11 @@ test("reusable enquiry dialog prefills customer snapshot, blocks duplicate submi
   assert.match(source, /navigate\("\/login"/); assert.match(source, /state: \{ from:/);
 });
 
-test("detail pages map transactional CTAs to the supported intents", async () => {
+test("detail pages preserve contact actions as enquiries while booking actions use Booking", async () => {
   const [gym, trainer, nutritionist] = await Promise.all([read("src/pages/GymDetailsPage/GymDetailsPage.jsx"), read("src/pages/TrainerDetail/TrainerDetail.jsx"), read("src/pages/Nutritionists/NutritionistDetailsPage.jsx")]);
-  assert.match(gym, /intent: "trial"/); assert.match(gym, /intent: "membership"/); assert.match(gym, /membershipName/); assert.match(gym, /intent: "class"/); assert.match(gym, /className/);
-  assert.match(trainer, /targetType="trainer"/); assert.match(trainer, /intent="training"/);
-  assert.match(nutritionist, /targetType="nutritionist"/); assert.match(nutritionist, /intent="consultation"/);
+  assert.match(gym, /bookingType: "visit"/); assert.match(gym, /bookingType: "membership"/); assert.match(gym, /bookingType: "class"/);
+  assert.match(trainer, /<BookingDialog[^>]+targetType="trainer"[^>]+bookingType="session"/s); assert.match(trainer, /<EnquiryDialog[^>]+intent="training"/s);
+  assert.match(nutritionist, /<BookingDialog[^>]+targetType="nutritionist"[^>]+bookingType="consultation"/s); assert.match(nutritionist, /<EnquiryDialog[^>]+intent="consultation"/s);
 });
 
 test("My Enquiries is protected and renders loading, empty, error, mixed history, statuses, and unavailable listings", async () => {

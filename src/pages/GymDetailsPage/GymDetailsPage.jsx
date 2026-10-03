@@ -1,9 +1,9 @@
 // src/pages/GymDetailsPage/GymDetailsPage.jsx
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -34,7 +34,7 @@ import SimilarGyms from "../../components/GymDetails/SimilarGyms/SimilarGyms";
 import FacilityGrid from "../../components/GymDetails/FacilityGrid/FacilityGrid";
 import MembershipCard from "../../components/GymDetails/MembershipCard/MembershipCard";
 import ClassCard from "../../components/GymDetails/ClassCard/ClassCard";
-import EnquiryDialog from "../../components/Enquiries/EnquiryDialog.jsx";
+import BookingDialog from "../../components/Bookings/BookingDialog.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -85,11 +85,10 @@ const GymDetailsPage = () => {
 
   /* ── UI state ── */
   const { isFavorite, toggleFavorite } = useFavorites();
-  const [enquiry, setEnquiry] = useState(null);
+  const [booking, setBooking] = useState(null);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [selectedMembership, setSelectedMembership] = useState(null);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
-  const [showStickyBar, setShowStickyBar] = useState(false);
 
   /* ── Refs ── */
   const pageRef = useRef(null);
@@ -100,13 +99,6 @@ const GymDetailsPage = () => {
   useEffect(() => {
     if (gym?.id) recordView(gym.id).catch(() => {});
   }, [gym?.id, recordView]);
-
-  /* ── Sticky bar ── */
-  useEffect(() => {
-    const onScroll = () => setShowStickyBar(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   /* ── GSAP entrance (runs after gym loads) ── */
   useEffect(() => {
@@ -166,15 +158,15 @@ const GymDetailsPage = () => {
     setShowShareMenu(false);
   }, []);
 
-  const handleBookVisit = useCallback(() => setEnquiry({ intent: "trial", context: {} }), []);
+  const handleBookVisit = useCallback(() => setBooking({ bookingType: "visit", serviceName: "" }), []);
 
   const handleSelectMembership = useCallback((membership) => {
     setSelectedMembership(membership);
-    setEnquiry({ intent: "membership", context: { membershipName: membership.name } });
+    setBooking({ bookingType: "membership", serviceName: membership.name });
   }, []);
 
   const handleClassInterest = useCallback((gymClass) => {
-    setEnquiry({ intent: "class", context: { className: gymClass.name } });
+    setBooking({ bookingType: "class", serviceName: gymClass.name });
   }, []);
 
   const scrollToMemberships = useCallback(() => {
@@ -517,7 +509,7 @@ const GymDetailsPage = () => {
           </div>
         )}
       </div>
-      <EnquiryDialog open={Boolean(enquiry)} onClose={() => { setEnquiry(null); setSelectedMembership(null); }} targetType="gym" targetId={gym.id || gym._id} intent={enquiry?.intent || "general"} listingName={gym.name} context={enquiry?.context || (selectedMembership ? { membershipName: selectedMembership.name } : {})} />
+      <BookingDialog open={Boolean(booking)} onClose={() => { setBooking(null); setSelectedMembership(null); }} targetType="gym" targetId={gym.id || gym._id} bookingType={booking?.bookingType || "visit"} listingName={gym.name} serviceName={booking?.serviceName || selectedMembership?.name || ""} />
     </>
   );
 };

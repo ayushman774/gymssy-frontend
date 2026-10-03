@@ -25,6 +25,8 @@ import NutritionistDetailsPage from "./pages/Nutritionists/NutritionistDetailsPa
 import LoginPage from "./pages/Login/LoginPage.jsx";
 import FavoritesPage from "./pages/Favorites/FavoritesPage.jsx";
 import EnquiriesPage from "./pages/Enquiries/EnquiriesPage.jsx";
+import BookingsPage from "./pages/Bookings/BookingsPage.jsx";
+import BookingDetailPage from "./pages/Bookings/BookingDetailPage.jsx";
 
 const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
 
@@ -48,6 +50,8 @@ const App = () => {
         <Route path="/sign-in" element={<LoginPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/enquiries" element={<EnquiriesPage />} />
+        <Route path="/bookings" element={<BookingsPage />} />
+        <Route path="/bookings/:id" element={<BookingDetailPage />} />
         <Route path="/gym-detail/:slug" element={<GymDetailsPage />} />
         <Route path="/fitness" element={<Fitness />} />
         <Route path="/wellness" element={<Wellness />} />

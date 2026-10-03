@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
@@ -33,6 +34,7 @@ const Navbar = () => {
 
   // ── Sync active link with route ─────────────────────────────────────────
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActiveLink(location.pathname);
     setMobileOpen(false);
   }, [location.pathname]);
@@ -123,6 +125,7 @@ const Navbar = () => {
                 <span className={styles.customerName}>Hi, {user.name?.split(" ")[0]}</span>
                 <Link to="/favorites" className={styles.btnOutline}>Favorites</Link>
                 <Link to="/enquiries" className={styles.btnOutline}>Enquiries</Link>
+                <Link to="/bookings" className={styles.btnOutline}>My Bookings</Link>
                 <button type="button" className={styles.btnOutline} onClick={logout}>Log Out</button>
               </>
             ) : !authLoading ? (
