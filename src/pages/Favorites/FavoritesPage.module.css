@@ -1,0 +1,11 @@
+.page { min-height:100vh; padding:120px max(24px,6vw) 80px; background:#080a09; color:#fff; }
+.header { margin-bottom:36px; }
+.header p { color:#39ff14; letter-spacing:.16em; font-weight:800; font-size:.72rem; }
+.header h1 { margin:8px 0; font:700 clamp(2.2rem,5vw,4rem)/1 Poppins,sans-serif; }
+.header span,.state p { color:rgba(255,255,255,.62); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:24px; }
+.state { min-height:320px; display:grid; place-content:center; justify-items:center; gap:12px; text-align:center; }
+.state button,.pagination button,.refresh { border:0; border-radius:999px; padding:11px 20px; background:#39ff14; color:#050705; font-weight:800; cursor:pointer; }
+.pagination { display:flex; justify-content:center; align-items:center; gap:18px; margin-top:34px; }
+.pagination button:disabled { opacity:.4; cursor:not-allowed; }
+.refresh { display:block; margin:18px auto 0; background:transparent; color:#39ff14; border:1px solid #39ff14; }

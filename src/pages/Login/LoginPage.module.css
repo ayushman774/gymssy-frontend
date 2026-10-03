@@ -1,0 +1,12 @@
+.page { min-height: 100vh; display: grid; place-items: center; padding: 120px 24px 72px; background: radial-gradient(circle at top, #17311b 0, #080a09 45%); color: #fff; }
+.card { width: min(100%, 440px); display: grid; gap: 18px; padding: 38px; border: 1px solid rgba(255,255,255,.12); border-radius: 24px; background: rgba(12,16,13,.92); box-shadow: 0 24px 80px rgba(0,0,0,.45); }
+.card h1 { margin: 0; font: 700 2rem/1.1 Poppins, sans-serif; }
+.eyebrow { margin: 0; color: #39ff14; font: 700 .72rem/1 Inter, sans-serif; letter-spacing: .16em; }
+.copy,.footer { margin: 0; color: rgba(255,255,255,.62); font: .9rem/1.6 Inter, sans-serif; }
+.card label { display: grid; gap: 8px; color: rgba(255,255,255,.82); font: 600 .82rem/1.4 Inter, sans-serif; }
+.card input { padding: 13px 14px; border: 1px solid rgba(255,255,255,.14); border-radius: 10px; background: #101411; color: #fff; font: 1rem Inter, sans-serif; }
+.card input:focus { outline: 2px solid rgba(57,255,20,.3); border-color: #39ff14; }
+.card button { padding: 14px; border: 0; border-radius: 999px; background: #39ff14; color: #050705; font-weight: 800; cursor: pointer; }
+.card button:disabled { opacity: .6; cursor: wait; }
+.error { margin: 0; color: #ff8f8f; font: .85rem/1.5 Inter, sans-serif; }
+.footer a { color: #39ff14; }

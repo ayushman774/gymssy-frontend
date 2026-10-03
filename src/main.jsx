@@ -7,11 +7,15 @@ import "leaflet/dist/leaflet.css";
 
 // Register GSAP plugins once at app level
 import "./animations/gsap/index.js";
+import { CustomerAuthProvider } from "./context/CustomerAuthContext.jsx";
+import { FavoritesProvider } from "./context/FavoritesContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <CustomerAuthProvider>
+        <FavoritesProvider><App /></FavoritesProvider>
+      </CustomerAuthProvider>
     </BrowserRouter>
   </StrictMode>
 );

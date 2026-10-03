@@ -1,0 +1,5 @@
+.button { display:inline-grid; place-items:center; width:38px; height:38px; border:1px solid rgba(255,255,255,.28); border-radius:50%; background:rgba(5,8,6,.72); color:#fff; cursor:pointer; backdrop-filter:blur(8px); }
+.button:hover,.button:focus-visible { color:#39ff14; border-color:#39ff14; outline:none; }
+.saved { color:#39ff14; border-color:#39ff14; }
+.saved svg { fill:currentColor; }
+.button:disabled { opacity:.55; cursor:wait; }

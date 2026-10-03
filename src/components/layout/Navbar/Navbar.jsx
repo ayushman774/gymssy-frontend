@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
@@ -5,6 +6,7 @@ import NavLogo from "./NavLogo";
 import HamburgerButton from "./HamburgerButton";
 import MobileMenu from "./MobileMenu";
 import styles from "./Navbar.module.css";
+import { useCustomerAuth } from "../../../context/CustomerAuthContext.jsx";
 
 // ── Navigation data ───────────────────────────────────────────────────────
 export const NAV_LINKS = [
@@ -19,6 +21,7 @@ export const NAV_LINKS = [
 const SCROLL_THRESHOLD = 60;
 
 const Navbar = () => {
+  const { user, loading: authLoading, isAuthenticated, logout } = useCustomerAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -31,6 +34,7 @@ const Navbar = () => {
 
   // ── Sync active link with route ─────────────────────────────────────────
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActiveLink(location.pathname);
     setMobileOpen(false);
   }, [location.pathname]);
@@ -116,13 +120,23 @@ const Navbar = () => {
 
           {/* Desktop CTA buttons */}
           <div className={styles.desktopCTA}>
-            <a href="/login" className={styles.btnOutline}>
-              Log In
-            </a>
-            <Link to="/sign-up" className={styles.btnFilled}>
-              Get Started
-              <span className={styles.btnFilledShimmer} aria-hidden="true" />
-            </Link>
+            {!authLoading && isAuthenticated ? (
+              <>
+                <span className={styles.customerName}>Hi, {user.name?.split(" ")[0]}</span>
+                <Link to="/favorites" className={styles.btnOutline}>Favorites</Link>
+                <Link to="/enquiries" className={styles.btnOutline}>Enquiries</Link>
+                <Link to="/bookings" className={styles.btnOutline}>My Bookings</Link>
+                <button type="button" className={styles.btnOutline} onClick={logout}>Log Out</button>
+              </>
+            ) : !authLoading ? (
+              <>
+                <Link to="/login" className={styles.btnOutline}>Log In</Link>
+                <Link to="/sign-up" className={styles.btnFilled}>
+                  Get Started
+                  <span className={styles.btnFilledShimmer} aria-hidden="true" />
+                </Link>
+              </>
+            ) : null}
           </div>
 
           {/* Hamburger (mobile only) */}

@@ -5,12 +5,12 @@ import {
   FiStar,
   FiMapPin,
   FiNavigation,
-  FiHeart,
   FiArrowRight,
   FiCheckCircle,
 } from "react-icons/fi";
 import { MdLocalFireDepartment } from "react-icons/md";
 import styles from "./RecentlyViewedCard.module.css";
+import FavoriteButton from "../../Favorites/FavoriteButton.jsx";
 
 /* ══════════════════════════════════════════════════════
    CATEGORY → accent colour map
@@ -33,7 +33,6 @@ const getCategoryColor = (category) => CATEGORY_COLORS[category] ?? "#39ff14";
 ══════════════════════════════════════════════════════ */
 const RecentlyViewedCard = ({ gym, index = 0 }) => {
   const navigate = useNavigate();
-  const [wishlisted, setWishlisted] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const cardRef = useRef(null);
 
@@ -51,16 +50,9 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
     image,
   } = gym;
 
-  console.log(gym)
-
   const accentColor = getCategoryColor(category);
 
   /* ── Handlers ── */
-  const handleWishlist = useCallback((e) => {
-    e.stopPropagation();
-    setWishlisted((prev) => !prev);
-  }, []);
-
   const handleViewDetails = useCallback(
     (e) => {
       e.stopPropagation();
@@ -148,20 +140,7 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
         </div>
 
         {/* Top-right: Wishlist */}
-        <motion.button
-          className={`${styles.wishlistBtn} ${wishlisted ? styles.wishlistActive : ""}`}
-          onClick={handleWishlist}
-          aria-label={
-            wishlisted
-              ? `Remove ${name} from wishlist`
-              : `Add ${name} to wishlist`
-          }
-          aria-pressed={wishlisted}
-          whileHover={{ scale: 1.15 }}
-          whileTap={{ scale: 0.88 }}
-        >
-          <FiHeart className={styles.heartIcon} aria-hidden="true" />
-        </motion.button>
+        <FavoriteButton targetType="gym" targetId={gym.id} name={name} className={styles.wishlistBtn} />
 
         {/* Bottom-left: Category pill */}
         <div

@@ -1,42 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchFeaturedTrainers } from "../services/categoryService";
-
-/* ── image: { url, alt } | string → plain string URL ── */
-const resolveImageUrl = (image) => {
-  if (!image) return "";
-  if (typeof image === "string") return image;
-  return image.url || image.src || "";
-};
-
-/* ── normalise a single trainer ── */
-const normaliseTrainer = (raw) => ({
-  id: raw._id,
-  name: raw.name,
-  slug: raw.slug,
-  specialization: raw.specialization ?? "",
-  experience: raw.experience ?? 0,
-  rating: raw.rating ?? 0,
-  reviewCount: raw.reviewCount ?? 0,
-  image: resolveImageUrl(raw.image), // TrainerCard expects a string
-  pricePerSession: raw.pricePerSession ?? 0,
-  available: raw.available ?? false,
-  isVerified: raw.isVerified ?? raw.verified ?? false,
-  href: `/trainers/${raw.slug}`,
-});
+import { normaliseFeaturedTrainer } from "../utils/homeMarketplace.js";
 
 /* ─────────────────────────────────────────────────────── */
 const useFeaturedTrainers = () => {
-  const [trainers, setTrainers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [state, setState] = useState({ trainers: [], error: null, resolvedKey: null });
   const [retryKey, setRetryKey] = useState(0);
 
   const refetch = useCallback(() => setRetryKey((k) => k + 1), []);
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
-    setError(null);
 
     const load = async () => {
       try {
@@ -45,17 +19,15 @@ const useFeaturedTrainers = () => {
         if (!cancelled) {
           const normalised = raw
             .filter((t) => t.isActive !== false)
-            .map(normaliseTrainer);
+            .map(normaliseFeaturedTrainer);
 
-          setTrainers(normalised);
+          setState({ trainers: normalised, error: null, resolvedKey: retryKey });
         }
       } catch (err) {
         if (!cancelled) {
           console.error("[useFeaturedTrainers]", err);
-          setError(err?.message ?? "Failed to load trainers.");
+          setState({ trainers: [], error: err?.message ?? "Failed to load trainers.", resolvedKey: retryKey });
         }
-      } finally {
-        if (!cancelled) setLoading(false);
       }
     };
 
@@ -65,7 +37,12 @@ const useFeaturedTrainers = () => {
     };
   }, [retryKey]);
 
-  return { trainers, loading, error, refetch };
+  return {
+    trainers: state.trainers,
+    loading: state.resolvedKey !== retryKey,
+    error: state.resolvedKey === retryKey ? state.error : null,
+    refetch,
+  };
 };
 
 export default useFeaturedTrainers;

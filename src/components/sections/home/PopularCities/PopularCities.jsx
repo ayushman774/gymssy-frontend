@@ -168,7 +168,7 @@ const PopularCities = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.25 }}
           >
-            Thousands of gyms and trainers across India's top cities.
+            Explore supported cities and their published fitness venues.
           </motion.p>
 
           <div className={styles.neonLineWrapper} aria-hidden="true">

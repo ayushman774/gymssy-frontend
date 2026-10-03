@@ -1,9 +1,9 @@
 // src/pages/GymDetailsPage/GymDetailsPage.jsx
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -18,7 +18,8 @@ import {
 } from "react-icons/fi";
 
 import useGymDetails from "../../hooks/useGymDetails";
-import { recordGymView } from "../../utils/recentlyViewed";
+import useRecentlyViewed from "../../hooks/useRecentlyViewed";
+import { useFavorites } from "../../context/FavoritesContext.jsx";
 
 import styles from "./GymDetailsPage.module.css";
 import GymHeader from "../../components/GymDetails/GymHeader/GymHeader";
@@ -33,6 +34,7 @@ import SimilarGyms from "../../components/GymDetails/SimilarGyms/SimilarGyms";
 import FacilityGrid from "../../components/GymDetails/FacilityGrid/FacilityGrid";
 import MembershipCard from "../../components/GymDetails/MembershipCard/MembershipCard";
 import ClassCard from "../../components/GymDetails/ClassCard/ClassCard";
+import BookingDialog from "../../components/Bookings/BookingDialog.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,14 +81,14 @@ const GymDetailsPage = () => {
 
   /* ── API ── */
   const { gym, similarGyms, loading, error, refetch } = useGymDetails(slug);
+  const { recordView } = useRecentlyViewed();
 
   /* ── UI state ── */
-  const [isSaved, setIsSaved] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const [booking, setBooking] = useState(null);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [selectedMembership, setSelectedMembership] = useState(null);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
-  const [showStickyBar, setShowStickyBar] = useState(false);
 
   /* ── Refs ── */
   const pageRef = useRef(null);
@@ -95,15 +97,8 @@ const GymDetailsPage = () => {
 
   /* ── Record view ── */
   useEffect(() => {
-    if (slug) recordGymView(slug);
-  }, [slug]);
-
-  /* ── Sticky bar ── */
-  useEffect(() => {
-    const onScroll = () => setShowStickyBar(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (gym?.id) recordView(gym.id).catch(() => {});
+  }, [gym?.id, recordView]);
 
   /* ── GSAP entrance (runs after gym loads) ── */
   useEffect(() => {
@@ -136,23 +131,11 @@ const GymDetailsPage = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  /* ── Saved state ── */
-  useEffect(() => {
-    if (!gym) return;
-    const saved = JSON.parse(localStorage.getItem("gymssy_saved") || "[]");
-    setIsSaved(saved.includes(gym.id));
-  }, [gym]);
-
   /* ── Handlers ── */
   const handleSave = useCallback(() => {
     if (!gym) return;
-    const saved = JSON.parse(localStorage.getItem("gymssy_saved") || "[]");
-    const updated = isSaved
-      ? saved.filter((id) => id !== gym.id)
-      : [...saved, gym.id];
-    localStorage.setItem("gymssy_saved", JSON.stringify(updated));
-    setIsSaved(!isSaved);
-  }, [gym, isSaved]);
+    if (gym?.id) toggleFavorite("gym", gym.id);
+  }, [gym, toggleFavorite]);
 
   const handleShare = useCallback(async () => {
     if (navigator.share) {
@@ -175,11 +158,15 @@ const GymDetailsPage = () => {
     setShowShareMenu(false);
   }, []);
 
-  const handleBookVisit = useCallback(() => setShowBookingModal(true), []);
+  const handleBookVisit = useCallback(() => setBooking({ bookingType: "visit", serviceName: "" }), []);
 
   const handleSelectMembership = useCallback((membership) => {
     setSelectedMembership(membership);
-    setShowBookingModal(true);
+    setBooking({ bookingType: "membership", serviceName: membership.name });
+  }, []);
+
+  const handleClassInterest = useCallback((gymClass) => {
+    setBooking({ bookingType: "class", serviceName: gymClass.name });
   }, []);
 
   const scrollToMemberships = useCallback(() => {
@@ -242,7 +229,7 @@ const GymDetailsPage = () => {
         {/* ══ HEADER ══ */}
         <GymHeader
           gym={gym}
-          isSaved={isSaved}
+          isSaved={gym ? isFavorite("gym", gym.id) : false}
           onSave={handleSave}
           onShare={handleShare}
           onBookVisit={handleBookVisit}
@@ -441,7 +428,7 @@ const GymDetailsPage = () => {
               </div>
               <div className={styles.classGrid}>
                 {gym.classes.map((cls) => (
-                  <ClassCard key={cls.id} cls={cls} onBook={handleBookVisit} />
+                  <ClassCard key={cls.id} cls={cls} onBook={() => handleClassInterest(cls)} />
                 ))}
               </div>
             </section>
@@ -482,7 +469,6 @@ const GymDetailsPage = () => {
                 reviewCount={gym.reviewCount}
                 ratingBreakdown={gym.ratingBreakdown}
                 reviews={gym.reviews}
-                onWriteReview={handleBookVisit}
               />
             </section>
           )}
@@ -523,6 +509,7 @@ const GymDetailsPage = () => {
           </div>
         )}
       </div>
+      <BookingDialog open={Boolean(booking)} onClose={() => { setBooking(null); setSelectedMembership(null); }} targetType="gym" targetId={gym.id || gym._id} bookingType={booking?.bookingType || "visit"} listingName={gym.name} serviceName={booking?.serviceName || selectedMembership?.name || ""} />
     </>
   );
 };

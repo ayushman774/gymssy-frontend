@@ -221,6 +221,34 @@
   );
 }
 
+.visuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.marketplaceSearch { display: flex; align-items: center; max-width: 760px; margin: 0 auto; padding: 8px 8px 8px 18px; gap: 12px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; background: #111; }
+.marketplaceSearch svg { color: #39ff14; flex: 0 0 auto; }
+.marketplaceSearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #fff; font: inherit; }
+.marketplaceSearch input::placeholder { color: rgba(255, 255, 255, 0.38); }
+.marketplaceSearch button,
+.referenceError button { border: 0; border-radius: 10px; background: #39ff14; color: #050505; padding: 11px 20px; font-weight: 700; cursor: pointer; }
+.marketplaceFilters { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+.filterField { display: flex; flex-direction: column; gap: 7px; }
+.filterField span { color: rgba(255, 255, 255, 0.55); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.filterField select { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid rgba(255, 255, 255, 0.11); border-radius: 10px; background: #111; color: #fff; font: inherit; }
+.filterField select:disabled { opacity: 0.45; cursor: not-allowed; }
+.locationNote { margin-top: 14px; color: rgba(255, 255, 255, 0.42); font-size: 0.78rem; }
+.referenceError { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 20px; padding: 18px; border: 1px solid rgba(255, 95, 95, 0.25); border-radius: 12px; background: rgba(255, 95, 95, 0.06); }
+.referenceError p { margin: 0; }
+
+.skeletonCard { overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 16px; background: #111; }
+.skeletonImage { aspect-ratio: 16 / 10; background: linear-gradient(90deg, #151515 25%, #222 50%, #151515 75%); background-size: 500px 100%; animation: shimmer 1.5s infinite; }
+.skeletonBody { display: grid; gap: 12px; padding: 18px; }
+.skeletonBody span { display: block; height: 14px; border-radius: 6px; background: #1c1c1c; }
+.skeletonBody span:nth-child(2) { width: 75%; }
+.skeletonBody span:nth-child(3) { width: 55%; }
+@keyframes shimmer { from { background-position: -500px 0; } to { background-position: 500px 0; } }
+
+.pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 36px; color: rgba(255, 255, 255, 0.6); }
+.pagination button { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; background: #111; color: #fff; cursor: pointer; }
+.pagination button:disabled { opacity: 0.35; cursor: not-allowed; }
+
 .resultsCount {
   display: flex;
   align-items: center;
@@ -633,6 +661,8 @@
    RESPONSIVE
    ════════════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
+  .marketplaceFilters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
   .gymsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -662,6 +692,13 @@
 }
 
 @media (max-width: 640px) {
+  .marketplaceFilters { grid-template-columns: 1fr; }
+  .marketplaceSearch { align-items: stretch; flex-wrap: wrap; }
+  .marketplaceSearch input { min-width: calc(100% - 36px); }
+  .marketplaceSearch button { width: 100%; }
+  .pagination { gap: 9px; font-size: 0.8rem; }
+  .pagination button { padding: 9px 11px; }
+
   .gymsGrid {
     grid-template-columns: 1fr;
   }

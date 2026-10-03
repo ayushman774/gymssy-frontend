@@ -4,10 +4,10 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
-import { FiArrowRight } from "react-icons/fi";
-import GymCard from "../../../ui/GymCard/GymCard";
+import { FiAlertCircle, FiArrowRight, FiRefreshCw } from "react-icons/fi";
 import SectionLabel from "../../../ui/SectionLabel/SectionLabel";
-import { FEATURED_GYMS } from "../../../../assets/data/marketplace";
+import useHomeVenues from "../../../../hooks/useHomeVenues.js";
+import HomeVenueCard from "./HomeVenueCard.jsx";
 import styles from "./GymsNearYou.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 const GymsNearYou = () => {
   const sectionRef = useRef(null);
   const neonLineRef = useRef(null);
+  const { listings: venues, loading, error, retry } = useHomeVenues();
 
   const isInView = useInView(sectionRef, {
     once: true,
@@ -39,24 +40,26 @@ const GymsNearYou = () => {
         },
       );
 
-      gsap.fromTo(
-        `.${styles.cardSlot}`,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.75,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: `.${styles.grid}`,
-            start: "top 80%",
-            once: true,
+      if (!loading && !error && venues.length) {
+        gsap.fromTo(
+          `.${styles.cardSlot}`,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: `.${styles.grid}`,
+              start: "top 80%",
+              once: true,
+            },
           },
-        },
-      );
+        );
+      }
     },
-    { scope: sectionRef },
+    { scope: sectionRef, dependencies: [loading, error, venues.length] },
   );
 
   return (
@@ -77,7 +80,7 @@ const GymsNearYou = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <SectionLabel text="NEAR YOU" variant="light" />
+            <SectionLabel text="RECOMMENDED VENUES" variant="light" />
           </motion.div>
 
           <div className={styles.headlineRow}>
@@ -88,8 +91,8 @@ const GymsNearYou = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Popular Gyms{" "}
-              <span className={styles.headlineAccent}>Near You</span>
+              Explore Gyms &amp;{" "}
+              <span className={styles.headlineAccent}>Fitness Venues</span>
             </motion.h2>
 
             <motion.div
@@ -97,8 +100,8 @@ const GymsNearYou = () => {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Link to="/locations" className={styles.viewAll}>
-                View All Gyms
+              <Link to="/gyms-near-you" className={styles.viewAll}>
+                Browse by City
                 <FiArrowRight className={styles.viewAllIcon} />
               </Link>
             </motion.div>
@@ -110,7 +113,7 @@ const GymsNearYou = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.25 }}
           >
-            Discover the highest-rated fitness centers in your area.
+            Browse published physical venues from across the Gymssy marketplace.
           </motion.p>
 
           <div className={styles.neonLineWrapper} aria-hidden="true">
@@ -119,17 +122,33 @@ const GymsNearYou = () => {
         </div>
 
         {/* Cards */}
-        <div
-          className={styles.grid}
-          role="list"
-          aria-label="Featured gyms near you"
-        >
-          {FEATURED_GYMS.map((gym, index) => (
-            <div key={gym.id} className={styles.cardSlot} role="listitem">
-              <GymCard gym={gym} index={index} />
-            </div>
-          ))}
-        </div>
+        {loading && (
+          <div className={styles.grid} aria-label="Loading recommended venues" aria-busy="true">
+            {[0, 1, 2, 3].map((item) => <div key={item} className={styles.skeletonCard} aria-hidden="true"><div className={styles.skeletonImage} /><div className={styles.skeletonBody}><span /><span /><span /></div></div>)}
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className={styles.sectionState} role="alert">
+            <FiAlertCircle aria-hidden="true" />
+            <p>Unable to load venues right now.</p>
+            <button type="button" onClick={retry}><FiRefreshCw aria-hidden="true" /> Try Again</button>
+          </div>
+        )}
+
+        {!loading && !error && venues.length > 0 && (
+          <div className={styles.grid} role="list" aria-label="Recommended fitness venues">
+            {venues.map((venue) => (
+              <div key={venue.id} className={styles.cardSlot} role="listitem">
+                <HomeVenueCard venue={venue} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {!loading && !error && venues.length === 0 && (
+          <div className={styles.sectionState} role="status"><p>No published venues are available right now.</p></div>
+        )}
 
         {/* Bottom CTA */}
         <motion.div
@@ -140,14 +159,14 @@ const GymsNearYou = () => {
           transition={{ duration: 0.7, delay: 0.2 }}
         >
           <div className={styles.ctaContent}>
-            <p className={styles.ctaHeadline}>Explore all gyms in your city.</p>
+            <p className={styles.ctaHeadline}>Explore fitness venues by City.</p>
             <p className={styles.ctaBody}>
               Filter by location, facilities, price, and more.
             </p>
           </div>
           <div className={styles.ctaActions}>
-            <Link to="/locations" className={styles.ctaPrimary}>
-              <span>View All Gyms</span>
+            <Link to="/gyms-near-you" className={styles.ctaPrimary}>
+              <span>Browse Venues</span>
               <FiArrowRight />
             </Link>
             <Link to="/contact" className={styles.ctaSecondary}>
