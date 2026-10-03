@@ -1,10 +1,14 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FiStar, FiMapPin } from "react-icons/fi";
 import styles from "./SimilarGyms.module.css";
+import {
+  FALLBACK_IMAGE,
+  similarGymHref,
+  similarGymImage,
+} from "./similarGymCardUtils.js";
 
-const SimilarGyms = ({ gyms, onBookVisit }) => {
+const SimilarGyms = ({ gyms }) => {
   if (!gyms || gyms.length === 0) return null;
 
   return (
@@ -36,10 +40,14 @@ const SimilarGyms = ({ gyms, onBookVisit }) => {
               {/* Image */}
               <div className={styles.imageWrap}>
                 <img
-                  src={gym.images.cover}
+                  src={similarGymImage(gym)}
                   alt={gym.name}
                   className={styles.image}
                   loading="lazy"
+                  onError={(event) => {
+                    if (event.currentTarget.src.endsWith(FALLBACK_IMAGE)) return;
+                    event.currentTarget.src = FALLBACK_IMAGE;
+                  }}
                 />
                 {gym.verified && (
                   <span className={styles.verifiedBadge}>✓ Verified</span>
@@ -83,7 +91,7 @@ const SimilarGyms = ({ gyms, onBookVisit }) => {
 
                 <div className={styles.cardActions}>
                   <Link
-                    to={`/gyms/${gym.slug}`}
+                    to={similarGymHref(gym)}
                     className={styles.viewBtn}
                     aria-label={`View details for ${gym.name}`}
                   >
