@@ -117,6 +117,15 @@
   gap: 0.65rem;
 }
 
+.customerName {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+button.btnOutline { cursor: pointer; }
+
 /* Outlined — Log In */
 .btnOutline {
   display: inline-flex;

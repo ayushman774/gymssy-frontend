@@ -44,8 +44,11 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import { MdFitnessCenter, MdVerified } from "react-icons/md";
+import EnquiryDialog from "../../components/Enquiries/EnquiryDialog.jsx";
+import BookingDialog from "../../components/Bookings/BookingDialog.jsx";
 
 import useTrainerDetail from "../../hooks/useTrainerDetail"; // ← NEW
+import { useFavorites } from "../../context/FavoritesContext.jsx";
 import styles from "./TrainerDetail.module.css";
 
 /* ─────────────────────────────────────────────
@@ -128,6 +131,8 @@ const TRAINING_OPTIONS = [
 /* ─────────────────────────────────────────────
    BOOKING MODAL — UNCHANGED
 ───────────────────────────────────────────── */
+// Legacy local-only modal is retired and intentionally not mounted; the shared BookingDialog owns the flow.
+// eslint-disable-next-line no-unused-vars
 const BookingModal = ({ trainer, onClose }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -274,6 +279,8 @@ const BookingModal = ({ trainer, onClose }) => {
 /* ─────────────────────────────────────────────
    CONTACT MODAL — UNCHANGED
 ───────────────────────────────────────────── */
+// Legacy contact modal is retired; EnquiryDialog owns provider contact.
+// eslint-disable-next-line no-unused-vars
 const ContactModal = ({ trainer, onClose }) => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
@@ -488,7 +495,7 @@ const LoadingSkeleton = () => (
 /* ─────────────────────────────────────────────
    ERROR STATE
 ───────────────────────────────────────────── */
-const ErrorState = ({ message, onRetry }) => {
+const ErrorState = ({ onRetry }) => {
   const navigate = useNavigate();
   return (
     <main className={styles.notFoundPage} role="alert">
@@ -567,11 +574,13 @@ const TrainerDetail = () => {
 
   const [showBooking, setShowBooking] = useState(false);
   const [showContact, setShowContact] = useState(false);
-  const [isFaved, setIsFaved] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
   const [stickyVisible, setStickyVisible] = useState(false);
 
   /* ── API fetch — replaces TRAINERS.find() ── */
   const { trainer, loading, error, refetch } = useTrainerDetail(slug);
+  const trainerTargetId = trainer?._id || trainer?.id;
+  const isFaved = trainerTargetId ? isFavorite("trainer", trainerTargetId) : false;
 
   /* ── Sticky bar trigger — UNCHANGED ── */
   useEffect(() => {
@@ -746,7 +755,7 @@ const TrainerDetail = () => {
 
                 <motion.button
                   className={`${styles.faveBtn} ${isFaved ? styles.faveBtnActive : ""}`}
-                  onClick={() => setIsFaved((p) => !p)}
+                  onClick={() => trainerTargetId && toggleFavorite("trainer", trainerTargetId)}
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.9 }}
                   aria-label={
@@ -1388,17 +1397,8 @@ const TrainerDetail = () => {
         </div>
       </div>
 
-      {/* ── Modals — UNCHANGED ── */}
-      <AnimatePresence>
-        {showBooking && (
-          <BookingModal trainer={trainer} onClose={closeBooking} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showContact && (
-          <ContactModal trainer={trainer} onClose={closeContact} />
-        )}
-      </AnimatePresence>
+      <BookingDialog open={showBooking} onClose={closeBooking} targetType="trainer" targetId={trainerTargetId} bookingType="session" listingName={trainer.name} />
+      <EnquiryDialog open={showContact} onClose={closeContact} targetType="trainer" targetId={trainerTargetId} intent="training" listingName={trainer.name} />
     </>
   );
 };

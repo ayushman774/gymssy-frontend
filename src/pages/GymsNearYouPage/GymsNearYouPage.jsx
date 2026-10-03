@@ -1,412 +1,115 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  FiChevronRight,
-  FiZap,
-  FiShield,
-  FiUsers,
-  FiClock,
-  FiTrendingUp,
-  FiStar,
-} from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiClock, FiSearch, FiShield, FiStar, FiUsers, FiZap } from "react-icons/fi";
 import { MdFitnessCenter } from "react-icons/md";
-
-import SearchBar from "../../components/SearchBar/SearchBar";
-import FilterChips from "../../components/FilterChips/FilterChips";
-import GymCard from "../../components/GymCard/GymCard";
-import GymDetailsModal from "../../components/GymDetailsModal/GymDetailsModal";
-import MapSection from "../../components/MapSection/MapSection";
+import { useLocation, useNavigate } from "react-router-dom";
+import DiscoveryCard from "../../components/Discover/DiscoveryCard/DiscoveryCard";
 import LocationsFAQ from "../../components/LocationsFAQ/LocationsFAQ";
-import styles from "./GymsNearYouPage.module.css";
+import useDiscovery from "../../hooks/useDiscovery";
+import useDiscoveryReferences from "../../hooks/useDiscoveryReferences";
+import { DISCOVERY_SORTS } from "../../utils/discoveryState";
+import {
+  VENUE_TYPES,
+  buildGymsNearYouFilters,
+  changeGymsNearYouFilter,
+  clearGymsNearYouFilters,
+  gymsNearYouUrlSearch,
+  readGymsNearYouUrl,
+  validateGymsNearYouState,
+} from "../../utils/gymsNearYouState";
 import { locationImages } from "../../assets/data/locationImages";
-import { gymsData, filterOptions } from "../../data/gymsData";
+import styles from "./GymsNearYouPage.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Why Choose Data ──────────────────────────────────────────────────────────
 const whyFeatures = [
-  {
-    icon: <MdFitnessCenter />,
-    title: "Premium Equipment",
-    description:
-      "Every branch is fitted with world-class machines, free weights, and functional training rigs sourced from the industry's top brands.",
-  },
-  {
-    icon: <FiStar />,
-    title: "Certified Trainers",
-    description:
-      "Our coaches hold the highest industry certifications and bring years of real-world transformation experience.",
-  },
-  {
-    icon: <FiClock />,
-    title: "24/7 Access",
-    description:
-      "Train on your schedule. Select locations never close — because peak performance doesn't follow business hours.",
-  },
-  {
-    icon: <FiUsers />,
-    title: "Group Classes",
-    description:
-      "50+ weekly sessions spanning HIIT, yoga, boxing, pilates, and more. Community training that keeps you accountable.",
-  },
-  {
-    icon: <FiShield />,
-    title: "Modern Facilities",
-    description:
-      "Luxury changing rooms, recovery suites, and pristine training floors maintained to the highest standards.",
-  },
-  {
-    icon: <FiZap />,
-    title: "Safe Environment",
-    description:
-      "Full-time staff, advanced security, and a welcoming culture that makes every member feel respected.",
-  },
+  { icon: <MdFitnessCenter />, title: "Premium Equipment", description: "Discover fitness venues with spaces and equipment suited to your training goals." },
+  { icon: <FiStar />, title: "Trusted Listings", description: "Compare real marketplace ratings, reviews, and verified listing information." },
+  { icon: <FiClock />, title: "Train Your Way", description: "Explore gyms, studios, wellness centres, fitness centres, and sports academies." },
+  { icon: <FiUsers />, title: "Local Communities", description: "Find physical fitness businesses operating in a City you choose." },
+  { icon: <FiShield />, title: "Clear Details", description: "Open each listing to review the venue information currently available on Gymssy." },
+  { icon: <FiZap />, title: "Focused Search", description: "Narrow real marketplace inventory by City, taxonomy, venue type, and search." },
 ];
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
-const GymsNearYouPage = () => {
+const SelectFilter = ({ id, label, value, onChange, disabled = false, children }) => <label className={styles.filterField} htmlFor={id}><span>{label}</span><select id={id} value={value} onChange={(event) => onChange(event.target.value)} disabled={disabled}>{children}</select></label>;
+
+const LoadingGrid = () => <div className={styles.gymsGrid} aria-label="Loading venues" aria-busy="true">{Array.from({ length: 6 }, (_, index) => <div key={index} className={styles.skeletonCard} aria-hidden="true"><div className={styles.skeletonImage} /><div className={styles.skeletonBody}><span /><span /><span /></div></div>)}</div>;
+
+export default function GymsNearYouPage() {
   const headerRef = useRef(null);
   const headerBgRef = useRef(null);
   const whyCardsRef = useRef([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const references = useDiscoveryReferences();
+  const rawFilters = useMemo(() => readGymsNearYouUrl(location.search), [location.search]);
+  const filters = useMemo(() => validateGymsNearYouState(rawFilters, references.categories, references.cities), [rawFilters, references.categories, references.cities]);
+  const discoveryFilters = useMemo(() => buildGymsNearYouFilters(filters), [filters]);
+  const discovery = useDiscovery(discoveryFilters, !references.loading && !references.error);
+  const selectedCategory = references.categories.find((category) => category.slug === filters.category);
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState([]);
-  const [selectedGym, setSelectedGym] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [highlightedGymId, setHighlightedGymId] = useState(null);
+  useEffect(() => {
+    if (references.loading || references.error) return;
+    const normalized = gymsNearYouUrlSearch(filters);
+    if (normalized !== location.search) navigate({ pathname: "/gyms-near-you", search: normalized }, { replace: true });
+  }, [filters, location.search, navigate, references.error, references.loading]);
 
-  // Filtered gyms
-  const filteredGyms = useMemo(() => {
-    let result = gymsData;
+  const setFilters = useCallback((next) => navigate({ pathname: "/gyms-near-you", search: gymsNearYouUrlSearch(next) }), [navigate]);
+  const changeFilter = useCallback((field, value) => setFilters(changeGymsNearYouFilter(filters, field, value)), [filters, setFilters]);
+  const clearFilters = useCallback(() => setFilters(clearGymsNearYouFilters()), [setFilters]);
 
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(
-        (g) =>
-          g.name.toLowerCase().includes(q) ||
-          g.city.toLowerCase().includes(q) ||
-          g.address.toLowerCase().includes(q),
-      );
-    }
-
-    if (activeFilters.length > 0) {
-      result = result.filter((g) =>
-        activeFilters.every((f) => g.tags.includes(f)),
-      );
-    }
-
-    return result;
-  }, [searchQuery, activeFilters]);
-
-  const handleOpenModal = (gym) => {
-    setSelectedGym(gym);
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setTimeout(() => setSelectedGym(null), 300);
-  };
-
-  const handleMapMarkerClick = (gym) => {
-    setHighlightedGymId(gym.id);
-    setSelectedGym(gym);
-    setModalOpen(true);
-    setTimeout(() => setHighlightedGymId(null), 2000);
-  };
-
-  // Header parallax
   useEffect(() => {
     const ctx = gsap.context(() => {
       if (!headerBgRef.current) return;
-      gsap.to(headerBgRef.current, {
-        yPercent: 25,
-        ease: "none",
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
+      gsap.to(headerBgRef.current, { yPercent: 25, ease: "none", scrollTrigger: { trigger: headerRef.current, start: "top top", end: "bottom top", scrub: true } });
     });
     return () => ctx.revert();
   }, []);
 
-  // Why cards stagger
   useEffect(() => {
     const ctx = gsap.context(() => {
       const cards = whyCardsRef.current.filter(Boolean);
       if (!cards.length) return;
-      gsap.fromTo(
-        cards,
-        { y: 55, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.75,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: cards[0],
-            start: "top 82%",
-            once: true,
-          },
-        },
-      );
+      gsap.fromTo(cards, { y: 55, opacity: 0 }, { y: 0, opacity: 1, duration: 0.75, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: cards[0], start: "top 82%", once: true } });
     });
     return () => ctx.revert();
   }, []);
 
-  return (
-    <main className={styles.page}>
-      {/* ── PAGE BANNER ──────────────────────────────────────── */}
-      <section ref={headerRef} className={styles.pageHeader}>
-        <div ref={headerBgRef} className={styles.headerBg}>
-          <img
-            src={locationImages.pageHeader}
-            alt="Premium gym interior"
-            className={styles.headerBgImage}
-            loading="eager"
-          />
-        </div>
-        <div className={styles.headerOverlay} />
-        <div className={styles.headerGlow} />
+  const loading = references.loading || discovery.loading;
+  const hasFilters = Boolean(filters.search || filters.city || filters.category || filters.subcategory || filters.type || filters.sort !== "recommended");
 
-        <div className={styles.headerContent}>
+  return <main className={styles.page}>
+    <section ref={headerRef} className={styles.pageHeader}>
+      <div ref={headerBgRef} className={styles.headerBg}><img src={locationImages.pageHeader} alt="Fitness venue interior" className={styles.headerBgImage} loading="eager" /></div>
+      <div className={styles.headerOverlay} /><div className={styles.headerGlow} />
+      <div className={styles.headerContent}><motion.div className={styles.headerText} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.35 }}><motion.span className={styles.headerEyebrow} initial={{ opacity: 0, letterSpacing: "0.1em" }} animate={{ opacity: 1, letterSpacing: "0.4em" }} transition={{ duration: 1, delay: 0.4 }}>REAL MARKETPLACE VENUES</motion.span><h1 className={styles.headerTitle}>FIND A GYM NEAR YOU</h1><p className={styles.headerSubtitle}>Explore gyms and physical fitness, wellness, and sports businesses in a City you choose.</p></motion.div></div>
+      <div className={styles.scrollIndicator}><span className={styles.scrollLine} /></div>
+    </section>
 
-          <motion.div
-            className={styles.headerText}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35 }}
-          >
-            <motion.span
-              className={styles.headerEyebrow}
-              initial={{ opacity: 0, letterSpacing: "0.1em" }}
-              animate={{ opacity: 1, letterSpacing: "0.4em" }}
-              transition={{ duration: 1, delay: 0.4 }}
-            >
-              WORLD-CLASS FACILITIES
-            </motion.span>
-            <h1 className={styles.headerTitle}>FIND A GYM NEAR YOU</h1>
-            <p className={styles.headerSubtitle}>
-              Discover world-class facilities, expert coaching, and a fitness
-              community that helps you achieve more.
-            </p>
-          </motion.div>
-        </div>
+    <section className={styles.searchSection} aria-labelledby="venue-search-heading"><div className={styles.sectionContainer}>
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <h2 id="venue-search-heading" className={styles.visuallyHidden}>Search physical fitness venues</h2>
+        <form className={styles.marketplaceSearch} onSubmit={(event) => { event.preventDefault(); changeFilter("search", event.currentTarget.elements.search.value.trim()); }}><FiSearch aria-hidden="true" /><input name="search" key={filters.search} defaultValue={filters.search} placeholder="Search venues, areas, or activities" aria-label="Search venues" /><button type="submit">Search</button></form>
+      </motion.div>
+      {references.error ? <div className={styles.referenceError} role="alert"><p>We couldn’t load City and Category filters.</p><button onClick={references.retry}>Retry</button></div> : <div className={styles.marketplaceFilters} aria-label="Venue filters">
+        <SelectFilter id="near-city" label="City" value={filters.city} onChange={(value) => changeFilter("city", value)}><option value="">All cities</option>{references.cities.map((city) => <option key={city.id || city._id} value={city.slug}>{city.name}</option>)}</SelectFilter>
+        <SelectFilter id="near-category" label="Category" value={filters.category} onChange={(value) => changeFilter("category", value)}><option value="">All categories</option>{references.categories.map((category) => <option key={category.id || category._id} value={category.slug}>{category.name}</option>)}</SelectFilter>
+        <SelectFilter id="near-subcategory" label="Activity" value={filters.subcategory} disabled={!selectedCategory} onChange={(value) => changeFilter("subcategory", value)}><option value="">All activities</option>{(selectedCategory?.subcategories || []).map((subcategory) => <option key={subcategory.id || subcategory._id} value={subcategory.slug}>{subcategory.name}</option>)}</SelectFilter>
+        <SelectFilter id="near-type" label="Venue type" value={filters.type} onChange={(value) => changeFilter("type", value)}><option value="">All venue types</option>{VENUE_TYPES.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</SelectFilter>
+        <SelectFilter id="near-sort" label="Sort" value={filters.sort} onChange={(value) => changeFilter("sort", value)}>{DISCOVERY_SORTS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</SelectFilter>
+      </div>}
+      <div className={styles.locationNote}>City-based discovery · Customer GPS distance is not calculated.</div>
+      <div className={styles.resultsCount}><span className={styles.resultsNumber}>{loading ? "—" : discovery.pagination.total}</span><span className={styles.resultsText}>{discovery.pagination.total === 1 ? "venue found" : "venues found"}</span>{hasFilters && <button className={styles.clearAll} onClick={clearFilters}>Clear all</button>}</div>
+    </div></section>
 
-        <div className={styles.scrollIndicator}>
-          <span className={styles.scrollLine} />
-        </div>
-      </section>
+    <section className={styles.gridSection}><div className={styles.sectionContainer}>
+      {loading ? <LoadingGrid /> : discovery.error ? <div className={styles.emptyState} role="alert"><span className={styles.emptyIcon}><MdFitnessCenter /></span><h3 className={styles.emptyTitle}>We couldn’t load venues</h3><p className={styles.emptyText}>Please check your connection and try again.</p><button className={styles.emptyBtn} onClick={discovery.retry}>Retry</button></div> : discovery.listings.length === 0 ? <div className={styles.emptyState} role="status"><span className={styles.emptyIcon}><MdFitnessCenter /></span><h3 className={styles.emptyTitle}>No gyms or fitness venues found</h3><p className={styles.emptyText}>{filters.city ? "Try another City or clear some filters." : "Try changing your search or clearing the filters."}</p><button className={styles.emptyBtn} onClick={clearFilters}>Clear filters</button></div> : <AnimatePresence mode="wait"><motion.div key={`${filters.page}-${location.search}`} className={styles.gymsGrid} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>{discovery.listings.map((listing) => <DiscoveryCard key={`${listing.entityType}-${listing.id}`} item={listing} />)}</motion.div></AnimatePresence>}
+      {!loading && !discovery.error && discovery.pagination.totalPages > 1 && <nav className={styles.pagination} aria-label="Venue result pages"><button disabled={discovery.pagination.page <= 1} onClick={() => setFilters({ ...filters, page: discovery.pagination.page - 1 })}><FiChevronLeft /> Previous</button><span>Page {discovery.pagination.page} of {discovery.pagination.totalPages}</span><button disabled={discovery.pagination.page >= discovery.pagination.totalPages} onClick={() => setFilters({ ...filters, page: discovery.pagination.page + 1 })}>Next <FiChevronRight /></button></nav>}
+    </div></section>
 
-      {/* ── SEARCH + FILTERS ─────────────────────────────────── */}
-      <section className={styles.searchSection}>
-        <div className={styles.sectionContainer}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-          >
-            <FilterChips
-              options={filterOptions}
-              activeFilters={activeFilters}
-              onChange={setActiveFilters}
-            />
-          </motion.div>
-
-          {/* Results count */}
-          <motion.div
-            className={styles.resultsCount}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-          >
-            <span className={styles.resultsNumber}>{filteredGyms.length}</span>
-            <span className={styles.resultsText}>
-              {filteredGyms.length === 1 ? "location found" : "locations found"}
-            </span>
-            {(searchQuery || activeFilters.length > 0) && (
-              <button
-                className={styles.clearAll}
-                onClick={() => {
-                  setSearchQuery("");
-                  setActiveFilters([]);
-                }}
-              >
-                Clear all
-              </button>
-            )}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── GYM CARDS GRID ───────────────────────────────────── */}
-      <section className={styles.gridSection}>
-        <div className={styles.sectionContainer}>
-          <AnimatePresence mode="wait">
-            {filteredGyms.length > 0 ? (
-              <motion.div
-                key="grid"
-                className={styles.gymsGrid}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                {filteredGyms.map((gym, index) => (
-                  <GymCard
-                    key={gym.id}
-                    gym={gym}
-                    index={index}
-                    isHighlighted={highlightedGymId === gym.id}
-                    onViewDetails={() => handleOpenModal(gym)}
-                  />
-                ))}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                className={styles.emptyState}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <span className={styles.emptyIcon}>
-                  <MdFitnessCenter />
-                </span>
-                <h3 className={styles.emptyTitle}>No locations found</h3>
-                <p className={styles.emptyText}>
-                  Try adjusting your search or clearing some filters.
-                </p>
-                <button
-                  className={styles.emptyBtn}
-                  onClick={() => {
-                    setSearchQuery("");
-                    setActiveFilters([]);
-                  }}
-                >
-                  Show All Locations
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ── MAP SECTION ──────────────────────────────────────── */}
-      <section className={styles.mapSection}>
-        <div className={styles.sectionContainer}>
-          <motion.div
-            className={styles.sectionHeader}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7 }}
-          >
-            <span className={styles.sectionEyebrow}>EXPLORE LOCATIONS</span>
-            <h2 className={styles.sectionTitle}>
-              Find Us on the <span className={styles.accentText}>Map</span>
-            </h2>
-            <p className={styles.sectionSubtitle}>
-              Click a marker to explore that branch's details.
-            </p>
-          </motion.div>
-
-          <MapSection
-            gyms={filteredGyms}
-            onMarkerClick={handleMapMarkerClick}
-          />
-        </div>
-      </section>
-
-      {/* ── WHY OUR LOCATIONS ────────────────────────────────── */}
-      <section className={styles.whySection}>
-        <div className={styles.sectionContainer}>
-          <motion.div
-            className={styles.sectionHeader}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7 }}
-          >
-            <span className={styles.sectionEyebrow}>THE Gymssy DIFFERENCE</span>
-            <h2 className={styles.sectionTitle}>
-              Why Choose Our{" "}
-              <span className={styles.accentText}>Locations</span>
-            </h2>
-            <p className={styles.sectionSubtitle}>
-              Every Gymssy branch delivers the same uncompromising standard of
-              excellence.
-            </p>
-          </motion.div>
-
-          <div className={styles.whyGrid}>
-            {whyFeatures.map((feature, index) => (
-              <div
-                key={feature.title}
-                ref={(el) => (whyCardsRef.current[index] = el)}
-                className={styles.whyCard}
-              >
-                <div className={styles.whyIconWrapper}>
-                  <span className={styles.whyIcon}>{feature.icon}</span>
-                </div>
-                <div className={styles.whyContent}>
-                  <h3 className={styles.whyTitle}>{feature.title}</h3>
-                  <p className={styles.whyDescription}>{feature.description}</p>
-                </div>
-                <div className={styles.whyCardAccent} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section className={styles.faqSection}>
-        <div className={styles.sectionContainer}>
-          <motion.div
-            className={styles.sectionHeader}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7 }}
-          >
-            <span className={styles.sectionEyebrow}>COMMON QUESTIONS</span>
-            <h2 className={styles.sectionTitle}>
-              Frequently Asked{" "}
-              <span className={styles.accentText}>Questions</span>
-            </h2>
-          </motion.div>
-
-          <LocationsFAQ />
-        </div>
-      </section>
-
-      {/* ── MODAL ────────────────────────────────────────────── */}
-      <GymDetailsModal
-        gym={selectedGym}
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-      />
-    </main>
-  );
-};
-
-export default GymsNearYouPage;
+    <section className={styles.whySection}><div className={styles.sectionContainer}><motion.div className={styles.sectionHeader} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}><span className={styles.sectionEyebrow}>EXPLORE GYMSSY</span><h2 className={styles.sectionTitle}>Find Your <span className={styles.accentText}>Venue</span></h2><p className={styles.sectionSubtitle}>Browse real physical marketplace businesses without simulated distance or location claims.</p></motion.div><div className={styles.whyGrid}>{whyFeatures.map((feature, index) => <div key={feature.title} ref={(element) => { whyCardsRef.current[index] = element; }} className={styles.whyCard}><div className={styles.whyIconWrapper}><span className={styles.whyIcon}>{feature.icon}</span></div><div className={styles.whyContent}><h3 className={styles.whyTitle}>{feature.title}</h3><p className={styles.whyDescription}>{feature.description}</p></div><div className={styles.whyCardAccent} /></div>)}</div></div></section>
+    <section className={styles.faqSection}><div className={styles.sectionContainer}><motion.div className={styles.sectionHeader} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}><span className={styles.sectionEyebrow}>COMMON QUESTIONS</span><h2 className={styles.sectionTitle}>Frequently Asked <span className={styles.accentText}>Questions</span></h2></motion.div><LocationsFAQ /></div></section>
+  </main>;
+}

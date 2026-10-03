@@ -15,7 +15,9 @@ import "swiper/css/navigation";
 
 import RecentlyViewedCard from "../../../ui/RecentlyViewedCard/RecentlyViewedCard";
 import SectionLabel from "../../../ui/SectionLabel/SectionLabel";
-import { RECENTLY_VIEWED_GYMS } from "../../../../assets/data/recentlyViewedData";
+import RecentlyViewedEmpty from "./RecentlyViewedEmpty";
+import useRecentlyViewed from "../../../../hooks/useRecentlyViewed";
+import { useCustomerAuth } from "../../../../context/CustomerAuthContext.jsx";
 import styles from "./RecentlyViewed.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,6 +26,8 @@ gsap.registerPlugin(ScrollTrigger);
    RECENTLY VIEWED SECTION
 ══════════════════════════════════════════════════════ */
 const RecentlyViewed = () => {
+  const { isAuthenticated, loading: authLoading } = useCustomerAuth();
+  const { gyms, loading, error, isEmpty } = useRecentlyViewed();
   const sectionRef = useRef(null);
   const neonLineRef = useRef(null);
   const prevRef = useRef(null);
@@ -64,6 +68,8 @@ const RecentlyViewed = () => {
   const handleNext = useCallback(() => {
     nextRef.current?.click();
   }, []);
+
+  if (authLoading || !isAuthenticated || error) return null;
 
   return (
     <section
@@ -156,7 +162,7 @@ const RecentlyViewed = () => {
         </div>
 
         {/* ══ HORIZONTAL SCROLL TRACK ══ */}
-        <motion.div
+        {isEmpty && !loading ? <RecentlyViewedEmpty /> : <motion.div
           className={styles.swiperWrapper}
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -190,11 +196,11 @@ const RecentlyViewed = () => {
             className={styles.swiper}
             watchSlidesProgress={true}
           >
-            {RECENTLY_VIEWED_GYMS.map((gym, index) => (
+            {gyms.map((gym, index) => (
               <SwiperSlide
                 key={gym.id}
                 className={styles.slide}
-                aria-label={`${index + 1} of ${RECENTLY_VIEWED_GYMS.length}`}
+                aria-label={`${index + 1} of ${gyms.length}`}
               >
                 <RecentlyViewedCard gym={gym} index={index} />
               </SwiperSlide>
@@ -206,7 +212,7 @@ const RecentlyViewed = () => {
 
           {/* Edge fade — right side */}
           <div className={styles.scrollFadeRight} aria-hidden="true" />
-        </motion.div>
+        </motion.div>}
       </div>
 
       {/* ── Edge fades ── */}

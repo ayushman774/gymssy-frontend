@@ -2502,3 +2502,177 @@
 body[data-compare-open="true"] {
   padding-bottom: 100px;
 }
+
+/* Unified marketplace integration reuses the existing Discover visual system. */
+.discoveryFilters {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) auto;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(10, 13, 12, 0.76);
+}
+
+.discoveryFilter {
+  display: grid;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.discoveryFilter select {
+  min-width: 0;
+  height: 44px;
+  padding: 0 0.75rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  outline: none;
+  background: #111613;
+}
+
+.discoveryFilter select:focus {
+  border-color: #39ff14;
+  box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.12);
+}
+
+.discoveryFilter select:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.discoveryClearFilters {
+  align-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  height: 44px;
+  padding: 0 1rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.discoveryTotal,
+.discoveryCardKind {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.85rem;
+}
+
+.discoveryState {
+  display: grid;
+  justify-items: center;
+  gap: 0.85rem;
+  min-height: 220px;
+  padding: 3rem 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  place-content: center;
+}
+
+.discoveryState h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.35rem;
+}
+
+.discoveryState p {
+  margin: 0;
+}
+
+.discoveryState > div {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.discoverySkeleton {
+  pointer-events: none;
+}
+
+.discoverySkeletonImage {
+  height: 220px;
+  background: linear-gradient(100deg, #151a17 20%, #232b25 45%, #151a17 70%);
+  background-size: 240% 100%;
+  animation: discoveryShimmer 1.4s linear infinite;
+}
+
+.discoverySkeletonBody {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.discoverySkeletonBody span {
+  display: block;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.discoverySkeletonBody span:nth-child(2) { width: 72%; }
+.discoverySkeletonBody span:nth-child(3) { width: 45%; }
+
+@keyframes discoveryShimmer {
+  to { background-position: -240% 0; }
+}
+
+.discoveryPagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.discoveryPagination button,
+.discoveryCompareInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem;
+  color: #0a0d0b;
+  border: 0;
+  border-radius: 999px;
+  background: #39ff14;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.discoveryPagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.discoveryCompareInline {
+  margin: 1.25rem auto 0;
+}
+
+.discoveryFallbackImg {
+  object-fit: contain !important;
+  padding: 2rem;
+  background: #0d120f;
+}
+
+@media (max-width: 1100px) {
+  .discoveryFilters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .discoveryFilters { grid-template-columns: 1fr 1fr; }
+  .discoveryClearFilters { width: 100%; }
+  .discoveryPagination { gap: 0.55rem; font-size: 0.78rem; }
+}
+
+@media (max-width: 480px) {
+  .discoveryFilters { grid-template-columns: 1fr; }
+  .discoveryState > div { flex-direction: column; }
+}

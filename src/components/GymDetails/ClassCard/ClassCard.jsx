@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { FiClock, FiUsers, FiUser } from "react-icons/fi";
 import styles from "./ClassCard.module.css";
@@ -108,9 +107,8 @@ const ClassCard = ({ cls, onBook }) => {
           className={styles.bookBtn}
           onClick={onBook}
           aria-label={`Book ${cls.name} class`}
-          disabled={cls.spotsLeft === 0}
         >
-          {cls.spotsLeft === 0 ? "Class Full" : "Book Class"}
+          Book Class
         </button>
       </div>
     </motion.div>

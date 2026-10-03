@@ -965,7 +965,7 @@ const OfferCard = ({ offer }) => (
 ═══════════════════════════════════════════ */
 
 /* ── Page Header ── */
-const PageHeader = () => {
+export const PageHeader = () => {
   const ref = useRef(null);
 
   useGSAP(
@@ -1164,7 +1164,7 @@ const TrendingNearYou = ({ compareItems, onCompareToggle }) => {
 };
 
 /* ── Featured Collections ── */
-const FeaturedCollections = () => {
+export const FeaturedCollections = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-8%" });
 
@@ -1363,7 +1363,7 @@ const FeaturedGyms = ({ compareItems, onCompareToggle, onViewGym }) => {
 };
 
 /* ── Special Offers ── */
-const SpecialOffers = () => {
+export const SpecialOffers = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-8%" });
 
@@ -1405,7 +1405,7 @@ const SpecialOffers = () => {
 };
 
 /* ── Why Gymssy ── */
-const WhyGymssy = () => {
+export const WhyGymssy = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-8%" });
 

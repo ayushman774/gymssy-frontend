@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { FiStar, FiClock, FiArrowRight, FiUsers } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
 import styles from "./NutritionistCard.module.css";
+import FavoriteButton from "../../Favorites/FavoriteButton.jsx";
 
 /* ── Shared fade-up variant (matches project convention) ── */
 const fadeUp = {
@@ -102,6 +103,7 @@ const NutritionistCard = ({ nutritionist, index = 0 }) => {
             Featured
           </div>
         )}
+        {(nutritionist._id || nutritionist.id) && <div style={{ position: "absolute", top: 12, right: 12, zIndex: 4 }}><FavoriteButton targetType="nutritionist" targetId={nutritionist._id || nutritionist.id} name={nutritionist.name} /></div>}
       </div>
 
       {/* ── Body ── */}
