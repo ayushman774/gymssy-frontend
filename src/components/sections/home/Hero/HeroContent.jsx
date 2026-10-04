@@ -121,10 +121,10 @@ const HeroContent = ({ currentSlide }) => {
         {/* Trust badges */}
         <motion.div className={styles.trustRow} variants={itemVariants}>
           {[
-            "✓ Verified Fitness Partners",
-            "✓ Secure Online Booking",
+            "✓ Published Fitness Listings",
+            "✓ Booking Request Tracking",
             "✓ Compare Prices",
-            "✓ Easy Cancellation",
+            "✓ Manage Booking Requests",
           ].map((t) => (
             <span key={t} className={styles.trustBadge}>
               {t}

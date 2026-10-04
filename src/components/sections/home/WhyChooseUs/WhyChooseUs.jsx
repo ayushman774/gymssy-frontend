@@ -119,7 +119,7 @@ const WhyChooseUs = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.25 }}
           >
-            Built for fitness seekers. Trusted by thousands.
+            Built for fitness seekers and marketplace providers.
           </motion.p>
 
           <div className={styles.neonLineWrapper} aria-hidden="true">

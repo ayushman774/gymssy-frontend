@@ -9,7 +9,6 @@ import {
   FiPhone,
   FiMail,
   FiMapPin,
-  FiClock,
   FiArrowUpRight,
   FiArrowRight,
 } from "react-icons/fi";
@@ -362,7 +361,7 @@ const FooterCTA = () => {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 1.1 }}
         >
-          {["10,000+ Members", "15 Years Excellence", "98% Retention Rate"].map(
+          {["Gyms & Studios", "Trainers & Coaches", "Wellness Professionals"].map(
             (badge) => (
               <span key={badge} className={styles.ctaTrustBadge}>
                 <span className={styles.ctaTrustDot} aria-hidden="true" />

@@ -326,16 +326,16 @@ export const TRENDING_EXPERIENCES = [
 export const WHY_FEATURES = [
   {
     id: "verified",
-    title: "Verified Gyms",
+    title: "Published Gyms",
     description:
-      "Every gym on our platform is physically verified and quality-checked by our team.",
+      "Browse active gym and studio listings published across the Gymssy marketplace.",
     color: "green",
   },
   {
     id: "trainers",
-    title: "Certified Trainers",
+    title: "Fitness Professionals",
     description:
-      "All trainers hold recognised certifications and are background-verified.",
+      "Explore trainer and coach profiles with their specialties, experience, and services.",
     color: "blue",
   },
   {
@@ -347,23 +347,23 @@ export const WHY_FEATURES = [
   },
   {
     id: "secure",
-    title: "Secure Membership",
+    title: "Booking Requests",
     description:
-      "Your payments and personal data are protected with bank-grade encryption.",
+      "Send a booking request and track the provider's response from your Gymssy account.",
     color: "blue",
   },
   {
     id: "deals",
-    title: "Exclusive Deals",
+    title: "Marketplace Discovery",
     description:
-      "Access member-only offers, flash deals, and first-month discounts.",
+      "Discover gyms, studios, trainers, coaches, and nutrition professionals in one place.",
     color: "green",
   },
   {
     id: "reviews",
-    title: "Trusted Reviews",
+    title: "Detailed Profiles",
     description:
-      "Every review is verified and written by real, confirmed members.",
+      "Review published listing information before contacting a provider or requesting a booking.",
     color: "blue",
   },
 ];

@@ -89,3 +89,25 @@ test("Home venue section contains real loading, empty, and retry states without 
   assert.doesNotMatch(card, /venue\.distance|Open Now|Closed|venue\.facilities|Join Now/);
   assert.match(card, /navigate\(venue\.href\)/);
 });
+
+test("Home marketing copy stays within implemented marketplace and booking-request capabilities", async () => {
+  const [hero, marketplace, whyChooseUs, footer] = await Promise.all([
+    readFile(new URL("../src/components/sections/home/Hero/HeroContent.jsx", import.meta.url), "utf8"),
+    readFile(new URL("../src/assets/data/marketplace.js", import.meta.url), "utf8"),
+    readFile(new URL("../src/components/sections/home/WhyChooseUs/WhyChooseUs.jsx", import.meta.url), "utf8"),
+    readFile(new URL("../src/components/layout/Footer/Footer.jsx", import.meta.url), "utf8"),
+  ]);
+  const homeCopy = [hero, marketplace, whyChooseUs, footer].join("\n");
+  for (const unsupportedClaim of [
+    "Secure Online Booking",
+    "payments and personal data",
+    "physically verified",
+    "background-verified",
+    "Every review is verified",
+    "10,000+ Members",
+    "15 Years Excellence",
+    "98% Retention Rate",
+  ]) assert.doesNotMatch(homeCopy, new RegExp(unsupportedClaim.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
+  assert.match(hero, /Booking Request Tracking/);
+  assert.match(marketplace, /Send a booking request and track the provider's response/);
+});
