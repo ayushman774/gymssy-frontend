@@ -168,10 +168,11 @@ test("location composes with discovery without putting default recommended ahead
 });
 
 test("location UI has debouncing, cancellation, stale guards, keyboard semantics, attribution, safe errors, and no direct provider request", async () => {
-  const [component, context, utility] = await Promise.all([
+  const [component, context, utility, netlifyConfig] = await Promise.all([
     readFile(new URL("../src/components/Location/CustomerLocationPicker.jsx", import.meta.url), "utf8"),
     readFile(new URL("../src/context/CustomerLocationContext.jsx", import.meta.url), "utf8"),
     readFile(new URL("../src/utils/customerLocation.js", import.meta.url), "utf8"),
+    readFile(new URL("../netlify.toml", import.meta.url), "utf8"),
   ]);
   assert.match(component, /LOCATION_AUTOCOMPLETE_DEBOUNCE_MS = 300/);
   assert.match(component, /new AbortController\(\)/);
@@ -183,4 +184,6 @@ test("location UI has debouncing, cancellation, stale guards, keyboard semantics
   assert.match(utility, /getCurrentPosition/);
   assert.doesNotMatch(utility + context, /watchPosition/);
   assert.doesNotMatch(context, /useEffect/);
+  assert.match(netlifyConfig, /geolocation=\(self\)/);
+  assert.doesNotMatch(netlifyConfig, /geolocation=\(\)/);
 });
