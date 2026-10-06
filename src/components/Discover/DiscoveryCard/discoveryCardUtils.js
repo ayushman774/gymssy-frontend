@@ -14,6 +14,13 @@ export function listingTags(item) {
   return [item.summary?.role, item.summary?.specialty, item.summary?.experience].filter(Boolean);
 }
 
+export function listingDistance(distance) {
+  if (!distance || typeof distance !== "object") return "";
+  const value = distance.value;
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0 || distance.unit !== "km") return "";
+  return `${value} km away`;
+}
+
 export function toCompareItem(item) {
   return {
     id: item.id,

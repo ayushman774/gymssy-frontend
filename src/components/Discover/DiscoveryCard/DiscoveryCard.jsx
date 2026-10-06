@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FiBarChart2, FiCheck, FiMapPin, FiStar } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { isProfessionalType } from "../../../utils/discoveryState";
-import { FALLBACK_IMAGE, TYPE_LABELS, listingLocation, listingTags, toCompareItem } from "./discoveryCardUtils";
+import { FALLBACK_IMAGE, TYPE_LABELS, listingDistance, listingLocation, listingTags, toCompareItem } from "./discoveryCardUtils";
 import styles from "../../../pages/Discover/DiscoverPage.module.css";
 import FavoriteButton from "../../Favorites/FavoriteButton.jsx";
 import { favoriteTargetType } from "../../../utils/favoriteIdentity.js";
@@ -10,6 +10,7 @@ import { favoriteTargetType } from "../../../utils/favoriteIdentity.js";
 export default function DiscoveryCard({ item, selected = false, compareDisabled = false, onCompare, onView }) {
   const navigate = useNavigate();
   const location = listingLocation(item);
+  const distance = listingDistance(item.distance);
   const tags = listingTags(item);
   const professional = isProfessionalType(item.entityType);
   const targetType = favoriteTargetType(item.entityType);
@@ -35,6 +36,7 @@ export default function DiscoveryCard({ item, selected = false, compareDisabled 
           <span className={styles.discoverRating}><FiStar aria-hidden="true" /> {Number(item.rating || 0).toFixed(1)}</span>
           <span className={styles.discoverReviews}>({item.reviewCount || 0})</span>
           {location && <><span className={styles.discoverDot} aria-hidden="true" /><span className={styles.discoverDistance}><FiMapPin aria-hidden="true" /> {location}</span></>}
+          {distance && <><span className={styles.discoverDot} aria-hidden="true" /><span className={styles.discoverDistance}>{distance}</span></>}
         </div>
         <h3 className={styles.discoverName}>{item.name}</h3>
         <div className={styles.discoverTags}>{tags.slice(0, 3).map((tag) => <span key={tag} className={styles.discoverTag}>{tag.replaceAll("-", " ")}</span>)}</div>

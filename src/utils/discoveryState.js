@@ -19,6 +19,7 @@ export function readDiscoveryUrl(search = "") {
     category: (params.get("category") || "").trim().toLowerCase(),
     subcategory: (params.get("subcategory") || "").trim().toLowerCase(),
     type: (params.get("type") || "").trim().toLowerCase(),
+    entity: (params.get("entity") || "").trim().toLowerCase(),
     city: (params.get("city") || "").trim().toLowerCase(),
     sort: (params.get("sort") || "recommended").trim().toLowerCase(),
     page: Math.max(Number.parseInt(params.get("page") || "1", 10) || 1, 1),
@@ -45,6 +46,7 @@ export function validateDiscoveryState(filters, categories = [], cities = []) {
   const subcategories = category?.subcategories || [];
   if (!subcategories.some((item) => item.slug === next.subcategory)) next.subcategory = "";
   if (!TYPE_VALUES.has(next.type)) next.type = "";
+  if (next.entity !== "venue") next.entity = "";
   if (!SORT_VALUES.has(next.sort)) next.sort = "recommended";
   const city = cities.find((item) => item.slug === next.city || item.name?.trim().toLowerCase() === next.city);
   next.city = city?.slug || "";
@@ -61,7 +63,7 @@ export function changeDiscoveryFilter(filters, field, value) {
 
 export function discoveryUrlSearch(filters) {
   const params = new URLSearchParams();
-  for (const field of ["search", "category", "subcategory", "type", "city", "sort"]) {
+  for (const field of ["search", "category", "subcategory", "type", "entity", "city", "sort"]) {
     const value = filters[field];
     if (!value || (field === "sort" && value === "recommended")) continue;
     params.set(field, value);
@@ -72,7 +74,7 @@ export function discoveryUrlSearch(filters) {
 }
 
 export function clearDiscoveryFilters() {
-  return { search: "", category: "", subcategory: "", type: "", city: "", sort: "recommended", page: 1, limit: 20 };
+  return { search: "", category: "", subcategory: "", type: "", entity: "", city: "", sort: "recommended", page: 1, limit: 20 };
 }
 
 export function isProfessionalType(type) {

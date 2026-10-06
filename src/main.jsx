@@ -9,12 +9,15 @@ import "leaflet/dist/leaflet.css";
 import "./animations/gsap/index.js";
 import { CustomerAuthProvider } from "./context/CustomerAuthContext.jsx";
 import { FavoritesProvider } from "./context/FavoritesContext.jsx";
+import { CustomerLocationProvider } from "./context/CustomerLocationContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <CustomerAuthProvider>
-        <FavoritesProvider><App /></FavoritesProvider>
+        <CustomerLocationProvider>
+          <FavoritesProvider><App /></FavoritesProvider>
+        </CustomerLocationProvider>
       </CustomerAuthProvider>
     </BrowserRouter>
   </StrictMode>

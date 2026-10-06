@@ -1,0 +1,137 @@
+.root {
+  position: relative;
+  z-index: 12;
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0 1.25rem;
+  padding: 1rem;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(57, 255, 20, 0.07), rgba(9, 14, 11, 0.92) 45%);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.25);
+}
+
+.headingRow,
+.activeActions,
+.controls,
+.activeLocation,
+.deviceButton {
+  display: flex;
+  align-items: center;
+}
+
+.headingRow { justify-content: space-between; gap: 1rem; }
+.headingRow h3 { margin: 0.15rem 0 0; color: #fff; font: 700 1rem/1.2 "Poppins", sans-serif; }
+.eyebrow { color: #39ff14; font: 700 0.64rem/1 "Inter", sans-serif; letter-spacing: 0.13em; }
+.activeActions { gap: 0.45rem; }
+.activeActions button,
+.message button {
+  padding: 0.4rem 0.65rem;
+  color: #d7ffcf;
+  border: 1px solid rgba(57, 255, 20, 0.28);
+  border-radius: 999px;
+  background: transparent;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.activeLocation {
+  gap: 0.7rem;
+  min-width: 0;
+  color: #39ff14;
+}
+.activeLocation > div { display: grid; min-width: 0; gap: 0.15rem; }
+.activeLocation span { color: rgba(255, 255, 255, 0.52); font: 600 0.7rem/1 "Inter", sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+.activeLocation strong { overflow: hidden; color: #fff; font: 600 0.9rem/1.4 "Inter", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+
+.controls { gap: 0.75rem; }
+.combobox { position: relative; flex: 1 1 360px; min-width: 0; }
+.combobox input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 7rem 0 2.75rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  outline: none;
+  background: #0c110e;
+  font: 500 0.9rem "Inter", sans-serif;
+}
+.combobox input:focus { border-color: #39ff14; box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.12); }
+.searchIcon { position: absolute; z-index: 2; top: 50%; left: 0.95rem; color: rgba(255, 255, 255, 0.5); transform: translateY(-50%); }
+.loading { position: absolute; top: 50%; right: 0.9rem; color: rgba(255, 255, 255, 0.58); font-size: 0.72rem; transform: translateY(-50%); }
+.clearQuery { position: absolute; top: 50%; right: 0.65rem; display: grid; width: 34px; height: 34px; color: rgba(255, 255, 255, 0.65); border: 0; background: transparent; cursor: pointer; transform: translateY(-50%); place-items: center; }
+.or { flex: 0 0 auto; color: rgba(255, 255, 255, 0.35); font-size: 0.75rem; }
+.deviceButton {
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0 1rem;
+  color: #071006;
+  border: 0;
+  border-radius: 12px;
+  background: #39ff14;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.deviceButton:disabled { cursor: wait; opacity: 0.65; }
+
+.options {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  left: 0;
+  overflow: auto;
+  max-height: 300px;
+  padding: 0.4rem;
+  border: 1px solid rgba(57, 255, 20, 0.22);
+  border-radius: 13px;
+  background: #0b100d;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+}
+.options > button {
+  display: flex;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.75rem;
+  color: rgba(255, 255, 255, 0.62);
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.options > button > span { display: grid; min-width: 0; gap: 0.2rem; }
+.options strong { color: #fff; font-size: 0.86rem; }
+.options small { overflow: hidden; font-size: 0.72rem; text-overflow: ellipsis; white-space: nowrap; }
+.options > button:hover,
+.activeOption { color: #39ff14 !important; background: rgba(57, 255, 20, 0.1) !important; }
+.message { margin: 0; padding: 0.8rem; color: rgba(255, 255, 255, 0.65); font-size: 0.8rem; text-align: center; }
+.message p { margin: 0 0 0.6rem; }
+.inlineError { margin: 0; color: #ffb3b3; font-size: 0.8rem; }
+.helper,
+.attribution { margin: 0; color: rgba(255, 255, 255, 0.42); font: 500 0.7rem/1.45 "Inter", sans-serif; }
+.attribution { font-size: 0.62rem; }
+.attribution a { color: rgba(215, 255, 207, 0.68); }
+
+@media (max-width: 768px) {
+  .controls { align-items: stretch; flex-direction: column; }
+  .combobox { flex-basis: auto; }
+  .or { align-self: center; }
+  .deviceButton { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .root { padding: 0.85rem; border-radius: 14px; }
+  .headingRow { align-items: flex-start; }
+  .activeActions { flex-wrap: wrap; justify-content: flex-end; }
+  .combobox input { padding-right: 3rem; }
+  .activeLocation strong { white-space: normal; }
+  .options { max-height: 260px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root *, .root *::before, .root *::after { scroll-behavior: auto !important; transition: none !important; }
+}

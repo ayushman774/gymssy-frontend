@@ -15,7 +15,7 @@ export class DiscoveryApiError extends Error {
 
 export function buildDiscoveryQuery(filters = {}) {
   const params = new URLSearchParams();
-  for (const field of ["search", "category", "subcategory", "type", "entity", "city", "sort", "page", "limit"]) {
+  for (const field of ["search", "category", "subcategory", "type", "entity", "city", "sort", "page", "limit", "lat", "lng", "radius"]) {
     const value = filters[field];
     if (value === undefined || value === null || String(value).trim() === "") continue;
     params.set(field, String(value).trim());
