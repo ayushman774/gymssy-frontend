@@ -22,10 +22,15 @@ const LocationMap = ({ gym, distance = null }) => {
   const latitude = coordinates?.latitude;
   const longitude = coordinates?.longitude;
   const directionsUrl = googleMapsDirectionsUrl(gym?.coordinates);
-  const address = readableLocationPart(gym?.location?.address)
-    || [readableLocationPart(gym?.location?.area), readableLocationPart(gym?.location?.city)]
-      .filter(Boolean).join(", ")
-    || "Address unavailable";
+  const address =
+    readableLocationPart(gym?.location?.address) ||
+    [
+      readableLocationPart(gym?.location?.area),
+      readableLocationPart(gym?.location?.city),
+    ]
+      .filter(Boolean)
+      .join(", ") ||
+    "Address unavailable";
   const landmark = readableLocationPart(gym?.location?.landmark);
   const parking = readableLocationPart(gym?.location?.parking);
 
@@ -43,9 +48,12 @@ const LocationMap = ({ gym, distance = null }) => {
 
         delete L.Icon.Default.prototype._getIconUrl;
         L.Icon.Default.mergeOptions({
-          iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-          iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-          shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+          iconRetinaUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
+          iconUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
         });
 
         const map = L.map(mapRef.current, {
@@ -56,10 +64,10 @@ const LocationMap = ({ gym, distance = null }) => {
           attributionControl: true,
         });
 
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',
-          subdomains: "abcd",
-          maxZoom: 20,
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+          maxZoom: 19,
         }).addTo(map);
 
         const customIcon = L.divIcon({
@@ -77,13 +85,17 @@ const LocationMap = ({ gym, distance = null }) => {
           popupAnchor: [0, -40],
         });
 
-        const marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
+        const marker = L.marker([latitude, longitude], {
+          icon: customIcon,
+        }).addTo(map);
         const popupContent = createSafeLocationPopup(gym);
         if (popupContent) {
-          marker.bindPopup(popupContent, {
-            className: styles.customPopup,
-            closeButton: false,
-          }).openPopup();
+          marker
+            .bindPopup(popupContent, {
+              className: styles.customPopup,
+              closeButton: false,
+            })
+            .openPopup();
         }
 
         mapInstanceRef.current = map;
@@ -113,7 +125,9 @@ const LocationMap = ({ gym, distance = null }) => {
     >
       <h2 className={styles.title}>Location & Directions</h2>
 
-      <div className={`${styles.locationGrid} ${!coordinates ? styles.infoOnly : ""}`}>
+      <div
+        className={`${styles.locationGrid} ${!coordinates ? styles.infoOnly : ""}`}
+      >
         {coordinates && (
           <div className={styles.mapContainer}>
             <div
@@ -136,7 +150,9 @@ const LocationMap = ({ gym, distance = null }) => {
             {distance && (
               <div className={styles.distanceBlock}>
                 <span className={styles.distance}>{distance.label}</span>
-                <span className={styles.distanceQualifier}>{distance.qualifier}</span>
+                <span className={styles.distanceQualifier}>
+                  {distance.qualifier}
+                </span>
               </div>
             )}
           </div>

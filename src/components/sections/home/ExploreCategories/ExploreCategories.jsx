@@ -288,20 +288,6 @@ const ExploreCategories = () => {
               Explore Top{" "}
               <span className={styles.headlineAccent}>Categories</span>
             </motion.h2>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Link to="/categories" className={styles.viewAll}>
-                View All
-                <FiArrowRight
-                  className={styles.viewAllIcon}
-                  aria-hidden="true"
-                />
-              </Link>
-            </motion.div>
           </div>
 
           <motion.p

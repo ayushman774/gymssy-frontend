@@ -1,4 +1,4 @@
-export const HOME_VENUE_LIMIT = 4;
+export const HOME_VENUE_LIMIT = 10;
 
 export const HOME_VENUE_FILTERS = Object.freeze({
   entity: "venue",

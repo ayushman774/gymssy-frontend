@@ -12,21 +12,38 @@ import {
 } from "../src/utils/homeMarketplace.js";
 
 const originalFetch = globalThis.fetch;
-afterEach(() => { globalThis.fetch = originalFetch; });
+afterEach(() => {
+  globalThis.fetch = originalFetch;
+});
 
 test("Home venues use a bounded recommended venue-only Discovery query", async () => {
-  assert.deepEqual(HOME_VENUE_FILTERS, { entity: "venue", sort: "recommended", page: 1, limit: 4 });
-  assert.equal(HOME_VENUE_LIMIT, 4);
+  assert.deepEqual(HOME_VENUE_FILTERS, {
+    entity: "venue",
+    sort: "recommended",
+    page: 1,
+    limit: 10,
+  });
+  assert.equal(HOME_VENUE_LIMIT, 10);
   let requestedUrl;
   globalThis.fetch = async (url) => {
     requestedUrl = url;
-    return { ok: true, status: 200, async json() { return { success: true, data: [], pagination: { page: 1, limit: 4, total: 0, totalPages: 0 } }; } };
+    return {
+      ok: true,
+      status: 200,
+      async json() {
+        return {
+          success: true,
+          data: [],
+          pagination: { page: 1, limit: 10, total: 0, totalPages: 0 },
+        };
+      },
+    };
   };
   const result = await fetchDiscovery(HOME_VENUE_FILTERS);
   const query = new URL(requestedUrl).searchParams;
   assert.equal(query.get("entity"), "venue");
   assert.equal(query.get("sort"), "recommended");
-  assert.equal(query.get("limit"), "4");
+  assert.equal(query.get("limit"), "10");
   assert.equal(query.has("city"), false);
   assert.deepEqual(result.listings, []);
 });
@@ -78,24 +95,57 @@ test("featured trainer adapter follows the current safe public professional cont
 
 test("Home venue section contains real loading, empty, and retry states without static inventory", async () => {
   const [section, card] = await Promise.all([
-    readFile(new URL("../src/components/sections/home/GymsNearYou/GymsNearYou.jsx", import.meta.url), "utf8"),
-    readFile(new URL("../src/components/sections/home/GymsNearYou/HomeVenueCard.jsx", import.meta.url), "utf8"),
+    readFile(
+      new URL(
+        "../src/components/sections/home/GymsNearYou/GymsNearYou.jsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../src/components/sections/home/GymsNearYou/HomeVenueCard.jsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
   ]);
   assert.doesNotMatch(section, /FEATURED_GYMS|gymsData/);
   assert.match(section, /useHomeVenues/);
   assert.match(section, /Loading recommended venues/);
   assert.match(section, /No published venues/);
   assert.match(section, /onClick=\{retry\}/);
-  assert.doesNotMatch(card, /venue\.distance|Open Now|Closed|venue\.facilities|Join Now/);
+  assert.doesNotMatch(
+    card,
+    /venue\.distance|Open Now|Closed|venue\.facilities|Join Now/,
+  );
   assert.match(card, /navigate\(venue\.href\)/);
 });
 
 test("Home marketing copy stays within implemented marketplace and booking-request capabilities", async () => {
   const [hero, marketplace, whyChooseUs, footer] = await Promise.all([
-    readFile(new URL("../src/components/sections/home/Hero/HeroContent.jsx", import.meta.url), "utf8"),
-    readFile(new URL("../src/assets/data/marketplace.js", import.meta.url), "utf8"),
-    readFile(new URL("../src/components/sections/home/WhyChooseUs/WhyChooseUs.jsx", import.meta.url), "utf8"),
-    readFile(new URL("../src/components/layout/Footer/Footer.jsx", import.meta.url), "utf8"),
+    readFile(
+      new URL(
+        "../src/components/sections/home/Hero/HeroContent.jsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL("../src/assets/data/marketplace.js", import.meta.url),
+      "utf8",
+    ),
+    readFile(
+      new URL(
+        "../src/components/sections/home/WhyChooseUs/WhyChooseUs.jsx",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+    readFile(
+      new URL("../src/components/layout/Footer/Footer.jsx", import.meta.url),
+      "utf8",
+    ),
   ]);
   const homeCopy = [hero, marketplace, whyChooseUs, footer].join("\n");
   for (const unsupportedClaim of [
@@ -107,7 +157,14 @@ test("Home marketing copy stays within implemented marketplace and booking-reque
     "10,000+ Members",
     "15 Years Excellence",
     "98% Retention Rate",
-  ]) assert.doesNotMatch(homeCopy, new RegExp(unsupportedClaim.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
+  ])
+    assert.doesNotMatch(
+      homeCopy,
+      new RegExp(unsupportedClaim.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"),
+    );
   assert.match(hero, /Booking Request Tracking/);
-  assert.match(marketplace, /Send a booking request and track the provider's response/);
+  assert.match(
+    marketplace,
+    /Send a booking request and track the provider's response/,
+  );
 });

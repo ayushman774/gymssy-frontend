@@ -105,8 +105,20 @@
 /* Grid — 2×2 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .cardSlot {
@@ -142,11 +154,17 @@
   background: rgba(255, 255, 255, 0.07);
 }
 
-.skeletonBody span:nth-child(2) { width: 58%; }
-.skeletonBody span:nth-child(3) { width: 38%; }
+.skeletonBody span:nth-child(2) {
+  width: 58%;
+}
+.skeletonBody span:nth-child(3) {
+  width: 38%;
+}
 
 @keyframes venueShimmer {
-  to { background-position: -240% 0; }
+  to {
+    background-position: -240% 0;
+  }
 }
 
 .sectionState {
@@ -168,7 +186,9 @@
   font-size: 1.4rem;
 }
 
-.sectionState p { margin: 0; }
+.sectionState p {
+  margin: 0;
+}
 
 .sectionState button {
   display: inline-flex;
@@ -308,5 +328,108 @@
 @media (max-width: 600px) {
   .section {
     padding: 0rem;
+  }
+}
+
+/* =========================================
+   HOME VENUES — HORIZONTAL SWIPER
+========================================= */
+
+.carouselWrapper {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.carouselControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.carouselCount {
+  color: rgba(255, 255, 255, 0.55);
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.carouselArrows {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.carouselArrow {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.carouselArrow:hover:not(:disabled) {
+  background: #39ff14;
+  border-color: #39ff14;
+  color: #000000;
+}
+
+.carouselArrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carouselArrow:focus-visible {
+  outline: 2px solid #39ff14;
+  outline-offset: 3px;
+}
+
+.venueSwiper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.venueSlide {
+  height: auto;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.cardSlot {
+  height: 100%;
+  min-width: 0;
+}
+
+/* Compact venue cards — scoped to this carousel */
+
+.cardSlot :global(article) {
+  height: 100%;
+}
+
+.cardSlot :global(article h3) {
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 639px) {
+  .carouselCount {
+    font-size: 0.72rem;
+  }
+
+  .carouselArrow {
+    width: 36px;
+    height: 36px;
   }
 }
