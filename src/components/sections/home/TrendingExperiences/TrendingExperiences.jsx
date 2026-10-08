@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -191,6 +191,8 @@ const TrendingExperiences = () => {
   const neonLineRef = useRef(null);
   const gsapRan = useRef(false);
 
+  const [showAll, setShowAll] = useState(false);
+
   /* ── API ── */
   const { experiences, loading, error, refetch } = useTrendingExperiences();
 
@@ -286,19 +288,43 @@ const TrendingExperiences = () => {
 
         {/* Success */}
         {!loading && !error && experiences.length > 0 && (
-          <div
-            className={styles.grid}
-            role="list"
-            aria-label="Trending fitness experiences"
-          >
-            {experiences.map((exp, index) => (
-              <div key={exp.id} role="listitem">
-                <ExperienceCard exp={exp} index={index} />
-              </div>
-            ))}
-          </div>
-        )}
+          <>
+            <div
+              className={styles.grid}
+              role="list"
+              aria-label="Trending fitness experiences"
+              id="trending-experiences-grid"
+            >
+              {(showAll ? experiences : experiences.slice(0, 6)).map(
+                (exp, index) => (
+                  <div key={exp.id} role="listitem">
+                    <ExperienceCard exp={exp} index={index} />
+                  </div>
+                ),
+              )}
+            </div>
 
+            {experiences.length > 6 && (
+              <div className={styles.showMoreWrapper}>
+                <button
+                  type="button"
+                  className={styles.showMoreBtn}
+                  onClick={() => setShowAll((previous) => !previous)}
+                  aria-expanded={showAll}
+                  aria-controls="trending-experiences-grid"
+                >
+                  {showAll ? "Show Less" : "Show More"}
+                  <FiArrowRight
+                    className={`${styles.showMoreIcon} ${
+                      showAll ? styles.showLessIcon : ""
+                    }`}
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
+            )}
+          </>
+        )}
         {/* Empty */}
         {!loading && !error && experiences.length === 0 && (
           <motion.p
