@@ -35,7 +35,7 @@
 
 /* Leaflet popup dark override */
 :global(.leaflet-popup-content-wrapper) {
-  background: transparent !important;
+  background: #000000 !important;
   box-shadow: none !important;
   border: none !important;
 }

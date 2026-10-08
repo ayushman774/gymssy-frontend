@@ -173,6 +173,11 @@ test("map view is an accessible current-page projection with safe navigation and
   assert.doesNotMatch(page, /CustomerLocationPicker|loadLocationSuggestions/);
   assert.match(map, /current paginated result\s+set only/);
   assert.match(map, /tileerror/);
+  assert.doesNotMatch(
+    map,
+    /\.on\("tileload",\s*\(\)\s*=>\s*mounted\s*&&\s*setMapFailed\(false\)\)/,
+  );
+  assert.match(map, /tileLayer\.on\("tileerror"/);
   assert.match(map, /Switch to List/);
   assert.match(map, /keyboard/);
   assert.match(map, /safeVenueHref\(venue\.href\)/);

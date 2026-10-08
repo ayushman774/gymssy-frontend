@@ -50,6 +50,7 @@ export default function NearbyVenuesMap({
 
     const initialize = async () => {
       try {
+        if (mounted) setMapFailed(false);
         const leaflet = await import("leaflet");
         const L = leaflet.default;
         leafletRef.current = L;
@@ -62,18 +63,20 @@ export default function NearbyVenuesMap({
         mapInstance = map;
         mapInstanceRef.current = map;
 
-        L.tileLayer(
-          "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        const tileLayer = L.tileLayer(
+          "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
           {
             attribution:
-              '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
-            subdomains: "abcd",
-            maxZoom: 20,
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+            maxZoom: 19,
           },
-        )
-          .on("tileerror", () => mounted && setMapFailed(true))
-          .on("tileload", () => mounted && setMapFailed(false))
-          .addTo(map);
+        );
+
+        tileLayer.on("tileerror", () => {
+          if (mounted) setMapFailed(true);
+        });
+
+        tileLayer.addTo(map);
 
         const points = [
           [customerLocation.latitude, customerLocation.longitude],
