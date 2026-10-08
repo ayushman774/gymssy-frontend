@@ -39,6 +39,10 @@ export default function NearbyVenuesMap({
   const markersRef = useRef(new Map());
   const leafletRef = useRef(null);
 
+  const mapInstanceRef = useRef(null);
+  const selectedIdRef = useRef(effectiveSelectedId);
+  selectedIdRef.current = effectiveSelectedId;
+
   useEffect(() => {
     if (!venues.length || !mapElementRef.current) return undefined;
     let mounted = true;
@@ -56,6 +60,7 @@ export default function NearbyVenuesMap({
           scrollWheelZoom: false,
         });
         mapInstance = map;
+        mapInstanceRef.current = map;
 
         L.tileLayer(
           "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
@@ -95,7 +100,7 @@ export default function NearbyVenuesMap({
           ];
           points.push(position);
           const marker = L.marker(position, {
-            icon: venueIcon(L, venue.id === effectiveSelectedId),
+            icon: venueIcon(L, venue.id === selectedIdRef.current),
             keyboard: true,
             title: venue.name,
             alt: `Venue: ${venue.name}`,
@@ -126,6 +131,8 @@ export default function NearbyVenuesMap({
       mapInstance?.remove();
       mapInstance = null;
       markersRef.current.clear();
+      mapInstanceRef.current = null;
+      leafletRef.current = null;
     };
   }, [
     customerLocation.latitude,
@@ -137,13 +144,31 @@ export default function NearbyVenuesMap({
 
   useEffect(() => {
     const leaflet = leafletRef.current;
+    const map = mapInstanceRef.current;
 
-    if (!leaflet) return;
+    if (!leaflet || !map) return;
 
     for (const [id, marker] of markersRef.current) {
       marker.setIcon(venueIcon(leaflet, id === effectiveSelectedId));
     }
   }, [effectiveSelectedId, venues]);
+
+  const selectVenue = (venueId) => {
+    setSelectedId(venueId);
+
+    const marker = markersRef.current.get(venueId);
+    const map = mapInstanceRef.current;
+
+    if (!marker || !map) return;
+
+    const position = marker.getLatLng();
+
+    map.panTo(position, {
+      animate: !reducedMotion,
+    });
+
+    marker.openPopup();
+  };
 
   if (!venues.length) {
     return (
@@ -198,7 +223,7 @@ export default function NearbyVenuesMap({
             >
               <button
                 type="button"
-                onClick={() => setSelectedId(venue.id)}
+                onClick={() => selectVenue(venue.id)}
                 aria-label={`Highlight ${venue.name} on map`}
               >
                 <span className={styles.resultPin}>
