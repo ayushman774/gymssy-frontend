@@ -106,6 +106,21 @@ export const fetchTrendingExperiences = async () => {
 };
 
 /* ─────────────────────────────────────────────────────
+   fetchExperienceBySlug
+   GET /experiences/:slug
+   Returns a single active experience.
+───────────────────────────────────────────────────── */
+export const fetchExperienceBySlug = async (slug) => {
+  if (!slug || typeof slug !== "string") {
+    throw new Error("Experience slug is required");
+  }
+
+  const json = await apiFetch(`/experiences/${encodeURIComponent(slug)}`);
+
+  return json.data ?? null;
+};
+
+/* ─────────────────────────────────────────────────────
    fetchPopularCities
    GET /cities/popular
    Returns array of popular city objects.
