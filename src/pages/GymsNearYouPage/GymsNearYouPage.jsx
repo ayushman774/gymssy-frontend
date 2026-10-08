@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { FiChevronLeft, FiChevronRight, FiCrosshair, FiMapPin } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiCrosshair, FiList, FiMap, FiMapPin } from "react-icons/fi";
 import { MdFitnessCenter } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import DiscoveryCard from "../../components/Discover/DiscoveryCard/DiscoveryCard.jsx";
+import NearbyVenuesMap from "../../components/NearbyVenuesMap/NearbyVenuesMap.jsx";
 import { useCustomerLocation } from "../../context/CustomerLocationContext.jsx";
 import useDiscovery from "../../hooks/useDiscovery.js";
 import { CUSTOMER_LOCATION_DEFAULT_RADIUS_KM, customerLocationKey } from "../../utils/customerLocation.js";
@@ -22,6 +23,7 @@ export default function GymsNearYouPage() {
   const previousLocationKey = useRef(locationKey);
   const discoveryFilters = useMemo(() => buildGymsNearYouFilters(location, page), [location, page]);
   const discovery = useDiscovery(discoveryFilters, hasLocation);
+  const [view, setView] = useState("list");
 
   useEffect(() => {
     const normalized = gymsNearYouUrlSearch(page);
@@ -70,8 +72,16 @@ export default function GymsNearYouPage() {
         </div>
 
         {discovery.loading ? <LoadingGrid /> : discovery.error ? <div className={styles.resultState} role="alert"><span className={styles.stateIcon}><MdFitnessCenter aria-hidden="true" /></span><h3>We couldn’t load nearby venues</h3><p>Please check your connection and try again.</p><button className={styles.primaryButton} onClick={discovery.retry}>Retry</button></div> : discovery.listings.length === 0 ? <div className={styles.resultState} role="status"><span className={styles.stateIcon}><FiMapPin aria-hidden="true" /></span><h3>No venues found within {CUSTOMER_LOCATION_DEFAULT_RADIUS_KM} km</h3><p>Try another location or browse all published marketplace listings. The search radius is not expanded automatically.</p><div className={styles.stateActions}><Link className={styles.primaryButton} to="/discover">Change Location</Link><Link className={styles.secondaryButton} to="/discover">Browse All</Link></div></div> : <>
-          <div className={styles.resultsSummary} aria-live="polite"><strong>{discovery.pagination.total}</strong> {discovery.pagination.total === 1 ? "venue" : "venues"} found</div>
-          <div className={styles.gymsGrid}>{discovery.listings.map((listing) => <DiscoveryCard key={`${listing.entityType}-${listing.id}`} item={listing} />)}</div>
+          <div className={styles.resultsToolbar}>
+            <div className={styles.resultsSummary} aria-live="polite"><strong>{discovery.pagination.total}</strong> {discovery.pagination.total === 1 ? "venue" : "venues"} found</div>
+            <div className={styles.viewToggle} role="group" aria-label="Nearby venue view">
+              <button type="button" className={view === "list" ? styles.viewToggleActive : ""} aria-pressed={view === "list"} onClick={() => setView("list")}><FiList aria-hidden="true" /> List</button>
+              <button type="button" className={view === "map" ? styles.viewToggleActive : ""} aria-pressed={view === "map"} onClick={() => setView("map")}><FiMap aria-hidden="true" /> Map</button>
+            </div>
+          </div>
+          {view === "list"
+            ? <div className={styles.gymsGrid}>{discovery.listings.map((listing) => <DiscoveryCard key={`${listing.entityType}-${listing.id}`} item={listing} />)}</div>
+            : <NearbyVenuesMap listings={discovery.listings} customerLocation={location} onShowList={() => setView("list")} />}
           {discovery.pagination.totalPages > 1 && <nav className={styles.pagination} aria-label="Nearby venue result pages"><button disabled={page <= 1} onClick={() => goToPage(page - 1)}><FiChevronLeft aria-hidden="true" /> Previous</button><span>Page {discovery.pagination.page} of {discovery.pagination.totalPages}</span><button disabled={page >= discovery.pagination.totalPages} onClick={() => goToPage(page + 1)}>Next <FiChevronRight aria-hidden="true" /></button></nav>}
         </>}
       </>}
