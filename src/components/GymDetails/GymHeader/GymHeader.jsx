@@ -1,14 +1,12 @@
-import React from "react";
 import { motion } from "framer-motion";
 import {
   FiHeart,
   FiShare2,
   FiMapPin,
-  FiStar,
   FiCheck,
   FiCopy,
 } from "react-icons/fi";
-import { FaWhatsapp, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaWhatsapp, FaFacebook, FaTwitter } from "react-icons/fa";
 import styles from "./GymHeader.module.css";
 
 const GymHeader = ({
@@ -22,9 +20,8 @@ const GymHeader = ({
   shareMenuRef,
   onCopyLink,
   openStatus,
-  todayTiming,
-  formatTime,
   lowestPrice,
+  distance,
 }) => {
   const shareUrl = encodeURIComponent(window.location.href);
   const shareText = encodeURIComponent(
@@ -90,9 +87,14 @@ const GymHeader = ({
                 </span>
               </div>
 
-              <span className={styles.metaDivider}>·</span>
-
-              <span className={styles.distanceBadge}>{gym.distance} away</span>
+              {distance && (
+                <>
+                  <span className={styles.metaDivider}>·</span>
+                  <span className={styles.distanceBadge} title={distance.qualifier}>
+                    {distance.label}
+                  </span>
+                </>
+              )}
             </div>
 
             {/* Tags */}

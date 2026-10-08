@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import {
   FiStar,
@@ -33,11 +32,11 @@ const GymQuickInfo = ({
       sub: `${reviewCount.toLocaleString("en-IN")} reviews`,
       accent: true,
     },
-    {
+    distance && {
       icon: <FiMapPin className={styles.infoIcon} />,
-      label: "Distance",
-      value: distance,
-      sub: "from your location",
+      label: "Approx. Distance",
+      value: distance.label,
+      sub: "Straight-line estimate",
     },
     {
       icon: <FiClock className={styles.infoIcon} />,
@@ -60,14 +59,14 @@ const GymQuickInfo = ({
       value: "Premium",
       sub: "Technogym certified",
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <div className={styles.quickInfoBar}>
       <div className={styles.quickInfoInner}>
         {items.map((item, i) => (
           <motion.div
-            key={i}
+            key={item.label}
             className={styles.infoItem}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

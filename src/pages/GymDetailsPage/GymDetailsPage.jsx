@@ -1,6 +1,6 @@
 // src/pages/GymDetailsPage/GymDetailsPage.jsx
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
@@ -20,6 +20,8 @@ import {
 import useGymDetails from "../../hooks/useGymDetails";
 import useRecentlyViewed from "../../hooks/useRecentlyViewed";
 import { useFavorites } from "../../context/FavoritesContext.jsx";
+import { useCustomerLocation } from "../../context/CustomerLocationContext.jsx";
+import { approximateDistanceLabel, normalizeVenueCoordinates } from "../../utils/gymDetailLocation.js";
 
 import styles from "./GymDetailsPage.module.css";
 import GymHeader from "../../components/GymDetails/GymHeader/GymHeader";
@@ -82,6 +84,11 @@ const GymDetailsPage = () => {
   /* ── API ── */
   const { gym, similarGyms, loading, error, refetch } = useGymDetails(slug);
   const { recordView } = useRecentlyViewed();
+  const { location: customerLocation } = useCustomerLocation();
+  const customerDistance = useMemo(
+    () => approximateDistanceLabel(customerLocation, gym?.coordinates),
+    [customerLocation, gym?.coordinates],
+  );
 
   /* ── UI state ── */
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -238,9 +245,8 @@ const GymDetailsPage = () => {
           shareMenuRef={shareMenuRef}
           onCopyLink={handleCopyLink}
           openStatus={openStatus}
-          todayTiming={todayTiming}
-          formatTime={formatTime}
           lowestPrice={lowestPrice}
+          distance={customerDistance}
         />
 
         {/* ══ GALLERY ══ */}
@@ -258,7 +264,7 @@ const GymDetailsPage = () => {
         <GymQuickInfo
           rating={gym.rating}
           reviewCount={gym.reviewCount}
-          distance={gym.distance}
+          distance={customerDistance}
           todayTiming={todayTiming}
           openStatus={openStatus}
           formatTime={formatTime}
@@ -449,12 +455,12 @@ const GymDetailsPage = () => {
           )}
 
           {/* Location */}
-          {gym.coordinates && (
+          {(normalizeVenueCoordinates(gym.coordinates) || gym.location?.address || gym.location?.area || gym.location?.city) && (
             <section
               className={`${styles.section} ${styles.fullWidthSection}`}
               id="location"
             >
-              <LocationMap gym={gym} />
+              <LocationMap gym={gym} distance={customerDistance} />
             </section>
           )}
 
