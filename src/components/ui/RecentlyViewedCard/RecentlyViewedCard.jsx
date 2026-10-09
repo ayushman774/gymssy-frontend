@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -11,6 +11,7 @@ import {
 import { MdLocalFireDepartment } from "react-icons/md";
 import styles from "./RecentlyViewedCard.module.css";
 import FavoriteButton from "../../Favorites/FavoriteButton.jsx";
+import GYMSSY_FALLBACK_IMAGE from "../../../../public/images/logo/gymssy-logo.jpeg";
 
 /* ══════════════════════════════════════════════════════
    CATEGORY → accent colour map
@@ -35,8 +36,6 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
   const cardRef = useRef(null);
-
-  console.log("gym", gym)
 
   const {
     slug,
@@ -86,8 +85,22 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
 
   const imageUrl =
     getImageUrl(image) ||
+    getImageUrl(gym.images?.cover) ||
     getImageUrl(gym.coverImage) ||
-    getImageUrl(gym.images?.[0]);
+    getImageUrl(gym.images?.gallery?.[0]) ||
+    (Array.isArray(gym.images) ? getImageUrl(gym.images[0]) : "");
+
+  const displayImage = imageUrl || GYMSSY_FALLBACK_IMAGE;
+
+  const [failedImageUrl, setFailedImageUrl] = useState(null);
+
+  const currentImage =
+    failedImageUrl === displayImage ? GYMSSY_FALLBACK_IMAGE : displayImage;
+
+  useEffect(() => {
+    setImageLoaded(false);
+    setImageFailed(false);
+  }, [imageUrl]);
 
   const [imageFailed, setImageFailed] = useState(false);
 
@@ -153,35 +166,31 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
       <div className={styles.imageBlock}>
         {/* Skeleton shimmer */}
 
-        {!imageLoaded && !imageFailed && imageUrl && (
-          <div className={styles.skeleton} aria-hidden="true" />
-        )}
+        {!imageLoaded && <div className={styles.skeleton} aria-hidden="true" />}
 
-        {imageUrl && !imageFailed ? (
-          <motion.img
-            key={imageUrl}
-            src={imageUrl}
-            alt={`${name} gym facility`}
-            className={styles.image}
-            loading="lazy"
-            onLoad={() => setImageLoaded(true)}
-            onError={() => {
-              console.warn("Gym image failed:", name, imageUrl);
-              setImageFailed(true);
-            }}
-            style={{ opacity: imageLoaded ? 1 : 0 }}
-            variants={{
-              hover: {
-                scale: 1.07,
-                transition: { duration: 0.55, ease: "easeOut" },
-              },
-            }}
-          />
-        ) : (
-          <div className={styles.imageFallback}>
-            <span>Image unavailable</span>
-          </div>
-        )}
+        <motion.img
+          key={currentImage}
+          src={currentImage}
+          alt={`${name} gym facility`}
+          className={styles.image}
+          loading="lazy"
+          onLoad={() => setImageLoaded(true)}
+          onError={() => {
+            if (currentImage !== GYMSSY_FALLBACK_IMAGE) {
+              setFailedImageUrl(displayImage);
+              setImageLoaded(false);
+            } else {
+              setImageLoaded(true);
+            }
+          }}
+          style={{ opacity: imageLoaded ? 1 : 0 }}
+          variants={{
+            hover: {
+              scale: 1.07,
+              transition: { duration: 0.55, ease: "easeOut" },
+            },
+          }}
+        />
 
         {/* Gradient overlay */}
         <div className={styles.imageOverlay} aria-hidden="true" />

@@ -420,6 +420,20 @@ const normalizeGymCard = (gym) => {
   };
 };
 
+const normalizeExperienceCard = (experience) => {
+  const image = experience.image;
+
+  return {
+    ...experience,
+    id: experience._id ?? experience.id,
+    image: typeof image === "string" ? image : image?.url || "",
+    imageAlt:
+      typeof image === "object"
+        ? image?.alt || experience.title
+        : experience.title,
+  };
+};
+
 /* ──────────────────────────────────────────────────────────────
    HOOK
 ────────────────────────────────────────────────────────────── */
@@ -462,16 +476,21 @@ const useFitnessData = () => {
           citiesResult,
           categoriesResult,
         ] = await Promise.all([
-          fetchWithFallback("/api/gyms/featured", FALLBACK_GYMS),
-          fetchWithFallback("/api/trainers/featured", FALLBACK_TRAINERS),
-          fetchWithFallback("/api/experiences/trending", FALLBACK_EXPERIENCES),
+          fetchWithFallback("/api/gyms/featured?type=fitness", FALLBACK_GYMS),
+          fetchWithFallback(
+            "/api/trainers/featured?category=fitness",
+            FALLBACK_TRAINERS,
+          ),
+          fetchWithFallback(
+            "/api/experiences/trending?type=fitness",
+            FALLBACK_EXPERIENCES,
+          ),
           fetchWithFallback("/api/cities/popular", FALLBACK_CITIES),
           fetchWithFallback("/api/categories", []),
         ]);
 
         if (cancelled) return;
 
-        console.log("gymsResult", gymsResult)
         // Safely handle API responses
         const asArray = (value) => (Array.isArray(value) ? value : []);
 
@@ -484,7 +503,24 @@ const useFitnessData = () => {
 
         setRawCategories(apiCategories);
 
-        setExperiences(asArray(experiencesResult.data).slice(0, 6));
+        const fitnessTerms = buildFitnessTermSet(apiCategories);
+
+        const fitnessExperiences = asArray(experiencesResult.data)
+          .filter((experience) =>
+            isFitnessGym(experience.category, fitnessTerms),
+          )
+          .slice(0, 6)
+          .map(normalizeExperienceCard);
+
+        console.table(
+          fitnessExperiences.map((experience) => ({
+            title: experience.title,
+            category: experience.category,
+            image: experience.image,
+          })),
+        );
+
+        setExperiences(fitnessExperiences);
 
         setCities(asArray(citiesResult.data).slice(0, 6));
 
@@ -516,15 +552,15 @@ const useFitnessData = () => {
   /* ────────────────────────────────────────────────────────────
      Filter gyms to Fitness-only — UNCHANGED logic
   ──────────────────────────────────────────────────────────── */
+
   const gyms = useMemo(() => {
     const dynamicFitnessTerms = buildFitnessTermSet(rawCategories);
+
     return allFeaturedGyms
       .filter((gym) => isFitnessGym(gym.category, dynamicFitnessTerms))
-      .slice(0, 6)
+      .slice(0, 10)
       .map(normalizeGymCard);
   }, [allFeaturedGyms, rawCategories]);
-
-  console.log("useMemo", allFeaturedGyms)
 
   /* ────────────────────────────────────────────────────────────
      Filter trainers to Fitness-only  ← NEW
@@ -537,14 +573,17 @@ const useFitnessData = () => {
        2. filter each trainer: isFitnessTrainer(trainer.specialization, terms)
        3. slice to max 4 for display
   ──────────────────────────────────────────────────────────── */
+
   const trainers = useMemo(() => {
-    const dynamicFitnessTerms = buildFitnessTermSet(rawCategories);
-    return allFeaturedTrainers
-      .filter((trainer) =>
-        isFitnessTrainer(trainer.specialization, dynamicFitnessTerms),
-      )
-      .slice(0, 4);
-  }, [allFeaturedTrainers, rawCategories]);
+    const fitnessTrainers = allFeaturedTrainers.filter(
+      (trainer) => trainer.category?.trim().toLowerCase() === "fitness",
+    );
+
+    console.log("API trainers:", allFeaturedTrainers.length);
+    console.log("Filtered Fitness trainers:", fitnessTrainers.length);
+
+    return fitnessTrainers.slice(0, 10);
+  }, [allFeaturedTrainers]);
 
   return {
     gyms,

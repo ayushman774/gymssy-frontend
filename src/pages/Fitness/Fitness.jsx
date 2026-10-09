@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { FiClock, FiUsers, FiStar, FiArrowRight } from "react-icons/fi";
@@ -16,8 +16,8 @@ import FitnessHero from "../../components/sections/fitness/FitnessHero/FitnessHe
 import FitnessCategories from "../../components/sections/fitness/FitnessCategories/FitnessCategories";
 import FitnessGoals from "../../components/sections/fitness/FitnessGoals/FitnessGoals";
 import FitnessBenefits from "../../components/sections/fitness/FitnessBenefits/FitnessBenefits";
-import FitnessCities from "../../components/sections/fitness/FitnessCities/FitnessCities";
 import FitnessSection from "../../components/sections/fitness/FitnessSection/FitnessSection";
+import GYMSSY_TRAINER_FALLBACK from "../../../public/images/logo/gymssy-logo.jpeg";
 
 /* ── Data hook ── */
 import useFitnessData from "../../hooks/useFitnessData";
@@ -47,10 +47,18 @@ const ExperienceCard = ({ exp, index }) => {
       <div className={styles.expImageWrapper}>
         <img
           src={exp.image}
-          alt={exp.title}
+          alt={exp.imageAlt || exp.title}
           className={styles.expImage}
           loading="lazy"
+          onError={(event) => {
+            const fallback = GYMSSY_TRAINER_FALLBACK;
+
+            if (!event.currentTarget.src.endsWith(fallback)) {
+              event.currentTarget.src = fallback;
+            }
+          }}
         />
+
         <div className={styles.expImageOverlay} aria-hidden="true" />
         {exp.trending && (
           <div className={styles.trendBadge} aria-label="Trending">
@@ -106,6 +114,33 @@ const ExperienceCard = ({ exp, index }) => {
 ══════════════════════════════════════════════════════ */
 const FitnessTrainerCard = ({ trainer, index }) => {
   const navigate = useNavigate();
+
+  const trainerImage =
+    typeof trainer.image === "string"
+      ? trainer.image
+      : trainer.image?.src || "";
+
+  const trainerImageAlt =
+    trainer.image?.alt || `${trainer.name} - Personal Trainer`;
+
+  const trainerImageSrcSet =
+    typeof trainer.image === "object"
+      ? trainer.image?.srcSet || undefined
+      : undefined;
+
+  const trainerImageSizes =
+    typeof trainer.image === "object"
+      ? trainer.image?.sizes || undefined
+      : undefined;
+
+  const [imageFailed, setImageFailed] = useState(false);
+
+  // Use the same working Gymssy fallback image path
+  // already configured for your gym cards.
+
+  const useFallback = !trainerImage || imageFailed;
+  const displayImage = useFallback ? GYMSSY_TRAINER_FALLBACK : trainerImage;
+
   const price = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
@@ -128,11 +163,21 @@ const FitnessTrainerCard = ({ trainer, index }) => {
       {/* Image */}
       <div className={styles.trainerImageWrapper}>
         <img
-          src={trainer.image}
-          alt={trainer.name}
+          key={trainer.slug}
+          src={displayImage}
+          srcSet={useFallback ? undefined : trainerImageSrcSet}
+          sizes={useFallback ? undefined : trainerImageSizes}
+          alt={useFallback ? trainerImageAlt : trainerImageAlt}
           className={styles.trainerImage}
           loading="lazy"
+          onError={() => {
+            if (!useFallback) {
+              console.warn("Trainer image failed:", trainer.name, trainerImage);
+              setImageFailed(true);
+            }
+          }}
         />
+
         <div
           className={`${styles.availabilityBadge} ${
             trainer.isAvailable
