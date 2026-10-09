@@ -113,69 +113,6 @@ const FitnessHero = ({ onExploreClick }) => {
             fitness classes built around your goals.
           </motion.p>
 
-          {/* ── Search Form ── */}
-          <motion.form
-            className={styles.searchForm}
-            variants={itemVariants}
-            onSubmit={handleSearch}
-            role="search"
-            aria-label="Search fitness providers"
-          >
-            {/* Location field */}
-            <div className={styles.searchField}>
-              <FiMapPin className={styles.searchIcon} aria-hidden="true" />
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Enter Location"
-                className={styles.searchInput}
-                aria-label="Enter your location"
-              />
-            </div>
-
-            <div className={styles.searchDivider} aria-hidden="true" />
-
-            {/* Query field */}
-            <div className={styles.searchField}>
-              <FiSearch className={styles.searchIcon} aria-hidden="true" />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search gyms, trainers, classes..."
-                className={styles.searchInput}
-                aria-label="Search for fitness providers"
-              />
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              className={styles.searchBtn}
-              aria-label="Search fitness providers"
-            >
-              <FiSearch aria-hidden="true" />
-              <span>Search</span>
-            </button>
-          </motion.form>
-
-          {/* Quick searches */}
-          <motion.div className={styles.quickSearches} variants={itemVariants}>
-            <span className={styles.quickLabel}>Popular:</span>
-            {QUICK_SEARCHES.map((term) => (
-              <button
-                key={term}
-                className={styles.quickChip}
-                onClick={() => handleQuickSearch(term)}
-                type="button"
-                aria-label={`Quick search: ${term}`}
-              >
-                {term}
-              </button>
-            ))}
-          </motion.div>
-
           {/* CTA */}
           <motion.div className={styles.ctaRow} variants={itemVariants}>
             <motion.button
