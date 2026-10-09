@@ -178,7 +178,8 @@ const FitnessTrainerCard = ({ trainer, index }) => {
 ══════════════════════════════════════════════════════ */
 const Fitness = () => {
   const categoriesRef = useRef(null);
-  const { fitnessCategories, gyms, trainers, experiences, cities, loading } = useFitnessData();
+  const { fitnessCategories, gyms, trainers, experiences, cities, loading } =
+    useFitnessData();
 
   /* Scroll to categories when hero CTA is clicked */
   const scrollToCategories = () => {
@@ -217,7 +218,6 @@ const Fitness = () => {
           loading={loading.categories}
         />
 
-
         {/* ══ FEATURED GYMS ══ */}
         <FitnessSection
           id="featured-gyms"
@@ -239,7 +239,11 @@ const Fitness = () => {
               aria-label="Featured gyms"
             >
               {gyms.map((gym, index) => (
-                <div key={gym.id} className={styles.scrollItem} role="listitem">
+                <div
+                  key={gym._id ?? gym.id ?? gym.slug}
+                  className={styles.scrollItem}
+                  role="listitem"
+                >
                   <GymCard gym={gym} index={index} />
                 </div>
               ))}
@@ -268,7 +272,10 @@ const Fitness = () => {
               aria-label="Top personal trainers"
             >
               {trainers.map((trainer, index) => (
-                <div key={trainer.id} role="listitem">
+                <div
+                  key={trainer._id ?? trainer.id ?? trainer.slug}
+                  role="listitem"
+                >
                   <FitnessTrainerCard trainer={trainer} index={index} />
                 </div>
               ))}
@@ -297,7 +304,7 @@ const Fitness = () => {
               aria-label="Trending fitness experiences"
             >
               {experiences.map((exp, index) => (
-                <div key={exp.id} role="listitem">
+                <div key={exp._id ?? exp.id ?? exp.slug} role="listitem">
                   <ExperienceCard exp={exp} index={index} />
                 </div>
               ))}
@@ -310,9 +317,6 @@ const Fitness = () => {
 
         {/* ══ FITNESS GOALS ══ */}
         <FitnessGoals />
-
-        {/* ══ CITIES ══ */}
-        <FitnessCities cities={cities} loading={loading} />
       </main>
     </>
   );

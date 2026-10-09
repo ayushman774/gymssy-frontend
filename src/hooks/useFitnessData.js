@@ -9,23 +9,42 @@ import {
   FITNESS_SUBCATEGORIES,
 } from "../assets/data/fitnessData";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+const BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL || "https://api.gymssy.com"
+).replace(/\/+$/, "");
 
-/* ── Existing helper — UNCHANGED ── */
 const fetchWithFallback = async (endpoint, fallback) => {
-  if (!BASE_URL) {
-    return { data: fallback, source: "fallback" };
-  }
+  const url = `${BASE_URL}${endpoint}`;
+
   try {
-    const res = await fetch(`${BASE_URL}${endpoint}`, {
-      headers: { "Content-Type": "application/json" },
-      signal: AbortSignal.timeout(6000),
+    console.info("[Gymssy Fitness] API request:", url);
+
+    const res = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+      signal: AbortSignal.timeout(10000),
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${url}`);
+    }
+
     const json = await res.json();
-    return { data: json.data ?? json, source: "api" };
-  } catch {
-    return { data: fallback, source: "fallback" };
+
+    console.info("[Gymssy Fitness] API success:", url);
+
+    return {
+      data: json.data ?? json,
+      source: "api",
+    };
+  } catch (error) {
+    console.error("[Gymssy Fitness] API failed:", url, error);
+
+    return {
+      data: fallback,
+      source: "fallback",
+    };
   }
 };
 
@@ -395,45 +414,60 @@ const useFitnessData = () => {
     let cancelled = false;
 
     const load = async () => {
-      const [
-        gymsResult,
-        trainersResult,
-        experiencesResult,
-        citiesResult,
-        categoriesResult,
-      ] = await Promise.all([
-        fetchWithFallback("/api/gyms/featured", FALLBACK_GYMS),
-        fetchWithFallback("/api/trainers/featured", FALLBACK_TRAINERS),
-        fetchWithFallback("/api/experiences/trending", FALLBACK_EXPERIENCES),
-        fetchWithFallback("/api/cities/popular", FALLBACK_CITIES),
-        fetchWithFallback("/api/categories", []),
-      ]);
+      try {
+        // Fetch all Fitness page APIs
+        const [
+          gymsResult,
+          trainersResult,
+          experiencesResult,
+          citiesResult,
+          categoriesResult,
+        ] = await Promise.all([
+          fetchWithFallback("/api/gyms/featured", FALLBACK_GYMS),
+          fetchWithFallback("/api/trainers/featured", FALLBACK_TRAINERS),
+          fetchWithFallback("/api/experiences/trending", FALLBACK_EXPERIENCES),
+          fetchWithFallback("/api/cities/popular", FALLBACK_CITIES),
+          fetchWithFallback("/api/categories", []),
+        ]);
 
-      if (cancelled) return;
+        if (cancelled) return;
 
-      const apiCategories = Array.isArray(categoriesResult.data)
-        ? categoriesResult.data
-        : [];
+        // Safely handle API responses
+        const asArray = (value) => (Array.isArray(value) ? value : []);
 
-      /* Store raw — filtering happens in useMemo below */
-      setAllFeaturedGyms(gymsResult.data);
-      setAllFeaturedTrainers(trainersResult.data); // ← store raw trainers
-      setRawCategories(apiCategories);
+        const apiCategories = asArray(categoriesResult.data);
 
-      setExperiences(experiencesResult.data.slice(0, 6));
-      setCities(citiesResult.data.slice(0, 6));
-      setFitnessCategories(mergeFitnessCategories(apiCategories));
+        // Update state
+        setAllFeaturedGyms(asArray(gymsResult.data));
 
-      setLoading({
-        gyms: false,
-        trainers: false,
-        experiences: false,
-        cities: false,
-        categories: false,
-      });
+        setAllFeaturedTrainers(asArray(trainersResult.data));
+
+        setRawCategories(apiCategories);
+
+        setExperiences(asArray(experiencesResult.data).slice(0, 6));
+
+        setCities(asArray(citiesResult.data).slice(0, 6));
+
+        setFitnessCategories(mergeFitnessCategories(apiCategories));
+      } catch (error) {
+        if (!cancelled) {
+          console.error("[Gymssy Fitness] Failed to load page data:", error);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading({
+            gyms: false,
+            trainers: false,
+            experiences: false,
+            cities: false,
+            categories: false,
+          });
+        }
+      }
     };
 
     load();
+
     return () => {
       cancelled = true;
     };

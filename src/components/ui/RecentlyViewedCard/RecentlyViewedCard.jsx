@@ -50,6 +50,29 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
     image,
   } = gym;
 
+  const formatLocation = (location) => {
+    if (typeof location === "string") {
+      return location;
+    }
+
+    if (!location || typeof location !== "object") {
+      return "Location unavailable";
+    }
+
+    const parts = [
+      location.area,
+      location.city?.name ?? location.city,
+      location.state,
+    ].filter((part) => typeof part === "string" && part.trim().length > 0);
+
+    return [...new Set(parts)].join(", ") || "Location unavailable";
+  };
+
+  const formattedLocation = formatLocation(location);
+
+  const imageUrl =
+    typeof image === "string" ? image : image?.url || image?.src || "";
+
   const accentColor = getCategoryColor(category);
 
   /* ── Handlers ── */
@@ -76,8 +99,12 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
   );
 
   /* ── Format helpers ── */
+  const reviewCount = Number(reviews ?? gym.reviewCount ?? 0);
+
   const formattedReviews =
-    reviews >= 1000 ? `${(reviews / 1000).toFixed(1)}k` : reviews.toString();
+    reviewCount >= 1000
+      ? `${(reviewCount / 1000).toFixed(1)}k`
+      : String(reviewCount);
 
   const formattedPrice = new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -93,7 +120,7 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="article"
-      aria-label={`${name} — ${category} in ${location}`}
+      aria-label={`${name} — ${category} in ${formattedLocation}`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-4%" }}
@@ -110,7 +137,7 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
         {!imageLoaded && <div className={styles.skeleton} aria-hidden="true" />}
 
         <motion.img
-          src={image.url}
+          src={imageUrl || undefined}
           alt={`${name} gym facility`}
           className={styles.image}
           loading="lazy"
@@ -140,7 +167,12 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
         </div>
 
         {/* Top-right: Wishlist */}
-        <FavoriteButton targetType="gym" targetId={gym.id} name={name} className={styles.wishlistBtn} />
+        <FavoriteButton
+          targetType="gym"
+          targetId={gym.id}
+          name={name}
+          className={styles.wishlistBtn}
+        />
 
         {/* Bottom-left: Category pill */}
         <div
@@ -178,8 +210,9 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
         <div className={styles.locationRow}>
           <span className={styles.locationItem}>
             <FiMapPin className={styles.locationIcon} aria-hidden="true" />
-            {location}
+            {formattedLocation}
           </span>
+
           <span className={styles.distancePill}>
             <FiNavigation className={styles.distanceIcon} aria-hidden="true" />
             {distance}
@@ -192,7 +225,9 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
           aria-label={`Rated ${rating} out of 5`}
         >
           <FiStar className={styles.starIcon} aria-hidden="true" />
-          <span className={styles.ratingVal}>{rating.toFixed(1)}</span>
+          <span className={styles.ratingVal}>
+            {Number(rating ?? 0).toFixed(1)}
+          </span>
           <span className={styles.reviewCount}>
             ({formattedReviews} reviews)
           </span>
