@@ -36,6 +36,8 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const cardRef = useRef(null);
 
+  console.log("gym", gym)
+
   const {
     slug,
     name,
@@ -49,6 +51,8 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
     isVerified,
     image,
   } = gym;
+
+  const openStatus = typeof isOpen === "boolean" ? isOpen : null;
 
   const formatLocation = (location) => {
     if (typeof location === "string") {
@@ -70,8 +74,22 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
 
   const formattedLocation = formatLocation(location);
 
+  const getImageUrl = (value) => {
+    if (typeof value === "string") return value;
+
+    if (value && typeof value === "object") {
+      return value.url || value.src || value.secure_url || "";
+    }
+
+    return "";
+  };
+
   const imageUrl =
-    typeof image === "string" ? image : image?.url || image?.src || "";
+    getImageUrl(image) ||
+    getImageUrl(gym.coverImage) ||
+    getImageUrl(gym.images?.[0]);
+
+  const [imageFailed, setImageFailed] = useState(false);
 
   const accentColor = getCategoryColor(category);
 
@@ -134,36 +152,73 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
       {/* ══ IMAGE BLOCK ══ */}
       <div className={styles.imageBlock}>
         {/* Skeleton shimmer */}
-        {!imageLoaded && <div className={styles.skeleton} aria-hidden="true" />}
 
-        <motion.img
-          src={imageUrl || undefined}
-          alt={`${name} gym facility`}
-          className={styles.image}
-          loading="lazy"
-          onLoad={() => setImageLoaded(true)}
-          style={{ opacity: imageLoaded ? 1 : 0 }}
-          variants={{
-            hover: {
-              scale: 1.07,
-              transition: { duration: 0.55, ease: "easeOut" },
-            },
-          }}
-        />
+        {!imageLoaded && !imageFailed && imageUrl && (
+          <div className={styles.skeleton} aria-hidden="true" />
+        )}
+
+        {imageUrl && !imageFailed ? (
+          <motion.img
+            key={imageUrl}
+            src={imageUrl}
+            alt={`${name} gym facility`}
+            className={styles.image}
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
+            onError={() => {
+              console.warn("Gym image failed:", name, imageUrl);
+              setImageFailed(true);
+            }}
+            style={{ opacity: imageLoaded ? 1 : 0 }}
+            variants={{
+              hover: {
+                scale: 1.07,
+                transition: { duration: 0.55, ease: "easeOut" },
+              },
+            }}
+          />
+        ) : (
+          <div className={styles.imageFallback}>
+            <span>Image unavailable</span>
+          </div>
+        )}
 
         {/* Gradient overlay */}
         <div className={styles.imageOverlay} aria-hidden="true" />
 
         {/* Top-left: Open/Closed badge */}
+
         <div
-          className={`${styles.statusBadge} ${isOpen ? styles.statusOpen : styles.statusClosed}`}
-          aria-label={isOpen ? "Open now" : "Currently closed"}
+          className={`${styles.statusBadge} ${
+            openStatus === true
+              ? styles.statusOpen
+              : openStatus === false
+                ? styles.statusClosed
+                : ""
+          }`}
+          aria-label={
+            openStatus === true
+              ? "Open now"
+              : openStatus === false
+                ? "Currently closed"
+                : "Opening hours unavailable"
+          }
         >
           <span
-            className={`${styles.statusDot} ${isOpen ? styles.dotOpen : styles.dotClosed}`}
+            className={`${styles.statusDot} ${
+              openStatus === true
+                ? styles.dotOpen
+                : openStatus === false
+                  ? styles.dotClosed
+                  : ""
+            }`}
             aria-hidden="true"
           />
-          {isOpen ? "Open Now" : "Closed"}
+          {openStatus === true
+            ? "Open Now"
+            : openStatus === false
+              ? "Closed"
+              : "Hours Unavailable"}
         </div>
 
         {/* Top-right: Wishlist */}

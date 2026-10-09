@@ -381,6 +381,45 @@ const mergeFitnessCategories = (apiMainCategories) => {
   }).filter(Boolean);
 };
 
+const normalizeGymCard = (gym) => {
+  const getImageUrl = (value) => {
+    if (typeof value === "string") return value;
+
+    if (value && typeof value === "object") {
+      return value.url || value.src || value.secure_url || "";
+    }
+
+    return "";
+  };
+
+  const imageUrl =
+    getImageUrl(gym.image) ||
+    getImageUrl(gym.images?.cover) ||
+    getImageUrl(gym.coverImage) ||
+    getImageUrl(gym.images?.gallery?.[0]) ||
+    (Array.isArray(gym.images) ? getImageUrl(gym.images[0]) : "");
+
+  const reviews = Array.isArray(gym.reviews)
+    ? Number.isFinite(Number(gym.reviewCount))
+      ? Number(gym.reviewCount)
+      : gym.reviews.length
+    : Number(gym.reviewCount ?? gym.reviews ?? 0);
+
+  return {
+    ...gym,
+    id: gym._id ?? gym.id,
+    image: imageUrl,
+    reviews: Number.isFinite(reviews) ? reviews : 0,
+    isOpen:
+      typeof gym.isOpen === "boolean"
+        ? gym.isOpen
+        : typeof gym.openNow === "boolean"
+          ? gym.openNow
+          : null,
+    isVerified: gym.isVerified ?? gym.verified ?? false,
+  };
+};
+
 /* ──────────────────────────────────────────────────────────────
    HOOK
 ────────────────────────────────────────────────────────────── */
@@ -432,6 +471,7 @@ const useFitnessData = () => {
 
         if (cancelled) return;
 
+        console.log("gymsResult", gymsResult)
         // Safely handle API responses
         const asArray = (value) => (Array.isArray(value) ? value : []);
 
@@ -480,8 +520,11 @@ const useFitnessData = () => {
     const dynamicFitnessTerms = buildFitnessTermSet(rawCategories);
     return allFeaturedGyms
       .filter((gym) => isFitnessGym(gym.category, dynamicFitnessTerms))
-      .slice(0, 6);
+      .slice(0, 6)
+      .map(normalizeGymCard);
   }, [allFeaturedGyms, rawCategories]);
+
+  console.log("useMemo", allFeaturedGyms)
 
   /* ────────────────────────────────────────────────────────────
      Filter trainers to Fitness-only  ← NEW

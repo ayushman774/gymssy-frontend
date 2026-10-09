@@ -68,7 +68,7 @@ const FitnessSection = ({
               )}
             </motion.h2>
 
-            {viewAllHref && (
+            {/* {viewAllHref && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -86,7 +86,7 @@ const FitnessSection = ({
                   />
                 </Link>
               </motion.div>
-            )}
+            )} */}
           </div>
 
           {subtitle && (

@@ -73,7 +73,7 @@ export const FITNESS_SUBCATEGORIES = [
     description: "Group classes for every level",
     count: "560+",
     image:
-      "https://images.unsplash.com/photo-1518310383802-640c2de311b6?w=800&q=80&fit=crop&auto=format",
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80&fit=crop&auto=format",
     accentColor: "#39ff14",
   },
 ];

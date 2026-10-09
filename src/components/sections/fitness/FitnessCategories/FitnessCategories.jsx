@@ -136,7 +136,6 @@ const FitnessCategories = ({
     titleAccent="Fitness Experience"
     subtitle="Explore every discipline — from gyms and personal training to CrossFit, Pilates and more."
     viewAllHref="/fitness"
-    viewAllText="All Fitness"
   >
     {loading ? (
       <CategorySkeleton />
