@@ -73,7 +73,7 @@ const SportsFacilities = () => {
               {/* Image */}
               <div className={styles.imageWrapper}>
                 <motion.img
-                  src={facility.image}
+                  src={facility.image || "/images/logo/gymssy-logo.jpeg"}
                   alt={facility.title}
                   className={styles.image}
                   loading="lazy"
@@ -84,7 +84,12 @@ const SportsFacilities = () => {
                       transition: { duration: 0.5, ease: "easeOut" },
                     },
                   }}
-                />
+                onError={(event) => {
+            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
+            }
+          }}
+        />
                 <div className={styles.overlay} />
                 <motion.div
                   className={styles.hoverOverlay}
