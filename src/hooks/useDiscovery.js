@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchDiscovery } from "../services/discoveryService";
 
 export default function useDiscovery(filters, enabled = true) {
-  const [state, setState] = useState({ listings: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 }, resolvedKey: null, error: null });
+  const [state, setState] = useState({ listings: [], pagination: { page: 1, limit: 6, total: 0, totalPages: 0 }, resolvedKey: null, error: null });
   const [requestVersion, setRequestVersion] = useState(0);
   const retry = useCallback(() => setRequestVersion((value) => value + 1), []);
   const requestKey = JSON.stringify([filters, requestVersion]);
