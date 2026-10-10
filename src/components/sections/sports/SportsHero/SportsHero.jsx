@@ -34,6 +34,11 @@ const SportsHero = ({ onExploreClick }) => {
           src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1800&q=80&fit=crop&auto=format"
           alt=""
           className={styles.heroBgImage}
+        onError={(event) => {
+            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
+            }
+          }}
         />
         <div className={styles.heroBgOverlay} />
         <div className={styles.heroBgGradient} />
