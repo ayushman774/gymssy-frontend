@@ -30,6 +30,11 @@ import styles from "./Fitness.module.css";
 const ExperienceCard = ({ exp, index }) => {
   const navigate = useNavigate();
 
+  const openExperience = () => {
+    if (!exp.slug) return;
+    navigate(`/experiences/${encodeURIComponent(exp.slug)}`);
+  };
+
   return (
     <motion.article
       className={styles.expCard}
@@ -94,7 +99,7 @@ const ExperienceCard = ({ exp, index }) => {
           </div>
           <motion.button
             className={styles.expBookBtn}
-            onClick={() => navigate("/discover")}
+            onClick={openExperience}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             aria-label={`Book ${exp.title}`}
