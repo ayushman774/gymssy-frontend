@@ -54,7 +54,7 @@ export default function CategoryListingPage() {
   const resolution = useMemo(() => resolveCategorySlug(slug, references.categories), [slug, references.categories]);
   const rawFilters = useMemo(() => readCategoryDiscoveryUrl(location.search), [location.search]);
   const filters = useMemo(() => validateCategoryDiscoveryState(rawFilters, references.cities), [rawFilters, references.cities]);
-  const discoveryFilters = useMemo(() => buildCategoryDiscoveryFilters(resolution, filters), [resolution, filters]);
+  const discoveryFilters = useMemo(() => ({ ...buildCategoryDiscoveryFilters(resolution, filters), ...(slug === "nutrition" ? { limit: 6 } : {}) }), [resolution, filters, slug]);
   const discovery = useDiscovery(discoveryFilters, Boolean(resolution) && !references.loading && !references.error);
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [slug]);
@@ -85,7 +85,7 @@ export default function CategoryListingPage() {
       <CategoryHero category={category} slug={slug} total={total} loading={loading} resolvedTitle={pageTitle} resolvedDesc={pageDesc} />
       <div className={styles.mainWrap}><div className={styles.container}><div className={styles.layout}>
         <CategoryFilters filters={filters} cities={references.cities} onChange={handleFilterChange} onReset={handleReset} totalResults={total} />
-        <div className={styles.gridArea}><CategoryListingGrid listings={discovery.listings} pagination={discovery.pagination} loading={loading} error={discovery.error} onRetry={discovery.retry} onReset={handleReset} onPageChange={handlePageChange} categoryTitle={pageTitle} /></div>
+        <div className={styles.gridArea}><CategoryListingGrid listings={discovery.listings} pagination={discovery.pagination} loading={loading} error={discovery.error} onRetry={discovery.retry} onReset={handleReset} onPageChange={handlePageChange} categoryTitle={pageTitle} compactGrid={slug === "nutrition"} /></div>
       </div></div></div>
     </div>
   </>;
