@@ -20,6 +20,7 @@ export function readDiscoveryUrl(search = "") {
     subcategory: (params.get("subcategory") || "").trim().toLowerCase(),
     type: (params.get("type") || "").trim().toLowerCase(),
     entity: (params.get("entity") || "").trim().toLowerCase(),
+    collection: (params.get("collection") || "").trim().toLowerCase(),
     city: (params.get("city") || "").trim().toLowerCase(),
     sort: (params.get("sort") || "recommended").trim().toLowerCase(),
     page: Math.max(Number.parseInt(params.get("page") || "1", 10) || 1, 1),
@@ -29,6 +30,7 @@ export function readDiscoveryUrl(search = "") {
 
 export function validateDiscoveryState(filters, categories = [], cities = []) {
   const next = { ...filters };
+  if (!["beginner-gyms", "top-trainers", "womens-studios", "premium-clubs", "budget-gyms", "luxury-wellness"].includes(next.collection)) next.collection = "";
   if (["fitness", "wellness", "sports"].includes(next.type) && !next.category) {
     next.category = next.type;
     next.type = "";
@@ -55,7 +57,7 @@ export function validateDiscoveryState(filters, categories = [], cities = []) {
 }
 
 export function changeDiscoveryFilter(filters, field, value) {
-  const next = { ...filters, [field]: value, page: 1 };
+  const next = { ...filters, [field]: value, page: 1, collection: "" };
   if (field === "category") next.subcategory = "";
   if (field === "type" && PROFESSIONAL_TYPES.has(value)) next.city = "";
   return next;
@@ -63,7 +65,7 @@ export function changeDiscoveryFilter(filters, field, value) {
 
 export function discoveryUrlSearch(filters) {
   const params = new URLSearchParams();
-  for (const field of ["search", "category", "subcategory", "type", "entity", "city", "sort"]) {
+  for (const field of ["search", "category", "subcategory", "type", "entity", "city", "sort", "collection"]) {
     const value = filters[field];
     if (!value || (field === "sort" && value === "recommended")) continue;
     params.set(field, value);
@@ -74,7 +76,7 @@ export function discoveryUrlSearch(filters) {
 }
 
 export function clearDiscoveryFilters() {
-  return { search: "", category: "", subcategory: "", type: "", entity: "", city: "", sort: "recommended", page: 1, limit: 6 };
+  return { search: "", category: "", subcategory: "", type: "", entity: "", city: "", collection: "", sort: "recommended", page: 1, limit: 6 };
 }
 
 export function isProfessionalType(type) {
