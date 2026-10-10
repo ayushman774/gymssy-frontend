@@ -35,7 +35,7 @@ export default function CustomerLocationPicker({ compact = false }) {
   const [searchError, setSearchError] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
   const [open, setOpen] = useState(false);
-  const showControls = editing || !hasLocation;
+  const showControls = compact || editing || !hasLocation;
   const listState = autocompleteListState({
     open,
     loading,
@@ -140,27 +140,30 @@ export default function CustomerLocationPicker({ compact = false }) {
       {hasLocation && !editing && <div className={styles.activeActions}><button type="button" onClick={() => { setEditing(true); clearLocationError(); }}>Change</button><button type="button" onClick={() => { clearLocation(); setEditing(true); resetSearch(); }}>Clear</button></div>}
     </div>
 
-    {hasLocation && <div className={styles.activeLocation} role="status" aria-live="polite"><FiMapPin aria-hidden="true" /><div><span>Near</span><strong>{location.label}</strong></div></div>}
+    {hasLocation && !compact && <div className={styles.activeLocation} role="status" aria-live="polite"><FiMapPin aria-hidden="true" /><div><span>Near</span><strong>{location.label}</strong></div></div>}
 
     {showControls && <div className={styles.controls}>
       <div className={styles.combobox}>
         <FiSearch className={styles.searchIcon} aria-hidden="true" />
         <input
           id={`${id}-input`}
-          value={query}
+          value={compact && hasLocation && !editing ? location.label : query}
+          readOnly={compact && hasLocation && !editing}
+          onClick={() => { if (compact && hasLocation && !editing) setEditing(true); }}
           onChange={handleQueryChange}
           onFocus={() => suggestions.length && setOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Search area, locality, or city"
           role="combobox"
-          aria-label="Search for an area or location"
+          aria-label={compact && hasLocation && !editing ? `Selected location: ${location.label}` : "Search for an area or location"}
           aria-autocomplete="list"
           aria-expanded={open}
           aria-controls={`${id}-listbox`}
           aria-activedescendant={activeIndex >= 0 ? `${id}-option-${activeIndex}` : undefined}
         />
         {loading && <span className={styles.loading} role="status">Searching…</span>}
-        {query && !loading && <button type="button" className={styles.clearQuery} aria-label="Clear location search" onClick={resetSearch}><FiX aria-hidden="true" /></button>}
+        {compact && hasLocation && <button type="button" className={styles.clearQuery} aria-label="Clear selected location" title="Clear location" onClick={() => { clearLocation(); setEditing(true); resetSearch(); }}><FiX aria-hidden="true" /></button>}
+        {!hasLocation && query && !loading && <button type="button" className={styles.clearQuery} aria-label="Clear location search" onClick={resetSearch}><FiX aria-hidden="true" /></button>}
         {open && <div id={`${id}-listbox`} role="listbox" className={styles.options}>
           {listState === "error" ? <div className={styles.message} role="alert"><p>{searchError}</p><button type="button" onClick={() => setQuery((value) => `${value} `)}>Retry</button></div>
             : listState === "results" ? suggestions.map((suggestion, index) => <button
@@ -176,8 +179,8 @@ export default function CustomerLocationPicker({ compact = false }) {
               : listState === "empty" ? <p className={styles.message}>No matching Indian locations found.</p> : null}
         </div>}
       </div>
-      <span className={styles.or} aria-hidden="true">or</span>
-      <button type="button" className={styles.deviceButton} onClick={locate} disabled={isLocating}><FiCrosshair aria-hidden="true" />{isLocating ? "Locating…" : "Use my location"}</button>
+      {!hasLocation && <span className={styles.or} aria-hidden="true">or</span>}
+      {!hasLocation && <button type="button" className={styles.deviceButton} onClick={locate} disabled={isLocating}><FiCrosshair aria-hidden="true" />{isLocating ? "Locating…" : "Use my location"}</button>}
     </div>}
 
     {(locationError || searchError) && !open && <p className={styles.inlineError} role="alert">{locationError || searchError}</p>}
