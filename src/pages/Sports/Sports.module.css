@@ -61,6 +61,48 @@
   gap: 20px;
 }
 
+.academiesCarousel {
+  width: 100%;
+  min-width: 0;
+}
+
+.academiesCarousel :global(.swiper) {
+  padding: 4px 2px 20px;
+}
+
+.academiesCarousel :global(.swiper-wrapper) {
+  align-items: stretch;
+}
+
+.academySlide {
+  height: auto !important;
+  display: flex !important;
+}
+
+.academySlide > * {
+  width: 100%;
+}
+
+.academiesCarousel :global(.swiper-button-prev),
+.academiesCarousel :global(.swiper-button-next) {
+  color: #39ff14;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+}
+
+.academiesCarousel :global(.swiper-button-prev)::after,
+.academiesCarousel :global(.swiper-button-next)::after {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.academiesCarousel :global(.swiper-button-disabled) {
+  opacity: 0.25;
+}
+
 /* ── Academy Card ── */
 .academyCard {
   background: #111111;
