@@ -362,6 +362,11 @@ const Sports = () => {
   const categoriesRef = useRef(null);
   const academiesSwiperRef = useRef(null);
   const coachesSwiperRef = useRef(null);
+  const experiencesSwiperRef = useRef(null);
+  const [experienceControls, setExperienceControls] = useState({ beginning: true, end: true });
+  const syncExperienceControls = (swiper) => {
+    setExperienceControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
+  };
   const [coachControls, setCoachControls] = useState({ beginning: true, end: true });
   const syncCoachControls = (swiper) => {
     setCoachControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
@@ -561,16 +566,51 @@ const Sports = () => {
           ) : experiences.length === 0 ? (
             <EmptyState message="No trending sports experiences right now." />
           ) : (
-            <div
-              className={styles.experiencesGrid}
-              role="list"
-              aria-label="Trending sports experiences"
-            >
-              {experiences.map((exp, index) => (
-                <div key={exp.id || exp._id} role="listitem">
-                  <SportsExperienceCard exp={exp} index={index} />
-                </div>
-              ))}
+            <div className={styles.experiencesCarousel} aria-label="Trending sports experiences">
+              <div className={styles.experienceCarouselControls}>
+                <button
+                  type="button"
+                  className={styles.experienceCarouselArrow}
+                  onClick={() => experiencesSwiperRef.current?.slidePrev()}
+                  disabled={experienceControls.beginning}
+                  aria-label="Previous sports experiences"
+                >
+                  <FiArrowRight className={styles.experienceArrowLeft} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className={styles.experienceCarouselArrow}
+                  onClick={() => experiencesSwiperRef.current?.slideNext()}
+                  disabled={experienceControls.end}
+                  aria-label="Next sports experiences"
+                >
+                  <FiArrowRight aria-hidden="true" />
+                </button>
+              </div>
+              <Swiper
+                modules={[A11y]}
+                onSwiper={(swiper) => {
+                  experiencesSwiperRef.current = swiper;
+                  syncExperienceControls(swiper);
+                }}
+                onSlideChange={syncExperienceControls}
+                onResize={syncExperienceControls}
+                slidesPerView={1}
+                slidesPerGroup={1}
+                spaceBetween={20}
+                breakpoints={{
+                  640: { slidesPerView: 2, slidesPerGroup: 2 },
+                  900: { slidesPerView: 3, slidesPerGroup: 3 },
+                  1200: { slidesPerView: 4, slidesPerGroup: 4 },
+                }}
+                aria-label="Trending sports experiences carousel"
+              >
+                {experiences.map((exp, index) => (
+                  <SwiperSlide key={exp.id || exp._id} className={styles.experienceSlide}>
+                    <SportsExperienceCard exp={exp} index={index} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           )}
         </FitnessSection>
