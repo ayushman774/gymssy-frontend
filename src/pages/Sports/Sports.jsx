@@ -9,6 +9,10 @@
 
 import { useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import { motion } from "framer-motion";
 import {
   FiClock,
@@ -389,16 +393,26 @@ const Sports = () => {
           ) : academies.length === 0 ? (
             <EmptyState message="No sports academies available right now. Check back soon." />
           ) : (
-            <div
-              className={styles.academiesGrid}
-              role="list"
-              aria-label="Featured sports academies"
-            >
-              {academies.map((academy, index) => (
-                <div key={academy.id || academy._id} role="listitem">
-                  <SportsAcademyCard academy={academy} index={index} />
-                </div>
-              ))}
+            <div className={styles.academiesCarousel} aria-label="Featured sports academies">
+              <Swiper
+                modules={[Navigation, A11y]}
+                navigation={academies.length > 4}
+                slidesPerView={1}
+                slidesPerGroup={1}
+                spaceBetween={20}
+                breakpoints={{
+                  640: { slidesPerView: 2, slidesPerGroup: 2 },
+                  900: { slidesPerView: 3, slidesPerGroup: 3 },
+                  1200: { slidesPerView: 4, slidesPerGroup: 4 },
+                }}
+                aria-label="Featured sports academies carousel"
+              >
+                {academies.map((academy, index) => (
+                  <SwiperSlide key={academy.id || academy._id} className={styles.academySlide}>
+                    <SportsAcademyCard academy={academy} index={index} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           )}
         </FitnessSection>
