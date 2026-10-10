@@ -2711,3 +2711,10 @@ body[data-compare-open="true"] {
 .discoverySearchShell :focus-visible{outline:2px solid #39ff14;outline-offset:3px}
 @media(max-width:900px){.discoveryAdvancedGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.discoverySearchIntro{margin-bottom:1.35rem}.discoverySearchPanel{padding:.65rem .85rem;border-radius:16px}.discoveryPrimarySearch{gap:.65rem;flex-wrap:wrap;padding:.4rem 0}.discoveryPrimaryField{flex-basis:calc(100% - 50px)}.discoverySearchSubmit{width:100%}.discoverySearchBottom{align-items:stretch}.discoveryCategoryChips{width:100%}.discoveryCategoryChip{flex:1;padding:.6rem .7rem}.discoveryFilterToggle{margin-left:auto}.discoveryAdvancedGrid{grid-template-columns:1fr}}
+
+
+/* Guide users from search controls to matching results */
+.discoveryResultsAnchor{scroll-margin-top:90px}
+.discoveryResultsHint{display:flex;align-items:center;justify-content:center;gap:.5rem;color:#9ba99e;font-size:.78rem;margin:1rem 0 0;text-align:center}
+.discoveryResultsHint svg{color:#39ff14;flex-shrink:0}
+@media(max-width:600px){.discoveryResultsAnchor{scroll-margin-top:72px}.discoveryResultsHint{font-size:.72rem}}
