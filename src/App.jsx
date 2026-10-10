@@ -11,6 +11,7 @@ import TrainersPage from "./pages/TrainersPage/TrainersPage";
 import GymsNearYouPage from "./pages/GymsNearYouPage/GymsNearYouPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import DiscoverPage from "./pages/Discover/DiscoverMarketplacePage";
+import FeaturedCollectionPage from "./pages/Discover/FeaturedCollectionPage";
 import PartnerWithUsPage from "./pages/PartnerWithUs/PartnerWithUsPage";
 import SignUpPage from "./pages/SignUp/SignUpPage";
 import GymDetailsPage from "./pages/GymDetailsPage/GymDetailsPage";
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/gyms-near-you" element={<GymsNearYouPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/discover" element={<DiscoverPage />} />
+        <Route path="/discover/collections/:slug" element={<FeaturedCollectionPage />} />
         <Route path="/partner-with-us" element={<PartnerWithUsPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
