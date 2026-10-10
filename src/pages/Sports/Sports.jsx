@@ -361,6 +361,11 @@ const EmptyState = ({ message }) => (
 const Sports = () => {
   const categoriesRef = useRef(null);
   const academiesSwiperRef = useRef(null);
+  const coachesSwiperRef = useRef(null);
+  const [coachControls, setCoachControls] = useState({ beginning: true, end: true });
+  const syncCoachControls = (swiper) => {
+    setCoachControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
+  };
   const [academyControls, setAcademyControls] = useState({ beginning: true, end: true });
   const syncAcademyControls = (swiper) => {
     setAcademyControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
@@ -488,16 +493,51 @@ const Sports = () => {
             /* API succeeded but returned no sports coaches */
             <EmptyState message="No sports coaches available right now. Check back soon." />
           ) : (
-            <div
-              className={styles.coachesGrid}
-              role="list"
-              aria-label="Expert sports coaches"
-            >
-              {coaches.map((coach, index) => (
-                <div key={coach.id || coach._id} role="listitem">
-                  <SportsCoachCard coach={coach} index={index} />
-                </div>
-              ))}
+            <div className={styles.coachesCarousel} aria-label="Expert sports coaches">
+              <div className={styles.coachCarouselControls}>
+                <button
+                  type="button"
+                  className={styles.coachCarouselArrow}
+                  onClick={() => coachesSwiperRef.current?.slidePrev()}
+                  disabled={coachControls.beginning}
+                  aria-label="Previous sports coaches"
+                >
+                  <FiArrowRight className={styles.coachArrowLeft} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className={styles.coachCarouselArrow}
+                  onClick={() => coachesSwiperRef.current?.slideNext()}
+                  disabled={coachControls.end}
+                  aria-label="Next sports coaches"
+                >
+                  <FiArrowRight aria-hidden="true" />
+                </button>
+              </div>
+              <Swiper
+                modules={[A11y]}
+                onSwiper={(swiper) => {
+                  coachesSwiperRef.current = swiper;
+                  syncCoachControls(swiper);
+                }}
+                onSlideChange={syncCoachControls}
+                onResize={syncCoachControls}
+                slidesPerView={1}
+                slidesPerGroup={1}
+                spaceBetween={20}
+                breakpoints={{
+                  640: { slidesPerView: 2, slidesPerGroup: 2 },
+                  900: { slidesPerView: 3, slidesPerGroup: 3 },
+                  1200: { slidesPerView: 4, slidesPerGroup: 4 },
+                }}
+                aria-label="Expert sports coaches carousel"
+              >
+                {coaches.map((coach, index) => (
+                  <SwiperSlide key={coach.id || coach._id} className={styles.coachSlide}>
+                    <SportsCoachCard coach={coach} index={index} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           )}
         </FitnessSection>
