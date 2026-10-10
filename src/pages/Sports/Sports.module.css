@@ -392,6 +392,67 @@
   gap: 20px;
 }
 
+.coachesCarousel {
+  width: 100%;
+  min-width: 0;
+}
+
+.coachCarouselControls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.coachCarouselArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(57, 255, 20, 0.55);
+  background: #39ff14;
+  color: #000000;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.coachCarouselArrow:hover:not(:disabled) {
+  background: #2de610;
+}
+
+.coachCarouselArrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.coachCarouselArrow svg {
+  width: 19px;
+  height: 19px;
+}
+
+.coachArrowLeft {
+  transform: rotate(180deg);
+}
+
+.coachesCarousel :global(.swiper) {
+  padding: 4px 2px 20px;
+}
+
+.coachesCarousel :global(.swiper-wrapper) {
+  align-items: stretch;
+}
+
+.coachSlide {
+  height: auto !important;
+  display: flex !important;
+}
+
+.coachSlide > * {
+  width: 100%;
+}
+
 /* ── Coach Card ── */
 .coachCard {
   background: #111111;
