@@ -5,7 +5,6 @@ import CompareBar from "../../components/Discover/CompareBar/CompareBar";
 import CompareDrawer from "../../components/Discover/CompareDrawer/CompareDrawer";
 import DiscoveryCard from "../../components/Discover/DiscoveryCard/DiscoveryCard";
 import CustomerLocationPicker from "../../components/Location/CustomerLocationPicker.jsx";
-import SectionLabel from "../../components/ui/SectionLabel/SectionLabel";
 import { useCustomerLocation } from "../../context/CustomerLocationContext.jsx";
 import useDiscovery from "../../hooks/useDiscovery";
 import useDiscoveryReferences from "../../hooks/useDiscoveryReferences";
@@ -36,13 +35,11 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
   const { location: customerLocation, hasLocation, clearLocation } = useCustomerLocation();
   const locationKey = customerLocationKey(customerLocation);
   const previousLocationKey = useRef(locationKey);
-  const resultsRef = useRef(null);
   const applySearchFilters = useCallback((next) => setFilters(next), [setFilters]);
   const discoveryFilters = useMemo(() => buildLocatedDiscoveryFilters(filters, customerLocation), [customerLocation, filters]);
   const { listings, pagination, loading, error, retry } = useDiscovery(discoveryFilters, true);
   const navigate = useNavigate();
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const activeFilterCount = [filters.subcategory, filters.type, filters.city, filters.sort !== "recommended" ? filters.sort : ""].filter(Boolean).length;
   const selectedCategory = categories.find((category) => category.slug === filters.category);
   const clear = () => applySearchFilters(clearDiscoveryFilters());
 
@@ -62,7 +59,7 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
         <div className={styles.marketplaceLayoutIntro}>
           <span className={styles.discoveryEyebrow}>DISCOVER GYMSSY</span>
           <h1 id="discover-search-heading" className={styles.discoverySearchTitle}>Find your next <span>move.</span></h1>
-          <p>Discover fitness, wellness and sports experiences that fit your goals.</p>
+          <p>Explore fitness, wellness, and sports experiences tailored to your goals.</p>
         </div>
         <div className={styles.marketplaceTwoColumn}>
           <aside className={styles.marketplaceSidebar} aria-label="Search and filter listings">
@@ -100,11 +97,7 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
               <button type="button" className={styles.marketplaceClearAll} onClick={clear}><FiX aria-hidden="true" /> Clear all filters</button>
             </div>
           </aside>
-          <div ref={resultsRef} className={styles.marketplaceResultsColumn} aria-labelledby="marketplace-results-heading">
-            <div className={styles.marketplaceResultsHead}>
-              <div><span className={styles.discoveryEyebrow}>MARKETPLACE</span><h2 id="marketplace-results-heading">Explore <span>Listings</span></h2><p>{hasLocation ? `Showing venues near ${customerLocation.label}` : "Explore gyms, studios, academies and professionals."}</p></div>
-              {!loading && !error && <span className={styles.discoveryTotal} aria-live="polite">{pagination.total} listings</span>}
-            </div>
+          <div className={styles.marketplaceResultsColumn} aria-label="Marketplace listing results">
             <div aria-live="polite" aria-busy={loading}>
               {loading ? <LoadingCards /> : error ? <div className={styles.discoveryState} role="alert"><h3>We couldn’t load the marketplace.</h3><p>{error.status === 400 ? "One of these filters is no longer available. Clear the filters and try again." : "Please check your connection and try again."}</p><div><button onClick={retry} className={styles.discoverBtnFilled}>Retry</button><button onClick={clear} className={styles.discoverBtnOutline}>Clear filters</button></div></div> : listings.length === 0 ? hasLocation ? <div className={styles.discoveryState}><h3>No Gymssy venues found within this area yet.</h3><p>Change your location on the left, or clear it to browse all published marketplace listings.</p><button onClick={clearLocation} className={styles.discoverBtnFilled}>Browse all listings</button></div> : <div className={styles.discoveryState}><h3>No matching listings found.</h3><p>Try changing your filters or search.</p><button onClick={clear} className={styles.discoverBtnFilled}>Clear filters</button></div> : <div className={styles.discoverGrid}>{listings.map((item) => <DiscoveryCard key={`${item.entityType}-${item.id}`} item={item} selected={compareItems.some((entry) => entry.id === item.id)} compareDisabled={compareItems.length >= 3 && !compareItems.some((entry) => entry.id === item.id)} onCompare={onCompareToggle} onView={(href) => navigate(href)} />)}</div>}
             </div>
