@@ -91,7 +91,7 @@ const SportsCategories = ({ sectionRef }) => {
                 {/* ── Image — UNCHANGED, src now from API ── */}
                 <div className={styles.imageWrapper}>
                   <motion.img
-                    src={sport.image}
+                    src={sport.image || "/images/logo/gymssy-logo.jpeg"}
                     alt={sport.imageAlt ?? sport.title}
                     className={styles.image}
                     loading="lazy"
@@ -102,7 +102,12 @@ const SportsCategories = ({ sectionRef }) => {
                         transition: { duration: 0.5, ease: "easeOut" },
                       },
                     }}
-                  />
+                  onError={(event) => {
+            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
+            }
+          }}
+        />
                   <div className={styles.imageOverlay} />
                   <motion.div
                     className={styles.imageGlow}
