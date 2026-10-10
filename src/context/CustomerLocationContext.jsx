@@ -9,6 +9,8 @@ import {
   requestDeviceLocation,
 } from "../utils/customerLocation.js";
 
+import { reverseDeviceLocation } from "../services/locationService.js";
+
 const CustomerLocationContext = createContext(null);
 
 export function CustomerLocationProvider({ children }) {
@@ -31,7 +33,28 @@ export function CustomerLocationProvider({ children }) {
     setIsLocating(true);
     setLocationError("");
     try {
-      return acceptLocation(await requestDeviceLocation());
+      const device = await requestDeviceLocation();
+      let resolved = device;
+      try {
+        const place = await reverseDeviceLocation(device.latitude, device.longitude);
+        if (place) {
+          const parts = [place.name || place.area, place.city, place.state]
+            .filter(Boolean)
+            .filter((part, index, values) => values.findIndex((value) => value.toLowerCase() === part.toLowerCase()) === index);
+          resolved = {
+            ...device,
+            name: place.name || "",
+            area: place.area || "",
+            city: place.city || "",
+            state: place.state || "",
+            postcode: place.postcode || "",
+            label: parts.join(", ") || place.label || device.label,
+          };
+        }
+      } catch (error) {
+        console.warn("Could not resolve device address:", error);
+      }
+      return acceptLocation(resolved);
     } catch (error) {
       setLocationError(error?.message || "We couldn’t use your location. Search for an area instead.");
       return null;
