@@ -148,3 +148,14 @@
 .compact .attribution{font-size:.65rem;margin:.2rem 0 0;color:#718174}
 .compact .activeLocation{margin:.35rem 0}
 @media(max-width:650px){.compact .controls{flex-direction:column;align-items:stretch}.compact .combobox{width:100%}.compact .deviceButton{width:100%}}
+
+/* Compact sidebar location picker: never push beyond its parent column */
+.compact{min-width:0;width:100%;max-width:100%;overflow:visible}
+.compact .controls{display:flex;flex-direction:column;align-items:stretch;gap:.45rem;min-width:0;width:100%}
+.compact .combobox{flex:0 1 auto;min-width:0;width:100%;max-width:100%}
+.compact .combobox input{width:100%;max-width:100%;min-height:38px;padding-left:2.2rem;padding-right:2.6rem;font-size:.8rem;box-sizing:border-box}
+.compact .deviceButton{width:100%;max-width:100%;min-height:38px;white-space:normal;font-size:.8rem;padding:.5rem;line-height:1.3}
+.compact .or{align-self:center;line-height:1;font-size:.7rem}
+.compact .helper{font-size:.66rem;line-height:1.35}
+.compact .attribution{font-size:.59rem;line-height:1.35;overflow-wrap:anywhere}
+.compact .searchIcon{left:.7rem}
