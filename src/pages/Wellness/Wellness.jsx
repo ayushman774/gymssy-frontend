@@ -84,7 +84,8 @@ const WellnessExperienceCard = ({ exp, index }) => {
           </div>
           <motion.button
             className={styles.expBookBtn}
-            onClick={() => navigate(`/discover?type=wellness`)}
+            onClick={() => exp.slug && navigate(`/experiences/${encodeURIComponent(exp.slug)}`)}
+            disabled={!exp.slug}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             aria-label={`View ${exp.title}`}
