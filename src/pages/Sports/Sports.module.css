@@ -621,6 +621,67 @@
   gap: 24px;
 }
 
+.experiencesCarousel {
+  width: 100%;
+  min-width: 0;
+}
+
+.experienceCarouselControls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.experienceCarouselArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(57, 255, 20, 0.55);
+  background: #39ff14;
+  color: #000000;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.experienceCarouselArrow:hover:not(:disabled) {
+  background: #2de610;
+}
+
+.experienceCarouselArrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.experienceCarouselArrow svg {
+  width: 19px;
+  height: 19px;
+}
+
+.experienceArrowLeft {
+  transform: rotate(180deg);
+}
+
+.experiencesCarousel :global(.swiper) {
+  padding: 4px 2px 20px;
+}
+
+.experiencesCarousel :global(.swiper-wrapper) {
+  align-items: stretch;
+}
+
+.experienceSlide {
+  height: auto !important;
+  display: flex !important;
+}
+
+.experienceSlide > * {
+  width: 100%;
+}
+
 /* ── Experience Card ── */
 .expCard {
   background: #111111;
