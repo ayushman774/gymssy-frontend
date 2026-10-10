@@ -920,7 +920,9 @@ const GymCard = ({ gym, compareItems, onCompareToggle, onViewGym }) => {
         <div className={styles.gymFooter}>
           <span className={styles.gymPrice}>From {gym.price}</span>
           <div className={styles.gymActions}>
-            <button className={styles.gymBtnOutline} onClick={onViewGym}>View Gym</button>
+            <button className={styles.gymBtnOutline} onClick={onViewGym}>
+              View Gym
+            </button>
             <button className={styles.gymBtnFilled}>Membership</button>
           </div>
         </div>
