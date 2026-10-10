@@ -23,7 +23,7 @@ export function readDiscoveryUrl(search = "") {
     city: (params.get("city") || "").trim().toLowerCase(),
     sort: (params.get("sort") || "recommended").trim().toLowerCase(),
     page: Math.max(Number.parseInt(params.get("page") || "1", 10) || 1, 1),
-    limit: 20,
+    limit: 6,
   };
 }
 
@@ -74,7 +74,7 @@ export function discoveryUrlSearch(filters) {
 }
 
 export function clearDiscoveryFilters() {
-  return { search: "", category: "", subcategory: "", type: "", entity: "", city: "", sort: "recommended", page: 1, limit: 20 };
+  return { search: "", category: "", subcategory: "", type: "", entity: "", city: "", sort: "recommended", page: 1, limit: 6 };
 }
 
 export function isProfessionalType(type) {
