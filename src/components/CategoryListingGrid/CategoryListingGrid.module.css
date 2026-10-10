@@ -217,3 +217,20 @@
     gap: 14px;
   }
 }
+
+/* Nutrition listing layout: three compact cards across, two rows per page. */
+@media (min-width: 1201px) {
+  .compactGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 641px) and (max-width: 1200px) {
+  .compactGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .compactGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
