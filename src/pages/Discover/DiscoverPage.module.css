@@ -2784,3 +2784,13 @@ body[data-compare-open="true"] {
 @media(max-width:1100px) and (min-width:761px){.marketplaceTwoColumn{grid-template-columns:minmax(220px,28%) minmax(0,1fr)}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.marketplaceTwoColumn{grid-template-columns:minmax(0,1fr)}.marketplaceSidebar{position:static;max-height:none;overflow:visible}.marketplaceLayoutIntro{text-align:center}.marketplaceSidebarFields{display:none}.marketplaceSidebarFieldsOpen{display:grid}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.marketplaceResultsColumn .discoverGrid{grid-template-columns:minmax(0,1fr)}}
+
+/* Six results in a 3 x 2 grid; sidebar follows document scrolling */
+.marketplaceTwoColumn{grid-template-columns:minmax(245px,26%) minmax(0,1fr);align-items:start}
+.marketplaceSidebar{position:static;top:auto;max-height:none;overflow:visible;align-self:start}
+.marketplaceResultsColumn{min-width:0}
+.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:1100px) and (min-width:761px){.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px) and (min-width:761px){.marketplaceTwoColumn{grid-template-columns:minmax(220px,30%) minmax(0,1fr)}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.marketplaceTwoColumn{grid-template-columns:minmax(0,1fr)}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.marketplaceResultsColumn .discoverGrid{grid-template-columns:minmax(0,1fr)}}
