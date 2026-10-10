@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FiArrowLeft, FiArrowRight, FiSearch, FiX } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiSearch, FiX, FiSliders, FiChevronDown } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import CompareBar from "../../components/Discover/CompareBar/CompareBar";
 import CompareDrawer from "../../components/Discover/CompareDrawer/CompareDrawer";
@@ -39,6 +39,8 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
   const discoveryFilters = useMemo(() => buildLocatedDiscoveryFilters(filters, customerLocation), [customerLocation, filters]);
   const { listings, pagination, loading, error, retry } = useDiscovery(discoveryFilters, true);
   const navigate = useNavigate();
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const activeFilterCount = [filters.subcategory, filters.type, filters.city, filters.sort !== "recommended" ? filters.sort : ""].filter(Boolean).length;
   const selectedCategory = categories.find((category) => category.slug === filters.category);
   const clear = () => setFilters(clearDiscoveryFilters());
 
@@ -55,21 +57,52 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
   return <>
     <section className={styles.searchSection} aria-labelledby="discover-search-heading">
       <div className={styles.sectionContainer}>
-        <div className={styles.searchHeader}><SectionLabel text="SMART SEARCH" variant="light" /><h2 id="discover-search-heading" className={styles.searchHeading}>Find Your Perfect <span className={styles.accentText}>Fitness Match</span></h2></div>
-        <CustomerLocationPicker />
-        <form className={styles.searchBoxWrap} onSubmit={(event) => { event.preventDefault(); setFilters(changeDiscoveryFilter(filters, "search", event.currentTarget.elements.search.value.trim())); }}>
-          <div className={styles.searchPill}>
-            <div className={`${styles.searchField} ${styles.searchFieldGrow}`}><FiSearch className={styles.searchFieldIcon} aria-hidden="true" /><div className={styles.searchFieldText}><label className={styles.searchLabel} htmlFor="disc-query">What are you looking for?</label><input id="disc-query" name="search" key={filters.search} defaultValue={filters.search} placeholder="Search gyms, yoga, trainers, specialties..." className={styles.searchInput} /></div></div>
-            <button className={styles.searchBtn} type="submit"><span>Explore</span><FiArrowRight aria-hidden="true" /></button>
+        <div className={styles.discoverySearchShell}>
+          <div className={styles.discoverySearchIntro}>
+            <span className={styles.discoveryEyebrow}>DISCOVER GYMSSY</span>
+            <h2 id="discover-search-heading" className={styles.discoverySearchTitle}>Find your next <span>move.</span></h2>
+            <p>Explore fitness, wellness and sports experiences that fit your goals.</p>
           </div>
-        </form>
-        <div className={styles.discoveryFilters} aria-label="Marketplace filters">
-          <FilterSelect id="disc-category" label="Category" value={filters.category} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "category", value))}><option value="">All categories</option>{categories.map((category) => <option key={category.id || category._id} value={category.slug}>{category.name}</option>)}</FilterSelect>
-          <FilterSelect id="disc-subcategory" label="Subcategory" value={filters.subcategory} disabled={!selectedCategory} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "subcategory", value))}><option value="">All subcategories</option>{(selectedCategory?.subcategories || []).map((subcategory) => <option key={subcategory.id || subcategory._id} value={subcategory.slug}>{subcategory.name}</option>)}</FilterSelect>
-          <FilterSelect id="disc-type" label="Listing type" value={filters.type} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "type", value))}><option value="">All listing types</option>{DISCOVERY_TYPES.map(([value, label]) => <option key={value} value={value} disabled={(Boolean(filters.city) || hasLocation) && isProfessionalType(value)}>{label}</option>)}</FilterSelect>
-          <FilterSelect id="disc-city" label="City" value={filters.city} disabled={isProfessionalType(filters.type)} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "city", value))}><option value="">All cities</option>{cities.map((city) => <option key={city.id || city._id} value={city.slug}>{city.name}</option>)}</FilterSelect>
-          <FilterSelect id="disc-sort" label="Sort" value={filters.sort} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "sort", value))}>{DISCOVERY_SORTS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</FilterSelect>
-          <button type="button" className={styles.discoveryClearFilters} onClick={clear}><FiX aria-hidden="true" /> Clear</button>
+          <div className={styles.discoverySearchPanel}>
+            <form className={styles.discoveryPrimarySearch} role="search" onSubmit={(event) => { event.preventDefault(); setFilters(changeDiscoveryFilter(filters, "search", event.currentTarget.elements.search.value.trim())); }}>
+              <FiSearch className={styles.discoveryPrimaryIcon} aria-hidden="true" />
+              <div className={styles.discoveryPrimaryField}>
+                <label htmlFor="disc-query">What are you looking for?</label>
+                <input id="disc-query" name="search" key={filters.search} defaultValue={filters.search} placeholder="Gyms, yoga, trainers, CrossFit..." maxLength={100} />
+              </div>
+              <button type="submit" className={styles.discoverySearchSubmit}>Explore <FiArrowRight aria-hidden="true" /></button>
+            </form>
+            <div className={styles.discoveryLocationRow}>
+              <CustomerLocationPicker compact />
+            </div>
+          </div>
+          <div className={styles.discoverySearchBottom}>
+            <div className={styles.discoveryCategoryChips} role="group" aria-label="Choose marketplace category">
+              {[{ slug: "", name: "All" }, ...categories.filter((category) => ["fitness", "wellness", "sports"].includes(category.slug))].map((category) => (
+                <button
+                  key={category.slug || "all"}
+                  type="button"
+                  className={`${styles.discoveryCategoryChip} ${filters.category === category.slug ? styles.discoveryCategoryChipActive : ""}`}
+                  aria-pressed={filters.category === category.slug}
+                  onClick={() => setFilters(changeDiscoveryFilter(filters, "category", category.slug))}
+                >{category.name}</button>
+              ))}
+            </div>
+            <button type="button" className={styles.discoveryFilterToggle} aria-expanded={filtersOpen} aria-controls="discovery-advanced-filters" onClick={() => setFiltersOpen((value) => !value)}>
+              <FiSliders aria-hidden="true" /> All filters {activeFilterCount > 0 && <span className={styles.discoveryFilterCount}>{activeFilterCount}</span>} <FiChevronDown className={filtersOpen ? styles.discoveryChevronOpen : ""} aria-hidden="true" />
+            </button>
+          </div>
+          {filtersOpen && (
+            <div id="discovery-advanced-filters" className={styles.discoveryAdvancedPanel} aria-label="Advanced marketplace filters">
+              <div className={styles.discoveryAdvancedGrid}>
+                <FilterSelect id="disc-subcategory" label="Subcategory" value={filters.subcategory} disabled={!selectedCategory} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "subcategory", value))}><option value="">All subcategories</option>{(selectedCategory?.subcategories || []).map((subcategory) => <option key={subcategory.id || subcategory._id} value={subcategory.slug}>{subcategory.name}</option>)}</FilterSelect>
+                <FilterSelect id="disc-type" label="Listing type" value={filters.type} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "type", value))}><option value="">All listing types</option>{DISCOVERY_TYPES.map(([value, label]) => <option key={value} value={value} disabled={(Boolean(filters.city) || hasLocation) && isProfessionalType(value)}>{label}</option>)}</FilterSelect>
+                <FilterSelect id="disc-city" label="City" value={filters.city} disabled={isProfessionalType(filters.type)} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "city", value))}><option value="">All cities</option>{cities.map((city) => <option key={city.id || city._id} value={city.slug}>{city.name}</option>)}</FilterSelect>
+                <FilterSelect id="disc-sort" label="Sort" value={filters.sort} onChange={(value) => setFilters(changeDiscoveryFilter(filters, "sort", value))}>{DISCOVERY_SORTS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</FilterSelect>
+              </div>
+              <button type="button" className={styles.discoveryResetLink} onClick={clear}><FiX aria-hidden="true" /> Reset filters</button>
+            </div>
+          )}
         </div>
       </div>
     </section>
