@@ -41,6 +41,7 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
   const navigate = useNavigate();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const selectedCategory = categories.find((category) => category.slug === filters.category);
+  const collectionLabels = { "beginner-gyms": "Best Gyms for Beginners", "top-trainers": "Top Rated Personal Trainers", "womens-studios": "Women’s Fitness Studios", "premium-clubs": "Premium Fitness Clubs", "budget-gyms": "Budget Friendly Gyms", "luxury-wellness": "Luxury Wellness Centers" };
   const clear = () => applySearchFilters(clearDiscoveryFilters());
 
   useEffect(() => {
@@ -98,6 +99,7 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
             </div>
           </aside>
           <div className={styles.marketplaceResultsColumn} aria-label="Marketplace listing results">
+            {filters.collection && <div className={styles.marketplaceCollectionActive}><span>Collection: <strong>{collectionLabels[filters.collection]}</strong></span><button type="button" onClick={() => applySearchFilters({ ...filters, collection: "", page: 1 })} aria-label="Clear featured collection filter"><FiX aria-hidden="true" /> Clear</button></div>}
             <div aria-live="polite" aria-busy={loading}>
               {loading ? <LoadingCards /> : error ? <div className={styles.discoveryState} role="alert"><h3>We couldn’t load the marketplace.</h3><p>{error.status === 400 ? "One of these filters is no longer available. Clear the filters and try again." : "Please check your connection and try again."}</p><div><button onClick={retry} className={styles.discoverBtnFilled}>Retry</button><button onClick={clear} className={styles.discoverBtnOutline}>Clear filters</button></div></div> : listings.length === 0 ? hasLocation ? <div className={styles.discoveryState}><h3>No Gymssy venues found within this area yet.</h3><p>Change your location on the left, or clear it to browse all published marketplace listings.</p><button onClick={clearLocation} className={styles.discoverBtnFilled}>Browse all listings</button></div> : <div className={styles.discoveryState}><h3>No matching listings found.</h3><p>Try changing your filters or search.</p><button onClick={clear} className={styles.discoverBtnFilled}>Clear filters</button></div> : <div className={styles.discoverGrid}>{listings.map((item) => <DiscoveryCard key={`${item.entityType}-${item.id}`} item={item} selected={compareItems.some((entry) => entry.id === item.id)} compareDisabled={compareItems.length >= 3 && !compareItems.some((entry) => entry.id === item.id)} onCompare={onCompareToggle} onView={(href) => navigate(href)} />)}</div>}
             </div>

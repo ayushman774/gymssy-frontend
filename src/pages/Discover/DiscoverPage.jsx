@@ -234,7 +234,8 @@ const COLLECTIONS = [
   {
     id: 1,
     title: "Best Gyms for Beginners",
-    count: "42 places",
+    collection: "beginner-gyms",
+    count: "Beginner-friendly gyms",
     image:
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80",
     color: "#39FF14",
@@ -242,7 +243,8 @@ const COLLECTIONS = [
   {
     id: 2,
     title: "Top Rated Personal Trainers",
-    count: "28 trainers",
+    collection: "top-trainers",
+    count: "Top-rated trainers",
     image:
       "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80",
     color: "#3B82F6",
@@ -250,7 +252,8 @@ const COLLECTIONS = [
   {
     id: 3,
     title: "Women's Fitness Studios",
-    count: "35 studios",
+    collection: "womens-studios",
+    count: "Women-focused studios",
     image:
       "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80",
     color: "#ec4899",
@@ -258,7 +261,8 @@ const COLLECTIONS = [
   {
     id: 4,
     title: "Premium Fitness Clubs",
-    count: "19 clubs",
+    collection: "premium-clubs",
+    count: "Premium clubs",
     image:
       "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
     color: "#f59e0b",
@@ -266,7 +270,8 @@ const COLLECTIONS = [
   {
     id: 5,
     title: "Budget Friendly Gyms",
-    count: "64 gyms",
+    collection: "budget-gyms",
+    count: "Affordable gyms",
     image:
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
     color: "#39FF14",
@@ -274,7 +279,8 @@ const COLLECTIONS = [
   {
     id: 6,
     title: "Luxury Wellness Centers",
-    count: "15 centers",
+    collection: "luxury-wellness",
+    count: "Luxury wellness",
     image:
       "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800&q=80",
     color: "#39ff14",
@@ -765,10 +771,10 @@ const CollectionCard = ({ col }) => (
       <div className={styles.collectionContent}>
         <p className={styles.collectionCount}>{col.count}</p>
         <h3 className={styles.collectionTitle}>{col.title}</h3>
-        <button className={styles.collectionBtn}>
+        <Link to={`/discover?collection=${col.collection}`} className={styles.collectionBtn}>
           <span>Explore</span>
           <FiArrowRight aria-hidden="true" />
-        </button>
+        </Link>
       </div>
     </div>
   </motion.div>
