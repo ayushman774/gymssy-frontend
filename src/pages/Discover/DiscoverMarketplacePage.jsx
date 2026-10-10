@@ -36,19 +36,28 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
   const { location: customerLocation, hasLocation, clearLocation } = useCustomerLocation();
   const locationKey = customerLocationKey(customerLocation);
   const previousLocationKey = useRef(locationKey);
+  const resultsRef = useRef(null);
+  const scrollToResults = useCallback(() => {
+    resultsRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  }, []);
+  const applySearchFilters = useCallback((next) => {
+    setFilters(next);
+    window.requestAnimationFrame(scrollToResults);
+  }, [scrollToResults, setFilters]);
   const discoveryFilters = useMemo(() => buildLocatedDiscoveryFilters(filters, customerLocation), [customerLocation, filters]);
   const { listings, pagination, loading, error, retry } = useDiscovery(discoveryFilters, true);
   const navigate = useNavigate();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const activeFilterCount = [filters.subcategory, filters.type, filters.city, filters.sort !== "recommended" ? filters.sort : ""].filter(Boolean).length;
   const selectedCategory = categories.find((category) => category.slug === filters.category);
-  const clear = () => setFilters(clearDiscoveryFilters());
+  const clear = () => applySearchFilters(clearDiscoveryFilters());
 
   useEffect(() => {
     if (previousLocationKey.current === locationKey) return;
     previousLocationKey.current = locationKey;
+    window.requestAnimationFrame(scrollToResults);
     if (filters.page !== 1) setFilters({ ...filters, page: 1 });
-  }, [filters, locationKey, setFilters]);
+  }, [filters, locationKey, scrollToResults, setFilters]);
 
   useEffect(() => {
     if (hasLocation && isProfessionalType(filters.type)) setFilters({ ...filters, type: "", page: 1 });
@@ -64,7 +73,7 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
             <p>Explore fitness, wellness and sports experiences that fit your goals.</p>
           </div>
           <div className={styles.discoverySearchPanel}>
-            <form className={styles.discoveryPrimarySearch} role="search" onSubmit={(event) => { event.preventDefault(); setFilters(changeDiscoveryFilter(filters, "search", event.currentTarget.elements.search.value.trim())); }}>
+            <form className={styles.discoveryPrimarySearch} role="search" onSubmit={(event) => { event.preventDefault(); applySearchFilters(changeDiscoveryFilter(filters, "search", event.currentTarget.elements.search.value.trim())); }}>
               <FiSearch className={styles.discoveryPrimaryIcon} aria-hidden="true" />
               <div className={styles.discoveryPrimaryField}>
                 <label htmlFor="disc-query">What are you looking for?</label>
@@ -107,11 +116,11 @@ const MarketplaceResults = ({ filters, categories, cities, setFilters, compareIt
       </div>
     </section>
 
-    <section className={`${styles.section} ${styles.sectionAlt}`} aria-labelledby="marketplace-results-heading">
+    <section ref={resultsRef} className={`${styles.section} ${styles.sectionAlt} ${styles.discoveryResultsAnchor}`} aria-labelledby="marketplace-results-heading">
       <div className={styles.sectionContainer}>
         <div className={styles.sectionHead}><SectionLabel text="MARKETPLACE" variant="light" /><div className={styles.sectionHeadRow}><h2 id="marketplace-results-heading" className={styles.sectionHeading}>Discover <span className={styles.accentText}>Gymssy</span></h2>{!loading && !error && <span className={styles.discoveryTotal}>{pagination.total} listings</span>}</div><p className={styles.sectionSubtext}>{hasLocation ? "Physical Gymssy venues that can be matched within your selected area." : "Real gyms, wellness businesses, sports academies and professionals from across Gymssy."}</p></div>
         {loading ? <LoadingCards /> : error ? <div className={styles.discoveryState} role="alert"><h3>We couldn’t load the marketplace.</h3><p>{error.status === 400 ? "One of these filters is no longer available. Clear the filters and try again." : "Please check your connection and try again."}</p><div><button onClick={retry} className={styles.discoverBtnFilled}>Retry</button><button onClick={clear} className={styles.discoverBtnOutline}>Clear filters</button></div></div> : listings.length === 0 ? hasLocation ? <div className={styles.discoveryState}><h3>No Gymssy venues found within this area yet.</h3><p>Change your location above, or clear it to browse all published marketplace listings.</p><button onClick={clearLocation} className={styles.discoverBtnFilled}>Browse all listings</button></div> : <div className={styles.discoveryState}><h3>No matching listings found.</h3><p>Try changing your filters or search.</p><button onClick={clear} className={styles.discoverBtnFilled}>Clear filters</button></div> : <div className={styles.discoverGrid}>{listings.map((item) => <DiscoveryCard key={`${item.entityType}-${item.id}`} item={item} selected={compareItems.some((entry) => entry.id === item.id)} compareDisabled={compareItems.length >= 3 && !compareItems.some((entry) => entry.id === item.id)} onCompare={onCompareToggle} onView={(href) => navigate(href)} />)}</div>}
-        {!loading && !error && pagination.totalPages > 1 && <nav className={styles.discoveryPagination} aria-label="Discovery result pages"><button disabled={pagination.page <= 1} onClick={() => setFilters({ ...filters, page: pagination.page - 1 })}><FiArrowLeft aria-hidden="true" /> Previous</button><span>Page {pagination.page} of {pagination.totalPages}</span><button disabled={pagination.page >= pagination.totalPages} onClick={() => setFilters({ ...filters, page: pagination.page + 1 })}>Next <FiArrowRight aria-hidden="true" /></button></nav>}
+        {!loading && !error && pagination.totalPages > 1 && <nav className={styles.discoveryPagination} aria-label="Discovery result pages"><button disabled={pagination.page <= 1} onClick={() => applySearchFilters({ ...filters, page: pagination.page - 1 })}><FiArrowLeft aria-hidden="true" /> Previous</button><span>Page {pagination.page} of {pagination.totalPages}</span><button disabled={pagination.page >= pagination.totalPages} onClick={() => applySearchFilters({ ...filters, page: pagination.page + 1 })}>Next <FiArrowRight aria-hidden="true" /></button></nav>}
         {compareItems.length >= 2 && <button className={styles.discoveryCompareInline} onClick={onOpenDrawer}>Compare selected listings</button>}
       </div>
     </section>
