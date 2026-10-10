@@ -771,7 +771,7 @@ const CollectionCard = ({ col }) => (
       <div className={styles.collectionContent}>
         <p className={styles.collectionCount}>{col.count}</p>
         <h3 className={styles.collectionTitle}>{col.title}</h3>
-        <Link to={`/discover?collection=${col.collection}`} className={styles.collectionBtn}>
+        <Link to={`/discover/collections/${col.collection}`} className={styles.collectionBtn}>
           <span>Explore</span>
           <FiArrowRight aria-hidden="true" />
         </Link>
