@@ -2794,3 +2794,7 @@ body[data-compare-open="true"] {
 @media(max-width:900px) and (min-width:761px){.marketplaceTwoColumn{grid-template-columns:minmax(220px,30%) minmax(0,1fr)}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.marketplaceTwoColumn{grid-template-columns:minmax(0,1fr)}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.marketplaceResultsColumn .discoverGrid{grid-template-columns:minmax(0,1fr)}}
+
+.marketplaceCollectionActive{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;margin:0 0 1rem;padding:.65rem .85rem;background:#162419;border:1px solid #335c34;border-radius:10px;color:#aebfb0;font-size:.8rem}
+.marketplaceCollectionActive strong{color:#39ff14}
+.marketplaceCollectionActive button{display:inline-flex;align-items:center;gap:.35rem;background:transparent;border:0;color:#d5e6d8;cursor:pointer;font-weight:600}
