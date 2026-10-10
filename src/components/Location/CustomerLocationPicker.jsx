@@ -15,7 +15,7 @@ import styles from "./CustomerLocationPicker.module.css";
 
 export const LOCATION_AUTOCOMPLETE_DEBOUNCE_MS = 300;
 
-export default function CustomerLocationPicker() {
+export default function CustomerLocationPicker({ compact = false }) {
   const id = useId();
   const requestId = useRef(0);
   const {
@@ -134,7 +134,7 @@ export default function CustomerLocationPicker() {
     }
   };
 
-  return <section className={styles.root} aria-labelledby={`${id}-heading`}>
+  return <section className={`${styles.root} ${compact ? styles.compact : ""}`} aria-labelledby={`${id}-heading`}>
     <div className={styles.headingRow}>
       <div><span className={styles.eyebrow}>YOUR SEARCH AREA</span><h3 id={`${id}-heading`}>Explore by location</h3></div>
       {hasLocation && !editing && <div className={styles.activeActions}><button type="button" onClick={() => { setEditing(true); clearLocationError(); }}>Change</button><button type="button" onClick={() => { clearLocation(); setEditing(true); resetSearch(); }}>Clear</button></div>}
