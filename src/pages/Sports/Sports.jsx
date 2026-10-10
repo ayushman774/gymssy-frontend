@@ -7,12 +7,12 @@
 //   - useSportsData now provides Sports-only coaches (no FALLBACK_COACHES)
 //   - Empty state and error state already existed — no new UI added
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, A11y } from "swiper/modules";
+import { A11y } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
+
 import { motion } from "framer-motion";
 import {
   FiClock,
@@ -345,6 +345,11 @@ const EmptyState = ({ message }) => (
 ══════════════════════════════════════════════════════ */
 const Sports = () => {
   const categoriesRef = useRef(null);
+  const academiesSwiperRef = useRef(null);
+  const [academyControls, setAcademyControls] = useState({ beginning: true, end: true });
+  const syncAcademyControls = (swiper) => {
+    setAcademyControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
+  };
   const { academies, coaches, experiences, cities, loading, error } =
     useSportsData();
 
@@ -394,9 +399,34 @@ const Sports = () => {
             <EmptyState message="No sports academies available right now. Check back soon." />
           ) : (
             <div className={styles.academiesCarousel} aria-label="Featured sports academies">
+              <div className={styles.academyCarouselControls}>
+                <button
+                  type="button"
+                  className={styles.academyCarouselArrow}
+                  onClick={() => academiesSwiperRef.current?.slidePrev()}
+                  disabled={academyControls.beginning}
+                  aria-label="Previous sports academies"
+                >
+                  <FiArrowRight className={styles.academyArrowLeft} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className={styles.academyCarouselArrow}
+                  onClick={() => academiesSwiperRef.current?.slideNext()}
+                  disabled={academyControls.end}
+                  aria-label="Next sports academies"
+                >
+                  <FiArrowRight aria-hidden="true" />
+                </button>
+              </div>
               <Swiper
-                modules={[Navigation, A11y]}
-                navigation={academies.length > 4}
+                modules={[A11y]}
+                onSwiper={(swiper) => {
+                  academiesSwiperRef.current = swiper;
+                  syncAcademyControls(swiper);
+                }}
+                onSlideChange={syncAcademyControls}
+                onResize={syncAcademyControls}
                 slidesPerView={1}
                 slidesPerGroup={1}
                 spaceBetween={20}
