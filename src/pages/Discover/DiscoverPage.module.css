@@ -2756,3 +2756,31 @@ body[data-compare-open="true"] {
 @media(max-width:1000px){.marketplaceTwoColumn{grid-template-columns:minmax(245px,32%) minmax(0,1fr)}.marketplaceSidebar{padding:1rem}.marketplaceResultsColumn .discoverGrid{gap:.8rem}}
 @media(max-width:760px){.marketplaceLayoutSection{padding:2rem 0 3rem}.marketplaceTwoColumn{grid-template-columns:minmax(0,1fr)}.marketplaceLayoutIntro{text-align:left;margin-bottom:1.5rem}.marketplaceSidebar{position:static;max-height:none;overflow:visible}.marketplaceSidebarHead{margin-bottom:0}.marketplaceMobileToggle{display:flex;align-items:center;gap:.45rem;background:#243226;border:1px solid #425744;border-radius:10px;padding:.6rem .75rem;color:#e7f4e8;font-weight:700;cursor:pointer}.marketplaceSidebarFields{display:none;margin-top:1.2rem}.marketplaceSidebarFieldsOpen{display:grid}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.marketplaceResultsColumn .discoverGrid{grid-template-columns:minmax(0,1fr)}.marketplaceResultsHead{align-items:flex-start;flex-wrap:wrap}.marketplaceSidebar{padding:.9rem}}
+
+
+/* Marketplace V4: compact no-scroll sidebar and three-card results */
+.marketplaceLayoutSection{overflow:visible}
+.marketplaceLayoutIntro{margin-bottom:1.8rem}
+.marketplaceTwoColumn{grid-template-columns:minmax(225px,25%) minmax(0,1fr);align-items:start;gap:clamp(.9rem,1.6vw,1.5rem)}
+.marketplaceSidebar{position:sticky;top:95px;max-height:none;overflow:visible;min-width:0;padding:1rem;border-radius:15px;box-shadow:none}
+.marketplaceSidebarHead{margin-bottom:.85rem}
+.marketplaceSidebarHead h2{font-size:1rem}
+.marketplaceSidebarFields{gap:.85rem;min-width:0}
+.marketplaceSidebarSearch{gap:.35rem}
+.marketplaceSidebarSearch label,.marketplaceFieldTitle{font-size:.72rem;letter-spacing:.01em}
+.marketplaceSidebarSearchRow{min-height:38px;border-radius:9px;padding:.2rem .3rem .2rem .6rem;gap:.35rem}
+.marketplaceSidebarSearchRow input{font-size:.76rem}
+.marketplaceSidebarSearchRow button{width:30px;height:30px}
+.marketplaceLocationField,.marketplaceCategoryField{gap:.35rem}
+.marketplaceCategoryGrid{gap:.35rem}
+.marketplaceCategoryGrid .discoveryCategoryChip{border-radius:8px;padding:.5rem .15rem;font-size:.73rem;line-height:1.3;white-space:normal}
+.marketplaceSelectFields{gap:.55rem}
+.marketplaceSelectFields .discoveryFilter{gap:.3rem}
+.marketplaceSelectFields .discoveryFilter select{max-width:100%;min-height:37px;padding-top:.35rem;padding-bottom:.35rem;font-size:.76rem;box-sizing:border-box}
+.marketplaceClearAll{padding:.65rem;border-radius:9px;font-size:.76rem}
+.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.65rem,1.2vw,1rem)}
+.marketplaceResultsColumn .discoverGrid>*{min-width:0}
+.marketplaceResultsColumn .discoveryPagination{margin:1.5rem 0 0}
+@media(max-width:1100px) and (min-width:761px){.marketplaceTwoColumn{grid-template-columns:minmax(220px,28%) minmax(0,1fr)}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.marketplaceTwoColumn{grid-template-columns:minmax(0,1fr)}.marketplaceSidebar{position:static;max-height:none;overflow:visible}.marketplaceLayoutIntro{text-align:center}.marketplaceSidebarFields{display:none}.marketplaceSidebarFieldsOpen{display:grid}.marketplaceResultsColumn .discoverGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.marketplaceResultsColumn .discoverGrid{grid-template-columns:minmax(0,1fr)}}
