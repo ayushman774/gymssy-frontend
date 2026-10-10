@@ -64,10 +64,15 @@ const SportsExperienceCard = ({ exp, index }) => {
     >
       <div className={styles.expImageWrapper}>
         <img
-          src={exp.image}
+          src={exp.image || "/images/logo/gymssy-logo.jpeg"}
           alt={exp.title}
           className={styles.expImage}
           loading="lazy"
+        onError={(event) => {
+            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
+            }
+          }}
         />
         <div className={styles.expImageOverlay} aria-hidden="true" />
         {exp.trending && (
@@ -162,10 +167,15 @@ const SportsAcademyCard = ({ academy, index }) => {
     >
       <div className={styles.academyImageWrapper}>
         <img
-          src={academy.image}
+          src={academy.image || "/images/logo/gymssy-logo.jpeg"}
           alt={academy.name}
           className={styles.academyImage}
           loading="lazy"
+        onError={(event) => {
+            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
+            }
+          }}
         />
         <div className={styles.academyImageOverlay} aria-hidden="true" />
         <div className={styles.academyBadges}>
@@ -269,10 +279,15 @@ const SportsCoachCard = ({ coach, index }) => {
       {/* Image — UNCHANGED */}
       <div className={styles.coachImageWrapper}>
         <img
-          src={coach.image}
+          src={coach.image || "/images/logo/gymssy-logo.jpeg"}
           alt={coach.name}
           className={styles.coachImage}
           loading="lazy"
+        onError={(event) => {
+            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
+            }
+          }}
         />
         <div
           className={`${styles.coachAvailBadge} ${
@@ -547,6 +562,11 @@ const SportsFinalCta = () => {
           src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1800&q=80&fit=crop&auto=format"
           alt=""
           className={styles.finalCtaBgImage}
+        onError={(event) => {
+            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
+            }
+          }}
         />
         <div className={styles.finalCtaOverlay} />
         <div className={styles.finalCtaGradient} />
