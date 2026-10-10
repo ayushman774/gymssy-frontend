@@ -22,12 +22,12 @@ const EmptyState = ({ title, onReset }) => <motion.div className={styles.stateBo
   <button className={styles.stateBtn} onClick={onReset}>Clear filters</button>
 </motion.div>;
 
-export default function CategoryListingGrid({ listings, pagination, loading, error, onRetry, onReset, onPageChange, categoryTitle }) {
-  if (loading) return <div className={styles.grid} aria-label="Loading listings" aria-busy="true">{Array.from({ length: 8 }, (_, index) => <SkeletonCard key={index} index={index} />)}</div>;
+export default function CategoryListingGrid({ listings, pagination, loading, error, onRetry, onReset, onPageChange, categoryTitle, compactGrid = false }) {
+  if (loading) return <div className={`${styles.grid} ${compactGrid ? styles.compactGrid : ""}`} aria-label="Loading listings" aria-busy="true">{Array.from({ length: compactGrid ? 6 : 8 }, (_, index) => <SkeletonCard key={index} index={index} />)}</div>;
   if (error) return <ErrorState error={error} onRetry={onRetry} />;
   if (!listings?.length) return <EmptyState title={categoryTitle} onReset={onReset} />;
   return <>
-    <motion.div className={styles.grid} role="list" aria-label={`${categoryTitle ?? "Category"} listings`}>
+    <motion.div className={`${styles.grid} ${compactGrid ? styles.compactGrid : ""}`} role="list" aria-label={`${categoryTitle ?? "Category"} listings`}>
       {listings.map((item, index) => <motion.div key={`${item.entityType}-${item.id}`} role="listitem" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.42, delay: (index % 8) * 0.055, ease: [0.25, 0.46, 0.45, 0.94] }}><DiscoveryCard item={item} /></motion.div>)}
     </motion.div>
     {pagination.totalPages > 1 && <nav className={styles.pagination} aria-label="Category result pages">
