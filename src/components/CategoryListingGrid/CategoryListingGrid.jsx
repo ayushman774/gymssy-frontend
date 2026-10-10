@@ -30,10 +30,10 @@ export default function CategoryListingGrid({ listings, pagination, loading, err
     <motion.div className={`${styles.grid} ${compactGrid ? styles.compactGrid : ""}`} role="list" aria-label={`${categoryTitle ?? "Category"} listings`}>
       {listings.map((item, index) => <motion.div key={`${item.entityType}-${item.id}`} role="listitem" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.42, delay: (index % 8) * 0.055, ease: [0.25, 0.46, 0.45, 0.94] }}><DiscoveryCard item={item} /></motion.div>)}
     </motion.div>
-    {pagination.totalPages > 1 && <nav className={styles.pagination} aria-label="Category result pages">
-      <button disabled={pagination.page <= 1} onClick={() => onPageChange(pagination.page - 1)}><ArrowLeft size={15} aria-hidden="true" /> Previous</button>
-      <span>Page {pagination.page} of {pagination.totalPages}</span>
-      <button disabled={pagination.page >= pagination.totalPages} onClick={() => onPageChange(pagination.page + 1)}>Next <ArrowRight size={15} aria-hidden="true" /></button>
+    {(compactGrid || (pagination?.totalPages ?? 0) > 1) && <nav className={styles.pagination} aria-label="Category result pages">
+      <button disabled={(pagination?.page ?? 1) <= 1} onClick={() => onPageChange((pagination?.page ?? 1) - 1)}><ArrowLeft size={15} aria-hidden="true" /> Previous</button>
+      <span>Page {pagination?.page ?? 1} of {Math.max(1, pagination?.totalPages ?? 1)}</span>
+      <button disabled={(pagination?.page ?? 1) >= Math.max(1, pagination?.totalPages ?? 1)} onClick={() => onPageChange((pagination?.page ?? 1) + 1)}>Next <ArrowRight size={15} aria-hidden="true" /></button>
     </nav>}
   </>;
 }
