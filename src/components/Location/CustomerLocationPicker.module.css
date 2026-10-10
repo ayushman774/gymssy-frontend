@@ -135,3 +135,16 @@
 @media (prefers-reduced-motion: reduce) {
   .root *, .root *::before, .root *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+
+/* Compact Discover search placement: retains autocomplete and attribution */
+.compact{background:transparent!important;border:0!important;box-shadow:none!important;padding:.25rem 0 .15rem!important;margin:0!important}
+.compact .headingRow{display:none}
+.compact .controls{margin:0;gap:.65rem;align-items:center}
+.compact .combobox{min-width:0;flex:1}
+.compact .combobox input{min-height:42px}
+.compact .deviceButton{white-space:nowrap;min-height:40px}
+.compact .helper{font-size:.72rem;margin:.4rem 0 0;color:#839185}
+.compact .attribution{font-size:.65rem;margin:.2rem 0 0;color:#718174}
+.compact .activeLocation{margin:.35rem 0}
+@media(max-width:650px){.compact .controls{flex-direction:column;align-items:stretch}.compact .combobox{width:100%}.compact .deviceButton{width:100%}}
