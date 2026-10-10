@@ -75,55 +75,6 @@ const SportsHero = ({ onExploreClick }) => {
           arts and sports experiences near you.
         </motion.p>
 
-        {/* Search */}
-        <motion.form
-          className={styles.searchBar}
-          onSubmit={handleSearch}
-          role="search"
-          aria-label="Search sports"
-          variants={FADE_UP}
-          custom={0.3}
-          initial="hidden"
-          animate="visible"
-        >
-          <div className={styles.searchField}>
-            <FiMapPin className={styles.searchIcon} aria-hidden="true" />
-            <input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              aria-label="Location"
-            />
-          </div>
-
-          <div className={styles.searchDivider} aria-hidden="true" />
-
-          <div className={`${styles.searchField} ${styles.searchFieldGrow}`}>
-            <FiSearch className={styles.searchIcon} aria-hidden="true" />
-            <input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Search sports, coaches, academies..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search sports, coaches or academies"
-            />
-          </div>
-
-          <motion.button
-            type="submit"
-            className={styles.searchBtn}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            aria-label="Search"
-          >
-            <FiSearch aria-hidden="true" />
-            <span>Search</span>
-          </motion.button>
-        </motion.form>
-
         {/* Explore CTA */}
         <motion.button
           className={styles.exploreCta}
