@@ -761,7 +761,7 @@ const WhoWeServe = () => {
           animate={isInView ? "visible" : "hidden"}
         >
           <MagneticButton strength={0.3}>
-            <Link to="/explore" className={styles.audienceCtaBtnPrimary}>
+            <Link to="/discover" className={styles.audienceCtaBtnPrimary}>
               <span>Find Your Fitness Partner</span>
               <FiArrowRight aria-hidden="true" />
             </Link>
@@ -769,7 +769,7 @@ const WhoWeServe = () => {
 
           <MagneticButton strength={0.3}>
             <Link
-              to="/list-business"
+              to="/partner-with-us"
               className={styles.audienceCtaBtnSecondary}
             >
               <span>List Your Business on Gymssy</span>
