@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { fetchCurrentCustomer, loginCustomer, registerCustomer } from "../services/customerAuthService.js";
+import { fetchCurrentCustomer, loginCustomer, registerCustomer, saveCustomerProfile } from "../services/customerAuthService.js";
 
 const TOKEN_KEY = "gymssy_customer_token";
 const CustomerAuthContext = createContext(null);
@@ -79,9 +79,16 @@ export function CustomerAuthProvider({ children }) {
 
   const login = useCallback(async (credentials) => acceptSession(await loginCustomer(credentials)), [acceptSession]);
   const register = useCallback(async (details) => acceptSession(await registerCustomer(details)), [acceptSession]);
+  const updateProfile = useCallback(async (changes) => {
+    if (!token) throw new Error("Please sign in.");
+    const response = await saveCustomerProfile(token, changes);
+    const customer = requireCustomer(response?.data?.user);
+    setUser(customer);
+    return customer;
+  }, [token]);
   const logout = useCallback(() => clearSession(), [clearSession]);
 
-  const value = useMemo(() => ({ user, token, loading, sessionError, isAuthenticated: Boolean(user && token), login, register, logout, refreshUser }), [user, token, loading, sessionError, login, register, logout, refreshUser]);
+  const value = useMemo(() => ({ user, token, loading, sessionError, isAuthenticated: Boolean(user && token), login, register, logout, refreshUser, updateProfile }), [user, token, loading, sessionError, login, register, logout, refreshUser, updateProfile]);
   return <CustomerAuthContext.Provider value={value}>{children}</CustomerAuthContext.Provider>;
 }
 
