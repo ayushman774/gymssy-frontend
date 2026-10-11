@@ -21,7 +21,7 @@ export const NAV_LINKS = [
 const SCROLL_THRESHOLD = 60;
 
 const Navbar = () => {
-  const { user, loading: authLoading, isAuthenticated, logout } = useCustomerAuth();
+  const { user, loading: authLoading, isAuthenticated } = useCustomerAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -121,13 +121,12 @@ const Navbar = () => {
           {/* Desktop CTA buttons */}
           <div className={styles.desktopCTA}>
             {!authLoading && isAuthenticated ? (
-              <>
-                <span className={styles.customerName}>Hi, {user.name?.split(" ")[0]}</span>
-                <Link to="/favorites" className={styles.btnOutline}>Favorites</Link>
-                <Link to="/enquiries" className={styles.btnOutline}>Enquiries</Link>
-                <Link to="/bookings" className={styles.btnOutline}>My Bookings</Link>
-                <button type="button" className={styles.btnOutline} onClick={logout}>Log Out</button>
-              </>
+              <Link to="/profile" className={styles.profileLink} aria-label="Open my profile">
+                <span className={styles.profileAvatar} aria-hidden="true">
+                  {user?.avatar?.url ? <img src={user.avatar.url} alt="" /> : (user?.name?.trim()?.charAt(0) || "U").toUpperCase()}
+                </span>
+                <span className={styles.profileGreeting}>Hi, <strong>{user?.name?.trim()?.split(/\s+/)[0] || "Member"}</strong></span>
+              </Link>
             ) : !authLoading ? (
               <>
                 <Link to="/login" className={styles.btnOutline}>Log In</Link>
