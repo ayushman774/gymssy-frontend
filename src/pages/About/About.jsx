@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FiArrowRight,
   FiSearch,
@@ -142,7 +142,7 @@ const audiences = [
     desc: "Discover gyms, studios, and trainers perfectly matched to your goals, budget, and schedule.",
     color: "neon",
     ctaLabel: "Explore Gyms",
-    ctaTo: "/explore",
+    ctaTo: "/discover?type=gym",
     image:
       "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",
   },
@@ -152,7 +152,7 @@ const audiences = [
     desc: "List your facility, showcase your amenities, and reach thousands of potential members daily.",
     color: "blue",
     ctaLabel: "List Your Gym",
-    ctaTo: "/list-gym",
+    ctaTo: "/partner-with-us",
     image:
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80",
   },
@@ -162,7 +162,7 @@ const audiences = [
     desc: "Build a compelling profile, highlight your certifications, and attract new clients effortlessly.",
     color: "neon",
     ctaLabel: "Find Trainers",
-    ctaTo: "/trainers",
+    ctaTo: "/discover?type=trainer",
     image:
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",
   },
@@ -172,7 +172,7 @@ const audiences = [
     desc: "Showcase yoga, pilates, dance, and martial arts classes to a highly engaged fitness audience.",
     color: "blue",
     ctaLabel: "Explore Studios",
-    ctaTo: "/studios",
+    ctaTo: "/discover?type=studio",
     image:
       "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
   },
@@ -446,7 +446,7 @@ const OurStory = () => {
 
             <motion.div variants={staggerItem}>
               <MagneticButton strength={0.3}>
-                <Link to="/explore" className={styles.storyBtn}>
+                <Link to="/" className={styles.storyBtn}>
                   <span>Explore Platform</span>
                   <FiArrowRight aria-hidden="true" />
                 </Link>
@@ -650,6 +650,7 @@ const HowItWorks = () => {
    WHO WE SERVE
 ═══════════════════════════════════════════ */
 const WhoWeServe = () => {
+  const navigate = useNavigate();
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
   const { setCursor, resetCursor } = useCursorVariant();
@@ -696,6 +697,17 @@ const WhoWeServe = () => {
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
               onMouseEnter={() => setCursor("hover")}
               onMouseLeave={resetCursor}
+              role="link"
+              tabIndex={0}
+              aria-label={`${a.title}: ${a.ctaLabel}`}
+              onClick={() => navigate(a.ctaTo)}
+              onKeyDown={(event) => {
+                if (event.target !== event.currentTarget) return;
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  navigate(a.ctaTo);
+                }
+              }}
             >
               {/* Background image */}
               <div className={styles.audienceImgWrapper}>
