@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { HiOutlineCheckCircle } from "react-icons/hi";
 import styles from "./PartnerForm.module.css";
+import { apiRequest } from "../../../services/apiClient";
 
 const businessTypes = [
   "Gym",
@@ -35,6 +36,7 @@ const PartnerForm = () => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [focused, setFocused] = useState({});
 
   const validate = () => {
@@ -86,10 +88,19 @@ const PartnerForm = () => {
       return;
     }
     setLoading(true);
-    // Simulate API call
-    await new Promise((res) => setTimeout(res, 1800));
-    setLoading(false);
-    setSubmitted(true);
+    setSubmitError("");
+    try {
+      await apiRequest("/partner-applications", {
+        method: "POST",
+        body: formData,
+      });
+      setSubmitted(true);
+      setFormData(initialState);
+    } catch (error) {
+      setSubmitError(error.message || "Unable to submit your application. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDemo = (e) => {
@@ -375,6 +386,8 @@ const PartnerForm = () => {
             <span className={styles.errorMsg}>{errors.agreed}</span>
           )}
         </div>
+
+        {submitError && <p role="alert" className={styles.errorMsg}>{submitError}</p>}
 
         {/* Buttons */}
         <div className={styles.formActions}>
