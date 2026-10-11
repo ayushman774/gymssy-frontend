@@ -86,7 +86,7 @@ const PartnerCTA = ({ image }) => (
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <motion.a
-            href="#form"
+            href="/partner-with-us"
             className={styles.btnPrimary}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
@@ -95,7 +95,7 @@ const PartnerCTA = ({ image }) => (
             <FiArrowRight className={styles.btnIcon} />
           </motion.a>
           <motion.a
-            href="#form"
+            href="/partner-with-us"
             className={styles.btnSecondary}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
