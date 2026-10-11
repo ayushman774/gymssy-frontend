@@ -137,6 +137,10 @@ export default function ProfilePage() {
             <div className={styles.avatar} aria-hidden="true">
               {customerAvatarUrl(user) ? <img src={customerAvatarUrl(user)} alt="" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${user.avatarPreset}.svg`; }} /> : name.trim().charAt(0).toUpperCase()}
             </div>
+            <div className={styles.accountCopy}>
+              <strong>{name}</strong>
+              <small>{user?.email || ""}</small>
+            </div>
           </div>
           <p className={styles.menuLabel}>MY ACCOUNT</p>
           <nav className={styles.tabs}>
