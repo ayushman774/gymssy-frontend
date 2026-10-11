@@ -31,7 +31,10 @@ export const uploadCustomerPhoto = async (token, file) => {
   }
   const payload = await response.json().catch(() => null);
   if (!response.ok || payload?.success === false) {
-    throw new Error(payload?.message || "Photo upload failed.");
+    const error = new Error(payload?.message || (response.status === 404 ? "Photo upload API not found. Deploy the latest Gymssy backend and verify VITE_API_URL." : response.status === 413 ? "Image is too large for the upload server. Choose a smaller image." : response.status === 401 ? "Your session has expired. Sign in again." : `Photo upload failed (HTTP ${response.status}).`));
+    error.status = response.status;
+    throw error;
   }
+  if (!payload?.data?.user?.avatar?.url) throw new Error("Upload succeeded but no image URL was returned.");
   return payload;
 };
