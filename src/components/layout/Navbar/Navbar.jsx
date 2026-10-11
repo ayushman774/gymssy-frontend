@@ -121,18 +121,45 @@ const Navbar = () => {
           {/* Desktop CTA buttons */}
           <div className={styles.desktopCTA}>
             {!authLoading && isAuthenticated ? (
-              <Link to="/profile" className={styles.profileLink} aria-label="Open my profile">
+              <Link
+                to="/profile"
+                className={styles.profileLink}
+                aria-label="Open my profile"
+              >
                 <span className={styles.profileAvatar} aria-hidden="true">
-                  {(user?.avatar?.url || (user?.avatarPreset && /^avatar-(?:[1-9]|1[0-2])$/.test(user.avatarPreset) ? `/avatars/${user.avatarPreset}.svg` : "")) ? <img src={user?.avatar?.url || `/avatars/${user.avatarPreset}.svg`} alt="" /> : (user?.name?.trim()?.charAt(0) || "U").toUpperCase()}
+                  {user?.avatar?.url ||
+                  (user?.avatarPreset &&
+                  /^avatar-(?:[1-9]|1[0-2])$/.test(user.avatarPreset)
+                    ? `/avatars/${user.avatarPreset}.jpg`
+                    : "") ? (
+                    <img
+                      src={
+                        user?.avatar?.url || `/avatars/${user.avatarPreset}.svg`
+                      }
+                      alt=""
+                    />
+                  ) : (
+                    (user?.name?.trim()?.charAt(0) || "U").toUpperCase()
+                  )}
                 </span>
-                <span className={styles.profileGreeting}>Hi, <strong>{user?.name?.trim()?.split(/\s+/)[0] || "Member"}</strong></span>
+                <span className={styles.profileGreeting}>
+                  Hi,{" "}
+                  <strong>
+                    {user?.name?.trim()?.split(/\s+/)[0] || "Member"}
+                  </strong>
+                </span>
               </Link>
             ) : !authLoading ? (
               <>
-                <Link to="/login" className={styles.btnOutline}>Log In</Link>
+                <Link to="/login" className={styles.btnOutline}>
+                  Log In
+                </Link>
                 <Link to="/sign-up" className={styles.btnFilled}>
                   Get Started
-                  <span className={styles.btnFilledShimmer} aria-hidden="true" />
+                  <span
+                    className={styles.btnFilledShimmer}
+                    aria-hidden="true"
+                  />
                 </Link>
               </>
             ) : null}
