@@ -154,6 +154,7 @@ export function ProfileOverview() {
             </div>
           )}
       </div></div>
+      {message && <div role={messageType === "error" ? "alert" : "status"} className={`${styles.profileFeedback} ${messageType === "error" ? styles.profileFeedbackError : styles.profileFeedbackSuccess}`}><span aria-hidden="true">{messageType === "error" ? "⚠" : "✓"}</span><span>{message}</span><button type="button" aria-label="Dismiss message" onClick={() => setMessage("")}>×</button></div>}
       <p className={styles.hint}>Upload a JPEG, PNG or WebP photo (max 5 MB), select an illustrated avatar, or keep the default. Photo uploads are saved immediately; other changes use Save Changes.</p>
       <div className={styles.sectionHeading}><h2>Personal Information</h2><p>Update your details. Email and mobile number cannot be changed.</p></div>
       <div className={styles.formGrid}>
@@ -169,7 +170,6 @@ export function ProfileOverview() {
         {Object.entries({ line1: "Address line", area: "Area / locality", city: "City", state: "State", pincode: "PIN code" }).map(([key, label]) =>
           <label key={key}>{label}<input maxLength={180} value={form.address[key]} onChange={(e) => setAddress(key, e.target.value)} /></label>)}
       </div>
-      {message && <div role={messageType === "error" ? "alert" : "status"} className={`${styles.profileFeedback} ${messageType === "error" ? styles.profileFeedbackError : styles.profileFeedbackSuccess}`}><span aria-hidden="true">{messageType === "error" ? "⚠" : "✓"}</span><span>{message}</span><button type="button" aria-label="Dismiss message" onClick={() => setMessage("")}>×</button></div>}
       <button className={styles.saveButton} type="submit" disabled={saving || uploading}>{saving ? "Saving…" : "Save Changes"}</button>
     </form>
   </section>;
