@@ -10,12 +10,10 @@ const tabs = [
   { label: "My Bookings", href: "/profile/bookings", icon: "▦" },
 ];
 
-const presetSeeds = ["Aarav", "Vihaan", "Kabir", "Arjun", "Reyansh", "Ishaan", "Anaya", "Diya", "Meera", "Sara", "Kiara", "Tara"];
+const presetSeeds = Array.from({ length: 12 }, (_, index) => index + 1);
 export const presetAvatarUrl = (id) => {
-  const index = Number(id?.replace("avatar-", "")) - 1;
-  return Number.isInteger(index) && index >= 0 && index < presetSeeds.length
-    ? `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(presetSeeds[index])}`
-    : "";
+  const index = Number(id?.replace("avatar-", ""));
+  return Number.isInteger(index) && index >= 1 && index <= 12 ? `/avatars/avatar-${index}.svg` : "";
 };
 export const customerAvatarUrl = (user) => user?.avatar?.url || presetAvatarUrl(user?.avatarPreset);
 
@@ -69,7 +67,7 @@ export function ProfileOverview() {
         })}
       </div>
       </div></div>
-      <p className={styles.hint}>Select an avatar or keep the default. Photo uploads require secure image storage.</p>
+      <p className={styles.hint}>Choose your favorite illustrated avatar or keep the default. Photo uploads are coming soon.</p>
       <div className={styles.sectionHeading}><h2>Personal Information</h2><p>Update your details. Email and mobile number cannot be changed.</p></div>
       <div className={styles.formGrid}>
         <label>Full name<input required maxLength={100} value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} /></label>
