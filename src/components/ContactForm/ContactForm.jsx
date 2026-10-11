@@ -12,6 +12,7 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import styles from "./ContactForm.module.css";
+import { apiRequest } from "../../services/apiClient";
 
 const reasonOptions = [
   "General Enquiry",
@@ -226,6 +227,7 @@ const ContactForm = () => {
   const [errors, setErrors] = useState(initErrors);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const set = (field) => (e) =>
     setForm((p) => ({ ...p, [field]: e.target.value }));
@@ -260,9 +262,15 @@ const ContactForm = () => {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1800));
-    setSubmitting(false);
-    setSubmitted(true);
+    setSubmitError("");
+    try {
+      await apiRequest("/contact-messages", { method: "POST", body: form });
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(error.message || "Unable to send message. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -412,6 +420,8 @@ const ContactForm = () => {
           </motion.p>
         )}
       </AnimatePresence>
+
+      {submitError && <p className={styles.errMsg} role="alert"><FiAlertCircle className={styles.errIcon} />{submitError}</p>}
 
       {/* Actions */}
       <div className={styles.actions}>
