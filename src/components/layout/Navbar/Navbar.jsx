@@ -123,7 +123,7 @@ const Navbar = () => {
             {!authLoading && isAuthenticated ? (
               <Link to="/profile" className={styles.profileLink} aria-label="Open my profile">
                 <span className={styles.profileAvatar} aria-hidden="true">
-                  {(user?.avatar?.url || (user?.avatarPreset ? `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(["Aarav","Vihaan","Kabir","Arjun","Reyansh","Ishaan","Anaya","Diya","Meera","Sara","Kiara","Tara"][Number(user.avatarPreset.replace("avatar-", "")) - 1] || "Gymssy")}` : "")) ? <img src={user?.avatar?.url || `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(["Aarav","Vihaan","Kabir","Arjun","Reyansh","Ishaan","Anaya","Diya","Meera","Sara","Kiara","Tara"][Number(user.avatarPreset.replace("avatar-", "")) - 1] || "Gymssy")}`} alt="" /> : (user?.name?.trim()?.charAt(0) || "U").toUpperCase()}
+                  {(user?.avatar?.url || (user?.avatarPreset && /^avatar-(?:[1-9]|1[0-2])$/.test(user.avatarPreset) ? `/avatars/${user.avatarPreset}.svg` : "")) ? <img src={user?.avatar?.url || `/avatars/${user.avatarPreset}.svg`} alt="" /> : (user?.name?.trim()?.charAt(0) || "U").toUpperCase()}
                 </span>
                 <span className={styles.profileGreeting}>Hi, <strong>{user?.name?.trim()?.split(/\s+/)[0] || "Member"}</strong></span>
               </Link>
