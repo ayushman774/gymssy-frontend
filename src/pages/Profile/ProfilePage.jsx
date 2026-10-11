@@ -13,7 +13,7 @@ const tabs = [
 const presetSeeds = Array.from({ length: 12 }, (_, index) => index + 1);
 export const presetAvatarUrl = (id) => {
   const index = Number(id?.replace("avatar-", ""));
-  return Number.isInteger(index) && index >= 1 && index <= 12 ? `/avatars/avatar-${index}.svg` : "";
+  return Number.isInteger(index) && index >= 1 && index <= 12 ? `/avatars/avatar-${index}.jpg` : "";
 };
 export const customerAvatarUrl = (user) => user?.avatar?.url || presetAvatarUrl(user?.avatarPreset);
 
@@ -46,7 +46,7 @@ export function ProfileOverview() {
           <p>Choose an avatar that represents you.</p>
           <div className={styles.largeAvatar}>
             {customerAvatarUrl({ ...user, avatarPreset: form.avatarPreset, avatar: form.avatarPreset ? { url: "" } : user?.avatar }) ?
-              <img src={customerAvatarUrl({ ...user, avatarPreset: form.avatarPreset, avatar: form.avatarPreset ? { url: "" } : user?.avatar })} alt="Selected profile avatar" /> :
+              <img src={customerAvatarUrl({ ...user, avatarPreset: form.avatarPreset, avatar: form.avatarPreset ? { url: "" } : user?.avatar })} alt="Selected profile avatar" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${form.avatarPreset || user?.avatarPreset}.svg`; }} /> :
               (form.name.trim().charAt(0) || "G").toUpperCase()}
           </div>
         </div>
@@ -62,7 +62,7 @@ export function ProfileOverview() {
           return <button type="button" key={id} aria-label={`Choose cartoon avatar ${index + 1}`} aria-pressed={form.avatarPreset === id}
             className={`${styles.avatarChoice} ${form.avatarPreset === id ? styles.selectedAvatar : ""}`}
             onClick={() => setForm((f) => ({ ...f, avatarPreset: id }))}>
-            <img src={presetAvatarUrl(id)} alt={`Cartoon avatar ${index + 1}`} loading="lazy" />
+            <img src={presetAvatarUrl(id)} alt={`Cartoon avatar ${index + 1}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${id}.svg`; }} />
           </button>;
         })}
       </div>
@@ -100,7 +100,7 @@ export default function ProfilePage() {
         <aside className={styles.sidebar} aria-label="My account navigation">
           <div className={styles.account}>
             <div className={styles.avatar} aria-hidden="true">
-              {customerAvatarUrl(user) ? <img src={customerAvatarUrl(user)} alt="" /> : name.trim().charAt(0).toUpperCase()}
+              {customerAvatarUrl(user) ? <img src={customerAvatarUrl(user)} alt="" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${user.avatarPreset}.svg`; }} /> : name.trim().charAt(0).toUpperCase()}
             </div>
             <div className={styles.accountCopy}><strong>{name}</strong><small>{user?.email}</small></div>
           </div>
