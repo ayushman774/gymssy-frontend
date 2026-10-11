@@ -268,6 +268,13 @@ const PartnerWithUsPage = () => {
   const statsItemsRef = useRef([]);
   const ctaRef = useRef(null);
 
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   // ── Banner parallax
   useEffect(() => {
     const banner = bannerRef.current;
@@ -467,12 +474,12 @@ const PartnerWithUsPage = () => {
               </ul>
 
               <div className={styles.whyActions}>
-                <Link to="#partner-form" className={styles.btnPrimary}>
+                <button type="button" onClick={() => scrollToSection("partner-form")} className={styles.btnPrimary}>
                   List Your Business
-                </Link>
-                <Link to="#how-it-works" className={styles.btnOutline}>
+                </button>
+                <button type="button" onClick={() => scrollToSection("how-it-works")} className={styles.btnOutline}>
                   See How It Works
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -666,7 +673,7 @@ const PartnerWithUsPage = () => {
               searching for fitness services every day.
             </p>
             <div className={styles.ctaActions}>
-              <Link to="#partner-form" className={styles.btnPrimary}>
+              <button type="button" onClick={() => scrollToSection("partner-form")} className={styles.btnPrimary}>
                 List Your Business
               </Link>
               <Link to="/contact" className={styles.btnOutline}>
