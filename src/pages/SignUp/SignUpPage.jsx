@@ -1,48 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import {
   HiOutlineLocationMarker,
   HiOutlineSwitchHorizontal,
   HiOutlineUserGroup,
-  HiCheckCircle,
 } from "react-icons/hi";
 import { RiShieldCheckLine } from "react-icons/ri";
 
-import AccountTypeCard from "../../components/SignUp/AccountTypeCard/AccountTypeCard";
 import SignupForm from "../../components/SignUp/SignupForm/SignupForm";
 
 import styles from "./SignUpPage.module.css";
-
-// ─── Account Types ────────────────────────────────────────────────────────────
-
-const accountTypes = [
-  {
-    id: "enthusiast",
-    icon: "🏃",
-    title: "Fitness Enthusiast",
-    description: "Discover and book fitness experiences near you.",
-  },
-  {
-    id: "gym-owner",
-    icon: "🏋️",
-    title: "Gym Owner",
-    description: "List your gym and attract more members.",
-  },
-  {
-    id: "trainer",
-    icon: "💪",
-    title: "Personal Trainer",
-    description: "Build your profile and connect with clients.",
-  },
-  {
-    id: "studio",
-    icon: "🧘",
-    title: "Fitness Studio",
-    description: "Showcase your classes and grow your business.",
-  },
-];
 
 // ─── Left panel feature highlights ───────────────────────────────────────────
 
@@ -64,9 +32,6 @@ const features = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const SignUpPage = () => {
-  const [selectedType, setSelectedType] = useState("enthusiast");
-  const [step, setStep] = useState(1); // 1 = type select, 2 = form
-
   // Refs for GSAP
   const leftPanelRef = useRef(null);
   const headlineRef = useRef(null);
@@ -143,14 +108,6 @@ const SignUpPage = () => {
 
     return () => ctx.revert();
   }, []);
-
-  const handleContinue = () => {
-    setStep(2);
-  };
-
-  const handleBack = () => {
-    setStep(1);
-  };
 
   return (
     <div className={styles.page}>
@@ -231,119 +188,21 @@ const SignUpPage = () => {
         <div className={styles.cardWrapper}>
           {/* Card */}
           <div className={styles.card}>
-            {/* Progress indicator */}
-            <div className={styles.progress}>
-              <div className={styles.progressTrack}>
-                <motion.div
-                  className={styles.progressFill}
-                  animate={{ width: step === 1 ? "50%" : "100%" }}
-                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-                />
-              </div>
-              <span className={styles.progressLabel}>Step {step} of 2</span>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>Create Your Account</h2>
+              <p className={styles.cardSubtitle}>
+                Start your fitness journey with Gymssy.
+              </p>
             </div>
 
-            {/* ── STEP 1: Account type ── */}
-            <AnimatePresence mode="wait">
-              {step === 1 && (
-                <motion.div
-                  key="step1"
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -24 }}
-                  transition={{
-                    duration: 0.45,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  <div className={styles.cardHeader}>
-                    <h2 className={styles.cardTitle}>Create Your Account</h2>
-                    <p className={styles.cardSubtitle}>
-                      Start your fitness journey in just a few steps.
-                    </p>
-                  </div>
+            <SignupForm accountType="enthusiast" />
 
-                  <div className={styles.typeSection}>
-                    <p className={styles.typeLabel}>
-                      I am joining Gymssy as a...
-                    </p>
-                    <div className={styles.typeGrid}>
-                      {accountTypes.map((type) => (
-                        <AccountTypeCard
-                          key={type.id}
-                          data={type}
-                          isSelected={selectedType === type.id}
-                          onSelect={() => setSelectedType(type.id)}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <motion.button
-                    className={styles.continueBtn}
-                    onClick={handleContinue}
-                    whileHover={{ scale: 1.015 }}
-                    whileTap={{ scale: 0.985 }}
-                  >
-                    Continue
-                    <span className={styles.continueBtnArrow}>→</span>
-                  </motion.button>
-
-                  <p className={styles.signinPrompt}>
-                    Already have an account?{" "}
-                    <Link to="/sign-in" className={styles.signinLink}>
-                      Sign In
-                    </Link>
-                  </p>
-                </motion.div>
-              )}
-
-              {/* ── STEP 2: Registration form ── */}
-              {step === 2 && (
-                <motion.div
-                  key="step2"
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -24 }}
-                  transition={{
-                    duration: 0.45,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                >
-                  {/* Selected type pill */}
-                  <div className={styles.selectedTypePill}>
-                    <span className={styles.selectedTypeEmoji}>
-                      {accountTypes.find((t) => t.id === selectedType)?.icon}
-                    </span>
-                    <span className={styles.selectedTypeText}>
-                      {accountTypes.find((t) => t.id === selectedType)?.title}
-                    </span>
-                    <button
-                      className={styles.changeTypeBtn}
-                      onClick={handleBack}
-                    >
-                      Change
-                    </button>
-                  </div>
-
-                  <div className={styles.cardHeader}>
-                    <h2 className={styles.cardTitle}>Your Details</h2>
-                    <p className={styles.cardSubtitle}>
-                      Fill in your information to get started.
-                    </p>
-                  </div>
-
-                  <SignupForm accountType={selectedType} />
-
-                  <p className={styles.signinPrompt}>
-                    Already have an account?{" "}
-                    <Link to="/sign-in" className={styles.signinLink}>
-                      Sign In
-                    </Link>
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <p className={styles.signinPrompt}>
+              Already have an account?{" "}
+              <Link to="/sign-in" className={styles.signinLink}>
+                Sign In
+              </Link>
+            </p>
           </div>
         </div>
       </div>
