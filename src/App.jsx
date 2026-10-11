@@ -24,6 +24,7 @@ import CityListingsPage from "./pages/CityListingsPage/CityListingsPage";
 import NutritionistsPage from "./pages/Nutritionists/NutritionistsPage";
 import NutritionistDetailsPage from "./pages/Nutritionists/NutritionistDetailsPage";
 import LoginPage from "./pages/Login/LoginPage.jsx";
+import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import FavoritesPage from "./pages/Favorites/FavoritesPage.jsx";
 import EnquiriesPage from "./pages/Enquiries/EnquiriesPage.jsx";
 import BookingsPage from "./pages/Bookings/BookingsPage.jsx";
@@ -51,6 +52,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-in" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/enquiries" element={<EnquiriesPage />} />
         <Route path="/bookings" element={<BookingsPage />} />
