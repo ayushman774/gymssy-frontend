@@ -675,7 +675,7 @@ const PartnerWithUsPage = () => {
             <div className={styles.ctaActions}>
               <button type="button" onClick={() => scrollToSection("partner-form")} className={styles.btnPrimary}>
                 List Your Business
-              </Link>
+              </button>
               <Link to="/contact" className={styles.btnOutline}>
                 Talk to Our Team
               </Link>
