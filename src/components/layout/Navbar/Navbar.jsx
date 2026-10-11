@@ -124,11 +124,12 @@ const Navbar = () => {
               <Link
                 to="/profile"
                 className={styles.profileLink}
-                aria-label="Open my profile"
+                aria-label={`Open my profile, ${user?.name || "Gymssy member"}`}
               >
                 <span className={styles.profileAvatar} aria-hidden="true">
                   {(user?.avatar?.url || (user?.avatarPreset && /^avatar-(?:[1-9]|1[0-2])$/.test(user.avatarPreset) ? `/avatars/${user.avatarPreset}.jpg` : "")) ? <img src={user?.avatar?.url || `/avatars/${user.avatarPreset}.jpg`} alt="" onError={(event) => { if (user?.avatarPreset) { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${user.avatarPreset}.svg`; } }} /> : (user?.name?.trim()?.charAt(0) || "U").toUpperCase()}
                 </span>
+                <span className={styles.profileGreeting}>Hi, <strong>{user?.name?.trim()?.split(/\s+/)[0] || "Member"}</strong></span>
               </Link>
             ) : !authLoading ? (
               <>
