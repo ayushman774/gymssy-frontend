@@ -32,6 +32,8 @@ export function ProfileOverview() {
   });
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("info");
+  const [uploadProgress, setUploadProgress] = useState("");
   useEffect(() => {
     setForm({
       name: user?.name || "",
@@ -47,27 +49,41 @@ export function ProfileOverview() {
     });
     setAvatarMode(user?.avatarPreset ? "preset" : user?.avatar?.url ? "photo" : "default");
   }, [user]);
+  const showFeedback = (type, text) => {
+    setMessageType(type);
+    setMessage(text);
+  };
   const handlePhoto = async (event) => {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      setMessage("Choose a JPEG, PNG, or WebP image."); return;
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    const extension = file.name.split(".").pop()?.toLowerCase();
+    if (!allowedTypes.includes(file.type) || !["jpg", "jpeg", "png", "webp"].includes(extension)) {
+      showFeedback("error", "Unsupported image format. Please choose a JPG, PNG or WebP photo.");
+      return;
+    }
+    if (file.size === 0) {
+      showFeedback("error", "This image is empty. Please select another photo.");
+      return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setMessage("Image must be 5 MB or smaller."); return;
+      showFeedback("error", `Your photo is ${(file.size / (1024 * 1024)).toFixed(1)} MB. Maximum allowed size is 5 MB.`);
+      return;
     }
     setUploading(true);
+    setUploadProgress("Uploading your photo securely…");
     setMessage("");
     try {
       await uploadProfilePhoto(file);
       setAvatarMode("photo");
       setPictureTab("upload");
-      setMessage("Photo uploaded successfully.");
+      showFeedback("success", "Profile picture uploaded successfully.");
     } catch (error) {
-      setMessage(error.message || "Unable to upload photo.");
+      showFeedback("error", error?.message || "Upload failed. Please try again.");
     } finally {
       setUploading(false);
+      setUploadProgress("");
     }
   };
   const setAddress = (key, value) =>
@@ -86,9 +102,9 @@ export function ProfileOverview() {
         address: form.address,
         ...(avatarMode !== "photo" ? { avatarPreset: avatarMode === "default" ? "" : form.avatarPreset } : {}),
       });
-      setMessage("Profile saved successfully.");
+      showFeedback("success", "Profile saved successfully.");
     } catch (error) {
-      setMessage(error.message || "Unable to save profile.");
+      showFeedback("error", error.message || "Unable to save profile.");
     } finally {
       setSaving(false);
     }
@@ -117,11 +133,12 @@ export function ProfileOverview() {
             <div className={styles.uploadPanel} role="tabpanel">
               <div className={styles.uploadIcon} aria-hidden="true">↑</div>
               <strong>{uploading ? "Uploading your photo…" : "Add your own profile photo"}</strong>
-              <p>JPEG, PNG or WebP · Maximum 5 MB</p>
+              <p>JPG, PNG or WebP · Maximum 5 MB</p>
               <button type="button" className={styles.uploadButton} disabled={uploading || saving} onClick={() => fileInputRef.current?.click()}>
                 {uploading ? "Uploading…" : user?.avatar?.url ? "Change Photo" : "Select Photo"}
               </button>
-              {user?.avatar?.url && <p className={styles.uploadSuccess}>Your uploaded photo is saved and available across Gymssy.</p>}
+              {uploadProgress && <p role="status" className={styles.uploadSuccess}>{uploadProgress}</p>}
+              {user?.avatar?.url && !uploading && <p className={styles.uploadSuccess}>Your uploaded photo is saved and available across Gymssy.</p>}
             </div>
           ) : (
             <div className={styles.avatarChoices} role="tabpanel">
@@ -152,7 +169,7 @@ export function ProfileOverview() {
         {Object.entries({ line1: "Address line", area: "Area / locality", city: "City", state: "State", pincode: "PIN code" }).map(([key, label]) =>
           <label key={key}>{label}<input maxLength={180} value={form.address[key]} onChange={(e) => setAddress(key, e.target.value)} /></label>)}
       </div>
-      {message && <p role="status" className={styles.hint}>{message}</p>}
+      {message && <div role={messageType === "error" ? "alert" : "status"} className={`${styles.profileFeedback} ${messageType === "error" ? styles.profileFeedbackError : styles.profileFeedbackSuccess}`}><span aria-hidden="true">{messageType === "error" ? "⚠" : "✓"}</span><span>{message}</span><button type="button" aria-label="Dismiss message" onClick={() => setMessage("")}>×</button></div>}
       <button className={styles.saveButton} type="submit" disabled={saving || uploading}>{saving ? "Saving…" : "Save Changes"}</button>
     </form>
   </section>;
