@@ -1,15 +1,24 @@
-import React, { useRef } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 import styles from "./PartnerCategoryCard.module.css";
 
-const PartnerCategoryCard = ({ data, index }) => {
+const PartnerCategoryCard = ({ data, index, onSelect }) => {
   const { icon, title, description, image } = data;
 
   return (
     <motion.div
       className={styles.card}
+      role="button"
+      tabIndex={0}
+      aria-label={`Register as a partner: ${title}`}
+      onClick={onSelect}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect?.();
+        }
+      }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{
@@ -32,10 +41,10 @@ const PartnerCategoryCard = ({ data, index }) => {
         <h3 className={styles.title}>{title}</h3>
         <p className={styles.description}>{description}</p>
 
-        <Link to="#partner-form" className={styles.cta}>
+        <span className={styles.cta}>
           Join as Partner
           <HiArrowRight className={styles.ctaIcon} />
-        </Link>
+        </span>
       </div>
 
       {/* Hover border glow */}
