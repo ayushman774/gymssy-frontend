@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useCustomerAuth } from "../../context/CustomerAuthContext.jsx";
 import styles from "./ProfilePage.module.css";
@@ -21,6 +21,8 @@ export const customerAvatarUrl = (user) =>
 export function ProfileOverview() {
   const { user, updateProfile, uploadProfilePhoto } = useCustomerAuth();
   const [avatarMode, setAvatarMode] = useState("photo");
+  const [pictureTab, setPictureTab] = useState("avatar");
+  const fileInputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -60,6 +62,7 @@ export function ProfileOverview() {
     try {
       await uploadProfilePhoto(file);
       setAvatarMode("photo");
+      setPictureTab("upload");
       setMessage("Photo uploaded successfully.");
     } catch (error) {
       setMessage(error.message || "Unable to upload photo.");
@@ -97,7 +100,7 @@ export function ProfileOverview() {
       <div className={styles.pictureSection}>
         <div className={styles.picturePreview}>
           <h2>Profile Picture</h2>
-          <p>Choose an avatar that represents you.</p>
+          <p>Upload your photo or choose an avatar that represents you.</p>
           <div className={styles.largeAvatar}>
             {((avatarMode === "preset" && presetAvatarUrl(form.avatarPreset)) || (avatarMode === "photo" && user?.avatar?.url)) ?
               <img src={avatarMode === "preset" ? presetAvatarUrl(form.avatarPreset) : user.avatar.url} alt="Selected profile avatar" onError={(event) => { event.currentTarget.onerror = null; if (avatarMode === "preset") event.currentTarget.src = `/avatars/${form.avatarPreset}.svg`; }} /> :
@@ -105,22 +108,34 @@ export function ProfileOverview() {
           </div>
         </div>
         <div className={styles.picturePicker}>
-          <div className={styles.avatarActions}>
-            <label className={styles.actionActive} htmlFor="profile-photo-upload">{uploading ? "Uploading…" : "Upload Photo"}</label>
-            <input id="profile-photo-upload" className={styles.photoInput} type="file" accept="image/jpeg,image/png,image/webp" disabled={uploading || saving} onChange={handlePhoto} />
-            <span className={styles.actionDisabled}>Choose Avatar</span>
+          <div className={styles.avatarActions} role="tablist" aria-label="Profile picture options">
+            <button type="button" role="tab" aria-selected={pictureTab === "upload"} className={`${styles.pictureTab} ${pictureTab === "upload" ? styles.pictureTabActive : ""}`} onClick={() => setPictureTab("upload")}>Upload Photo</button>
+            <button type="button" role="tab" aria-selected={pictureTab === "avatar"} className={`${styles.pictureTab} ${pictureTab === "avatar" ? styles.pictureTabActive : ""}`} onClick={() => setPictureTab("avatar")}>Choose Avatar</button>
           </div>
-          <div className={styles.avatarChoices}>
-        <button type="button" className={`${styles.avatarChoice} ${avatarMode === "default" ? styles.selectedAvatar : ""}`} onClick={() => { setAvatarMode("default"); setForm((f) => ({ ...f, avatarPreset: "" })); }}>Default</button>
-        {presetSeeds.map((seed, index) => {
-          const id = `avatar-${index + 1}`;
-          return <button type="button" key={id} aria-label={`Choose cartoon avatar ${index + 1}`} aria-pressed={avatarMode === "preset" && form.avatarPreset === id}
-            className={`${styles.avatarChoice} ${avatarMode === "preset" && form.avatarPreset === id ? styles.selectedAvatar : ""}`}
-            onClick={() => { setAvatarMode("preset"); setForm((f) => ({ ...f, avatarPreset: id })); }}>
-            <img src={presetAvatarUrl(id)} alt={`Cartoon avatar ${index + 1}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${id}.svg`; }} />
-          </button>;
-        })}
-      </div>
+          <input ref={fileInputRef} id="profile-photo-upload" className={styles.photoInput} type="file" accept="image/jpeg,image/png,image/webp" disabled={uploading || saving} onChange={handlePhoto} />
+          {pictureTab === "upload" ? (
+            <div className={styles.uploadPanel} role="tabpanel">
+              <div className={styles.uploadIcon} aria-hidden="true">↑</div>
+              <strong>{uploading ? "Uploading your photo…" : "Add your own profile photo"}</strong>
+              <p>JPEG, PNG or WebP · Maximum 5 MB</p>
+              <button type="button" className={styles.uploadButton} disabled={uploading || saving} onClick={() => fileInputRef.current?.click()}>
+                {uploading ? "Uploading…" : user?.avatar?.url ? "Change Photo" : "Select Photo"}
+              </button>
+              {user?.avatar?.url && <p className={styles.uploadSuccess}>Your uploaded photo is saved and available across Gymssy.</p>}
+            </div>
+          ) : (
+            <div className={styles.avatarChoices} role="tabpanel">
+              <button type="button" className={`${styles.avatarChoice} ${avatarMode === "default" ? styles.selectedAvatar : ""}`} aria-pressed={avatarMode === "default"} onClick={() => { setAvatarMode("default"); setForm((f) => ({ ...f, avatarPreset: "" })); }}>Default</button>
+              {presetSeeds.map((seed, index) => {
+                const id = `avatar-${seed}`;
+                return <button type="button" key={id} aria-label={`Choose cartoon avatar ${index + 1}`} aria-pressed={avatarMode === "preset" && form.avatarPreset === id}
+                  className={`${styles.avatarChoice} ${avatarMode === "preset" && form.avatarPreset === id ? styles.selectedAvatar : ""}`}
+                  onClick={() => { setAvatarMode("preset"); setForm((f) => ({ ...f, avatarPreset: id })); }}>
+                  <img src={presetAvatarUrl(id)} alt={`Cartoon avatar ${index + 1}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${id}.svg`; }} />
+                </button>;
+              })}
+            </div>
+          )}
       </div></div>
       <p className={styles.hint}>Upload a JPEG, PNG or WebP photo (max 5 MB), select an illustrated avatar, or keep the default. Photo uploads are saved immediately; other changes use Save Changes.</p>
       <div className={styles.sectionHeading}><h2>Personal Information</h2><p>Update your details. Email and mobile number cannot be changed.</p></div>
