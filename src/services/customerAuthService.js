@@ -12,3 +12,6 @@ export const registerCustomer = (details, options) =>
 
 export const fetchCurrentCustomer = (token, options) =>
   apiRequest("/auth/me", { token, ...options });
+
+export const saveCustomerProfile = (token, details) =>
+  apiRequest("/auth/profile", { method: "PATCH", token, body: details });
