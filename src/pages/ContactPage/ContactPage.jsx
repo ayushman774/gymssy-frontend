@@ -332,7 +332,6 @@ const ContactPage = () => {
         <div className={styles.headerGlow} />
 
         <div className={styles.headerContent}>
-
           <motion.div
             className={styles.headerText}
             initial={{ opacity: 0, y: 30 }}
@@ -393,10 +392,10 @@ const ContactPage = () => {
               step of the way.
             </p>
             <p className={styles.introText}>
-              We're more than a directory. Gymssy Market connects fitness seekers
-              with world-class gyms, trainers, and programs across the country —
-              and we take our responsibility to both members and partners
-              seriously.
+              We're more than a directory. Gymssy Market connects fitness
+              seekers with world-class gyms, trainers, and programs across the
+              country — and we take our responsibility to both members and
+              partners seriously.
             </p>
             <div className={styles.pillars}>
               {[

@@ -127,15 +127,6 @@ const OfficeLocation = () => (
           <FiNavigation />
           Get Directions
         </motion.a>
-        <motion.a
-          href="/locations"
-          className={styles.btnSecondary}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          View Gyms Near You
-          <FiChevronRight />
-        </motion.a>
       </div>
     </motion.div>
   </div>

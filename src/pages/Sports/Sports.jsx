@@ -35,7 +35,6 @@ import SportsCategories from "../../components/sections/sports/SportsCategories/
 // import PopularSports from "../../components/sections/sports/PopularSports/PopularSports";
 import SportsGoals from "../../components/sections/sports/SportsGoals/SportsGoals";
 import SportsBenefits from "../../components/sections/sports/SportsBenefits/SportsBenefits";
-import SportsCities from "../../components/sections/sports/SportsCities/SportsCities";
 import SportsFacilities from "../../components/sections/sports/SportsFacilities/SportsFacilities";
 import SportsForKids from "../../components/sections/sports/SportsForKids/SportsForKids";
 
@@ -68,8 +67,10 @@ const SportsExperienceCard = ({ exp, index }) => {
           alt={exp.title}
           className={styles.expImage}
           loading="lazy"
-        onError={(event) => {
-            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+          onError={(event) => {
+            if (
+              !event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")
+            ) {
               event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
             }
           }}
@@ -171,8 +172,10 @@ const SportsAcademyCard = ({ academy, index }) => {
           alt={academy.name}
           className={styles.academyImage}
           loading="lazy"
-        onError={(event) => {
-            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+          onError={(event) => {
+            if (
+              !event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")
+            ) {
               event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
             }
           }}
@@ -283,8 +286,10 @@ const SportsCoachCard = ({ coach, index }) => {
           alt={coach.name}
           className={styles.coachImage}
           loading="lazy"
-        onError={(event) => {
-            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
+          onError={(event) => {
+            if (
+              !event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")
+            ) {
               event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
             }
           }}
@@ -363,15 +368,24 @@ const Sports = () => {
   const academiesSwiperRef = useRef(null);
   const coachesSwiperRef = useRef(null);
   const experiencesSwiperRef = useRef(null);
-  const [experienceControls, setExperienceControls] = useState({ beginning: true, end: true });
+  const [experienceControls, setExperienceControls] = useState({
+    beginning: true,
+    end: true,
+  });
   const syncExperienceControls = (swiper) => {
     setExperienceControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
   };
-  const [coachControls, setCoachControls] = useState({ beginning: true, end: true });
+  const [coachControls, setCoachControls] = useState({
+    beginning: true,
+    end: true,
+  });
   const syncCoachControls = (swiper) => {
     setCoachControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
   };
-  const [academyControls, setAcademyControls] = useState({ beginning: true, end: true });
+  const [academyControls, setAcademyControls] = useState({
+    beginning: true,
+    end: true,
+  });
   const syncAcademyControls = (swiper) => {
     setAcademyControls({ beginning: swiper.isBeginning, end: swiper.isEnd });
   };
@@ -423,7 +437,10 @@ const Sports = () => {
           ) : academies.length === 0 ? (
             <EmptyState message="No sports academies available right now. Check back soon." />
           ) : (
-            <div className={styles.academiesCarousel} aria-label="Featured sports academies">
+            <div
+              className={styles.academiesCarousel}
+              aria-label="Featured sports academies"
+            >
               <div className={styles.academyCarouselControls}>
                 <button
                   type="button"
@@ -432,7 +449,10 @@ const Sports = () => {
                   disabled={academyControls.beginning}
                   aria-label="Previous sports academies"
                 >
-                  <FiArrowRight className={styles.academyArrowLeft} aria-hidden="true" />
+                  <FiArrowRight
+                    className={styles.academyArrowLeft}
+                    aria-hidden="true"
+                  />
                 </button>
                 <button
                   type="button"
@@ -463,7 +483,10 @@ const Sports = () => {
                 aria-label="Featured sports academies carousel"
               >
                 {academies.map((academy, index) => (
-                  <SwiperSlide key={academy.id || academy._id} className={styles.academySlide}>
+                  <SwiperSlide
+                    key={academy.id || academy._id}
+                    className={styles.academySlide}
+                  >
                     <SportsAcademyCard academy={academy} index={index} />
                   </SwiperSlide>
                 ))}
@@ -498,7 +521,10 @@ const Sports = () => {
             /* API succeeded but returned no sports coaches */
             <EmptyState message="No sports coaches available right now. Check back soon." />
           ) : (
-            <div className={styles.coachesCarousel} aria-label="Expert sports coaches">
+            <div
+              className={styles.coachesCarousel}
+              aria-label="Expert sports coaches"
+            >
               <div className={styles.coachCarouselControls}>
                 <button
                   type="button"
@@ -507,7 +533,10 @@ const Sports = () => {
                   disabled={coachControls.beginning}
                   aria-label="Previous sports coaches"
                 >
-                  <FiArrowRight className={styles.coachArrowLeft} aria-hidden="true" />
+                  <FiArrowRight
+                    className={styles.coachArrowLeft}
+                    aria-hidden="true"
+                  />
                 </button>
                 <button
                   type="button"
@@ -538,7 +567,10 @@ const Sports = () => {
                 aria-label="Expert sports coaches carousel"
               >
                 {coaches.map((coach, index) => (
-                  <SwiperSlide key={coach.id || coach._id} className={styles.coachSlide}>
+                  <SwiperSlide
+                    key={coach.id || coach._id}
+                    className={styles.coachSlide}
+                  >
                     <SportsCoachCard coach={coach} index={index} />
                   </SwiperSlide>
                 ))}
@@ -566,7 +598,10 @@ const Sports = () => {
           ) : experiences.length === 0 ? (
             <EmptyState message="No trending sports experiences right now." />
           ) : (
-            <div className={styles.experiencesCarousel} aria-label="Trending sports experiences">
+            <div
+              className={styles.experiencesCarousel}
+              aria-label="Trending sports experiences"
+            >
               <div className={styles.experienceCarouselControls}>
                 <button
                   type="button"
@@ -575,7 +610,10 @@ const Sports = () => {
                   disabled={experienceControls.beginning}
                   aria-label="Previous sports experiences"
                 >
-                  <FiArrowRight className={styles.experienceArrowLeft} aria-hidden="true" />
+                  <FiArrowRight
+                    className={styles.experienceArrowLeft}
+                    aria-hidden="true"
+                  />
                 </button>
                 <button
                   type="button"
@@ -606,7 +644,10 @@ const Sports = () => {
                 aria-label="Trending sports experiences carousel"
               >
                 {experiences.map((exp, index) => (
-                  <SwiperSlide key={exp.id || exp._id} className={styles.experienceSlide}>
+                  <SwiperSlide
+                    key={exp.id || exp._id}
+                    className={styles.experienceSlide}
+                  >
                     <SportsExperienceCard exp={exp} index={index} />
                   </SwiperSlide>
                 ))}
@@ -618,106 +659,9 @@ const Sports = () => {
         <SportsFacilities />
         <SportsGoals />
         <SportsForKids />
-        <SportsCities cities={cities} loading={loading} />
         <SportsBenefits />
-        <SportsFinalCta />
       </main>
     </>
-  );
-};
-
-/* ══════════════════════════════════════════════════════
-   SPORTS FINAL CTA — UNCHANGED
-══════════════════════════════════════════════════════ */
-const SportsFinalCta = () => {
-  const navigate = useNavigate();
-
-  return (
-    <section
-      className={styles.finalCta}
-      aria-label="Get started with sports on Gymssy"
-    >
-      <div className={styles.finalCtaBg} aria-hidden="true">
-        <img
-          src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1800&q=80&fit=crop&auto=format"
-          alt=""
-          className={styles.finalCtaBgImage}
-        onError={(event) => {
-            if (!event.currentTarget.src.endsWith("/images/logo/gymssy-logo.jpeg")) {
-              event.currentTarget.src = "/images/logo/gymssy-logo.jpeg";
-            }
-          }}
-        />
-        <div className={styles.finalCtaOverlay} />
-        <div className={styles.finalCtaGradient} />
-      </div>
-
-      <div className={styles.finalCtaInner}>
-        <motion.span
-          className={styles.finalCtaEyebrow}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          🏆 Get Started
-        </motion.span>
-
-        <motion.h2
-          className={styles.finalCtaHeading}
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: 0.08 }}
-        >
-          Ready to Find{" "}
-          <span className={styles.finalCtaAccent}>Your Game?</span>
-        </motion.h2>
-
-        <motion.p
-          className={styles.finalCtaSubtitle}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: 0.14 }}
-        >
-          Discover sports, coaches and facilities near you.
-        </motion.p>
-
-        <motion.div
-          className={styles.finalCtaBtns}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: 0.2 }}
-        >
-          <motion.button
-            className={styles.finalCtaPrimary}
-            onClick={() =>
-              document
-                .getElementById("sports-categories")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            aria-label="Explore sports"
-          >
-            Explore Sports
-            <FiArrowRight aria-hidden="true" />
-          </motion.button>
-
-          <motion.button
-            className={styles.finalCtaSecondary}
-            onClick={() => navigate("/partner-with-us")}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            aria-label="Become a partner"
-          >
-            Become a Partner
-          </motion.button>
-        </motion.div>
-      </div>
-    </section>
   );
 };
 
