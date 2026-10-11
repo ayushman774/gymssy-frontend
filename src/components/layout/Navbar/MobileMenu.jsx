@@ -76,7 +76,7 @@ const SOCIAL_LINKS = [
 
 // ── MobileMenu ────────────────────────────────────────────────────────────
 const MobileMenu = ({ isOpen, links, activeLink, onClose }) => {
-  const { isAuthenticated, logout } = useCustomerAuth();
+  const { isAuthenticated, user } = useCustomerAuth();
   const prefersReduced = useReducedMotion();
   const firstLinkRef = useRef(null);
 
@@ -178,10 +178,16 @@ const MobileMenu = ({ isOpen, links, activeLink, onClose }) => {
                 })}
               </ul>
 
-              {isAuthenticated && <ul className={styles.linksList} role="list" aria-label="Customer account">
-                {[{ label: "Favorites", href: "/favorites" }, { label: "Enquiries", href: "/enquiries" }, { label: "My Bookings", href: "/bookings" }].map((link) => <motion.li key={link.href} variants={linkItemVariants} className={styles.linkItem}><Link to={link.href} className={styles.link} onClick={onClose}><span className={styles.linkLabel}>{link.label}</span><span className={styles.linkArrow} aria-hidden="true">→</span></Link></motion.li>)}
-                <motion.li variants={linkItemVariants} className={styles.linkItem}><button type="button" className={styles.link} onClick={() => { logout(); onClose(); }}><span className={styles.linkLabel}>Log Out</span></button></motion.li>
-              </ul>}
+              {isAuthenticated && (
+                <ul className={styles.linksList} role="list" aria-label="Customer account">
+                  <motion.li variants={linkItemVariants} className={styles.linkItem}>
+                    <Link to="/profile" className={styles.link} onClick={onClose}>
+                      <span className={styles.linkLabel}>My Profile — Hi, {user?.name?.trim()?.split(/\s+/)[0] || "Member"}</span>
+                      <span className={styles.linkArrow} aria-hidden="true">→</span>
+                    </Link>
+                  </motion.li>
+                </ul>
+              )}
 
               {/* ── DIVIDER ───────────────────────────── */}
               <motion.div
