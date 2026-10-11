@@ -19,7 +19,9 @@ export const customerAvatarUrl = (user) =>
   user?.avatar?.url || presetAvatarUrl(user?.avatarPreset);
 
 export function ProfileOverview() {
-  const { user, updateProfile } = useCustomerAuth();
+  const { user, updateProfile, uploadProfilePhoto } = useCustomerAuth();
+  const [avatarMode, setAvatarMode] = useState("photo");
+  const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     gender: "",
@@ -41,7 +43,30 @@ export function ProfileOverview() {
       },
       avatarPreset: user?.avatarPreset || "",
     });
+    setAvatarMode(user?.avatarPreset ? "preset" : user?.avatar?.url ? "photo" : "default");
   }, [user]);
+  const handlePhoto = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setMessage("Choose a JPEG, PNG, or WebP image."); return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage("Image must be 5 MB or smaller."); return;
+    }
+    setUploading(true);
+    setMessage("");
+    try {
+      await uploadProfilePhoto(file);
+      setAvatarMode("photo");
+      setMessage("Photo uploaded successfully.");
+    } catch (error) {
+      setMessage(error.message || "Unable to upload photo.");
+    } finally {
+      setUploading(false);
+    }
+  };
   const setAddress = (key, value) =>
     setForm((prev) => ({
       ...prev,
@@ -56,7 +81,7 @@ export function ProfileOverview() {
         name: form.name,
         gender: form.gender,
         address: form.address,
-        avatarPreset: form.avatarPreset,
+        ...(avatarMode !== "photo" ? { avatarPreset: avatarMode === "default" ? "" : form.avatarPreset } : {}),
       });
       setMessage("Profile saved successfully.");
     } catch (error) {
@@ -74,29 +99,30 @@ export function ProfileOverview() {
           <h2>Profile Picture</h2>
           <p>Choose an avatar that represents you.</p>
           <div className={styles.largeAvatar}>
-            {customerAvatarUrl({ ...user, avatarPreset: form.avatarPreset, avatar: form.avatarPreset ? { url: "" } : user?.avatar }) ?
-              <img src={customerAvatarUrl({ ...user, avatarPreset: form.avatarPreset, avatar: form.avatarPreset ? { url: "" } : user?.avatar })} alt="Selected profile avatar" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${form.avatarPreset || user?.avatarPreset}.svg`; }} /> :
+            {((avatarMode === "preset" && presetAvatarUrl(form.avatarPreset)) || (avatarMode === "photo" && user?.avatar?.url)) ?
+              <img src={avatarMode === "preset" ? presetAvatarUrl(form.avatarPreset) : user.avatar.url} alt="Selected profile avatar" onError={(event) => { event.currentTarget.onerror = null; if (avatarMode === "preset") event.currentTarget.src = `/avatars/${form.avatarPreset}.svg`; }} /> :
               (form.name.trim().charAt(0) || "G").toUpperCase()}
           </div>
         </div>
         <div className={styles.picturePicker}>
           <div className={styles.avatarActions}>
-            <span className={styles.actionDisabled} title="Photo upload requires secure image storage">Upload Photo — Coming Soon</span>
-            <span className={styles.actionActive}>Choose Avatar</span>
+            <label className={styles.actionActive} htmlFor="profile-photo-upload">{uploading ? "Uploading…" : "Upload Photo"}</label>
+            <input id="profile-photo-upload" className={styles.photoInput} type="file" accept="image/jpeg,image/png,image/webp" disabled={uploading || saving} onChange={handlePhoto} />
+            <span className={styles.actionDisabled}>Choose Avatar</span>
           </div>
           <div className={styles.avatarChoices}>
-        <button type="button" className={`${styles.avatarChoice} ${!form.avatarPreset ? styles.selectedAvatar : ""}`} onClick={() => setForm((f) => ({ ...f, avatarPreset: "" }))}>Default</button>
+        <button type="button" className={`${styles.avatarChoice} ${avatarMode === "default" ? styles.selectedAvatar : ""}`} onClick={() => { setAvatarMode("default"); setForm((f) => ({ ...f, avatarPreset: "" })); }}>Default</button>
         {presetSeeds.map((seed, index) => {
           const id = `avatar-${index + 1}`;
-          return <button type="button" key={id} aria-label={`Choose cartoon avatar ${index + 1}`} aria-pressed={form.avatarPreset === id}
-            className={`${styles.avatarChoice} ${form.avatarPreset === id ? styles.selectedAvatar : ""}`}
-            onClick={() => setForm((f) => ({ ...f, avatarPreset: id }))}>
+          return <button type="button" key={id} aria-label={`Choose cartoon avatar ${index + 1}`} aria-pressed={avatarMode === "preset" && form.avatarPreset === id}
+            className={`${styles.avatarChoice} ${avatarMode === "preset" && form.avatarPreset === id ? styles.selectedAvatar : ""}`}
+            onClick={() => { setAvatarMode("preset"); setForm((f) => ({ ...f, avatarPreset: id })); }}>
             <img src={presetAvatarUrl(id)} alt={`Cartoon avatar ${index + 1}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = `/avatars/${id}.svg`; }} />
           </button>;
         })}
       </div>
       </div></div>
-      <p className={styles.hint}>Choose your favorite illustrated avatar or keep the default. Photo uploads are coming soon.</p>
+      <p className={styles.hint}>Upload a JPEG, PNG or WebP photo (max 5 MB), select an illustrated avatar, or keep the default. Photo uploads are saved immediately; other changes use Save Changes.</p>
       <div className={styles.sectionHeading}><h2>Personal Information</h2><p>Update your details. Email and mobile number cannot be changed.</p></div>
       <div className={styles.formGrid}>
         <label>Full name<input required maxLength={100} value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} /></label>
@@ -112,7 +138,7 @@ export function ProfileOverview() {
           <label key={key}>{label}<input maxLength={180} value={form.address[key]} onChange={(e) => setAddress(key, e.target.value)} /></label>)}
       </div>
       {message && <p role="status" className={styles.hint}>{message}</p>}
-      <button className={styles.saveButton} type="submit" disabled={saving}>{saving ? "Saving…" : "Save Changes"}</button>
+      <button className={styles.saveButton} type="submit" disabled={saving || uploading}>{saving ? "Saving…" : "Save Changes"}</button>
     </form>
   </section>;
 }
