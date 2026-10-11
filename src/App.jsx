@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import styles from "./App.module.css";
 import Navbar from "./components/layout/Navbar/Navbar";
@@ -24,7 +24,7 @@ import CityListingsPage from "./pages/CityListingsPage/CityListingsPage";
 import NutritionistsPage from "./pages/Nutritionists/NutritionistsPage";
 import NutritionistDetailsPage from "./pages/Nutritionists/NutritionistDetailsPage";
 import LoginPage from "./pages/Login/LoginPage.jsx";
-import ProfilePage from "./pages/Profile/ProfilePage.jsx";
+import ProfilePage, { ProfileOverview } from "./pages/Profile/ProfilePage.jsx";
 import FavoritesPage from "./pages/Favorites/FavoritesPage.jsx";
 import EnquiriesPage from "./pages/Enquiries/EnquiriesPage.jsx";
 import BookingsPage from "./pages/Bookings/BookingsPage.jsx";
@@ -52,10 +52,15 @@ const App = () => {
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-in" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/favorites" element={<FavoritesPage />} />
-        <Route path="/enquiries" element={<EnquiriesPage />} />
-        <Route path="/bookings" element={<BookingsPage />} />
+        <Route path="/profile" element={<ProfilePage />}>
+          <Route index element={<ProfileOverview />} />
+          <Route path="favorites" element={<FavoritesPage />} />
+          <Route path="enquiries" element={<EnquiriesPage />} />
+          <Route path="bookings" element={<BookingsPage />} />
+        </Route>
+        <Route path="/favorites" element={<Navigate to="/profile/favorites" replace />} />
+        <Route path="/enquiries" element={<Navigate to="/profile/enquiries" replace />} />
+        <Route path="/bookings" element={<Navigate to="/profile/bookings" replace />} />
         <Route path="/bookings/:id" element={<BookingDetailPage />} />
         <Route path="/gym-detail/:slug" element={<GymDetailsPage />} />
         <Route path="/fitness" element={<Fitness />} />
