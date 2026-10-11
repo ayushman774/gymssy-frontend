@@ -323,7 +323,8 @@ const FooterCTA = () => {
         >
           {/* Primary CTA */}
           <MagneticButton strength={0.4}>
-            <motion.button
+            <Link to="/discover" className={styles.ctaNavLink} aria-label="Find Fitness">
+            <motion.div
               className={styles.ctaBtnPrimary}
               onMouseEnter={() => setCursor("hover")}
               onMouseLeave={resetCursor}
@@ -333,7 +334,8 @@ const FooterCTA = () => {
               <span className={styles.ctaBtnLabel}>Find Fitness</span>
               <FiArrowRight className={styles.ctaBtnIcon} aria-hidden="true" />
               <span className={styles.ctaBtnShimmer} aria-hidden="true" />
-            </motion.button>
+            </motion.div>
+            </Link>
           </MagneticButton>
 
           {/* Secondary CTA */}
@@ -350,7 +352,8 @@ const FooterCTA = () => {
                 className={styles.ctaBtnIcon}
                 aria-hidden="true"
               />
-            </motion.button>
+            </motion.div>
+            </Link>
           </MagneticButton>
         </motion.div>
 
