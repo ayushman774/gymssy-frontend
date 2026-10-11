@@ -28,7 +28,7 @@
   height: 460px;
   display: block;
   border: none;
-  filter: grayscale(1) invert(1) brightness(0.4) contrast(1.1);
+  /* Preserve native Google Maps colors and location marker visibility. */
 }
 
 .mapCornerTL {
