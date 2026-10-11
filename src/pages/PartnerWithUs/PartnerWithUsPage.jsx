@@ -504,7 +504,7 @@ const PartnerWithUsPage = () => {
 
           <div className={styles.categoriesGrid}>
             {categories.map((cat, i) => (
-              <PartnerCategoryCard key={cat.id} data={cat} index={i} />
+              <PartnerCategoryCard key={cat.id} data={cat} index={i} onSelect={() => scrollToSection("partner-form")} />
             ))}
           </div>
         </div>
