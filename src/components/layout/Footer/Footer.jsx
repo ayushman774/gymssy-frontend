@@ -335,49 +335,6 @@ const FooterCTA = () => {
                 <FiArrowRight className={styles.ctaBtnIcon} aria-hidden="true" />
                 <span className={styles.ctaBtnShimmer} aria-hidden="true" />
               </motion.div>
-            </Link>
-          </MagneticButton>
-
-          {/* Secondary CTA */}
-          <MagneticButton strength={0.4}>
-            <Link to="/partner-with-us" aria-label="Become a Partner">
-              <motion.div
-                className={styles.ctaBtnSecondary}
-                onMouseEnter={() => setCursor("hover")}
-                onMouseLeave={resetCursor}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <span className={styles.ctaBtnLabel}>Become a Partner</span>
-                <FiArrowUpRight
-                  className={styles.ctaBtnIcon}
-                  aria-hidden="true"
-                />
-              </motion.div>
-            </Link>
-          </MagneticButton>
-        </motion.div>
-            </Link>
-          </MagneticButton>
-
-          {/* Secondary CTA */}
-          <MagneticButton strength={0.4}>
-            <motion.button
-              className={styles.ctaBtnSecondary}
-              onMouseEnter={() => setCursor("hover")}
-              onMouseLeave={resetCursor}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span className={styles.ctaBtnLabel}>Become a Partner</span>
-              <FiArrowUpRight
-                className={styles.ctaBtnIcon}
-                aria-hidden="true"
-              />
-            </motion.div>
-            </Link>
-          </MagneticButton>
-        </motion.div>
 
         {/* Trust badges */}
         <motion.div
