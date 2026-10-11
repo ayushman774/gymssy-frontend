@@ -5,3 +5,25 @@
 .shell{max-width:1480px;grid-template-columns:260px minmax(0,1fr);gap:22px}.sidebar{background:#090c09;border-color:rgba(255,255,255,.08)}.panel{background:linear-gradient(135deg,#101411,#090c0a);padding:28px}.overview h1{font-size:2.35rem;margin:0 0 6px}.subtitle{margin-bottom:24px}.editForm{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:26px;gap:20px}.pictureSection{display:grid;grid-template-columns:minmax(220px,34%) minmax(0,1fr);gap:26px;align-items:start}.picturePreview h2{margin:0 0 5px}.picturePreview p,.sectionHeading p{font-size:.83rem;color:#aaa;margin:0 0 14px}.largeAvatar{width:min(230px,100%);aspect-ratio:1;border-radius:50%;background:#39ff14;color:#091008;display:grid;place-items:center;overflow:hidden;font-size:5rem;font-weight:800;margin:20px auto}.largeAvatar img{width:100%;height:100%;object-fit:cover}.picturePicker{min-width:0}.avatarActions{display:flex;gap:0;margin-bottom:16px;flex-wrap:wrap}.actionDisabled,.actionActive{padding:12px 16px;font-size:.82rem;font-weight:600;border:1px solid rgba(255,255,255,.22)}.actionDisabled{color:#888;border-radius:10px 0 0 10px}.actionActive{color:#39ff14;border-color:#39ff14;border-radius:0 10px 10px 0;background:rgba(57,255,20,.06)}.avatarChoices{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.avatarChoice{border-radius:12px}.sectionHeading{padding-top:22px;border-top:1px solid rgba(255,255,255,.13)}.sectionHeading h2{margin:0 0 6px}.formGrid{gap:16px 20px}.saveButton{justify-self:end;min-width:190px;font-size:.95rem}.tab.active{background:linear-gradient(90deg,rgba(57,255,20,.2),rgba(57,255,20,.07))}@media(max-width:1100px){.pictureSection{grid-template-columns:1fr}.largeAvatar{margin:18px 0}.avatarChoices{grid-template-columns:repeat(6,minmax(0,1fr))}}@media(max-width:700px){.shell{display:block}.panel{padding:14px}.editForm{padding:16px}.overview h1{font-size:1.9rem}.pictureSection{gap:12px}.largeAvatar{width:150px;margin:15px auto}.avatarChoices{grid-template-columns:repeat(4,minmax(0,1fr))}.saveButton{justify-self:stretch}}
 
 .photoInput{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip-path:inset(50%)}.actionActive{cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.actionActive:hover{background:rgba(57,255,20,.13)}.actionActive:focus-within{outline:2px solid #39ff14}.picturePicker:has(.photoInput:disabled) .actionActive{opacity:.6;cursor:wait}
+
+/* Profile picture selector: two working tabs, consistent spacing */
+.pictureSection{grid-template-columns:minmax(200px,30%) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:start}
+.picturePreview{min-width:0}
+.picturePicker{width:100%;min-width:0}
+.avatarActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 18px;max-width:440px}
+.pictureTab{appearance:none;min-width:0;min-height:48px;padding:12px 16px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:#121713;color:#a7aaa7;font:600 .88rem Poppins,sans-serif;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.pictureTab:hover{border-color:rgba(57,255,20,.55);color:#fff}
+.pictureTabActive{border-color:#39ff14;background:rgba(57,255,20,.1);color:#39ff14}
+.pictureTab:focus-visible,.avatarChoice:focus-visible,.uploadButton:focus-visible{outline:2px solid #39ff14;outline-offset:3px}
+.avatarChoices{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.avatarChoice{min-width:0;aspect-ratio:1;border-radius:12px}
+.avatarChoice img{object-fit:cover}
+.uploadPanel{min-height:260px;border:1px dashed rgba(57,255,20,.35);background:rgba(57,255,20,.025);border-radius:16px;padding:28px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px}
+.uploadIcon{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:rgba(57,255,20,.12);color:#39ff14;font-size:2rem}
+.uploadPanel strong{font-size:1rem}
+.uploadPanel p{margin:0;color:#aaa;font-size:.82rem}
+.uploadButton{border:0;border-radius:10px;background:#39ff14;color:#091009;padding:12px 24px;font:700 .88rem Poppins,sans-serif;cursor:pointer}
+.uploadButton:disabled{opacity:.55;cursor:wait}
+.uploadPanel .uploadSuccess{color:#39ff14}
+@media(max-width:1100px){.pictureSection{grid-template-columns:1fr}.largeAvatar{margin:16px auto}.avatarChoices{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){.avatarActions{max-width:none}.pictureTab{padding:10px 8px;font-size:.8rem}.avatarChoices{grid-template-columns:repeat(3,minmax(0,1fr))}.uploadPanel{min-height:220px}}
