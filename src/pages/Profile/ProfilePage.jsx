@@ -39,11 +39,25 @@ export function ProfileOverview() {
     finally { setSaving(false); }
   };
   return <section className={styles.overview}>
-    <p className={styles.eyebrow}>ACCOUNT SETTINGS</p><h1>My Profile</h1>
-    <p className={styles.subtitle}>Personalize your Gymssy account.</p>
+    <h1>My Profile</h1>
+    <p className={styles.subtitle}>Manage your profile information and personal preferences.</p>
     <form className={styles.editForm} onSubmit={save}>
-      <h2>Choose your avatar</h2>
-      <div className={styles.avatarChoices}>
+      <div className={styles.pictureSection}>
+        <div className={styles.picturePreview}>
+          <h2>Profile Picture</h2>
+          <p>Choose an avatar that represents you.</p>
+          <div className={styles.largeAvatar}>
+            {customerAvatarUrl({ ...user, avatarPreset: form.avatarPreset, avatar: form.avatarPreset ? { url: "" } : user?.avatar }) ?
+              <img src={customerAvatarUrl({ ...user, avatarPreset: form.avatarPreset, avatar: form.avatarPreset ? { url: "" } : user?.avatar })} alt="Selected profile avatar" /> :
+              (form.name.trim().charAt(0) || "G").toUpperCase()}
+          </div>
+        </div>
+        <div className={styles.picturePicker}>
+          <div className={styles.avatarActions}>
+            <span className={styles.actionDisabled} title="Photo upload requires secure image storage">Upload Photo — Coming Soon</span>
+            <span className={styles.actionActive}>Choose Avatar</span>
+          </div>
+          <div className={styles.avatarChoices}>
         <button type="button" className={`${styles.avatarChoice} ${!form.avatarPreset ? styles.selectedAvatar : ""}`} onClick={() => setForm((f) => ({ ...f, avatarPreset: "" }))}>Default</button>
         {presetSeeds.map((seed, index) => {
           const id = `avatar-${index + 1}`;
@@ -54,7 +68,9 @@ export function ProfileOverview() {
           </button>;
         })}
       </div>
-      <p className={styles.hint}>Choose from 12 cartoon avatars. Personal photo uploads will be available once secure media storage is connected.</p>
+      </div></div>
+      <p className={styles.hint}>Select an avatar or keep the default. Photo uploads require secure image storage.</p>
+      <div className={styles.sectionHeading}><h2>Personal Information</h2><p>Update your details. Email and mobile number cannot be changed.</p></div>
       <div className={styles.formGrid}>
         <label>Full name<input required maxLength={100} value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} /></label>
         <label>Gender<select value={form.gender} onChange={(e) => setForm((f) => ({ ...f, gender: e.target.value }))}>
@@ -63,7 +79,7 @@ export function ProfileOverview() {
         <label>Email address<input readOnly value={user?.email || ""} /></label>
         <label>Mobile number<input readOnly value={user?.phone || ""} /></label>
       </div>
-      <h2>Address</h2>
+      <div className={styles.sectionHeading}><h2>Address Information</h2><p>Help us show relevant fitness experiences near you.</p></div>
       <div className={styles.formGrid}>
         {Object.entries({ line1: "Address line", area: "Area / locality", city: "City", state: "State", pincode: "PIN code" }).map(([key, label]) =>
           <label key={key}>{label}<input maxLength={180} value={form.address[key]} onChange={(e) => setAddress(key, e.target.value)} /></label>)}
