@@ -24,6 +24,7 @@ export default function BookingDialog({ open, onClose, targetType, targetId, boo
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
+  const [createdBookingId, setCreatedBookingId] = useState("");
 
   useEffect(() => {
     if (!open) return;
@@ -34,7 +35,7 @@ export default function BookingDialog({ open, onClose, targetType, targetId, boo
     // Opening a new request intentionally resets its independent contact snapshot.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm({ date: "", time: "", name: user?.name || "", email: user?.email || "", phone: user?.phone || "", note: "" });
-    setPending(false); setError(""); setSent(false);
+    setPending(false); setError(""); setSent(false); setCreatedBookingId("");
     window.setTimeout(() => firstInput.current?.focus(), 0);
   }, [open, isAuthenticated, user, navigate, location.pathname, location.search]);
 
@@ -64,7 +65,8 @@ export default function BookingDialog({ open, onClose, targetType, targetId, boo
         note: form.note.trim(),
       };
       if (serviceName) payload.service = { name: serviceName };
-      await createBooking(token, payload);
+      const result = await createBooking(token, payload);
+      setCreatedBookingId(result?.data?.id || "");
       setSent(true);
     } catch (requestError) { setError(customerMessage(requestError)); }
     finally { setPending(false); }
@@ -78,7 +80,7 @@ export default function BookingDialog({ open, onClose, targetType, targetId, boo
       {sent ? <div className={styles.success} role="status">
         <FiCheck aria-hidden="true" /><h2 id="booking-title">Booking request sent</h2>
         <p>Your booking request has been sent to the provider. Track its status in My Bookings.</p>
-        <div className={styles.actions}><button type="button" onClick={onClose}>Close</button><Link to="/bookings">View My Bookings</Link></div>
+        <div className={styles.actions}><button type="button" onClick={onClose}>Close</button><Link to={createdBookingId ? `/bookings/${createdBookingId}` : "/profile/bookings"}>View booking details</Link></div>
       </div> : <form onSubmit={submit}>
         <p className={styles.eyebrow}>BOOKING REQUEST</p><h2 id="booking-title">{BOOKING_TYPE_LABELS[bookingType] || "Booking"}</h2>
         <div className={styles.context}><strong>{listingName}</strong>{serviceName && <span>{serviceName}</span>}</div>
