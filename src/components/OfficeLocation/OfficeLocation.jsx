@@ -29,7 +29,7 @@ const OfficeLocation = () => (
       <div className={styles.mapFrame}>
         <iframe
           title="Bhopal, Madhya Pradesh map"
-          src="https://maps.google.com/maps?q=Bhopal%2C%20Madhya%20Pradesh%2C%20India&amp;z=12&amp;output=embed"
+          src="https://maps.google.com/maps?q=Bhopal%2C%20Madhya%20Pradesh%2C%20India&z=12&output=embed"
           className={styles.mapIframe}
           loading="lazy"
           allowFullScreen=""
