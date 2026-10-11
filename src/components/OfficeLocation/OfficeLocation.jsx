@@ -28,8 +28,8 @@ const OfficeLocation = () => (
     >
       <div className={styles.mapFrame}>
         <iframe
-          title="Gymssy Market Office"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00601568459418!3d40.71277937933115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Manhattan%2C%20New%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1634000000000!5m2!1sen!2sus"
+          title="Bhopal, Madhya Pradesh map"
+          src="https://maps.google.com/maps?q=Bhopal%2C%20Madhya%20Pradesh%2C%20India&amp;z=12&amp;output=embed"
           className={styles.mapIframe}
           loading="lazy"
           allowFullScreen=""
@@ -60,9 +60,7 @@ const OfficeLocation = () => (
           <div>
             <span className={styles.infoLabel}>Address</span>
             <span className={styles.infoValue}>
-              88 Platform Way, Tech District,
-              <br />
-              New York, NY 10001
+              Bhopal, Madhya Pradesh, India
             </span>
           </div>
         </div>
@@ -117,7 +115,7 @@ const OfficeLocation = () => (
       {/* Actions */}
       <div className={styles.actions}>
         <motion.a
-          href="https://maps.google.com/?q=88+Platform+Way+New+York"
+          href="https://www.google.com/maps/search/?api=1&query=Bhopal%2C%20Madhya%20Pradesh%2C%20India"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.btnPrimary}
