@@ -110,19 +110,22 @@ const SOCIAL_CONFIG = {
 const TRAINING_OPTIONS = [
   {
     Icon: FiTarget,
+    id: "personal-training",
     title: "1-on-1 Personal Training",
     description: "Sessions built around your goals, body, and schedule.",
     tag: "Most Popular",
   },
   {
     Icon: FiZap,
+    id: "goal-programming",
     title: "Goal-Focused Programming",
     description: "Structured plans with measurable milestones.",
     tag: null,
   },
   {
     Icon: FiCalendar,
-    title: "Flexible Scheduling",
+    id: "flexible-training",
+    title: "Flexible Personal Training",
     description: "Mornings, evenings, weekends — train on your terms.",
     tag: null,
   },
@@ -573,6 +576,7 @@ const TrainerDetail = () => {
   const heroRef = useRef(null);
 
   const [showBooking, setShowBooking] = useState(false);
+  const [selectedTrainingOption, setSelectedTrainingOption] = useState(null);
   const [showContact, setShowContact] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
   const [stickyVisible, setStickyVisible] = useState(false);
@@ -600,7 +604,8 @@ const TrainerDetail = () => {
     };
   }, [showBooking, showContact]);
 
-  const openBooking = useCallback(() => setShowBooking(true), []);
+  const openBooking = useCallback(() => { setSelectedTrainingOption(null); setShowBooking(true); }, []);
+  const bookTrainingOption = useCallback((option) => { setSelectedTrainingOption(option); setShowBooking(true); }, []);
   const openContact = useCallback(() => setShowContact(true), []);
   const closeBooking = useCallback(() => setShowBooking(false), []);
   const closeContact = useCallback(() => setShowContact(false), []);
@@ -612,6 +617,7 @@ const TrainerDetail = () => {
 
   /* ── Derived values — API fields used directly ── */
   const firstName = trainer.name.split(" ")[0];
+  const availableTrainingOptions = trainer.trainingOptions?.length ? trainer.trainingOptions.map((option, index) => ({ ...option, Icon: TRAINING_OPTIONS[index % TRAINING_OPTIONS.length].Icon, title: option.name, tag: index === 0 ? "Most Popular" : null })) : TRAINING_OPTIONS;
 
   /*
    * image.src  — API provides this (not image.url)
@@ -1120,7 +1126,7 @@ const TrainerDetail = () => {
               Training <span className={styles.accent}>Options</span>
             </motion.h2>
             <div className={styles.optionsGrid}>
-              {TRAINING_OPTIONS.map(({ Icon, title, description, tag }, i) => (
+              {availableTrainingOptions.map(({ Icon, id, title, description, tag }, i) => (
                 <motion.div
                   key={title}
                   className={styles.optionCard}
@@ -1139,7 +1145,7 @@ const TrainerDetail = () => {
                   <p className={styles.optionDesc}>{description}</p>
                   <button
                     className={styles.optionBtn}
-                    onClick={openBooking}
+                    onClick={() => bookTrainingOption({ id, name: title })}
                     disabled={!trainer.available}
                     aria-label={`Book ${title} with ${trainer.name}`}
                   >
@@ -1397,7 +1403,7 @@ const TrainerDetail = () => {
         </div>
       </div>
 
-      <BookingDialog open={showBooking} onClose={closeBooking} targetType="trainer" targetId={trainerTargetId} bookingType="session" listingName={trainer.name} />
+      <BookingDialog open={showBooking} onClose={closeBooking} targetType="trainer" targetId={trainerTargetId} bookingType="session" listingName={trainer.name} serviceName={selectedTrainingOption?.name || ""} serviceId={selectedTrainingOption?.id || ""} />
       <EnquiryDialog open={showContact} onClose={closeContact} targetType="trainer" targetId={trainerTargetId} intent="training" listingName={trainer.name} />
     </>
   );
