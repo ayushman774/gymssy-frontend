@@ -146,11 +146,18 @@ const FitnessTrainerCard = ({ trainer, index }) => {
   const useFallback = !trainerImage || imageFailed;
   const displayImage = useFallback ? GYMSSY_TRAINER_FALLBACK : trainerImage;
 
-  const price = new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(trainer.pricePerSession);
+  const rawPrice = trainer.pricePerSession;
+  const numericPrice =
+    rawPrice === null || rawPrice === undefined || rawPrice === ""
+      ? NaN
+      : Number(rawPrice);
+  const price = Number.isFinite(numericPrice) && numericPrice >= 0
+    ? new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0,
+      }).format(numericPrice)
+    : null;
 
   return (
     <motion.article
@@ -209,7 +216,7 @@ const FitnessTrainerCard = ({ trainer, index }) => {
         </div>
 
         <div className={styles.trainerFooter}>
-          <span className={styles.trainerPrice}>{price} / session</span>
+          <span className={styles.trainerPrice}>{price ? `${price} / session` : "Price on request"}</span>
           <button
             className={styles.trainerBtn}
             onClick={() => navigate(`/trainers/${trainer.slug}`)}
