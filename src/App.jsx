@@ -29,6 +29,7 @@ import FavoritesPage from "./pages/Favorites/FavoritesPage.jsx";
 import EnquiriesPage from "./pages/Enquiries/EnquiriesPage.jsx";
 import BookingsPage from "./pages/Bookings/BookingsPage.jsx";
 import BookingDetailPage from "./pages/Bookings/BookingDetailPage.jsx";
+import NotificationsPage from "./pages/Notifications/NotificationsPage.jsx";
 import ExperienceDetailsPage from "./pages/ExperienceDetailsPage/ExperienceDetailsPage";
 
 const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
