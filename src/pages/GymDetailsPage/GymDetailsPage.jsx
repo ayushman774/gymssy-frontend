@@ -169,11 +169,11 @@ const GymDetailsPage = () => {
 
   const handleSelectMembership = useCallback((membership) => {
     setSelectedMembership(membership);
-    setBooking({ bookingType: "membership", serviceName: membership.name });
+    setBooking({ bookingType: "membership", serviceName: membership.name, serviceId: membership.id || "" });
   }, []);
 
   const handleClassInterest = useCallback((gymClass) => {
-    setBooking({ bookingType: "class", serviceName: gymClass.name });
+    setBooking({ bookingType: "class", serviceName: gymClass.name, serviceId: gymClass.id || "" });
   }, []);
 
   const scrollToMemberships = useCallback(() => {
@@ -515,7 +515,7 @@ const GymDetailsPage = () => {
           </div>
         )}
       </div>
-      <BookingDialog open={Boolean(booking)} onClose={() => { setBooking(null); setSelectedMembership(null); }} targetType="gym" targetId={gym.id || gym._id} bookingType={booking?.bookingType || "visit"} listingName={gym.name} serviceName={booking?.serviceName || selectedMembership?.name || ""} />
+      <BookingDialog open={Boolean(booking)} onClose={() => { setBooking(null); setSelectedMembership(null); }} targetType="gym" targetId={gym.id || gym._id} bookingType={booking?.bookingType || "visit"} listingName={gym.name} serviceName={booking?.serviceName || selectedMembership?.name || ""} serviceId={booking?.serviceId || ""} />
     </>
   );
 };
