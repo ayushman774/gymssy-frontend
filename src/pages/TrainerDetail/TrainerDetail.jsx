@@ -580,7 +580,9 @@ const TrainerDetail = () => {
   /* ── API fetch — replaces TRAINERS.find() ── */
   const { trainer, loading, error, refetch } = useTrainerDetail(slug);
   const trainerTargetId = trainer?._id || trainer?.id;
-  const isFaved = trainerTargetId ? isFavorite("trainer", trainerTargetId) : false;
+  const isFaved = trainerTargetId
+    ? isFavorite("trainer", trainerTargetId)
+    : false;
 
   /* ── Sticky bar trigger — UNCHANGED ── */
   useEffect(() => {
@@ -755,7 +757,10 @@ const TrainerDetail = () => {
 
                 <motion.button
                   className={`${styles.faveBtn} ${isFaved ? styles.faveBtnActive : ""}`}
-                  onClick={() => trainerTargetId && toggleFavorite("trainer", trainerTargetId)}
+                  onClick={() =>
+                    trainerTargetId &&
+                    toggleFavorite("trainer", trainerTargetId)
+                  }
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.9 }}
                   aria-label={
@@ -1151,88 +1156,6 @@ const TrainerDetail = () => {
           </div>
         </section>
 
-        {/* ════ AVAILABILITY — UNCHANGED ════ */}
-        <section className={styles.section} aria-labelledby="avail-h">
-          <div className={styles.container}>
-            <motion.span
-              className={styles.eyebrow}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              Availability
-            </motion.span>
-            <motion.h2
-              id="avail-h"
-              className={styles.sectionTitle}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={0.05}
-            >
-              Schedule & <span className={styles.accent}>Booking</span>
-            </motion.h2>
-            <motion.div
-              className={styles.availWrap}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={0.1}
-            >
-              <div
-                className={`${styles.availStatus} ${
-                  trainer.available
-                    ? styles.availStatusOpen
-                    : styles.availStatusClosed
-                }`}
-                role="status"
-              >
-                <span className={styles.availDot} aria-hidden="true" />
-                {trainer.available
-                  ? `${firstName} is currently accepting new clients`
-                  : `${firstName} is not accepting new clients right now`}
-              </div>
-
-              <div
-                className={styles.weekGrid}
-                aria-label="Weekly schedule placeholder"
-                aria-hidden="true"
-              >
-                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-                  (day) => (
-                    <div key={day} className={styles.weekDay}>
-                      <span className={styles.weekDayName}>{day}</span>
-                      <div className={styles.weekDaySlots}>
-                        <span className={styles.weekSlotEmpty}>—</span>
-                      </div>
-                    </div>
-                  ),
-                )}
-              </div>
-
-              <p className={styles.availNote}>
-                Detailed weekly schedules will display here once the booking
-                system is connected. Book a session or contact {firstName} to
-                discuss specific time slots.
-              </p>
-
-              {trainer.available && (
-                <motion.button
-                  className={styles.btnPrimary}
-                  onClick={openBooking}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <FiCalendar aria-hidden="true" /> Book a Session
-                </motion.button>
-              )}
-            </motion.div>
-          </div>
-        </section>
-
         {/* ════ REVIEWS — UNCHANGED ════ */}
         <section
           className={`${styles.section} ${styles.sectionDark}`}
@@ -1397,8 +1320,22 @@ const TrainerDetail = () => {
         </div>
       </div>
 
-      <BookingDialog open={showBooking} onClose={closeBooking} targetType="trainer" targetId={trainerTargetId} bookingType="session" listingName={trainer.name} />
-      <EnquiryDialog open={showContact} onClose={closeContact} targetType="trainer" targetId={trainerTargetId} intent="training" listingName={trainer.name} />
+      <BookingDialog
+        open={showBooking}
+        onClose={closeBooking}
+        targetType="trainer"
+        targetId={trainerTargetId}
+        bookingType="session"
+        listingName={trainer.name}
+      />
+      <EnquiryDialog
+        open={showContact}
+        onClose={closeContact}
+        targetType="trainer"
+        targetId={trainerTargetId}
+        intent="training"
+        listingName={trainer.name}
+      />
     </>
   );
 };
