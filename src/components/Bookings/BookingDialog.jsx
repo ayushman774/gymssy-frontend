@@ -15,7 +15,7 @@ function customerMessage(error) {
   return error?.message || "Unable to send your booking request. Please try again.";
 }
 
-export default function BookingDialog({ open, onClose, targetType, targetId, bookingType, listingName, serviceName = "" }) {
+export default function BookingDialog({ open, onClose, targetType, targetId, bookingType, listingName, serviceName = "", serviceId = "" }) {
   const { user, token, isAuthenticated } = useCustomerAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -64,7 +64,7 @@ export default function BookingDialog({ open, onClose, targetType, targetId, boo
         contact: { name: form.name.trim(), email: form.email.trim(), phone: form.phone.trim() },
         note: form.note.trim(),
       };
-      if (serviceName) payload.service = { name: serviceName };
+      if (serviceName || serviceId) payload.service = { ...(serviceName ? { name: serviceName } : {}), ...(serviceId ? { id: serviceId } : {}) };
       const result = await createBooking(token, payload);
       setCreatedBookingId(result?.data?.id || "");
       setSent(true);
