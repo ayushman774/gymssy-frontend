@@ -76,7 +76,7 @@ const MembershipCard = ({ membership, onSelect }) => {
       {/* CTA */}
       <button
         className={`${styles.cta} ${isPopular ? styles.ctaPopular : ""}`}
-        onClick={onSelect}
+        onClick={() => onSelect(membership)}
         aria-label={`Select ${membership.name} membership — ${membership.currency}${membership.price} ${membership.billingPeriod}`}
       >
         {membership.cta}
