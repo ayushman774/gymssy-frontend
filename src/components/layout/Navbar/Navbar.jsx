@@ -7,7 +7,6 @@ import HamburgerButton from "./HamburgerButton";
 import MobileMenu from "./MobileMenu";
 import styles from "./Navbar.module.css";
 import { useCustomerAuth } from "../../../context/CustomerAuthContext.jsx";
-import NotificationBell from "../../Notifications/NotificationBell.jsx";
 
 // ── Navigation data ───────────────────────────────────────────────────────
 export const NAV_LINKS = [
@@ -121,7 +120,6 @@ const Navbar = () => {
 
           {/* Desktop CTA buttons */}
           <div className={styles.desktopCTA}>
-            {!authLoading && isAuthenticated && <NotificationBell />}
             {!authLoading && isAuthenticated ? (
               <Link
                 to="/profile"

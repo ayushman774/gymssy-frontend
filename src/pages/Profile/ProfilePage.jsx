@@ -8,7 +8,6 @@ const tabs = [
   { label: "Favorites", href: "/profile/favorites", icon: "♡" },
   { label: "Enquiries", href: "/profile/enquiries", icon: "✉" },
   { label: "My Bookings", href: "/profile/bookings", icon: "▦" },
-  { label: "Notifications", href: "/profile/notifications", icon: "♧" },
 ];
 
 const presetSeeds = Array.from({ length: 12 }, (_, index) => index + 1);

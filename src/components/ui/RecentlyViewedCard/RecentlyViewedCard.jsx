@@ -99,8 +99,10 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
 
   useEffect(() => {
     setImageLoaded(false);
+    setImageFailed(false);
   }, [imageUrl]);
 
+  const [imageFailed, setImageFailed] = useState(false);
 
   const accentColor = getCategoryColor(category);
 
@@ -171,7 +173,7 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
           src={currentImage}
           alt={`${name} gym facility`}
           className={styles.image}
-          loading={index < 4 ? "eager" : "lazy"}
+          loading="lazy"
           onLoad={() => setImageLoaded(true)}
           onError={() => {
             if (currentImage !== GYMSSY_FALLBACK_IMAGE) {
@@ -181,7 +183,7 @@ const RecentlyViewedCard = ({ gym, index = 0 }) => {
               setImageLoaded(true);
             }
           }}
-          style={{ opacity: imageLoaded ? 1 : 0.01 }}
+          style={{ opacity: imageLoaded ? 1 : 0 }}
           variants={{
             hover: {
               scale: 1.07,

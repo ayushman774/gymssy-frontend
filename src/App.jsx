@@ -29,7 +29,6 @@ import FavoritesPage from "./pages/Favorites/FavoritesPage.jsx";
 import EnquiriesPage from "./pages/Enquiries/EnquiriesPage.jsx";
 import BookingsPage from "./pages/Bookings/BookingsPage.jsx";
 import BookingDetailPage from "./pages/Bookings/BookingDetailPage.jsx";
-import NotificationsPage from "./pages/Notifications/NotificationsPage.jsx";
 import ExperienceDetailsPage from "./pages/ExperienceDetailsPage/ExperienceDetailsPage";
 
 const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
@@ -58,7 +57,6 @@ const App = () => {
           <Route path="favorites" element={<FavoritesPage />} />
           <Route path="enquiries" element={<EnquiriesPage />} />
           <Route path="bookings" element={<BookingsPage />} />
-          <Route path="notifications" element={<NotificationsPage />} />
         </Route>
         <Route path="/favorites" element={<Navigate to="/profile/favorites" replace />} />
         <Route path="/enquiries" element={<Navigate to="/profile/enquiries" replace />} />
