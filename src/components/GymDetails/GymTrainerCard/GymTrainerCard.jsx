@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiStar, FiAward } from "react-icons/fi";
 import styles from "./GymTrainerCard.module.css";
 
 const GymTrainerCard = ({ trainer }) => {
+  const trainerSlug = typeof trainer.slug === "string" ? trainer.slug.trim() : "";
+  const profileUrl = trainerSlug ? `/trainers/${encodeURIComponent(trainerSlug)}` : null;
   return (
     <motion.div
       className={styles.card}
@@ -69,15 +72,22 @@ const GymTrainerCard = ({ trainer }) => {
               {trainer.sessionPrice.toLocaleString("en-IN")}
             </span>
           </div>
-          <button
-            className={`${styles.viewBtn} ${
-              !trainer.available ? styles.viewBtnDisabled : ""
-            }`}
-            disabled={!trainer.available}
-            aria-label={`View profile of ${trainer.name}`}
-          >
-            {trainer.available ? "View Profile" : "Waitlist"}
-          </button>
+          {profileUrl ? (
+            <Link
+              to={profileUrl}
+              className={styles.viewBtn}
+              aria-label={`View profile of ${trainer.name}`}
+            >
+              View Profile
+            </Link>
+          ) : (
+            <span
+              className={`${styles.viewBtn} ${styles.viewBtnDisabled}`}
+              title="This trainer does not have a linked profile yet"
+            >
+              Profile unavailable
+            </span>
+          )}
         </div>
       </div>
     </motion.div>
