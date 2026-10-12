@@ -52,6 +52,10 @@ export default function BookingDialog({ open, onClose, targetType, targetId, boo
     event.preventDefault();
     if (pending) return;
     setError("");
+    if (targetType === "gym" && ["membership", "class"].includes(bookingType) && !serviceName?.trim() && !serviceId?.trim()) {
+      setError("The selected plan or class could not be identified. Close this window, refresh the page, and select it again.");
+      return;
+    }
     if (!form.name.trim()) { setError("Enter a contact name."); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) { setError("Enter a valid contact email."); return; }
     let scheduledFor; let timezone;
