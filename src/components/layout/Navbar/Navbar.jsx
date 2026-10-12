@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+            {!authLoading && isAuthenticated && <NotificationBell />}
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
@@ -7,6 +8,7 @@ import HamburgerButton from "./HamburgerButton";
 import MobileMenu from "./MobileMenu";
 import styles from "./Navbar.module.css";
 import { useCustomerAuth } from "../../../context/CustomerAuthContext.jsx";
+import NotificationBell from "../../Notifications/NotificationBell.jsx";
 
 // ── Navigation data ───────────────────────────────────────────────────────
 export const NAV_LINKS = [
