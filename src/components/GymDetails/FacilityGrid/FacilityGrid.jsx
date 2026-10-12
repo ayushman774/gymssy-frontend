@@ -4,6 +4,30 @@ import DynamicIcon from "../../ui/DynamicIcon/DynamicIcon";
 import { Dumbbell } from "lucide-react"; // fallback
 import styles from "./FacilityGrid.module.css";
 
+// Preserve explicit backend icons. Infer an icon only for legacy facilities
+// that were saved without one; do not change booking or listing data.
+const FACILITY_ICON_BY_NAME = {
+  "strength equipment": "FaDumbbell", "free weights": "Weight", "cardio equipment": "FaRunning",
+  "treadmills": "FaRunning", "exercise bikes": "Bike", "functional training": "Activity",
+  "hiit zone": "Flame", "crossfit area": "Dumbbell", "boxing area": "Target",
+  "yoga studio": "Flower2", "pilates studio": "PersonStanding", "stretching area": "Move",
+  "group classes": "FaUsers", "personal training": "FaUserTie", "indoor cycling": "Bike",
+  "sports training": "Trophy", "swimming pool": "Waves", "changing rooms": "FaLock",
+  "locker rooms": "FaLock", "shower rooms": "FaShower", "parking": "FaCar",
+  "wi-fi": "FaWifi", "air conditioning": "FaSnowflake", "drinking water": "FaTint",
+  "nutrition bar": "FaAppleAlt", "cafe": "Salad", "waiting lounge": "House",
+  "rest area": "Moon", "steam room": "Droplets", "sauna": "Flame",
+  "towel service": "Droplets", "body analysis": "FaHeartbeat",
+  "fitness assessment": "HeartPulse", "nutrition consultation": "Salad",
+  "physiotherapy": "HandHeart", "recovery zone": "HeartPulse",
+  "meditation room": "Flower2", "personal coaching": "UserRound",
+  "certified trainers": "GraduationCap", "first aid": "HeartPulse",
+  "security": "Shield", "24/7 access": "FaClock", "outdoor training": "Sun",
+  "accessibility": "PersonStanding",
+};
+const resolveFacilityIcon = (facility) =>
+  facility.icon || FACILITY_ICON_BY_NAME[String(facility.name || "").trim().toLowerCase()] || "Grid";
+
 const FacilityGrid = ({ facilities }) => {
   const [showAll, setShowAll] = useState(false);
   const displayed = showAll ? facilities : facilities.slice(0, 8);
@@ -28,7 +52,7 @@ const FacilityGrid = ({ facilities }) => {
           >
             <div className={styles.iconWrap}>
               <DynamicIcon
-                name={facility.icon}
+                name={resolveFacilityIcon(facility)}
                 fallback={Dumbbell}
                 size={20}
                 className={styles.icon}
