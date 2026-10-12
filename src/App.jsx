@@ -1,5 +1,4 @@
 import { lazy } from "react";
-          <Route path="notifications" element={<NotificationsPage />} />
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import styles from "./App.module.css";
@@ -40,6 +39,7 @@ const App = () => {
     <div className={styles.app}>
       <Navbar />
       <Routes>
+          <Route path="notifications" element={<NotificationsPage />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<ComingSoon />} />
         <Route path="/about" element={<About />} />
