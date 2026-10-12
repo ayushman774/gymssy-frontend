@@ -1,5 +1,4 @@
 /* eslint-disable react-refresh/only-export-components */
-            {!authLoading && isAuthenticated && <NotificationBell />}
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
@@ -122,6 +121,7 @@ const Navbar = () => {
 
           {/* Desktop CTA buttons */}
           <div className={styles.desktopCTA}>
+            {!authLoading && isAuthenticated && <NotificationBell />}
             {!authLoading && isAuthenticated ? (
               <Link
                 to="/profile"
