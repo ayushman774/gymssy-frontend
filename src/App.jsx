@@ -1,4 +1,5 @@
 import { lazy } from "react";
+          <Route path="notifications" element={<NotificationsPage />} />
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import styles from "./App.module.css";
@@ -30,6 +31,7 @@ import EnquiriesPage from "./pages/Enquiries/EnquiriesPage.jsx";
 import BookingsPage from "./pages/Bookings/BookingsPage.jsx";
 import BookingDetailPage from "./pages/Bookings/BookingDetailPage.jsx";
 import ExperienceDetailsPage from "./pages/ExperienceDetailsPage/ExperienceDetailsPage";
+import NotificationsPage from "./pages/Notifications/NotificationsPage.jsx";
 
 const ComingSoon = lazy(() => import("./pages/ComingSoon/ComingSoon"));
 
