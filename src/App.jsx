@@ -58,6 +58,7 @@ const App = () => {
           <Route path="favorites" element={<FavoritesPage />} />
           <Route path="enquiries" element={<EnquiriesPage />} />
           <Route path="bookings" element={<BookingsPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
         </Route>
         <Route path="/favorites" element={<Navigate to="/profile/favorites" replace />} />
         <Route path="/enquiries" element={<Navigate to="/profile/enquiries" replace />} />
