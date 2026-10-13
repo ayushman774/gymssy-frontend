@@ -599,6 +599,10 @@ const TrainerDetail = () => {
   /* ── API fetch — replaces TRAINERS.find() ── */
   const { trainer, loading, error, refetch } = useTrainerDetail(slug);
   const trainerTargetId = trainer?._id || trainer?.id;
+  const [liveReviewSummary, setLiveReviewSummary] = useState(null);
+  const onReviewSummaryChange = useCallback((summary) => setLiveReviewSummary(summary), []);
+  const displayedRating = liveReviewSummary?.reviewCount ? Number(liveReviewSummary.rating).toFixed(1) : (trainer?.rating ?? 0);
+  const displayedReviewCount = liveReviewSummary?.reviewCount || (typeof trainer?.reviews === "number" ? trainer.reviews : 0);
   const isFaved = trainerTargetId
     ? isFavorite("trainer", trainerTargetId)
     : false;
@@ -669,7 +673,7 @@ const TrainerDetail = () => {
         </title>
         <meta
           name="description"
-          content={`${trainer.bio} Rated ${trainer.rating}★ by ${trainer.reviews} clients on Gymssy.`}
+          content={`${trainer.bio} Rated ${displayedRating}★ by ${trainer.reviews} clients on Gymssy.`}
         />
         <meta
           property="og:title"
@@ -709,9 +713,9 @@ const TrainerDetail = () => {
                       className={styles.stickyStarIcon}
                       aria-hidden="true"
                     />
-                    <span>{trainer.rating}</span>
+                    <span>{displayedRating}</span>
                     <span className={styles.stickyReviews}>
-                      ({trainer.reviews})
+                      ({displayedReviewCount})
                     </span>
                   </div>
                   <button
@@ -856,8 +860,8 @@ const TrainerDetail = () => {
                 variants={fadeUp}
                 custom={0.12}
               >
-                <Stars rating={trainer.rating} size={17} />
-                <span className={styles.ratingNum}>{trainer.rating}</span>
+                <Stars rating={Number(displayedRating)} size={17} />
+                <span className={styles.ratingNum}>{displayedRating}</span>
                 <span className={styles.ratingCount}>
                   {(typeof trainer.reviews === "number"
                     ? trainer.reviews
@@ -1181,7 +1185,7 @@ const TrainerDetail = () => {
         </section>
 
         {/* ════ REVIEWS — UNCHANGED ════ */}
-        <ListingReviews type="trainer" listingId={trainerTargetId} />
+        <ListingReviews type="trainer" listingId={trainerTargetId} onSummaryChange={onReviewSummaryChange} />
 
         {/* ════ FINAL CTA — UNCHANGED ════ */}
         <section className={styles.finalCta} aria-label="Start training">
