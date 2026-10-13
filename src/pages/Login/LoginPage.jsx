@@ -42,6 +42,12 @@ export default function LoginPage() {
         {error && <p className={styles.error} role="alert">{error}</p>}
         <button type="submit" disabled={loading}>{loading ? "Signing In…" : "Sign In"}</button>
         <p className={styles.footer}>New to Gymssy? <Link to="/sign-up">Create an account</Link></p>
+        <div className={styles.providerInvite}>
+          <p>Are you a gym owner, trainer, or fitness service provider?</p>
+          <a href="https://admin.gymssy.com/provider/login" className={styles.providerLink}>
+            Provider Login <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </form>
     </main>
   );
