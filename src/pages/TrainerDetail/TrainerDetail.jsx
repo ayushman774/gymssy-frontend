@@ -863,11 +863,7 @@ const TrainerDetail = () => {
                 <Stars rating={Number(displayedRating)} size={17} />
                 <span className={styles.ratingNum}>{displayedRating}</span>
                 <span className={styles.ratingCount}>
-                  {(typeof trainer.reviews === "number"
-                    ? trainer.reviews
-                    : 0
-                  ).toLocaleString()}{" "}
-                  reviews
+                  {displayedReviewCount.toLocaleString()} reviews
                 </span>
                 <span className={styles.ratingDivider} aria-hidden="true" />
                 <span className={styles.clientCount}>
