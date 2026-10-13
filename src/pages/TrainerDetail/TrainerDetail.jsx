@@ -1,3 +1,4 @@
+import ListingReviews from "../../components/Reviews/ListingReviews.jsx";
 // src/pages/TrainerDetail/TrainerDetail.jsx
 
 /**
@@ -1173,6 +1174,7 @@ const TrainerDetail = () => {
         </section>
 
         {/* ════ REVIEWS — UNCHANGED ════ */}
+        <ListingReviews type="trainer" listingId={trainerTargetId} />
         <section
           className={`${styles.section} ${styles.sectionDark}`}
           aria-labelledby="reviews-h"
