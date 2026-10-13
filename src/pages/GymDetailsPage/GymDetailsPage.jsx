@@ -84,6 +84,8 @@ const GymDetailsPage = () => {
 
   /* ── API ── */
   const { gym, similarGyms, loading, error, refetch } = useGymDetails(slug);
+  const [liveReviewSummary, setLiveReviewSummary] = useState(null);
+  const onReviewSummaryChange = useCallback((summary) => setLiveReviewSummary(summary), []);
   const { recordView } = useRecentlyViewed();
   const { location: customerLocation } = useCustomerLocation();
   const customerDistance = useMemo(
@@ -467,7 +469,7 @@ const GymDetailsPage = () => {
 
           {/* Reviews: one shared section, retaining legacy review cards */}
           <section className={`${styles.section} ${styles.fullWidthSection}`} id="reviews">
-            <ListingReviews type="gym" listingId={gym.id} legacyReviews={gym.reviews} legacyRating={gym.rating} legacyReviewCount={gym.reviewCount} legacyBreakdown={gym.ratingBreakdown} />
+            <ListingReviews type="gym" listingId={gym.id} legacyReviews={gym.reviews} legacyRating={gym.rating} legacyReviewCount={gym.reviewCount} legacyBreakdown={gym.ratingBreakdown} onSummaryChange={onReviewSummaryChange} />
           </section>
 
           {/* Photo Gallery */}
