@@ -119,104 +119,46 @@ export default function ListingReviews({
       {loading && <p>Loading customer reviews…</p>}
       {!open && error && <p role="alert">{error}</p>}
       {open && (
-        <div
-          role="presentation"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget && !saving) setOpen(false);
-          }}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,.8)",
-            zIndex: 10000,
-            display: "grid",
-            placeItems: "center",
-            padding: 20,
-          }}
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="listing-review-title"
-            style={{
-              background: "#181818",
-              color: "#fff",
-              border: "1px solid #444",
-              borderRadius: 16,
-              padding: 26,
-              width: "min(100%, 500px)",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <h2 id="listing-review-title">Write a Review</h2>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                disabled={saving}
-                aria-label="Close review form"
-              >
-                ✕
-              </button>
+        <div className={styles.overlay} role="presentation" onMouseDown={(event) => {
+          if (event.target === event.currentTarget && !saving) setOpen(false);
+        }}>
+          <div className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="listing-review-title">
+            <div className={styles.modalHeader}>
+              <div>
+                <span className={styles.eyebrow}>GYMSSY COMMUNITY</span>
+                <h2 id="listing-review-title">Write a Review</h2>
+                <p>Share your experience and help others choose confidently.</p>
+              </div>
+              <button type="button" className={styles.closeButton} onClick={() => setOpen(false)} disabled={saving} aria-label="Close review form">✕</button>
             </div>
             {!user ? (
-              <p>Please sign in with a customer account to submit a review.</p>
+              <div className={styles.guestNotice}>Please sign in with your customer account to write a review.</div>
             ) : (
-              <form onSubmit={submit} style={{ display: "grid", gap: 16 }}>
-                <fieldset style={{ border: 0, padding: 0 }}>
-                  <legend>Your rating</legend>
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <button
-                      type="button"
-                      key={n}
-                      aria-label={`${n} stars`}
-                      aria-pressed={rating === n}
-                      onClick={() => setRating(n)}
-                      style={{
-                        fontSize: 30,
-                        color: n <= rating ? "#39ff14" : "#777",
-                        background: "none",
-                        border: 0,
-                        cursor: "pointer",
-                      }}
-                    >
-                      ★
-                    </button>
-                  ))}
+              <form className={styles.reviewForm} onSubmit={submit}>
+                <fieldset className={styles.ratingField}>
+                  <legend>Your rating <span>*</span></legend>
+                  <div className={styles.ratingRow}>
+                    <div className={styles.starButtons}>
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <button key={n} type="button" aria-label={`${n} stars`} aria-pressed={rating === n}
+                          onClick={() => setRating(n)} className={n <= rating ? styles.starActive : styles.starInactive}>★</button>
+                      ))}
+                    </div>
+                    <span className={styles.ratingLabel}>{["", "Poor", "Fair", "Good", "Very good", "Excellent"][rating]}</span>
+                  </div>
                 </fieldset>
-                <label>
-                  Title (optional)
-                  <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    maxLength={120}
-                    style={{ display: "block", width: "100%", padding: 10 }}
-                  />
-                </label>
-                <label>
-                  Your review
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                    minLength={10}
-                    maxLength={2000}
-                    rows={5}
-                    style={{ display: "block", width: "100%", padding: 10 }}
-                  />
-                </label>
-                {error && <p role="alert">{error}</p>}
-                <button
-                  disabled={saving}
-                  type="submit"
-                  style={{
-                    padding: 12,
-                    background: "#39ff14",
-                    color: "#111",
-                    fontWeight: 700,
-                  }}
-                >
-                  {saving ? "Submitting…" : "Submit Review"}
-                </button>
+                <label className={styles.fieldLabel} htmlFor="listing-review-heading">Review title <span>(optional)</span></label>
+                <input id="listing-review-heading" className={styles.fieldInput} value={title} onChange={(e) => setTitle(e.target.value)} maxLength={120} placeholder="Summarize your experience" />
+                <label className={styles.fieldLabel} htmlFor="listing-review-description">Your experience <span>*</span></label>
+                <textarea id="listing-review-description" className={styles.fieldInput} value={description}
+                  onChange={(e) => setDescription(e.target.value)} required minLength={10} maxLength={2000} rows={5}
+                  placeholder="What did you like? How was your experience?" />
+                <div className={styles.characterCount}>{description.length}/2000 characters</div>
+                {error && <p className={styles.formError} role="alert">{error}</p>}
+                <div className={styles.modalActions}>
+                  <button type="button" className={styles.cancelButton} disabled={saving} onClick={() => setOpen(false)}>Cancel</button>
+                  <button type="submit" className={styles.submitButton} disabled={saving}>{saving ? "Submitting…" : "Submit Review →"}</button>
+                </div>
               </form>
             )}
           </div>
