@@ -1,4 +1,5 @@
 import ReviewSection from "../GymDetails/ReviewSection/ReviewSection.jsx";
+import styles from "./ListingReviews.module.css";
 import { useCallback, useEffect, useState } from "react";
 import { useCustomerAuth } from "../../context/CustomerAuthContext.jsx";
 import {
@@ -65,10 +66,7 @@ export default function ListingReviews({
   };
   if (!listingId) return null;
   return (
-    <section
-      aria-label="Customer reviews"
-      style={{ margin: "40px 0", color: "inherit" }}
-    >
+    <section aria-label="Customer reviews" className={styles.container}>
       <ReviewSection
         rating={
           summary?.reviewCount
