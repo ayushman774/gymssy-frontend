@@ -526,3 +526,51 @@
     padding: 28px 18px;
   }
 }
+
+/* ─── Provider onboarding call to action ─────────────────── */
+.providerInvite {
+  margin: 26px 0 20px;
+  padding: 20px;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 12px;
+  background: rgba(57, 255, 20, 0.045);
+  text-align: center;
+}
+
+.providerInviteLabel {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.providerInviteLink {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #39ff14;
+  border-radius: 9px;
+  color: #39ff14;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.providerInviteLink:hover,
+.providerInviteLink:focus-visible {
+  background: #39ff14;
+  color: #000;
+}
+
+.providerInviteLink:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
