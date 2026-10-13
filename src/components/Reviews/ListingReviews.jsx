@@ -1,8 +1,9 @@
+import ReviewSection from "../GymDetails/ReviewSection/ReviewSection.jsx";
 import { useCallback, useEffect, useState } from "react";
 import { useCustomerAuth } from "../../context/CustomerAuthContext.jsx";
 import { fetchListingReviews, submitListingReview } from "../../services/reviewService.js";
 
-export default function ListingReviews({ type, listingId }) {
+export default function ListingReviews({ type, listingId, legacyReviews = [], legacyRating = 0, legacyReviewCount = 0, legacyBreakdown = [] }) {
   const { user, token } = useCustomerAuth();
   const [items, setItems] = useState([]);
   const [summary, setSummary] = useState(null);
@@ -39,25 +40,27 @@ export default function ListingReviews({ type, listingId }) {
   if (!listingId) return null;
   return (
     <section aria-label="Customer reviews" style={{ margin: "40px 0", color: "inherit" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-        <div><h2>Customer Reviews</h2><p>{summary?.reviewCount ? `${Number(summary.rating).toFixed(1)} ★ · ${summary.reviewCount} customer reviews` : "No customer reviews yet"}</p></div>
-        <button type="button" onClick={() => { setError(""); setOpen(true); }} style={{ padding: "12px 20px", borderRadius: 8, background: "#39ff14", color: "#111", fontWeight: 700, cursor: "pointer" }}>Write a Review</button>
-      </div>
-      {loading && <p>Loading reviews…</p>}
+      <ReviewSection
+        rating={summary?.reviewCount ? Number(summary.rating).toFixed(1) : legacyRating}
+        reviewCount={summary?.reviewCount ? summary.reviewCount : legacyReviewCount}
+        ratingBreakdown={summary?.reviewCount ? [5,4,3,2,1].map(stars => ({ stars, percentage: Math.round(items.filter(r => r.rating === stars).length / Math.max(1, items.length) * 100) })) : legacyBreakdown}
+        reviews={[
+          ...items.map(review => ({
+            id: review.id,
+            user: { name: review.user?.name || "Gymssy customer", initials: (review.user?.name || "GC").split(" ").map(word => word[0]).slice(0,2).join("").toUpperCase() },
+            date: review.createdAt,
+            rating: review.rating,
+            title: review.title,
+            text: review.text,
+            verifiedVisit: false,
+            helpfulCount: 0,
+          })),
+          ...legacyReviews,
+        ]}
+        onWriteReview={() => { setError(""); setOpen(true); }}
+      />
+      {loading && <p>Loading customer reviews…</p>}
       {!open && error && <p role="alert">{error}</p>}
-      <div style={{ display: "grid", gap: 14, marginTop: 18 }}>
-        {items.map((review) => (
-          <article key={review.id} style={{ padding: 18, border: "1px solid rgba(128,128,128,.35)", borderRadius: 12 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-              <strong>{review.user?.name || "Gymssy customer"}</strong>
-              <time dateTime={review.createdAt}>{review.createdAt ? new Date(review.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : ""}</time>
-            </div>
-            <div aria-label={`${review.rating} out of 5 stars`} style={{ color: "#39ff14", marginTop: 8 }}>{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</div>
-            {review.title && <h3 style={{ marginTop: 10 }}>{review.title}</h3>}
-            <p style={{ whiteSpace: "pre-wrap" }}>{review.text}</p>
-          </article>
-        ))}
-      </div>
       {open && (
         <div role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget && !saving) setOpen(false); }} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.8)", zIndex: 10000, display: "grid", placeItems: "center", padding: 20 }}>
           <div role="dialog" aria-modal="true" aria-labelledby="listing-review-title" style={{ background: "#181818", color: "#fff", border: "1px solid #444", borderRadius: 16, padding: 26, width: "min(100%, 500px)" }}>
