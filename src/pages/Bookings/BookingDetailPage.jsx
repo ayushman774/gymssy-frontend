@@ -103,7 +103,7 @@ export default function BookingDetailPage() {
   const progressLabels =
     status === "completed"
       ? ["Requested", "Confirmed", "Completed"]
-      : ["Requested", "Confirmed", "Session"];
+      : ["Requested", "Confirmed", "Completed"];
   const copyReference = async () => {
     try {
       await navigator.clipboard.writeText(booking.id || id);
@@ -163,7 +163,7 @@ export default function BookingDetailPage() {
 
         <div className={styles.grid}>
           <section className={styles.panel}>
-            <h2>Session details</h2>
+            <h2>Booking details</h2>
             <dl className={styles.detailList}>
               <div>
                 <dt>Booking type</dt>
@@ -240,7 +240,7 @@ export default function BookingDetailPage() {
               </div>
             </div>
             <div className={styles.venueInfo}>
-              <span>Preferred session</span>
+              <span>Preferred date & time</span>
               <strong>
                 {formatBookingDateTime(booking.scheduledFor, booking.timezone)}
               </strong>
