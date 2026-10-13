@@ -1,3 +1,4 @@
+import ListingReviews from "../../components/Reviews/ListingReviews.jsx";
 // src/pages/Nutritionists/NutritionistDetailsPage.jsx
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -1225,6 +1226,7 @@ const NutritionistDetailsPage = () => {
         </section>
 
         {/* ════ REVIEWS ════ */}
+        <ListingReviews type="nutritionist" listingId={nutritionistTargetId} />
         <section className={styles.section} aria-labelledby="reviews-h">
           <div className={styles.container}>
             <motion.span
