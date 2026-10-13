@@ -197,6 +197,16 @@ const SignUpPage = () => {
 
             <SignupForm accountType="enthusiast" />
 
+            <div className={styles.providerInvite}>
+              <p className={styles.providerInviteLabel}>Own a gym, studio, or offer fitness services?</p>
+              <a
+                className={styles.providerInviteLink}
+                href="https://admin.gymssy.com/provider/register"
+              >
+                List your business with Gymssy <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+
             <p className={styles.signinPrompt}>
               Already have an account?{" "}
               <Link to="/sign-in" className={styles.signinLink}>
