@@ -10,3 +10,10 @@
 .card button:disabled { opacity: .6; cursor: wait; }
 .error { margin: 0; color: #ff8f8f; font: .85rem/1.5 Inter, sans-serif; }
 .footer a { color: #39ff14; }
+
+.providerInvite { display: grid; gap: 12px; margin-top: 4px; padding: 20px; border: 1px solid rgba(57,255,20,.2); border-radius: 14px; background: rgba(57,255,20,.045); text-align: center; }
+.providerInvite p { margin: 0; color: rgba(255,255,255,.75); font: .82rem/1.55 Inter, sans-serif; }
+.providerLink { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 16px; border: 1px solid #39ff14; border-radius: 10px; color: #39ff14; text-decoration: none; font: 600 .9rem/1.4 Poppins, sans-serif; transition: background .2s ease, color .2s ease; }
+.providerLink:hover, .providerLink:focus-visible { background: #39ff14; color: #050705; }
+.providerLink:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (max-width: 480px) { .card { padding: 26px 20px; } .providerInvite { padding: 16px; } }
