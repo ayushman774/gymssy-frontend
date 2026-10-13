@@ -238,7 +238,7 @@ const GymDetailsPage = () => {
       <div className={styles.page} ref={pageRef}>
         {/* ══ HEADER ══ */}
         <GymHeader
-          gym={gym}
+          gym={liveReviewSummary?.reviewCount ? { ...gym, rating: Number(liveReviewSummary.rating).toFixed(1), reviewCount: liveReviewSummary.reviewCount } : gym}
           isSaved={gym ? isFavorite("gym", gym.id) : false}
           onSave={handleSave}
           onShare={handleShare}
@@ -265,8 +265,8 @@ const GymDetailsPage = () => {
 
         {/* ══ QUICK INFO ══ */}
         <GymQuickInfo
-          rating={gym.rating}
-          reviewCount={gym.reviewCount}
+          rating={liveReviewSummary?.reviewCount ? Number(liveReviewSummary.rating).toFixed(1) : gym.rating}
+          reviewCount={liveReviewSummary?.reviewCount || gym.reviewCount}
           distance={customerDistance}
           todayTiming={todayTiming}
           openStatus={openStatus}
