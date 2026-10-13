@@ -32,13 +32,14 @@ export default function ListingReviews({
       const response = await fetchListingReviews(type, listingId);
       setItems(response.data || []);
       setSummary(response.summary || null);
+      onSummaryChange?.(response.summary || null);
       setError("");
     } catch (err) {
       setError(err.message || "Unable to load reviews.");
     } finally {
       setLoading(false);
     }
-  }, [type, listingId]);
+  }, [type, listingId, onSummaryChange]);
   useEffect(() => {
     load();
   }, [load]);
