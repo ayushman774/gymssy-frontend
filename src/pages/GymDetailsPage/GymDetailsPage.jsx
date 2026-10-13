@@ -465,21 +465,10 @@ const GymDetailsPage = () => {
             </section>
           )}
 
-          {/* Reviews */}
-          <ListingReviews type="gym" listingId={gym.id} />
-          {gym.reviews?.length > 0 && (
-            <section
-              className={`${styles.section} ${styles.fullWidthSection}`}
-              id="reviews"
-            >
-              <ReviewSection
-                rating={gym.rating}
-                reviewCount={gym.reviewCount}
-                ratingBreakdown={gym.ratingBreakdown}
-                reviews={gym.reviews}
-              />
-            </section>
-          )}
+          {/* Reviews: one shared section, retaining legacy review cards */}
+          <section className={`${styles.section} ${styles.fullWidthSection}`} id="reviews">
+            <ListingReviews type="gym" listingId={gym.id} legacyReviews={gym.reviews} legacyRating={gym.rating} legacyReviewCount={gym.reviewCount} legacyBreakdown={gym.ratingBreakdown} />
+          </section>
 
           {/* Photo Gallery */}
           {gym.images?.gallery?.length > 0 && (
