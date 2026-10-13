@@ -565,6 +565,10 @@ const NutritionistDetailsPage = () => {
   /* ── Primary data fetch ── */
   const { nutritionist, loading, error, refetch } = useNutritionistDetail(slug);
   const nutritionistTargetId = nutritionist?._id || nutritionist?.id;
+  const [liveReviewSummary, setLiveReviewSummary] = useState(null);
+  const onReviewSummaryChange = useCallback((summary) => setLiveReviewSummary(summary), []);
+  const displayedRating = liveReviewSummary?.reviewCount ? Number(liveReviewSummary.rating).toFixed(1) : (nutritionist?.rating ?? 0);
+  const displayedReviewCount = liveReviewSummary?.reviewCount || (typeof nutritionist?.reviews === "number" ? nutritionist.reviews : 0);
   const isFaved = nutritionistTargetId
     ? isFavorite("nutritionist", nutritionistTargetId)
     : false;
@@ -620,8 +624,7 @@ const NutritionistDetailsPage = () => {
   const specializations = Array.isArray(nutritionist.specializations)
     ? nutritionist.specializations
     : [];
-  const reviews =
-    typeof nutritionist.reviews === "number" ? nutritionist.reviews : 0;
+  const reviews = displayedReviewCount;
 
   const showFee =
     nutritionist.consultationFee !== undefined &&
@@ -648,7 +651,7 @@ const NutritionistDetailsPage = () => {
         </title>
         <meta
           name="description"
-          content={`${nutritionist.specialty}. ${nutritionist.bio?.slice(0, 120) ?? ""} Rated ${nutritionist.rating}★ on Gymssy.`}
+          content={`${nutritionist.specialty}. ${nutritionist.bio?.slice(0, 120) ?? ""} Rated ${displayedRating}★ on Gymssy.`}
         />
         <meta
           property="og:title"
@@ -690,7 +693,7 @@ const NutritionistDetailsPage = () => {
                       className={styles.stickyStarIcon}
                       aria-hidden="true"
                     />
-                    <span>{nutritionist.rating}</span>
+                    <span>{displayedRating}</span>
                     <span className={styles.stickyReviews}>({reviews})</span>
                   </div>
                   <button
@@ -838,8 +841,8 @@ const NutritionistDetailsPage = () => {
                 variants={fadeUp}
                 custom={0.12}
               >
-                <Stars rating={nutritionist.rating} size={17} />
-                <span className={styles.ratingNum}>{nutritionist.rating}</span>
+                <Stars rating={Number(displayedRating)} size={17} />
+                <span className={styles.ratingNum}>{displayedRating}</span>
                 <span className={styles.ratingCount}>
                   {reviews.toLocaleString()} reviews
                 </span>
@@ -1237,7 +1240,7 @@ const NutritionistDetailsPage = () => {
         </section>
 
         {/* ════ REVIEWS ════ */}
-        <ListingReviews type="nutritionist" listingId={nutritionistTargetId} />
+        <ListingReviews type="nutritionist" listingId={nutritionistTargetId} onSummaryChange={onReviewSummaryChange} />
 
         {/* ════ RELATED NUTRITIONISTS ════ */}
         {related.length > 0 && (
