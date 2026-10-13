@@ -27,6 +27,12 @@ import {
   FiAlertCircle,
   FiShield,
   FiBookOpen,
+  FiActivity,
+  FiTarget,
+  FiTrendingUp,
+  FiZap,
+  FiSmile,
+  FiCompass,
 } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
 
@@ -59,6 +65,19 @@ const SOCIAL_CONFIG = {
   twitter: { Icon: FiTwitter, label: "Twitter / X" },
   linkedin: { Icon: FiLinkedin, label: "LinkedIn" },
   youtube: { Icon: FiYoutube, label: "YouTube" },
+};
+
+/* Match common nutrition expertise labels to meaningful icons; retain a fallback for custom labels. */
+const expertiseIcon = (label) => {
+  const value = String(label || "").toLowerCase();
+  if (/diabet|blood sugar|glucose/.test(value)) return FiActivity;
+  if (/digest|gut|intestinal/.test(value)) return FiZap;
+  if (/sport|athlet|performance/.test(value)) return FiTrendingUp;
+  if (/women|female|maternal|pregnan/.test(value)) return FiHeart;
+  if (/mindful|eating habit|behavior/.test(value)) return FiSmile;
+  if (/fat loss|weight loss|weight management/.test(value)) return FiTarget;
+  if (/body transform|body composition|muscle gain/.test(value)) return FiCompass;
+  return FiBookOpen;
 };
 
 /* ── Stars component ── */
@@ -1090,10 +1109,10 @@ const NutritionistDetailsPage = () => {
                         variants={fadeUp}
                         whileHover={{ y: -3, transition: { duration: 0.2 } }}
                       >
-                        <FiBookOpen
-                          className={styles.specIcon}
-                          aria-hidden="true"
-                        />
+                        {(() => {
+                          const ExpertiseIcon = expertiseIcon(spec);
+                          return <ExpertiseIcon className={styles.specIcon} aria-hidden="true" />;
+                        })()}
                         <span className={styles.specName}>{spec}</span>
                       </motion.div>
                     ))}
