@@ -146,10 +146,12 @@ const SignupForm = ({ accountType }) => {
         email: formData.email.trim(),
         phone: formData.phone.trim(),
         password: formData.password,
-        ...(isCustomer ? {} : {
-          accountType: "business",
-          providerType: providerTypes[accountType],
-        }),
+        ...(isCustomer
+          ? {}
+          : {
+              accountType: "business",
+              providerType: providerTypes[accountType],
+            }),
       };
       if (isCustomer) await register(details);
       else await registerAccount(details);
@@ -244,14 +246,14 @@ const SignupForm = ({ accountType }) => {
       aria-label="Create Gymssy account"
     >
       {/* Social login at top */}
-      <SocialLoginButtons />
+      {/* <SocialLoginButtons /> */}
 
       {/* Divider */}
-      <div className={styles.divider}>
+      {/* <div className={styles.divider}>
         <span className={styles.dividerLine} />
         <span className={styles.dividerText}>or continue with email</span>
         <span className={styles.dividerLine} />
-      </div>
+      </div> */}
 
       {/* ─── Fields ─── */}
       <div className={styles.fields}>
@@ -368,7 +370,11 @@ const SignupForm = ({ accountType }) => {
       </div>
 
       {/* ─── Submit ─── */}
-      {submitError && <p className={styles.errorMsg} role="alert">{submitError}</p>}
+      {submitError && (
+        <p className={styles.errorMsg} role="alert">
+          {submitError}
+        </p>
+      )}
       <motion.button
         type="submit"
         className={styles.submitBtn}
