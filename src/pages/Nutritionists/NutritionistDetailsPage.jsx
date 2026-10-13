@@ -77,7 +77,8 @@ const expertiseIcon = (label) => {
   if (/women|female|maternal|pregnan/.test(value)) return FiHeart;
   if (/mindful|eating habit|behavior/.test(value)) return FiSmile;
   if (/fat loss|weight loss|weight management/.test(value)) return FiTarget;
-  if (/body transform|body composition|muscle gain/.test(value)) return FiCompass;
+  if (/body transform|body composition|muscle gain/.test(value))
+    return FiCompass;
   return FiBookOpen;
 };
 
@@ -564,7 +565,9 @@ const NutritionistDetailsPage = () => {
   /* ── Primary data fetch ── */
   const { nutritionist, loading, error, refetch } = useNutritionistDetail(slug);
   const nutritionistTargetId = nutritionist?._id || nutritionist?.id;
-  const isFaved = nutritionistTargetId ? isFavorite("nutritionist", nutritionistTargetId) : false;
+  const isFaved = nutritionistTargetId
+    ? isFavorite("nutritionist", nutritionistTargetId)
+    : false;
 
   /* ── Related nutritionists (reuse featured endpoint) ── */
   const { nutritionists: allNutritionists } = useNutritionists();
@@ -757,7 +760,10 @@ const NutritionistDetailsPage = () => {
                 {/* Favourite */}
                 <motion.button
                   className={`${styles.faveBtn} ${isFaved ? styles.faveBtnActive : ""}`}
-                  onClick={() => nutritionistTargetId && toggleFavorite("nutritionist", nutritionistTargetId)}
+                  onClick={() =>
+                    nutritionistTargetId &&
+                    toggleFavorite("nutritionist", nutritionistTargetId)
+                  }
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.9 }}
                   aria-label={
@@ -1112,7 +1118,12 @@ const NutritionistDetailsPage = () => {
                       >
                         {(() => {
                           const ExpertiseIcon = expertiseIcon(spec);
-                          return <ExpertiseIcon className={styles.specIcon} aria-hidden="true" />;
+                          return (
+                            <ExpertiseIcon
+                              className={styles.specIcon}
+                              aria-hidden="true"
+                            />
+                          );
                         })()}
                         <span className={styles.specName}>{spec}</span>
                       </motion.div>
@@ -1227,78 +1238,6 @@ const NutritionistDetailsPage = () => {
 
         {/* ════ REVIEWS ════ */}
         <ListingReviews type="nutritionist" listingId={nutritionistTargetId} />
-        <section className={styles.section} aria-labelledby="reviews-h">
-          <div className={styles.container}>
-            <motion.span
-              className={styles.eyebrow}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              Client Reviews
-            </motion.span>
-            <motion.h2
-              id="reviews-h"
-              className={styles.sectionTitle}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={0.05}
-            >
-              What Clients <span className={styles.accent}>Say</span>
-            </motion.h2>
-
-            <motion.div
-              className={styles.reviewsWrap}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={0.1}
-            >
-              <div className={styles.reviewSummary}>
-                <span className={styles.reviewBigNum}>
-                  {nutritionist.rating}
-                </span>
-                <Stars rating={nutritionist.rating} size={20} />
-                <span className={styles.reviewBigCount}>
-                  {reviews.toLocaleString()} reviews
-                </span>
-                <div className={styles.barList} aria-hidden="true">
-                  {ratingBars.map(({ label, pct }) => (
-                    <div key={label} className={styles.barRow}>
-                      <span className={styles.barLabel}>{label}</span>
-                      <div className={styles.barTrack}>
-                        <motion.div
-                          className={styles.barFill}
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${pct}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.75, ease: "easeOut" }}
-                        />
-                      </div>
-                      <span className={styles.barPct}>{pct}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className={styles.reviewsEmpty}>
-                <div className={styles.reviewsEmptyIcon} aria-hidden="true">
-                  <FiMessageSquare />
-                </div>
-                <p className={styles.reviewsEmptyTitle}>
-                  {reviews.toLocaleString()} people have reviewed {firstName}
-                </p>
-                <p className={styles.reviewsEmptyText}>
-                  Individual review details will appear here once connected.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
 
         {/* ════ RELATED NUTRITIONISTS ════ */}
         {related.length > 0 && (
@@ -1432,8 +1371,22 @@ const NutritionistDetailsPage = () => {
         </div>
       </div>
 
-      <BookingDialog open={showConsultation} onClose={closeConsultation} targetType="nutritionist" targetId={nutritionistTargetId} bookingType="consultation" listingName={nutritionist.name} />
-      <EnquiryDialog open={showContact} onClose={closeContact} targetType="nutritionist" targetId={nutritionistTargetId} intent="consultation" listingName={nutritionist.name} />
+      <BookingDialog
+        open={showConsultation}
+        onClose={closeConsultation}
+        targetType="nutritionist"
+        targetId={nutritionistTargetId}
+        bookingType="consultation"
+        listingName={nutritionist.name}
+      />
+      <EnquiryDialog
+        open={showContact}
+        onClose={closeContact}
+        targetType="nutritionist"
+        targetId={nutritionistTargetId}
+        intent="consultation"
+        listingName={nutritionist.name}
+      />
     </>
   );
 };
