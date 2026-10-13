@@ -1,4 +1,5 @@
 import ReviewSection from "../GymDetails/ReviewSection/ReviewSection.jsx";
+import styles from "./ListingReviews.module.css";
 import { useCallback, useEffect, useState } from "react";
 import { useCustomerAuth } from "../../context/CustomerAuthContext.jsx";
 import { fetchListingReviews, submitListingReview } from "../../services/reviewService.js";
@@ -39,7 +40,7 @@ export default function ListingReviews({ type, listingId, legacyReviews = [], le
   };
   if (!listingId) return null;
   return (
-    <section aria-label="Customer reviews" style={{ margin: "40px 0", color: "inherit" }}>
+    <section aria-label="Customer reviews" className={styles.container}>
       <ReviewSection
         rating={summary?.reviewCount ? Number(summary.rating).toFixed(1) : legacyRating}
         reviewCount={summary?.reviewCount ? summary.reviewCount : legacyReviewCount}
