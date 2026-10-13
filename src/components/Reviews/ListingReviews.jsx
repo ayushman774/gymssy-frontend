@@ -14,6 +14,7 @@ export default function ListingReviews({
   legacyRating = 0,
   legacyReviewCount = 0,
   legacyBreakdown = [],
+  onSummaryChange,
 }) {
   const { user, token } = useCustomerAuth();
   const [items, setItems] = useState([]);
