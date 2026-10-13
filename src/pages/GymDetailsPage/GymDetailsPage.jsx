@@ -1,3 +1,4 @@
+import ListingReviews from "../../components/Reviews/ListingReviews.jsx";
 // src/pages/GymDetailsPage/GymDetailsPage.jsx
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
@@ -465,6 +466,7 @@ const GymDetailsPage = () => {
           )}
 
           {/* Reviews */}
+          <ListingReviews type="gym" listingId={gym.id} />
           {gym.reviews?.length > 0 && (
             <section
               className={`${styles.section} ${styles.fullWidthSection}`}
