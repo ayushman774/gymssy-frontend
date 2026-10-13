@@ -107,6 +107,22 @@ const SOCIAL_CONFIG = {
 /* ─────────────────────────────────────────────
    TRAINING OPTIONS — UNCHANGED
 ───────────────────────────────────────────── */
+// Match saved trainer specializations to distinct, meaningful icons.
+// Unknown legacy values retain the standard fitness icon.
+const getSpecializationIcon = (value) => {
+  const key = String(value || "").toLowerCase().trim();
+  if (/yoga|pilates|flexib|mobility|posture/.test(key)) return FiHeart;
+  if (/weight loss|fat loss|body transform/.test(key)) return FiTarget;
+  if (/muscle|strength|powerlift|bodybuild/.test(key)) return MdFitnessCenter;
+  if (/hiit|crossfit|functional|cardio/.test(key)) return FiZap;
+  if (/endurance|athletic|sport|conditioning/.test(key)) return FiAward;
+  if (/rehab|injury|prenatal|postnatal|senior/.test(key)) return FiShield;
+  if (/nutrition/.test(key)) return FiCheckCircle;
+  if (/boxing|martial|calisthenics/.test(key)) return FiUsers;
+  if (/general fitness/.test(key)) return FiHeart;
+  return MdFitnessCenter;
+};
+
 const TRAINING_OPTIONS = [
   {
     Icon: FiTarget,
@@ -1085,10 +1101,10 @@ const TrainerDetail = () => {
                       variants={fadeUp}
                       whileHover={{ y: -3, transition: { duration: 0.2 } }}
                     >
-                      <MdFitnessCenter
-                        className={styles.specIcon}
-                        aria-hidden="true"
-                      />
+                      {(() => {
+                        const SpecIcon = getSpecializationIcon(spec);
+                        return <SpecIcon className={styles.specIcon} aria-hidden="true" />;
+                      })()}
                       <span className={styles.specName}>{spec}</span>
                     </motion.div>
                   ))}
