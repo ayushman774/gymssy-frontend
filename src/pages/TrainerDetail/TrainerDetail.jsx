@@ -111,7 +111,9 @@ const SOCIAL_CONFIG = {
 // Match saved trainer specializations to distinct, meaningful icons.
 // Unknown legacy values retain the standard fitness icon.
 const getSpecializationIcon = (value) => {
-  const key = String(value || "").toLowerCase().trim();
+  const key = String(value || "")
+    .toLowerCase()
+    .trim();
   if (/yoga|pilates|flexib|mobility|posture/.test(key)) return FiHeart;
   if (/weight loss|fat loss|body transform/.test(key)) return FiTarget;
   if (/muscle|strength|powerlift|bodybuild/.test(key)) return MdFitnessCenter;
@@ -1104,7 +1106,12 @@ const TrainerDetail = () => {
                     >
                       {(() => {
                         const SpecIcon = getSpecializationIcon(spec);
-                        return <SpecIcon className={styles.specIcon} aria-hidden="true" />;
+                        return (
+                          <SpecIcon
+                            className={styles.specIcon}
+                            aria-hidden="true"
+                          />
+                        );
                       })()}
                       <span className={styles.specName}>{spec}</span>
                     </motion.div>
@@ -1175,85 +1182,6 @@ const TrainerDetail = () => {
 
         {/* ════ REVIEWS — UNCHANGED ════ */}
         <ListingReviews type="trainer" listingId={trainerTargetId} />
-        <section
-          className={`${styles.section} ${styles.sectionDark}`}
-          aria-labelledby="reviews-h"
-        >
-          <div className={styles.container}>
-            <motion.span
-              className={styles.eyebrow}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              Client Reviews
-            </motion.span>
-            <motion.h2
-              id="reviews-h"
-              className={styles.sectionTitle}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={0.05}
-            >
-              What Clients <span className={styles.accent}>Say</span>
-            </motion.h2>
-            <motion.div
-              className={styles.reviewsWrap}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={0.1}
-            >
-              <div className={styles.reviewSummary}>
-                <span className={styles.reviewBigNum}>{trainer.rating}</span>
-                <Stars rating={trainer.rating} size={20} />
-                <span className={styles.reviewBigCount}>
-                  {(typeof trainer.reviews === "number"
-                    ? trainer.reviews
-                    : 0
-                  ).toLocaleString()}{" "}
-                  reviews
-                </span>
-                <div className={styles.barList} aria-hidden="true">
-                  {ratingBars.map(({ label, pct }) => (
-                    <div key={label} className={styles.barRow}>
-                      <span className={styles.barLabel}>{label}</span>
-                      <div className={styles.barTrack}>
-                        <motion.div
-                          className={styles.barFill}
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${pct}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.75, ease: "easeOut" }}
-                        />
-                      </div>
-                      <span className={styles.barPct}>{pct}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.reviewsEmpty}>
-                <div className={styles.reviewsEmptyIcon} aria-hidden="true">
-                  <FiMessageSquare />
-                </div>
-                <p className={styles.reviewsEmptyTitle}>
-                  {(typeof trainer.reviews === "number"
-                    ? trainer.reviews
-                    : 0
-                  ).toLocaleString()}{" "}
-                  people have reviewed {firstName}
-                </p>
-                <p className={styles.reviewsEmptyText}>
-                  Individual review details will appear here once connected.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
 
         {/* ════ FINAL CTA — UNCHANGED ════ */}
         <section className={styles.finalCta} aria-label="Start training">
